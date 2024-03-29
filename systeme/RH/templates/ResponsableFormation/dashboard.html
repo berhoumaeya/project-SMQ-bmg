@@ -1,0 +1,51 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+<h3> Welcome to the dashboard page! {{user}} </h3>
+<hr>
+<a class="btn btn-primary btn-sm" href="{% url 'create_responsable' %}"> Créer Responsable Formation </a>
+
+<hr>
+
+
+<table class="table table-hover table-bordered">
+
+    <thead class="table-dark">
+
+        <tr>
+
+            <th scope="col"> ID </th>
+            <th scope="col"> nom </th>
+            <th scope="col"> prenom </th>
+            <th scope="col"> username </th>
+            <th scope="col"> email </th>
+            <th scope="col"> Creation Date </th>
+
+            <th scope="col"> View </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        {% if responsables %}
+        {% for responsable in responsables %}
+        <tr>
+            <td> {{responsable.id}} </td>
+            <td> {{responsable.nom}} </td>
+            <td> {{responsable.prenom}} </td>
+            <td> {{responsable.username}} </td>
+            <td> {{responsable.email}} </td>
+            <td> {{responsable.created_at}} </td>
+
+            <td><a href="{% url 'responsable' responsable.id %}">View me</td>
+
+        </tr>
+        {% endfor %}
+
+    </tbody>
+        {% endif %}
+</table>
+
+{% endblock %}

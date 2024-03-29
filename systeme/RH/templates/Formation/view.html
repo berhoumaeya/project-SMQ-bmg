@@ -1,0 +1,44 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+   <div class="card">
+    <strong>
+
+    </strong>
+    <div class="card-body">
+
+        <p> <strong> ID : </strong> {{formation.id}} </p>
+        <p> <strong> intitule formation  : </strong> {{formation.intitule_formation}} </p>
+        <p> <strong> type formation : </strong> {{formation.type_formation}} </p>
+        <p> <strong> organisme formation : </strong> {{formation.organisme_formation}} </p>
+        <p> <strong> theme formation : </strong> {{formation.theme_formation}} </p>
+        <p> <strong> date_debut_formation : </strong> {{formation.date_debut_formation}} </p>
+        <p> <strong> date fin formation : </strong> {{formation.date_fin_formation}} </p>
+        <p> <strong> responsable validation : </strong> {{formation.responsable_validation}} </p>
+        <p> <strong> Creation Date : </strong> {{formation.created_at}} </p>
+        <p> <strong> Créer Par : </strong> {{formation.created_by}} </p>
+        <p> <strong> Modifier Par : </strong> {{formation.updated_by}} </p>
+        <p> <strong> Modification Date : </strong> {{formation.updated_at}} </p>
+        <p> <strong> participants :  : </strong> {{formation.participants}} </p>
+        <p> <strong> parametre validation  : </strong> {{formation.parametre_validation}} </p>
+        <p> <strong> date cloture formation : </strong> {{formation.date_cloture_formation}} </p>
+        <p> <strong> pices jointes : </strong> {{formation.pieces_jointes}} </p>
+        
+
+    
+
+    </div>
+
+    <br>
+
+    <a href="{% url 'dashboard_formation' %}" class="btn btn-secondary"> Return </a>
+    &nbsp;
+
+    <a href="{% url 'update_formation' formation.id %}" class="btn btn-info"> Update </a>
+    &nbsp;
+
+    <a href="{% url 'delete_formation' formation.id %}" class="btn btn-danger"> Delete </a>
+    &nbsp;
+
+{% endblock %}

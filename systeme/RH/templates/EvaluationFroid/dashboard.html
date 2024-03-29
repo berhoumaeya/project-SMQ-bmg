@@ -1,0 +1,49 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+<h3> Welcome to the dashboard page! {{user}} </h3>
+<hr>
+<a class="btn btn-primary btn-sm" href="{% url 'create_formation' %}"> Créer Formation  </a>
+
+<hr>
+
+
+<table class="table table-hover table-bordered">
+
+    <thead class="table-dark">
+
+        <tr>
+
+            <th scope="col"> ID </th>
+            <th scope="col"> intitule formation </th>
+            <th scope="col"> type_formation </th>
+            <th scope="col"> responsable validation </th>
+            <th scope="col"> parametre validation</th>
+
+            <th scope="col"> View </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        {% if formations %}
+        {% for formation in formations %}
+        <tr>
+            <td> {{formation.id}} </td>
+            <td> {{formation.intitule_formation}} </td>
+            <td> {{formation.type_formation}} </td>
+            <td> {{formation.responsable_validation}} </td>
+            <td> {{formation.parametre_validation}} </td>
+
+            <td><a href="{% url 'formation' formation.id %}">View me</td>
+
+        </tr>
+        {% endfor %}
+
+    </tbody>
+        {% endif %}
+</table>
+
+{% endblock %}

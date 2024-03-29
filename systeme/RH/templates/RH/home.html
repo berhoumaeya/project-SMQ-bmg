@@ -1,0 +1,117 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+<h3> Welcome to the Home page ! {{user}} </h3>
+<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer les responsables formation</h4>
+                <a href="{% url 'dashboard_responsable' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer JobPost</h4>
+                <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer les participant</h4>
+                <a href="{% url 'dashboard_participant' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Employe</h4>
+                <a href="{% url 'dashboard_employe' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Fiche Employe</h4>
+                <a href="{% url 'dashboard_fiche_employe' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Formation</h4>
+                <a href="{% url 'dashboard_formation' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Evaluation Chaud</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Evaluation Froid</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Compétences</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Evaluation Compétences</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer plan d'action</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer notification</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Adresse</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Département</h4>
+                <a href="{% url 'dashboard_department' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h4>Gérer Poste Fonction</h4>
+                <a href="{% url '' %}" class="btn btn-primary btn-lg">Accéder</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'RH/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <body>
+
+        <div class="container bg-light shadow-md p-5 form-layout">
+
+            <h3> Créer votre compte </h3>
+
+            <h5> Gérer RH </h5>
+
+            <hr>
+            <br>
+
+            <form method="POST" autocomplete="off">
+
+                {% csrf_token %}
+
+                {{form|crispy}}
+
+                <br>
+
+                <button type="submit" class="btn btn-primary w-100 btn-block p-2"> Créer compte &nbsp; <i class="fa fa-user" aria-hidden="true"></i> </button>
+
+
+            </form>
+
+            <br>
+
+            <div class="text-center">
+
+                <p> Already have an account? </p> <a href="{% url 'login' %}"> Login </a>
+
+            </div>
+
+
+        </div>
+
+        <br>
+
+    </body>
+
+
+{% endblock %}

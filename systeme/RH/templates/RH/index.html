@@ -1,0 +1,15 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 text-center">
+            <h1 class="display-4">Bienvenue au Système Qualité</h1>
+            <p class="lead">Découvrez comment notre système de qualité peut améliorer votre expérience.</p>
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Créer votre compte</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

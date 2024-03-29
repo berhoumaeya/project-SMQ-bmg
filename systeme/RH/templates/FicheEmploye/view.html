@@ -1,0 +1,56 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+   <div class="card">
+    <strong>
+
+    </strong>
+    <div class="card-body">
+
+        <p> <strong> ID : </strong> {{fiche_employe.id}} </p>
+        <p> <strong> Position  : </strong> {{fiche_employe.job_position}} </p>
+        <p> <strong> Work Mobile : </strong> {{fiche_employe.work_mobile}} </p>
+        <p> <strong> Work Phone : </strong> {{fiche_employe.work_phone}} </p>
+        <p> <strong> Work Email : </strong> {{fiche_employe.work_email}} </p>
+        <p> <strong> work address : </strong> {{fiche_employe.work_address}} </p>
+        <p> <strong> work location : </strong> {{fiche_employe.work_location}} </p>
+        <p> <strong> Work Distance : </strong> {{fiche_employe.home_work_distance}} </p>
+        <p> <strong> Creation Date : </strong> {{fiche_employe.created_at}} </p>
+        <p> <strong> Créer Par : </strong> {{fiche_employe.created_by}} </p>
+        <p> <strong> Modifier Par : </strong> {{fiche_employe.updated_by}} </p>
+        <p> <strong> Modification Date : </strong> {{fiche_employe.updated_at}} </p>
+        <p> <strong> Departement :  : </strong> {{fiche_employe.department}} </p>
+        <p> <strong> Manager  : </strong> {{fiche_employe.manager}} </p>
+        <p> <strong> Coach : </strong> {{fiche_employe.coach}} </p>
+        <p> <strong> Address : </strong> {{fiche_employe.address}} </p>
+        <p> <strong> Timezone : </strong> {{fiche_employe.timezone_field}} </p>
+        <p> <strong> Bank Account number : </strong> {{fiche_employe.bank_account_number}} </p>
+        <p> <strong> Etat Civil : </strong> {{fiche_employe.martial_status}} </p>
+        <p> <strong> Emergency Contact : </strong> {{fiche_employe.emergency_contact}} </p>
+        <p> <strong> Emergency Phone : </strong> {{fiche_employe.emergency_phone}} </p>
+        <p> <strong> Certificate_level : </strong> {{fiche_employe.certificate_level}} </p>
+        <p> <strong> Field of study : </strong> {{fiche_employe.field_of_study}} </p>
+        <p> <strong> School : </strong> {{fiche_employe.school}} </p>
+        <p> <strong> CNSS : </strong> {{fiche_employe.cnss}} </p>
+        <p> <strong> CIN : </strong> {{fiche_employe.cin}} </p>
+        <p> <strong> pices jointes : </strong> {{fiche_employe.pieces_jointes}} </p>
+        <p> <strong> Employe Concerné : </strong> {{fiche_employe.employe_concerne}} </p>
+        
+
+    
+
+    </div>
+
+    <br>
+
+    <a href="{% url 'dashboard_fiche_employe' %}" class="btn btn-secondary"> Return </a>
+    &nbsp;
+
+    <a href="{% url 'update_fiche_employe' fiche_employe.id %}" class="btn btn-info"> Update </a>
+    &nbsp;
+
+    <a href="{% url 'delete_fiche_employe' fiche_employe.id %}" class="btn btn-danger"> Delete </a>
+    &nbsp;
+
+{% endblock %}

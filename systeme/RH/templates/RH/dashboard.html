@@ -1,0 +1,53 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+<h3> Welcome to the dashboard page! {{user}} </h3>
+<hr>
+<a class="btn btn-primary btn-sm" href="{% url 'create_jobpost' %}"> Créer JobPost </a>
+
+<hr>
+
+
+<table class="table table-hover table-bordered">
+
+    <thead class="table-dark">
+
+        <tr>
+
+            <th scope="col"> ID </th>
+            <th scope="col"> Title </th>
+            <th scope="col"> Position </th>
+            <th scope="col"> Main Mission </th>
+            <th scope="col"> Required skills </th>
+            <th scope="col"> Main Activity </th>
+            <th scope="col"> Creation Date </th>
+
+            <th scope="col"> View </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        {% if posts %}
+        {% for post in posts %}
+        <tr>
+            <td> {{post.id}} </td>
+            <td> {{post.title}} </td>
+            <td> {{post.position}} </td>
+            <td> {{post.main_mission}} </td>
+            <td> {{post.required_skills}} </td>
+            <td> {{post.main_activity}} </td>
+            <td> {{post.created_at}} </td>
+
+            <td><a href="{% url 'jobpost' post.id %}">View me</td>
+
+        </tr>
+        {% endfor %}
+
+    </tbody>
+        {% endif %}
+</table>
+
+{% endblock %}

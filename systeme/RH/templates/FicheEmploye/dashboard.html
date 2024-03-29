@@ -1,0 +1,49 @@
+{% extends 'RH/base.html' %}
+
+{% block content %}
+
+<h3> Welcome to the dashboard page! {{user}} </h3>
+<hr>
+<a class="btn btn-primary btn-sm" href="{% url 'create_fiche_employe' %}"> Créer Fiche Employe  </a>
+
+<hr>
+
+
+<table class="table table-hover table-bordered">
+
+    <thead class="table-dark">
+
+        <tr>
+
+            <th scope="col"> ID </th>
+            <th scope="col"> Postition </th>
+            <th scope="col"> Manager </th>
+            <th scope="col"> Coach </th>
+            <th scope="col"> Creation Date </th>
+
+            <th scope="col"> View </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        {% if fiche_employes %}
+        {% for fiche_employe in fiche_employes %}
+        <tr>
+            <td> {{fiche_employe.id}} </td>
+            <td> {{fiche_employe.job_position}} </td>
+            <td> {{fiche_employe.manager}} </td>
+            <td> {{fiche_employe.coach}} </td>
+            <td> {{fiche_employe.created_at}} </td>
+
+            <td><a href="{% url 'fiche_employe' fiche_employe.id %}">View me</td>
+
+        </tr>
+        {% endfor %}
+
+    </tbody>
+        {% endif %}
+</table>
+
+{% endblock %}
