@@ -1,0 +1,456 @@
+from django.utils import timezone
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
+from rest_framework import status
+from ..serializers.serializers1 import *
+from ..modelsRH.models1 import*
+from django.contrib.auth.decorators import login_required
+
+#Afficher tout les JobPost
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardJobPostAPIView(APIView):
+        
+        def get(self, request):
+            posts = JobPost.objects.all()
+            data = []
+            for post in posts:
+                created_by_name = post.created_by.first_name if post.created_by else None
+                updated_by_name = post.updated_by.first_name if post.updated_by else None
+                post_data = {
+                    'id': post.id,
+                    'title': post.title,
+                    'created_by': created_by_name,
+                    'updated_by': updated_by_name,
+                    'created_at': post.created_at,
+                    'updated_at': post.updated_at,
+                }
+                data.append(post_data)
+            return Response(data, status=status.HTTP_200_OK)
+
+
+# Ajouter JobPost
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class CreateJobPostAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = JobPostSerializer(data=request.data)
+        if serializer.is_valid():
+            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['created_at'] = created_at
+            serializer.save(created_by=request.user)
+            job_post_data = serializer.data
+            job_post_data['created_by'] = request.user.first_name
+            job_post_data['created_at'] = created_at
+            job_post_data['id'] = serializer.instance.id 
+            return Response(job_post_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#Modifier JobPost
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class UpdateJobPostAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk):
+        jobpost = get_object_or_404(JobPost, pk=pk)
+        serializer = JobPostSerializer(jobpost, data=request.data)
+        if serializer.is_valid():
+            updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['updated_at'] = updated_at
+            serializer.save(updated_by=request.user)
+            job_post_data = serializer.data
+            job_post_data['updated_by'] = request.user.first_name
+            job_post_data['updated_at'] = updated_at
+            return Response(job_post_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Afficher JobPost
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class SingularJobPostAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        jobpost = get_object_or_404(JobPost, pk=pk)
+        serializer = JobPostSerializer(jobpost)
+        serialized_data = serializer.data
+        serialized_data['created_by'] = jobpost.created_by.first_name 
+        serialized_data['updated_by'] = jobpost.updated_by.first_name 
+        serialized_data['created_at'] = jobpost.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = jobpost.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        return Response(serialized_data)
+    
+# Supprimer JobPost
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DeleteJobPostAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        jobpost = get_object_or_404(JobPost, pk=pk)
+        jobpost.delete()
+        return Response({"message": "Le poste a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    
+#Afficher Departments
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardDepartmentAPIView(APIView):
+        
+        def get(self, request):
+            deps = Department.objects.all()
+            data = []
+            for dep in deps:
+                created_by_name = dep.created_by.first_name if dep.created_by else None
+                updated_by_name = dep.updated_by.first_name if dep.updated_by else None
+                dep_data = {
+                    'id': dep.id,
+                    'name': dep.name,
+                    'created_by': created_by_name,
+                    'updated_by': updated_by_name,
+                    'created_at': dep.created_at,
+                    'updated_at': dep.updated_at,
+                }
+                data.append(dep_data)
+            return Response(data, status=status.HTTP_200_OK)
+    
+# Ajouter Department
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class CreateDepartmentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = DepartmentSerializer(data=request.data)
+        if serializer.is_valid():
+            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['created_at'] = created_at
+            serializer.save(created_by=request.user)
+            dep_data = serializer.data
+            dep_data['created_by'] = request.user.first_name
+            dep_data['created_at'] = created_at
+            dep_data['id'] = serializer.instance.id 
+            return Response(dep_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#Modifier Department
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class UpdateDepartmentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk):
+        dep = get_object_or_404(Department, pk=pk)
+        serializer = DepartmentSerializer(dep, data=request.data)
+        if serializer.is_valid():
+            updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['updated_at'] = updated_at
+            serializer.save(updated_by=request.user)
+            dep_data = serializer.data
+            dep_data['updated_by'] = request.user.first_name
+            dep_data['updated_at'] = updated_at
+            return Response(dep_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Afficher Department
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class SingularDepartmentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        dep = get_object_or_404(Department, pk=pk)
+        serializer = DepartmentSerializer(dep)
+        serialized_data = serializer.data
+        serialized_data['created_by'] = dep.created_by.first_name 
+        serialized_data['updated_by'] = dep.updated_by.first_name 
+        serialized_data['created_at'] = dep.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = dep.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        return Response(serialized_data)
+    
+# Supprimer Department
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DeleteDepartmentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        dep = get_object_or_404(Department, pk=pk)
+        dep.delete()
+        return Response({"message": "Department a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    
+#Afficher Address
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardAddressAPIView(APIView):
+        
+        def get(self, request):
+            adds = Address.objects.all()
+            data = []
+            for add in adds:
+                created_by_name = add.created_by.first_name if add.created_by else None
+                updated_by_name = add.updated_by.first_name if add.updated_by else None
+                add_data = {
+                    'id': add.id,
+                    'name': add.address_name,
+                    'created_by': created_by_name,
+                    'updated_by': updated_by_name,
+                    'created_at': add.created_at,
+                    'updated_at': add.updated_at,
+                }
+                data.append(add_data)
+            return Response(data, status=status.HTTP_200_OK)
+    
+
+# Ajouter Address
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class CreateAddressAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = AddressSerializer(data=request.data)
+        if serializer.is_valid():
+            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['created_at'] = created_at
+            serializer.save(created_by=request.user)
+            address_data = serializer.data
+            address_data['created_by'] = request.user.first_name
+            address_data['created_at'] = created_at
+            address_data['id'] = serializer.instance.id 
+            return Response(address_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#Modifier Address
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class UpdateAddressAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk):
+        address = get_object_or_404(Address, pk=pk)
+        serializer = AddressSerializer(address, data=request.data)
+        if serializer.is_valid():
+            updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['updated_at'] = updated_at
+            serializer.save(updated_by=request.user)
+            address_data = serializer.data
+            address_data['updated_by'] = request.user.first_name
+            address_data['updated_at'] = updated_at
+            return Response(address_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Afficher Address
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class SingularAddressAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        address = get_object_or_404(Address, pk=pk)
+        serializer = AddressSerializer(address)
+        serialized_data = serializer.data
+        serialized_data['created_by'] = address.created_by.first_name 
+        serialized_data['updated_by'] = address.updated_by.first_name 
+        serialized_data['created_at'] = address.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = address.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        return Response(serialized_data)
+    
+# Supprimer Address
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DeleteAddressAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        address = get_object_or_404(Address, pk=pk)
+        address.delete()
+        return Response({"message": "L address a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    
+#Afficher Posts
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardPostAPIView(APIView):
+        
+        def get(self, request):
+            posts = PosteFonction.objects.all()
+            data = []
+            for post in posts:
+                created_by_name = post.created_by.first_name if post.created_by else None
+                updated_by_name = post.updated_by.first_name if post.updated_by else None
+                post_data = {
+                    'id': post.id,
+                    'name': post.intitule_fonction,
+                    'created_by': created_by_name,
+                    'updated_by': updated_by_name,
+                    'created_at': post.created_at,
+                    'updated_at': post.updated_at,
+                }
+                data.append(post_data)
+            return Response(data, status=status.HTTP_200_OK)
+
+# Ajouter Poste
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class CreatePosteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PosteFonctionSerializer(data=request.data)
+        if serializer.is_valid():
+            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['created_at'] = created_at
+            serializer.save(created_by=request.user)
+            Poste_data = serializer.data
+            Poste_data['created_by'] = request.user.first_name
+            Poste_data['created_at'] = created_at
+            Poste_data['id'] = serializer.instance.id 
+            return Response(Poste_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#Modifier Poste
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class UpdatePosteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk):
+        Poste = get_object_or_404(PosteFonction, pk=pk)
+        serializer = PosteFonctionSerializer(Poste, data=request.data)
+        if serializer.is_valid():
+            updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['updated_at'] = updated_at
+            serializer.save(updated_by=request.user)
+            Poste_data = serializer.data
+            Poste_data['updated_by'] = request.user.first_name
+            Poste_data['updated_at'] = updated_at
+            return Response(Poste_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Afficher Poste
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class SingularPosteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        Poste = get_object_or_404(PosteFonction, pk=pk)
+        serializer = PosteFonctionSerializer(Poste)
+        serialized_data = serializer.data
+        serialized_data['created_by'] = Poste.created_by.first_name 
+        serialized_data['updated_by'] = Poste.updated_by.first_name 
+        serialized_data['created_at'] = Poste.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = Poste.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        return Response(serialized_data)
+    
+# Supprimer Poste
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DeletePosteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        Poste = get_object_or_404(PosteFonction, pk=pk)
+        Poste.delete()
+        return Response({"message": "L Poste a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+
+#Afficher Fiches Employe
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardFicheEmployeAPIView(APIView):
+        
+        def get(self, request):
+            fiches = FicheEmployee.objects.all()
+            data = []
+            for fiche in fiches:
+                created_by_name = fiche.created_by.first_name if fiche.created_by else None
+                updated_by_name = fiche.updated_by.first_name if fiche.updated_by else None
+                fiche_data = {
+                    'id': fiche.id,
+                    'name': fiche.name,
+                    'created_by': created_by_name,
+                    'updated_by': updated_by_name,
+                    'created_at': fiche.created_at,
+                    'updated_at': fiche.updated_at,
+                }
+                data.append(fiche_data)
+            return Response(data, status=status.HTTP_200_OK)  
+
+# Ajouter Fiche Employe
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class CreateFicheEmployeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = FicheEmployeSerializer(data=request.data)
+        if serializer.is_valid():
+            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['created_at'] = created_at
+            serializer.save(created_by=request.user)
+            fiche_employe_data = serializer.data
+            fiche_employe_data['created_by'] = request.user.first_name
+            fiche_employe_data['created_at'] = created_at
+            fiche_employe_data['id'] = serializer.instance.id 
+            return Response(fiche_employe_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#Modifier fiche_employe
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class UpdateFicheEmployeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk):
+        fiche_employe = get_object_or_404(FicheEmployee, pk=pk)
+        serializer = FicheEmployeSerializer(fiche_employe, data=request.data)
+        if serializer.is_valid():
+            updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['updated_at'] = updated_at
+            serializer.save(updated_by=request.user)
+            fiche_employe_data = serializer.data
+            fiche_employe_data['updated_by'] = request.user.first_name
+            fiche_employe_data['updated_at'] = updated_at
+            return Response(fiche_employe_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Afficher fiche_employe
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class SingularFicheEmployeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        fiche_employe = get_object_or_404(FicheEmployee, pk=pk)
+        serializer = FicheEmployeSerializer(fiche_employe)
+        serialized_data = serializer.data
+        serialized_data['created_by'] = fiche_employe.created_by.first_name 
+        serialized_data['updated_by'] = fiche_employe.updated_by.first_name 
+        serialized_data['created_at'] = fiche_employe.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = fiche_employe.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        return Response(serialized_data)
+    
+# Supprimer fiche_employe
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DeleteFicheEmployeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        fiche_employe = get_object_or_404(FicheEmployee, pk=pk)
+        fiche_employe.delete()
+        return Response({"message": "L fiche employe a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)

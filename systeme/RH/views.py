@@ -1,487 +1,584 @@
-from django.shortcuts import render,redirect,get_list_or_404
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView,DetailView
-from .forms import *
-from django.urls import reverse
-from django.contrib.auth.models import auth
-from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
+# from django.shortcuts import render,redirect,get_list_or_404
+# from django.views.generic import ListView, CreateView, UpdateView, DeleteView,DetailView
+# from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView, DestroyAPIView
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from django.urls import reverse_lazy
+# from rest_framework.decorators import api_view
+# from rest_framework.permissions import IsAuthenticated
+# from django.utils.decorators import method_decorator
+# from django.shortcuts import get_object_or_404
+# from rest_framework import status
+# from .forms import *
+# from .serializers import *
+# from .models import*
+# from django.urls import reverse
+# from django.contrib.auth.models import auth
+# from django.contrib.auth import authenticate
+# from django.contrib.auth.decorators import login_required
 
-from .models import JobPost
+# from .models import JobPost
 
-def home(request):
+# current_datetime = timezone.now()
+# formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+
+# def home(request):
     
-    return render(request,'RH/index.html')
+#     return render(request,'RH/index.html')
 
-def register(request):
-    form = CreateUserForm()
+# def register(request):
+#     form = CreateUserForm()
 
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
+#     if request.method == "POST":
+#         form = CreateUserForm(request.POST)
 
-        if form.is_valid():
-            form.save()
+#         if form.is_valid():
+#             form.save()
 
-            return redirect('login')
+#             return redirect('login')
 
-    context = {'form':form}
+#     context = {'form':form}
 
-    return render(request,'RH/register.html',context=context)
-
-
-def login(request):
-    form = LoginForm()
-
-    if request.method == "POST":
-        form = LoginForm(request,data=request.POST)
-
-        if form.is_valid():
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-
-            user = authenticate(request,username=username,password=password)
-
-            if user is not None:
-                auth.login(request,user)
-                return redirect('home')
-
-    context = {'form':form}
-    return render(request,'RH/login.html', context=context)
+#     return render(request,'RH/register.html',context=context)
 
 
-def logout(request):
-    auth.logout(request)
-    return redirect('login')
+# def login(request):
+#     form = LoginForm()
 
-@login_required(login_url='login')
+#     if request.method == "POST":
+#         form = LoginForm(request,data=request.POST)
 
-def index(request):
-    return render(request,'RH/home.html')
+#         if form.is_valid():
+#             username = request.POST.get('username')
+#             password = request.POST.get('password')
+
+#             user = authenticate(request,username=username,password=password)
+
+#             if user is not None:
+#                 auth.login(request,user)
+#                 return redirect('home')
+
+#     context = {'form':form}
+#     return render(request,'RH/login.html', context=context)
 
 
-@login_required(login_url='login')
+# def logout(request):
+#     auth.logout(request)
+#     return redirect('login')
 
-def dashboard(request):
+# @login_required(login_url='login')
 
-    post = JobPost.objects.all()
-    context = {'posts': post}
+# def index(request):
+#     return render(request,'RH/home.html')
 
 
-    return render(request,'RH/dashboard.html',context=context)
+# @login_required(login_url='login')
 
-@login_required(login_url='login')
+# def dashboard(request):
 
-def create_jobpost(request):
-    form = CreateJobPostForm()
+#     post = JobPost.objects.all()
+#     context = {'posts': post}
 
-    if request.method =="POST":
-        form = CreateJobPostForm(request.POST)
 
-        if form.is_valid():
-            form.save()
-            return redirect("dashboard")
-    context = {'form':form}
+#     return render(request,'RH/dashboard.html',context=context)
 
-    return render(request,'RH/create.html',context=context)
+# # @api_view(['GET'])
+# # @login_required(login_url='login')
+# # def index(request):
+# #     return Response("Bienvenue sur l'API RH", status=status.HTTP_200_OK)
 
-@login_required(login_url='login')
-def update_jobpost(request,pk):
-    jobpost = JobPost.objects.get(id=pk)
 
-    form = UpdateJobPostForm(instance=jobpost)
+# # class DashboardAPIView(APIView):
+# #     @login_required(login_url='login')
+# #     def get(self, request):
+# #         posts = JobPost.objects.all()
+# #         serializer = JobPostSerializer(posts, many=True)
+# #         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    if request.method =='POST':
-        form = UpdateJobPostForm(request.POST,instance=jobpost)
+# @login_required(login_url='login')
 
-        if form.is_valid():
-            form.save()
-            return redirect("dashboard")
+# def create_jobpost(request):
+#     form = CreateJobPostForm()
+
+#     if request.method =="POST":
+#         form = CreateJobPostForm(request.POST)
+
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.created_by = request.user
+#             post.save()
+#             return redirect("dashboard")
+#     context = {'form':form}
+
+#     return render(request,'RH/create.html',context=context)
+
+# @login_required(login_url='login')
+
+# def update_jobpost(request,pk):
+#     jobpost = JobPost.objects.get(id=pk)
+
+#     form = UpdateJobPostForm(instance=jobpost)
+
+#     if request.method =='POST':
+#         form = UpdateJobPostForm(request.POST,instance=jobpost)
+
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.updated_by = request.user
+#             form.save()
+#             return redirect("dashboard")
         
-    context = {'form':form}
+#     context = {'form':form}
 
-    return render(request,'RH/update.html',context=context)
+#     return render(request,'RH/update.html',context=context)
 
-@login_required(login_url='login')
-def singular_jobpost(request,pk):
+# @login_required(login_url='login')
 
-    all_jobpost = JobPost.objects.get(id=pk)
+# def singular_jobpost(request,pk):
 
-    context = {"jobpost":all_jobpost}
+#     all_jobpost = JobPost.objects.get(id=pk)
 
-    return render(request,'RH/view.html',context=context)
+#     context = {"jobpost":all_jobpost}
 
-@login_required(login_url='login')
-def delete_jobpost(request,pk):
-    jobpost = JobPost.objects.get(id=pk)
+#     return render(request,'RH/view.html',context=context)
 
-    jobpost.delete()
+# @login_required(login_url='login')
 
-    return redirect("dashboard")
+# def delete_jobpost(request,pk):
+#     jobpost = JobPost.objects.get(id=pk)
 
+#     jobpost.delete()
 
-
-@login_required(login_url='login')
-
-def dashboard_responsable(request):
-
-    responsable = ResponsableFormation.objects.all()
-    context = {'responsables': responsable}
+#     return redirect("dashboard")
 
 
-    return render(request,'ResponsableFormation/dashboard.html',context=context)
 
-@login_required(login_url='login')
 
-def create_responsable(request):
-    form = CreateResponsableFormation()
 
-    if request.method =="POST":
-        form = CreateResponsableFormation(request.POST)
+# @login_required(login_url='login')
 
-        if form.is_valid():
-            form.save()
-            return redirect("dashboard_responsable")
-    context = {'form':form}
+# def dashboard_responsable(request):
 
-    return render(request,'ResponsableFormation/create.html',context=context)
+#     responsable = ResponsableFormation.objects.all()
+#     context = {'responsables': responsable}
 
-@login_required(login_url='login')
-def update_responsable(request,pk):
-    responsable = ResponsableFormation.objects.get(id=pk)
 
-    form = UpdateResponsableFormation(instance=responsable)
+#     return render(request,'ResponsableFormation/dashboard.html',context=context)
 
-    if request.method =='POST':
-        form = UpdateResponsableFormation(request.POST,instance=responsable)
 
-        if form.is_valid():
-            form.save()
-            return redirect("dashboard_responsable")
+# @login_required(login_url='login')
+# def create_responsable(request):
+#     form = CreateResponsableFormation()
+
+#     if request.method == "POST":
+#         form = CreateResponsableFormation(request.POST)
         
-    context = {'form':form}
+#         if form.is_valid():
+#             responsable = form.save(commit=False)
+#             responsable.created_by = request.user
+#             responsable.created_at = timezone.now() 
+#             responsable.save()
+#             return redirect("dashboard_responsable")
 
-    return render(request,'ResponsableFormation/update.html',context=context)
+#     context = {'form': form}
+#     return render(request, 'ResponsableFormation/create.html', context=context)
 
-@login_required(login_url='login')
-def singular_responsable(request,pk):
+# @login_required(login_url='login')
+# def update_responsable(request,pk):
+#     responsable = ResponsableFormation.objects.get(id=pk)
 
-    responsables = ResponsableFormation.objects.get(id=pk)
+#     form = UpdateResponsableFormation(instance=responsable)
 
-    context = {"responsable":responsables}
+#     if request.method =='POST':
+#         form = UpdateResponsableFormation(request.POST,instance=responsable)
 
-    return render(request,'ResponsableFormation/view.html',context=context)
+#         if form.is_valid():
+#             responsable = form.save(commit=False)
+#             responsable.updated_by = request.user
+#             responsable.updated_at = timezone.now() 
+#             responsable.save()
+#             form.save()
+#             return redirect("dashboard_responsable")
+        
+#     context = {'form':form}
 
-@login_required(login_url='login')
-def delete_responsable(request,pk):
-    responsable = ResponsableFormation.objects.get(id=pk)
+#     return render(request,'ResponsableFormation/update.html',context=context)
 
-    responsable.delete()
+# @login_required(login_url='login')
+# def singular_responsable(request,pk):
 
-    return redirect("dashboard_responsable")
+#     responsables = ResponsableFormation.objects.get(id=pk)
 
-#Participant : 
+#     context = {"responsable":responsables}
+
+#     return render(request,'ResponsableFormation/view.html',context=context)
+
+# @login_required(login_url='login')
+# def delete_responsable(request,pk):
+#     responsable = ResponsableFormation.objects.get(id=pk)
+
+#     responsable.delete()
+
+#     return redirect("dashboard_responsable")
+
+# # @method_decorator(login_required(login_url='login'), name='dispatch')
+# # class DashboardResponsableAPIView(APIView):
+# #     permission_classes = [IsAuthenticated]
+
+# #     def get(self, request):
+# #         responsables = ResponsableFormation.objects.all()
+# #         serializer = ResponsableFormationSerializer(responsables, many=True)
+# #         return Response(serializer.data)
 
 
-class DashboardParticipantView(ListView):
-    model = Participant
-    template_name = 'Participant/dashboard.html'
-    context_object_name = 'participants'
+# # @method_decorator(login_required(login_url='login'), name='dispatch')
+# # class CreateResponsableAPIView(APIView):
+# #     permission_classes = [IsAuthenticated]
 
-class CreateParticipantView(CreateView):
-    model = Participant
-    form_class = CreateParticipant
-    template_name = 'Participant/create.html'
+# #     def post(self, request):
+# #         serializer = ResponsableFormationSerializer(data=request.data)
+# #         if serializer.is_valid():
+# #             serializer.save(created_by=request.user)
+# #             return Response(serializer.data, status=status.HTTP_201_CREATED)
+# #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# # @method_decorator(login_required(login_url='login'), name='dispatch')
+# # class UpdateResponsableAPIView(APIView):
+# #     permission_classes = [IsAuthenticated]
+
+# #     def put(self, request, pk):
+# #         responsable = get_object_or_404(ResponsableFormation, pk=pk)
+# #         serializer = ResponsableFormationSerializer(responsable, data=request.data)
+# #         if serializer.is_valid():
+# #             serializer.save(updated_by=request.user)
+# #             return Response(serializer.data)
+# #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# # @method_decorator(login_required(login_url='login'), name='dispatch')
+# # class SingularResponsableAPIView(APIView):
+# #     permission_classes = [IsAuthenticated]
+
+# #     def get(self, request, pk):
+# #         responsable = get_object_or_404(ResponsableFormation, pk=pk)
+# #         serializer = ResponsableFormationSerializer(responsable)
+# #         return Response(serializer.data)
+
+
+# # @method_decorator(login_required(login_url='login'), name='dispatch')
+# # class DeleteResponsableAPIView(APIView):
+# #     permission_classes = [IsAuthenticated]
+
+# #     def delete(self, request, pk):
+# #         responsable = get_object_or_404(ResponsableFormation, pk=pk)
+# #         responsable.delete()
+# #         return Response(status=status.HTTP_204_NO_CONTENT)
+# #Participant : 
+
+
+# class DashboardParticipantView(ListView):
+#     model = Participant
+#     template_name = 'Participant/dashboard.html'
+#     context_object_name = 'participants'
+
+# class CreateParticipantView(CreateView):
+#     model = Participant
+#     form_class = CreateParticipant
+#     template_name = 'Participant/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_participant')
+#     def get_success_url(self):
+#         return reverse('dashboard_participant')
 
-class UpdateParticipantView(UpdateView):
-    model = Participant
-    form_class = UpdateParticipant
-    template_name = 'Participant/update.html'
-    context_object_name = 'participant'
+# class UpdateParticipantView(UpdateView):
+#     model = Participant
+#     form_class = UpdateParticipant
+#     template_name = 'Participant/update.html'
+#     context_object_name = 'participant'
 
-    def get_success_url(self):
-        return reverse('dashboard_participant')
+#     def get_success_url(self):
+#         return reverse('dashboard_participant')
 
-class ViewParticipantView(DetailView):
-    model = Participant
-    template_name = 'Participant/view.html'
-    context_object_name = 'participant'
+# class ViewParticipantView(DetailView):
+#     model = Participant
+#     template_name = 'Participant/view.html'
+#     context_object_name = 'participant'
 
-class DeleteParticipantView(DeleteView):
-    model = Participant
-    success_url = '/dashboard_participant/'
-    template_name = 'Participant/delete.html'
-
-#Employe
+# class DeleteParticipantView(DeleteView):
+#     model = Participant
+#     success_url = '/dashboard_participant/'
+#     template_name = 'Participant/delete.html'
 
 
-class DashboardEmployeView(ListView):
-    model = Employe
-    template_name = 'Employe/dashboard.html'
-    context_object_name = 'employes'
+# #Employe
 
-class CreateEmployeView(CreateView):
-    model = Employe
-    form_class = CreateEmploye
-    template_name = 'Employe/create.html'
+
+# class DashboardEmployeView(ListView):
+#     model = Employe
+#     template_name = 'Employe/dashboard.html'
+#     context_object_name = 'employes'
+
+# class CreateEmployeView(CreateView):
+#     model = Employe
+#     form_class = CreateEmploye
+#     template_name = 'Employe/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_employe')
+#     def get_success_url(self):
+#         return reverse('dashboard_employe')
 
-class UpdateEmployeView(UpdateView):
-    model = Employe
-    form_class = UpdateEmploye
-    template_name = 'Employe/update.html'
-    context_object_name = 'employe'
+# class UpdateEmployeView(UpdateView):
+#     model = Employe
+#     form_class = UpdateEmploye
+#     template_name = 'Employe/update.html'
+#     context_object_name = 'employe'
 
-    def get_success_url(self):
-        return reverse('dashboard_employe')
+#     def get_success_url(self):
+#         return reverse('dashboard_employe')
 
-class ViewEmployeView(DetailView):
-    model = Employe
-    template_name = 'Employe/view.html'
-    context_object_name = 'employe'
+# class ViewEmployeView(DetailView):
+#     model = Employe
+#     template_name = 'Employe/view.html'
+#     context_object_name = 'employe'
 
-class DeleteEmployeView(DeleteView):
-    model = Employe
-    success_url = '/dashboard_employe/'
-    template_name = 'Employe/delete.html'
+# class DeleteEmployeView(DeleteView):
+#     model = Employe
+#     success_url = '/dashboard_employe/'
+#     template_name = 'Employe/delete.html'
 
-#Department
+# #Department
     
-class DashboardDepartmentView(ListView):
-    model = Department
-    template_name = 'Department/dashboard.html'
-    context_object_name = 'departments'
+# class DashboardDepartmentView(ListView):
+#     model = Department
+#     template_name = 'Department/dashboard.html'
+#     context_object_name = 'departments'
 
-class CreateDepartmentView(CreateView):
-    model = Department
-    form_class = CreateDepartment
-    template_name = 'Department/create.html'
+# class CreateDepartmentView(CreateView):
+#     model = Department
+#     form_class = CreateDepartment
+#     template_name = 'Department/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_department')
+#     def get_success_url(self):
+#         return reverse('dashboard_department')
 
-class UpdateDepartmentView(UpdateView):
-    model = Department
-    form_class = UpdateDepartment
-    template_name = 'Department/update.html'
-    context_object_name = 'department'
+# class UpdateDepartmentView(UpdateView):
+#     model = Department
+#     form_class = UpdateDepartment
+#     template_name = 'Department/update.html'
+#     context_object_name = 'department'
 
-    def get_success_url(self):
-        return reverse('dashboard_department')
+#     def get_success_url(self):
+#         return reverse('dashboard_department')
 
-class ViewDepartmentView(DetailView):
-    model = Department
-    template_name = 'Department/view.html'
-    context_object_name = 'department'
+# class ViewDepartmentView(DetailView):
+#     model = Department
+#     template_name = 'Department/view.html'
+#     context_object_name = 'department'
 
-class DeleteDepartmentView(DeleteView):
-    model = Department
-    success_url = '/dashboard_department/'
-    template_name = 'Department/delete.html'
+# class DeleteDepartmentView(DeleteView):
+#     model = Department
+#     success_url = '/dashboard_department/'
+#     template_name = 'Department/delete.html'
 
-#Fiche Employe
+# #Fiche Employe
     
-class DashboardFicheEmployeView(ListView):
-    model = FicheEmployee
-    template_name = 'FicheEmploye/dashboard.html'
-    context_object_name = 'fiche_employes'
+# class DashboardFicheEmployeView(ListView):
+#     model = FicheEmployee
+#     template_name = 'FicheEmploye/dashboard.html'
+#     context_object_name = 'fiche_employes'
 
-class CreateFicheEmployeView(CreateView):
-    model = FicheEmployee
-    form_class = CreateFicheEmploye
-    template_name = 'FicheEmploye/create.html'
+# class CreateFicheEmployeView(CreateView):
+#     model = FicheEmployee
+#     form_class = CreateFicheEmploye
+#     template_name = 'FicheEmploye/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_fiche_employe')
+#     def get_success_url(self):
+#         return reverse('dashboard_fiche_employe')
 
-class UpdateFicheEmployeView(UpdateView):
-    model = FicheEmployee
-    form_class = UpdateFicheEmploye
-    template_name = 'FicheEmploye/update.html'
-    context_object_name = 'fiche_employe'
+# class UpdateFicheEmployeView(UpdateView):
+#     model = FicheEmployee
+#     form_class = UpdateFicheEmploye
+#     template_name = 'FicheEmploye/update.html'
+#     context_object_name = 'fiche_employe'
 
-    def get_success_url(self):
-        return reverse('dashboard_fiche_employe')
+#     def get_success_url(self):
+#         return reverse('dashboard_fiche_employe')
 
-class ViewFicheEmployeView(DetailView):
-    model = FicheEmployee
-    template_name = 'FicheEmploye/view.html'
-    context_object_name = 'fiche_employe'
+# class ViewFicheEmployeView(DetailView):
+#     model = FicheEmployee
+#     template_name = 'FicheEmploye/view.html'
+#     context_object_name = 'fiche_employe'
 
-class DeleteFicheEmployeView(DeleteView):
-    model = FicheEmployee
-    success_url = '/dashboard_fiche_employe/'
-    template_name = 'FicheEmploye/delete.html'
+# class DeleteFicheEmployeView(DeleteView):
+#     model = FicheEmployee
+#     success_url = '/dashboard_fiche_employe/'
+#     template_name = 'FicheEmploye/delete.html'
 
-#Formation
+# #Formation
     
-class DashboardFormationView(ListView):
-    model = Formation
-    template_name = 'Formation/dashboard.html'
-    context_object_name = 'formations'
+# class DashboardFormationView(ListView):
+#     model = Formation
+#     template_name = 'Formation/dashboard.html'
+#     context_object_name = 'formations'
 
-class CreateFormationView(CreateView):
-    model = Formation
-    form_class = CreateFormation
-    template_name = 'Formation/create.html'
+# class CreateFormationView(CreateView):
+#     model = Formation
+#     form_class = CreateFormation
+#     template_name = 'Formation/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_formation')
+#     def get_success_url(self):
+#         return reverse('dashboard_formation')
 
-class UpdateFormationView(UpdateView):
-    model = Formation
-    form_class = UpdateFormation
-    template_name = 'Formation/update.html'
-    context_object_name = 'formation'
+# class UpdateFormationView(UpdateView):
+#     model = Formation
+#     form_class = UpdateFormation
+#     template_name = 'Formation/update.html'
+#     context_object_name = 'formation'
 
-    def get_success_url(self):
-        return reverse('dashboard_formation')
+#     def get_success_url(self):
+#         return reverse('dashboard_formation')
 
-class ViewFormationView(DetailView):
-    model = Formation
-    template_name = 'Formation/view.html'
-    context_object_name = 'formation'
+# class ViewFormationView(DetailView):
+#     model = Formation
+#     template_name = 'Formation/view.html'
+#     context_object_name = 'formation'
 
-class DeleteFormationView(DeleteView):
-    model = Formation
-    success_url = '/dashboard_formation/'
-    template_name = 'Formation/delete.html'
+# class DeleteFormationView(DeleteView):
+#     model = Formation
+#     success_url = '/dashboard_formation/'
+#     template_name = 'Formation/delete.html'
 
-#Evaluation Froid
+# #Evaluation Froid
     
-class DashboardEvaluationFroidView(ListView):
-    model = EvaluationFroid
-    template_name = 'EvaluationFroid/dashboard.html'
-    context_object_name = 'froids'
+# class DashboardEvaluationFroidView(ListView):
+#     model = EvaluationFroid
+#     template_name = 'EvaluationFroid/dashboard.html'
+#     context_object_name = 'froids'
 
-class CreateEvaluationFroidView(CreateView):
-    model = EvaluationFroid
-    form_class = CreateEvaluationFroid
-    template_name = 'EvaluationFroid/create.html'
+# class CreateEvaluationFroidView(CreateView):
+#     model = EvaluationFroid
+#     form_class = CreateEvaluationFroid
+#     template_name = 'EvaluationFroid/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_evaluation_froid')
+#     def get_success_url(self):
+#         return reverse('dashboard_evaluation_froid')
 
-class UpdateEvaluationFroidView(UpdateView):
-    model = EvaluationFroid
-    form_class = UpdateEvaluationFroid
-    template_name = 'EvaluationFroid/update.html'
-    context_object_name = 'froid'
+# class UpdateEvaluationFroidView(UpdateView):
+#     model = EvaluationFroid
+#     form_class = UpdateEvaluationFroid
+#     template_name = 'EvaluationFroid/update.html'
+#     context_object_name = 'froid'
 
-    def get_success_url(self):
-        return reverse('dashboard_evaluation_froid')
+#     def get_success_url(self):
+#         return reverse('dashboard_evaluation_froid')
 
-class ViewEvaluationFroidView(DetailView):
-    model = EvaluationFroid
-    template_name = 'EvaluationFroid/view.html'
-    context_object_name = 'froid'
+# class ViewEvaluationFroidView(DetailView):
+#     model = EvaluationFroid
+#     template_name = 'EvaluationFroid/view.html'
+#     context_object_name = 'froid'
 
-class DeleteEvaluationFroidView(DeleteView):
-    model = EvaluationFroid
-    success_url = '/dashboard_evaluation_froid/'
-    template_name = 'EvaluationFroid/delete.html'
+# class DeleteEvaluationFroidView(DeleteView):
+#     model = EvaluationFroid
+#     success_url = '/dashboard_evaluation_froid/'
+#     template_name = 'EvaluationFroid/delete.html'
 
-#Evaluation Chaud
+# #Evaluation Chaud
     
-class DashboardEvaluationChaudView(ListView):
-    model = EvaluationChaud
-    template_name = 'EvaluationChaud/dashboard.html'
-    context_object_name = 'chauds'
+# class DashboardEvaluationChaudView(ListView):
+#     model = EvaluationChaud
+#     template_name = 'EvaluationChaud/dashboard.html'
+#     context_object_name = 'chauds'
 
-class CreateEvaluationChaudView(CreateView):
-    model = EvaluationChaud
-    form_class = CreateEvaluationChaud
-    template_name = 'EvaluationChaud/create.html'
+# class CreateEvaluationChaudView(CreateView):
+#     model = EvaluationChaud
+#     form_class = CreateEvaluationChaud
+#     template_name = 'EvaluationChaud/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_evaluation_chaud')
+#     def get_success_url(self):
+#         return reverse('dashboard_evaluation_chaud')
 
-class UpdateEvaluationChaudView(UpdateView):
-    model = EvaluationChaud
-    form_class = UpdateEvaluationChaud
-    template_name = 'EvaluationChaud/update.html'
-    context_object_name = 'chaud'
+# class UpdateEvaluationChaudView(UpdateView):
+#     model = EvaluationChaud
+#     form_class = UpdateEvaluationChaud
+#     template_name = 'EvaluationChaud/update.html'
+#     context_object_name = 'chaud'
 
-    def get_success_url(self):
-        return reverse('dashboard_evaluation_chaud')
+#     def get_success_url(self):
+#         return reverse('dashboard_evaluation_chaud')
 
-class ViewEvaluationChaudView(DetailView):
-    model = EvaluationChaud
-    template_name = 'EvaluationChaud/view.html'
-    context_object_name = 'chaud'
+# class ViewEvaluationChaudView(DetailView):
+#     model = EvaluationChaud
+#     template_name = 'EvaluationChaud/view.html'
+#     context_object_name = 'chaud'
 
-class DeleteEvaluationChaudView(DeleteView):
-    model = EvaluationChaud
-    success_url = '/dashboard_evaluation_chaud/'
-    template_name = 'EvaluationChaud/delete.html'
+# class DeleteEvaluationChaudView(DeleteView):
+#     model = EvaluationChaud
+#     success_url = '/dashboard_evaluation_chaud/'
+#     template_name = 'EvaluationChaud/delete.html'
 
-#Competence
+# #Competence
     
-class DashboardCompetenceView(ListView):
-    model = Competence
-    template_name = 'Competence/dashboard.html'
-    context_object_name = 'competences'
+# class DashboardCompetenceView(ListView):
+#     model = Competence
+#     template_name = 'Competence/dashboard.html'
+#     context_object_name = 'competences'
 
-class CreateCompetenceView(CreateView):
-    model = Competence
-    form_class = CreateCompetence
-    template_name = 'Competence/create.html'
+# class CreateCompetenceView(CreateView):
+#     model = Competence
+#     form_class = CreateCompetence
+#     template_name = 'Competence/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_competence')
+#     def get_success_url(self):
+#         return reverse('dashboard_competence')
 
-class UpdateCompetenceView(UpdateView):
-    model = Competence
-    form_class = UpdateCompetence
-    template_name = 'Competence/update.html'
-    context_object_name = 'competence'
+# class UpdateCompetenceView(UpdateView):
+#     model = Competence
+#     form_class = UpdateCompetence
+#     template_name = 'Competence/update.html'
+#     context_object_name = 'competence'
 
-    def get_success_url(self):
-        return reverse('dashboard_competence')
+#     def get_success_url(self):
+#         return reverse('dashboard_competence')
 
-class ViewCompetenceView(DetailView):
-    model = Competence
-    template_name = 'Competence/view.html'
-    context_object_name = 'competence'
+# class ViewCompetenceView(DetailView):
+#     model = Competence
+#     template_name = 'Competence/view.html'
+#     context_object_name = 'competence'
 
-class DeleteCompetenceView(DeleteView):
-    model = Competence
-    success_url = '/dashboard_competence/'
-    template_name = 'Competence/delete.html'
+# class DeleteCompetenceView(DeleteView):
+#     model = Competence
+#     success_url = '/dashboard_competence/'
+#     template_name = 'Competence/delete.html'
 
-#Evaluation Competence
+# #Evaluation Competence
     
-class DashboardEvaluationCompetenceView(ListView):
-    model = EvaluationCompetence
-    template_name = 'EvaluationCompetence/dashboard.html'
-    context_object_name = 'evaluation_competences'
+# class DashboardEvaluationCompetenceView(ListView):
+#     model = EvaluationCompetence
+#     template_name = 'EvaluationCompetence/dashboard.html'
+#     context_object_name = 'evaluation_competences'
 
-class CreateEvaluationCompetenceView(CreateView):
-    model = EvaluationCompetence
-    form_class = CreateEvaluationCompetence
-    template_name = 'EvaluationCompetence/create.html'
+# class CreateEvaluationCompetenceView(CreateView):
+#     model = EvaluationCompetence
+#     form_class = CreateEvaluationCompetence
+#     template_name = 'EvaluationCompetence/create.html'
     
-    def get_success_url(self):
-        return reverse('dashboard_evaluation_competence')
+#     def get_success_url(self):
+#         return reverse('dashboard_evaluation_competence')
 
-class UpdateEvaluationCompetenceView(UpdateView):
-    model = EvaluationCompetence
-    form_class = UpdateEvaluationCompetence
-    template_name = 'EvaluationCompetence/update.html'
-    context_object_name = 'evaluation_competence'
+# class UpdateEvaluationCompetenceView(UpdateView):
+#     model = EvaluationCompetence
+#     form_class = UpdateEvaluationCompetence
+#     template_name = 'EvaluationCompetence/update.html'
+#     context_object_name = 'evaluation_competence'
 
-    def get_success_url(self):
-        return reverse('dashboard_evaluation_competence')
+#     def get_success_url(self):
+#         return reverse('dashboard_evaluation_competence')
 
-class ViewEvaluationCompetenceView(DetailView):
-    model = EvaluationCompetence
-    template_name = 'EvaluationCompetence/view.html'
-    context_object_name = 'evaluation_competence'
+# class ViewEvaluationCompetenceView(DetailView):
+#     model = EvaluationCompetence
+#     template_name = 'EvaluationCompetence/view.html'
+#     context_object_name = 'evaluation_competence'
 
-class DeleteEvaluationCompetenceView(DeleteView):
-    model = EvaluationCompetence
-    success_url = '/dashboard_evaluation_competence/'
-    template_name = 'EvaluationCompetence/delete.html'
+# class DeleteEvaluationCompetenceView(DeleteView):
+#     model = EvaluationCompetence
+#     success_url = '/dashboard_evaluation_competence/'
+#     template_name = 'EvaluationCompetence/delete.html'

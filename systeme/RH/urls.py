@@ -1,72 +1,111 @@
 from django.urls import path
-from . import views
-from .views import *
+from .views.views1 import *
+from .views.views2 import *
+from .views.views3 import *
 urlpatterns = [
-    path('',views.home,name=""),
-    path('home',views.index,name="home"),
-    path('register',views.register,name="register"),
-    path('login',views.login,name="login"),
-    path('logout',views.logout,name="logout"),
 
-    path('dashboard',views.dashboard, name="dashboard"),
-    path('create_jobpost',views.create_jobpost,name="create_jobpost"),
-    path('update_jobpost/<int:pk>',views.update_jobpost,name="update_jobpost"),
-    path('jobpost/<int:pk>',views.singular_jobpost,name="jobpost"),
-    path('delete_jobpost/<int:pk>',views.delete_jobpost,name="delete_jobpost"),
+    #CRUD position occupé
 
-    path('dashboard_responsable',views.dashboard_responsable, name="dashboard_responsable"),
-    path('create_responsable',views.create_responsable,name="create_responsable"),
-    path('update_responsable/<int:pk>',views.update_responsable,name="update_responsable"),
-    path('responsable/<int:pk>',views.singular_responsable,name="responsable"),
-    path('delete_responsable/<int:pk>',views.delete_responsable,name="delete_responsable"),
+    path('dashboard_job_post/',DashboardJobPostAPIView.as_view(), name='dashboard_job_post'),
+    path('create_job_post/', CreateJobPostAPIView.as_view(), name='create_job_post'),
+    path('update_job_post/<int:pk>/', UpdateJobPostAPIView.as_view(), name='update_job_post'),
+    path('job_post/<int:pk>/', SingularJobPostAPIView.as_view(), name='singular_job_post'),
+    path('delete_job_post/<int:pk>/', DeleteJobPostAPIView.as_view(), name='delete_job_post'),
 
-    path('dashboard_participant', DashboardParticipantView.as_view(), name='dashboard_participant'),
-    path('create_participant', CreateParticipantView.as_view(), name='create_participant'),
-    path('update_participant/<int:pk>', UpdateParticipantView.as_view(), name='update_participant'),
-    path('participant/<int:pk>', ViewParticipantView.as_view(), name='participant'),
-    path('delete_participant/<int:pk>', DeleteParticipantView.as_view(), name='delete_participant'),
+    #CRUD Departement
 
-    path('dashboard_employe',DashboardEmployeView.as_view(), name="dashboard_employe"),
-    path('create_employe',CreateEmployeView.as_view(),name="create_employe"),
-    path('update_employe/<int:pk>',UpdateEmployeView.as_view(),name="update_employe"),
-    path('employe/<int:pk>',ViewEmployeView.as_view(),name="employe"),
-    path('delete_employe/<int:pk>',DeleteEmployeView.as_view(),name="delete_employe"),
+    path('dashboard_department/',DashboardDepartmentAPIView.as_view(), name='dashboard_department'),
+    path('create_department/', CreateDepartmentAPIView.as_view(), name='create_department'),
+    path('update_department/<int:pk>/', UpdateDepartmentAPIView.as_view(), name='update_department'),
+    path('department/<int:pk>/', SingularDepartmentAPIView.as_view(), name='singular_department'),
+    path('delete_department/<int:pk>/', DeleteDepartmentAPIView.as_view(), name='delete_department'),
 
-    path('dashboard_department', DashboardDepartmentView.as_view(), name='dashboard_department'),
-    path('create_department', CreateDepartmentView.as_view(), name='create_department'),
-    path('update_department/<int:pk>', UpdateDepartmentView.as_view(), name='update_department'),
-    path('department/<int:pk>', ViewDepartmentView.as_view(), name='department'),
-    path('delete_department/<int:pk>', DeleteDepartmentView.as_view(), name='delete_department'),
+    #CRUD Address
 
-    path('dashboard_fiche_employe',DashboardFicheEmployeView.as_view(), name="dashboard_fiche_employe"),
-    path('create_fiche_employe',CreateFicheEmployeView.as_view(),name="create_fiche_employe"),
-    path('update_fiche_employe/<int:pk>',UpdateFicheEmployeView.as_view(),name="update_fiche_employe"),
-    path('fiche_employe/<int:pk>',ViewFicheEmployeView.as_view(),name="fiche_employe"),
-    path('delete_fiche_employe/<int:pk>',DeleteFicheEmployeView.as_view(),name="delete_fiche_employe"),
+    path('dashboard_address/',DashboardAddressAPIView.as_view(), name='dashboard_address'),
+    path('create_address/', CreateAddressAPIView.as_view(), name='create_address'),
+    path('update_address/<int:pk>/', UpdateAddressAPIView.as_view(), name='update_address'),
+    path('address/<int:pk>/', SingularAddressAPIView.as_view(), name='singular_address'),
+    path('delete_address/<int:pk>/', DeleteAddressAPIView.as_view(), name='delete_address'),
 
-    path('dashboard_formation',DashboardFormationView.as_view(), name="dashboard_formation"),
-    path('create_formation',CreateFormationView.as_view(),name="create_formation"),
-    path('update_formation/<int:pk>',UpdateFormationView.as_view(),name="update_formation"),
-    path('formation/<int:pk>',ViewFormationView.as_view(),name="formation"),
-    path('delete_formation/<int:pk>',DeleteFormationView.as_view(),name="delete_formation"),
+    #CRUD Poste/Fonction
 
-    path('dashboard_evaluation_froid',DashboardEvaluationFroidView.as_view(), name="dashboard_evaluation_froid"),
-    path('create_evaluation_froid',CreateEvaluationFroidView.as_view(),name="create_evaluation_froid"),
-    path('update_evaluation_froid/<int:pk>',UpdateEvaluationFroidView.as_view(),name="update_evaluation_froid"),
-    path('evaluation_froid/<int:pk>',ViewEvaluationFroidView.as_view(),name="evaluation_froid"),
-    path('delete_evaluation_froid/<int:pk>',DeleteEvaluationFroidView.as_view(),name="delete_evaluation_froid"),
+    path('dashboard_poste/',DashboardPostAPIView.as_view(), name='dashboard_poste'),
+    path('create_poste/', CreatePosteAPIView.as_view(), name='create_poste'),
+    path('update_poste/<int:pk>/', UpdatePosteAPIView.as_view(), name='update_poste'),
+    path('poste/<int:pk>/', SingularPosteAPIView.as_view(), name='singular_poste'),
+    path('delete_poste/<int:pk>/', DeletePosteAPIView.as_view(), name='delete_poste'),
 
-    path('dashboard_evaluation_chaud',DashboardEvaluationChaudView.as_view(), name="dashboard_evaluation_chaud"),
-    path('create_evaluation_chaud',CreateEvaluationChaudView.as_view(),name="create_evaluation_chaud"),
-    path('update_evaluation_chaud/<int:pk>',UpdateEvaluationChaudView.as_view(),name="update_evaluation_chaud"),
-    path('evaluation_chaud/<int:pk>',ViewEvaluationChaudView.as_view(),name="evaluation_chaud"),
-    path('delete_evaluation_chaud/<int:pk>',DeleteEvaluationChaudView.as_view(),name="delete_evaluation_chaud"),
+    #CRUD Fiche Employe
 
-    path('dashboard_evaluation_competence',DashboardEvaluationCompetenceView.as_view(), name="dashboard_evaluation_competence"),
-    path('create_evaluation_competence',CreateEvaluationCompetenceView.as_view(),name="create_evaluation_competence"),
-    path('update_evaluation_competence/<int:pk>',UpdateEvaluationCompetenceView.as_view(),name="update_evaluation_competence"),
-    path('evaluation_competence/<int:pk>',ViewEvaluationCompetenceView.as_view(),name="evaluation_competence"),
-    path('delete_evaluation_competence/<int:pk>',DeleteEvaluationCompetenceView.as_view(),name="delete_evaluation_competence"),
+    path('dashboard_fiche_employe/',DashboardFicheEmployeAPIView.as_view(), name='dashboard_fiche_employe'),
+    path('create_fiche_employe/', CreateFicheEmployeAPIView.as_view(), name='create_fiche_employe'),
+    path('update_fiche_employe/<int:pk>/', UpdateFicheEmployeAPIView.as_view(), name='update_fiche_employe'),
+    path('fiche_employe/<int:pk>/', SingularFicheEmployeAPIView.as_view(), name='singular_fiche_employe'),
+    path('delete_fiche_employe/<int:pk>/', DeleteFicheEmployeAPIView.as_view(), name='delete_fiche_employe'),
 
+    #CRUD  Employe
+
+    path('dashboard_employe/',DashboardEmployeAPIView.as_view(), name='dashboard_employe'),
+    path('create_employe/', CreateEmployeAPIView.as_view(), name='create_employe'),
+    path('update_employe/<int:pk>/', UpdateEmployeAPIView.as_view(), name='update_employe'),
+    path('employe/<int:pk>/', SingularEmployeAPIView.as_view(), name='singular_employe'),
+    path('delete_employe/<int:pk>/', DeleteEmployeAPIView.as_view(), name='delete_employe'),
+
+    #CRUD  Participant
+
+    path('dashboard_participant/',DashboardParticipantAPIView.as_view(), name='dashboard_participant'),
+    path('create_participant/', CreateParticipantAPIView.as_view(), name='create_participant'),
+    path('update_participant/<int:pk>/', UpdateParticipantAPIView.as_view(), name='update_participant'),
+    path('participant/<int:pk>/', SingularParticipantAPIView.as_view(), name='singular_participant'),
+    path('delete_participant/<int:pk>/', DeleteParticipantAPIView.as_view(), name='delete_participant'),
+
+    #CRUD  Responsable Formation
+
+    path('dashboard_responsable_formation/',DashboardResponsableFormationAPIView.as_view(), name='dashboard_responsable_formation'),
+    path('create_responsable_formation/', CreateResponsableFormationAPIView.as_view(), name='create_responsable_formation'),
+    path('update_responsable_formation/<int:pk>/', UpdateResponsableFormationAPIView.as_view(), name='update_responsable_formation'),
+    path('responsable_formation/<int:pk>/', SingularResponsableFormationAPIView.as_view(), name='singular_responsable_formation'),
+    path('delete_responsable_formation/<int:pk>/', DeleteResponsableFormationAPIView.as_view(), name='delete_responsable_formation'),
+
+    #CRUD  Formation
+
+    path('dashboard_formation/',DashboardFormationAPIView.as_view(), name='dashboard_formation'),
+    path('create_formation/', CreateFormationAPIView.as_view(), name='create_formation'),
+    path('update_formation/<int:pk>/', UpdateFormationAPIView.as_view(), name='update_formation'),
+    path('formation/<int:pk>/', SingularFormationAPIView.as_view(), name='singular_formation'),
+    path('delete_formation/<int:pk>/', DeleteFormationAPIView.as_view(), name='delete_formation'),
+
+    #CRUD  Evaluation Competence
+
+    path('dashboard_evaluation_competence/',DashboardEvaluationCompetenceAPIView.as_view(), name='dashboard_evaluation_competence'),
+    path('create_evaluation_competence/', CreateEvaluationCompetenceAPIView.as_view(), name='create_evaluation_competence'),
+    path('update_evaluation_competence/<int:pk>/', UpdateEvaluationCompetenceAPIView.as_view(), name='update_evaluation_competence'),
+    path('evaluation_competence/<int:pk>/', SingularEvaluationCompetenceAPIView.as_view(), name='singular_evaluation_competence'),
+    path('delete_evaluation_competence/<int:pk>/', DeleteEvaluationCompetenceAPIView.as_view(), name='delete_evaluation_competence'),
+
+    #CRUD  Evaluation Chaud
+
+    path('dashboard_evaluation_chaud/',DashboardEvaluationChaudAPIView.as_view(), name='dashboard_evaluation_chaud'),
+    path('create_evaluation_chaud/', CreateEvaluationChaudAPIView.as_view(), name='create_evaluation_chaud'),
+    path('update_evaluation_chaud/<int:pk>/', UpdateEvaluationChaudAPIView.as_view(), name='update_evaluation_chaud'),
+    path('evaluation_chaud/<int:pk>/', SingularEvaluationChaudAPIView.as_view(), name='singular_evaluation_chaud'),
+    path('delete_evaluation_chaud/<int:pk>/', DeleteEvaluationChaudAPIView.as_view(), name='delete_evaluation_chaud'),
+
+     #CRUD  Evaluation Froid
+
+    path('dashboard_evaluation_froid/',DashboardEvaluationFroidAPIView.as_view(), name='dashboard_evaluation_froid'),
+    path('create_evaluation_froid/', CreateEvaluationFroidAPIView.as_view(), name='create_evaluation_froid'),
+    path('update_evaluation_froid/<int:pk>/', UpdateEvaluationFroidAPIView.as_view(), name='update_evaluation_froid'),
+    path('evaluation_froid/<int:pk>/', SingularEvaluationFroidAPIView.as_view(), name='singular_evaluation_froid'),
+    path('delete_evaluation_froid/<int:pk>/', DeleteEvaluationFroidAPIView.as_view(), name='delete_evaluation_froid'),
+
+    #CRUD  Competence
+
+    path('dashboard_competence/',DashboardCompetenceAPIView.as_view(), name='dashboard_competence'),
+    path('create_competence/', CreateCompetenceAPIView.as_view(), name='create_competence'),
+    path('update_competence/<int:pk>/', UpdateCompetenceAPIView.as_view(), name='update_competence'),
+    path('competence/<int:pk>/', SingularCompetenceAPIView.as_view(), name='singular_competence'),
+    path('delete_competence/<int:pk>/', DeleteCompetenceAPIView.as_view(), name='delete_competence'),
 
 ]
