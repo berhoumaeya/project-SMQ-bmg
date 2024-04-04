@@ -50,9 +50,9 @@ class FicheEmployee(models.Model):
 
     name = models.CharField(max_length=100)
     job_position = models.ForeignKey(JobPost, on_delete=models.SET_NULL, null=True, blank=True)
-    work_mobile = models.CharField(max_length=15)
-    work_phone = models.CharField(max_length=15)
-    work_email = models.EmailField()
+    work_mobile = models.CharField(max_length=8)
+    work_phone = models.CharField(max_length=8)
+    work_email = models.EmailField(unique=True)
     department = models.ManyToManyField('Department')
     manager = models.ForeignKey('Employe', on_delete=models.SET_NULL, null=True, blank=True, related_name='managed_employees')
     coach = models.ForeignKey('Employe', on_delete=models.SET_NULL, null=True, blank=True, related_name='coached_employees')
@@ -61,7 +61,7 @@ class FicheEmployee(models.Model):
     address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True, related_name='employees_address')
     working_hours = models.FloatField()
     timezone_field = TimeZoneField(default='UTC')
-    bank_account_number = models.CharField(max_length=255,)
+    bank_account_number = models.CharField(max_length=255,unique=True)
     home_work_distance = models.FloatField(max_length=255,)
     MARTIAL_STATUS_CHOICES = (
         ('C', 'Célibataire'),
@@ -76,8 +76,8 @@ class FicheEmployee(models.Model):
     certificate_level = models.CharField(max_length=255)
     field_of_study = models.CharField(max_length=255)
     school = models.CharField(max_length=255)
-    cnss = models.CharField(max_length=20)
-    cin = models.CharField(max_length=20)   
+    cnss = models.CharField(max_length=20,unique=True)
+    cin = models.CharField(max_length=8,unique=True)   
     pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
     employe_concerne = models.ForeignKey(Employe, on_delete=models.CASCADE, related_name='fiches_employee')
     created_at = models.DateTimeField(null=True, default=None)

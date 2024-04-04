@@ -104,6 +104,7 @@ class DeleteEvaluationChaudAPIView(APIView):
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardEvaluationFroidAPIView(APIView):
+        permission_classes = [IsAuthenticated]
         
         def get(self, request):
             froids = EvaluationFroid.objects.all()
@@ -194,6 +195,7 @@ class DeleteEvaluationFroidAPIView(APIView):
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardEvaluationCompetenceAPIView(APIView):
+        permission_classes = [IsAuthenticated]
         
         def get(self, request):
             competences = EvaluationCompetence.objects.all()
@@ -225,10 +227,13 @@ class CreateEvaluationCompetenceAPIView(APIView):
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
             serializer.save(created_by=request.user)
+            evaluation = serializer.save()
             evaluation_competence_data = serializer.data
             evaluation_competence_data['created_by'] = request.user.first_name
             evaluation_competence_data['created_at'] = created_at
             evaluation_competence_data['id'] = serializer.instance.id 
+            if evaluation.niveau_acquis < evaluation.competence.niveau_requis:
+                PlanAction.objects.create(evaluation=evaluation, description="Plan d'action automatique généré pour cet Employe",created_by = request.user,created_at = created_at)
             return Response(evaluation_competence_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -284,6 +289,7 @@ class DeleteEvaluationCompetenceAPIView(APIView):
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardCompetenceAPIView(APIView):
+        permission_classes = [IsAuthenticated]
         
         def get(self, request):
             competences = Competence.objects.all()
@@ -369,3 +375,26 @@ class DeleteCompetenceAPIView(APIView):
         competence.delete()
         return Response({"message": "La  Competence a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
     
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardPlanActionAPIView(APIView):
+        permission_classes = [IsAuthenticated]
+        
+        def get(self, request):
+            competences = PlanAction.objects.all()
+            data = []
+            for competence in competences:
+                created_by_name = competence.created_by.first_name if competence.created_by else None
+                updated_by_name = competence.updated_by.first_name if competence.updated_by else None
+                competence_data = {
+                    'id': competence.id,
+                    'description':competence.description,
+                    'created_by': created_by_name,
+                    'updated_by': updated_by_name,
+                    'created_at': competence.created_at,
+                    'updated_at': competence.updated_at,
+                }
+                data.append(competence_data)
+            return Response(data, status=status.HTTP_200_OK) 
+

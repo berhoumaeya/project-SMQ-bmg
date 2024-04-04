@@ -21,4 +21,4 @@ class EmployeSerializer(serializers.ModelSerializer):
 class FormationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Formation
-        fields = ['intitule_formation', 'type_formation', 'organisme_formation', 'theme_formation', 'date_debut_formation', 'date_fin_formation', 'responsable_validation', 'participants', 'pieces_jointes', 'parametre_validation', 'date_cloture_formation']
+        fields = ['intitule_formation', 'type_formation', 'organisme_formation', 'theme_formation', 'date_debut_formation', 'date_fin_formation', 'responsable_validation','responsable_formation', 'participants', 'pieces_jointes', 'parametre_validation', 'date_cloture_formation']

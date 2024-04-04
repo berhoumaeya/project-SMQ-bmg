@@ -28,4 +28,4 @@ class EvaluationCompetenceSerializer(serializers.ModelSerializer):
 class PlanActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanAction
-        fields = ['evaluation','description']
+        fields = ['evaluation','description',]

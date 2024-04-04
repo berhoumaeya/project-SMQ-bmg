@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignupView,GetCSRFToken,LoginView,LogoutView,CheckAuthenticatedView,DeleteAccountView
+from .views import SignupView,GetCSRFToken,LoginView,LogoutView,CheckAuthenticatedView,DeleteAccountView,CheckNotificationAPIView,SendNotificationAPIView,NotificationListAPIView,UserProfileAPIView
 
 urlpatterns = [
     path('authenticated',CheckAuthenticatedView.as_view()),
@@ -8,4 +8,10 @@ urlpatterns = [
     path('logout',LogoutView.as_view()),
     path('delete',DeleteAccountView.as_view()),
     path('csrf_cookie',GetCSRFToken.as_view()),
+
+    path('check_notification/<int:notification_id>/', CheckNotificationAPIView.as_view(), name='check_notification'),
+    path('send_notification/', SendNotificationAPIView.as_view(), name='send_notification'),
+    path('notification_list/', NotificationListAPIView.as_view(), name='notification_list'),
+    path('profile/', UserProfileAPIView.as_view(), name='user_profile'),
+    
 ]

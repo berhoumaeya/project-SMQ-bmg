@@ -22,7 +22,7 @@ class AddressSerializer(serializers.ModelSerializer):
 class FicheEmployeSerializer(serializers.ModelSerializer):
     class Meta:
         model = FicheEmployee
-        fields = ['name','job_position', 'work_mobile', 'work_phone', 'work_email', 'department', 'manager', 'coach', 'work_address', 'work_location', 'address', 'working_hours', 'timezone_field', 'bank_account_number', 'home_work_distance', 'martial_status', 'emergency_contact', 'emergency_phone', 'certificate_level', 'field_of_study', 'school', 'cnss', 'cin', 'pieces_jointes', 'employe_concerne']
+        fields = ['name','job_position', 'work_mobile', 'work_phone', 'work_email', 'department', 'manager', 'coach', 'work_address', 'work_location', 'address', 'working_hours', 'bank_account_number', 'home_work_distance', 'martial_status', 'emergency_contact', 'emergency_phone', 'certificate_level', 'field_of_study', 'school', 'cnss', 'cin', 'pieces_jointes', 'employe_concerne']
 
 class PosteFonctionSerializer(serializers.ModelSerializer):
     class Meta :

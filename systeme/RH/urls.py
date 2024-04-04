@@ -108,4 +108,8 @@ urlpatterns = [
     path('competence/<int:pk>/', SingularCompetenceAPIView.as_view(), name='singular_competence'),
     path('delete_competence/<int:pk>/', DeleteCompetenceAPIView.as_view(), name='delete_competence'),
 
+    #CRUD Plan Action
+
+    path('dashboard_plan/',DashboardPlanActionAPIView.as_view(), name='dashboard_plan'),
+
 ]
