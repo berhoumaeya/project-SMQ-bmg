@@ -53,6 +53,7 @@ class Indicateur(models.Model):
     valeur_cible = models.DecimalField(max_digits=10, decimal_places=2)
     limite_critique = models.DecimalField(max_digits=10, decimal_places=2)
     piece_jointe = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -72,6 +73,7 @@ class SuiviIndicateur(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='suivi_indicateur_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
     history = HistoricalRecords()
 
 

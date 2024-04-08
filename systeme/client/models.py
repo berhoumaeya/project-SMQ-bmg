@@ -92,6 +92,8 @@ class SuiviReclamation(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='suivi_reclamation_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    
 
 
     def __str__(self):
@@ -116,6 +118,7 @@ class Enquete(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='satisfaction_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
 
     def __str__(self):
         return self.name_enquete
@@ -129,6 +132,7 @@ class ReponseEnquete(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='reponse_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
 
 
     def __str__(self):
@@ -155,6 +159,7 @@ class SuggestionClient(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='suggestion_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
 
     def __str__(self):
         return f"Suggestion du client {self.client_concerne} - {self.date}"

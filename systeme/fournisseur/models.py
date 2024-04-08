@@ -34,6 +34,7 @@ class Fournisseur(models.Model):
         ('trimestrielle', 'Trimestrielle'),
     ]
     periodicite_evaluation = models.CharField(max_length=20, choices=PERIODICITE_CHOICES)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
 
     def __str__(self):
         return self.nom
@@ -64,6 +65,7 @@ class ReclamationFournisseur(models.Model):
     piece_jointe = models.FileField(upload_to='pieces_jointes/')
     actions = models.TextField()
     reclamation_client = models.ForeignKey(ReclamationClient, on_delete=models.CASCADE, null=True, blank=True)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
 
     def __str__(self):
         return self.numero_sequentiel
@@ -87,6 +89,7 @@ class EvaluationFournisseur(models.Model):
         ('ponctuelle', 'Ponctuelle'),
     ]
     periodicite_evaluation = models.CharField(max_length=20, choices=PERIODICITE_CHOICES)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
 
     def __str__(self):
         return f"Évaluation de {self.fournisseur} - Type de produit : {self.type_produit}"
