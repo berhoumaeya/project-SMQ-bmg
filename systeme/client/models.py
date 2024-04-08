@@ -29,6 +29,8 @@ class Client(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='client_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+
 
     def __str__(self):
         return self.nom
@@ -104,8 +106,9 @@ class TypeQuestionnaire(models.Model):
         return self.nom
 
 class Enquete(models.Model):
-    reference = models.CharField(max_length=100, unique=True)
+    reference = models.AutoField(primary_key=True)
     date_debut = models.DateField()
+    name_enquete = models.CharField(max_length=255, default='Nom par défaut')
     date_fin = models.DateField()
     clients = models.ManyToManyField(Client)
     type_questionnaire = models.ForeignKey(TypeQuestionnaire, on_delete=models.CASCADE)
@@ -114,9 +117,9 @@ class Enquete(models.Model):
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
 
-
     def __str__(self):
-        return self.reference
+        return self.name_enquete
+
 
 class ReponseEnquete(models.Model):
     enquete = models.ForeignKey(Enquete, on_delete=models.CASCADE)

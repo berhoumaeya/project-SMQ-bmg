@@ -16,7 +16,7 @@ class ReclamationClientSerializer(serializers.ModelSerializer):
 class EnqueteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enquete
-        fields = ['reference', 'date_debut', 'date_fin', 'clients', 'type_questionnaire']
+        fields = ['name_enquete', 'date_debut', 'date_fin', 'clients', 'type_questionnaire']
 
 
 class SuggestionClientSerializer(serializers.ModelSerializer):

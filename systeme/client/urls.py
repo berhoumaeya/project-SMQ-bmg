@@ -17,7 +17,7 @@ urlpatterns = [
     path('delete_reclamation_client/<int:pk>/', DeleteReclamationClientAPIView.as_view(), name='delete_reclamation_client'),
 
     path('dashboard_enquete/', DashboardReclamationClientAPIView.as_view(), name='dashboard_enquete'),
-    path('create_enquete/', CreateReclamationClientAPIView.as_view(), name='create_enquete'),
+    path('create_enquete/', CreateEnqueteAPIView.as_view(), name='create_enquete'),
     path('update_enquete/<int:pk>/', UpdateReclamationClientAPIView.as_view(), name='update_enquete'),
     path('enquete/<int:pk>/', SingularReclamationClientAPIView.as_view(), name='singular_enquete'),
     path('delete_enquete/<int:pk>/', DeleteReclamationClientAPIView.as_view(), name='delete_enquete'),

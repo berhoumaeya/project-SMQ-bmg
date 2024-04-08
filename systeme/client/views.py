@@ -26,8 +26,8 @@ class DashboardClientAPIView(APIView):
                 'nom': client.nom,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
-                'created_at': client.created_at,
-                'updated_at': client.updated_at,
+                'created_at': client.created_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None,
+                'updated_at': client.updated_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None,
             }
             data.append(client_data)
         return Response(data, status=status.HTTP_200_OK)

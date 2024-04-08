@@ -23,4 +23,7 @@ urlpatterns = [
     path('user/',include('user.urls')),
     path('client/',include('client.urls')),
     path('',include('RH.urls')),    
+    path('fournisseur',include('fournisseur.urls')),
+    path('indicateur/',include('indicateur.urls')),
+    path('risk/',include('risk.urls')),
 ]
