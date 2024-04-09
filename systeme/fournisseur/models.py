@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from client.models import ReclamationClient,TypeReclamation
+from CRM.models import ReclamationClient,TypeReclamation
 
 
 class Fournisseur(models.Model):
@@ -23,7 +23,6 @@ class Fournisseur(models.Model):
     ]
     type_fournisseur = models.CharField(max_length=10, choices=TYPE_CHOICES)
     fournisseur_agree = models.BooleanField(default=False)
-    piece_jointe = models.FileField(upload_to='pieces_jointes/')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fournisseur_created',null=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='fournisseur_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
@@ -43,6 +42,7 @@ class Fournisseur(models.Model):
 class ReclamationFournisseur(models.Model):
 
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reclamation_fournisseur_created',null=True)
+    created_at = models.DateTimeField(null=True, default=None)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='reclamation_fournisseur_updated', null=True)
     updated_at = models.DateTimeField(null=True, default=None)
     numero_sequentiel = models.CharField(max_length=50, unique=True)
@@ -62,7 +62,6 @@ class ReclamationFournisseur(models.Model):
     ]
     gravite = models.CharField(max_length=10, choices=GRAVITE_CHOICES)
     designation = models.CharField(max_length=100)
-    piece_jointe = models.FileField(upload_to='pieces_jointes/')
     actions = models.TextField()
     reclamation_client = models.ForeignKey(ReclamationClient, on_delete=models.CASCADE, null=True, blank=True)
     pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)

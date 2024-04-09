@@ -27,7 +27,7 @@ class DashboardFournisseurAPIView(APIView):
             updated_at_str = fournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if fournisseur.updated_at else None
             fournisseur_data = {
                 'id': fournisseur.id,
-                'Libelle': fournisseur.libelle,
+                'nom': fournisseur.nom,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,
@@ -116,7 +116,7 @@ class DashboardReclamationFournisseurAPIView(APIView):
             updated_at_str = Reclamationfournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Reclamationfournisseur.updated_at else None
             Reclamationfournisseur_data = {
                 'id': Reclamationfournisseur.id,
-                'Libelle': Reclamationfournisseur.libelle,
+                'Numero_Sequentiel': Reclamationfournisseur.numero_sequentiel,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,
@@ -186,3 +186,92 @@ class DeleteReclamationFournisseurAPIView(APIView):
         Reclamationfournisseur = get_object_or_404(ReclamationFournisseur, pk=pk)
         Reclamationfournisseur.delete()
         return Response({"message": "L Fournisseur a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+#Tout Reclamationfournisseur
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardEvaluationFournisseurAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        Evaluationfournisseurs = EvaluationFournisseur.objects.all()
+        data = []
+        for Evaluationfournisseur in Evaluationfournisseurs:
+            created_by_name = Evaluationfournisseur.created_by.first_name if Evaluationfournisseur.created_by else None
+            updated_by_name = Evaluationfournisseur.updated_by.first_name if Evaluationfournisseur.updated_by else None
+            created_at_str = Evaluationfournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.created_at else None
+            updated_at_str = Evaluationfournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.updated_at else None
+            Evaluationfournisseur_data = {
+                'id': Evaluationfournisseur.id,
+                'Numero_Sequentiel': Evaluationfournisseur.numero_sequentiel,
+                'created_by': created_by_name,
+                'updated_by': updated_by_name,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
+            }
+            data.append(Evaluationfournisseur_data)
+        return Response(data, status=status.HTTP_200_OK)
+
+# Ajouter un Evaluationfournisseur
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class CreateEvaluationFournisseurAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = EvaluationFournisseurSerializer(data=request.data)
+        if serializer.is_valid():
+            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['created_at'] = created_at
+            serializer.save(created_by=request.user)
+            Evaluationfournisseur_data = serializer.data
+            Evaluationfournisseur_data['created_by'] = request.user.first_name
+            Evaluationfournisseur_data['created_at'] = created_at
+            Evaluationfournisseur_data['id'] = serializer.instance.id 
+            return Response(Evaluationfournisseur_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Modifier un Evaluationfournisseur
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class UpdateEvaluationFournisseurAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk):
+        Evaluationfournisseur = get_object_or_404(EvaluationFournisseur, pk=pk)
+        serializer = EvaluationFournisseurSerializer(Evaluationfournisseur, data=request.data)
+        if serializer.is_valid():
+            updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['updated_at'] = updated_at
+            serializer.save(updated_by=request.user)
+            Evaluationfournisseur.save()
+            Evaluationfournisseur_data = serializer.data
+            Evaluationfournisseur_data['updated_by'] = request.user.first_name
+            Evaluationfournisseur_data['updated_at'] = updated_at
+            return Response(Evaluationfournisseur_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Afficher un Evaluationfournisseur
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class SingularEvaluationFournisseurAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        Evaluationfournisseur = get_object_or_404(EvaluationFournisseur, pk=pk)
+        serializer = EvaluationFournisseurSerializer(Evaluationfournisseur)
+        serialized_data = serializer.data
+        serialized_data['created_by'] = Evaluationfournisseur.created_by.first_name 
+        serialized_data['updated_by'] = Evaluationfournisseur.updated_by.first_name 
+        serialized_data['created_at'] = Evaluationfournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.created_at else None
+        serialized_data['updated_at'] = Evaluationfournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.updated_at else None
+        return Response(serialized_data)
+
+# Supprimer un Evaluationfournisseur
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DeleteEvaluationFournisseurAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        Evaluationfournisseur = get_object_or_404(EvaluationFournisseur, pk=pk)
+        Evaluationfournisseur.delete()
+        return Response({"message": "L Evaluation a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)

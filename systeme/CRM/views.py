@@ -14,20 +14,22 @@ from django.contrib.auth.decorators import login_required
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardClientAPIView(APIView):
-
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         clients = Client.objects.all()
         data = []
         for client in clients:
             created_by_name = client.created_by.first_name if client.created_by else None
             updated_by_name = client.updated_by.first_name if client.updated_by else None
+            created_at_str = client.created_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None
+            updated_at_str = client.updated_at.strftime('%Y-%m-%d %H:%M:%S') if client.updated_at else None
             client_data = {
                 'id': client.id,
                 'nom': client.nom,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
-                'created_at': client.created_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None,
-                'updated_at': client.updated_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
             }
             data.append(client_data)
         return Response(data, status=status.HTTP_200_OK)
@@ -77,8 +79,8 @@ class SingularClientAPIView(APIView):
         client = get_object_or_404(Client, pk=pk)
         serializer = ClientSerializer(client)
         serialized_data = serializer.data
-        serialized_data['created_by'] = client.created_by.first_name 
-        serialized_data['updated_by'] = client.updated_by.first_name 
+        serialized_data['created_by'] = client.created_by.first_name if client.created_by else None
+        serialized_data['updated_by'] = client.updated_by.first_name if client.updated_by else None
         serialized_data['created_at'] = client.created_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None
         serialized_data['updated_at'] = client.updated_at.strftime('%Y-%m-%d %H:%M:%S') if client.updated_at else None
         return Response(serialized_data)
@@ -97,20 +99,22 @@ class DeleteClientAPIView(APIView):
 # Afficher toutes les réclamations clients
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardReclamationClientAPIView(APIView):
-
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         reclamations = ReclamationClient.objects.all()
         data = []
         for reclamation in reclamations:
             created_by_name = reclamation.created_by.first_name if reclamation.created_by else None
             updated_by_name = reclamation.updated_by.first_name if reclamation.updated_by else None
+            created_at_str = reclamation.created_at.strftime('%Y-%m-%d %H:%M:%S') if reclamation.created_at else None
+            updated_at_str = reclamation.updated_at.strftime('%Y-%m-%d %H:%M:%S') if reclamation.updated_at else None
             reclamation_data = {
                 'id': reclamation.id,
                 'code': reclamation.code,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
-                'created_at': reclamation.created_at,
-                'updated_at': reclamation.updated_at,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
             }
             data.append(reclamation_data)
         return Response(data, status=status.HTTP_200_OK)
@@ -160,8 +164,8 @@ class SingularReclamationClientAPIView(APIView):
         reclamation = get_object_or_404(ReclamationClient, pk=pk)
         serializer = ReclamationClientSerializer(reclamation)
         serialized_data = serializer.data
-        serialized_data['created_by'] = reclamation.created_by.first_name 
-        serialized_data['updated_by'] = reclamation.updated_by.first_name 
+        serialized_data['created_by'] = reclamation.created_by.first_name if reclamation.created_by else None
+        serialized_data['updated_by'] = reclamation.updated_by.first_name if reclamation.updated_by else None
         serialized_data['created_at'] = reclamation.created_at.strftime('%Y-%m-%d %H:%M:%S') if reclamation.created_at else None
         serialized_data['updated_at'] = reclamation.updated_at.strftime('%Y-%m-%d %H:%M:%S') if reclamation.updated_at else None
         return Response(serialized_data)
@@ -179,20 +183,22 @@ class DeleteReclamationClientAPIView(APIView):
 # Afficher toutes les enquêtes
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardEnqueteAPIView(APIView):
-
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         enquetes = Enquete.objects.all()
         data = []
         for enquete in enquetes:
             created_by_name = enquete.created_by.first_name if enquete.created_by else None
             updated_by_name = enquete.updated_by.first_name if enquete.updated_by else None
+            created_at_str = enquete.created_at.strftime('%Y-%m-%d %H:%M:%S') if enquete.created_at else None
+            updated_at_str = enquete.updated_at.strftime('%Y-%m-%d %H:%M:%S') if enquete.updated_at else None
             enquete_data = {
                 'id': enquete.id,
                 'reference': enquete.reference,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
-                'created_at': enquete.created_at,
-                'updated_at': enquete.updated_at,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
             }
             data.append(enquete_data)
         return Response(data, status=status.HTTP_200_OK)
@@ -262,20 +268,22 @@ class DeleteEnqueteAPIView(APIView):
 # Afficher toutes les suggestions clients
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardSuggestionAPIView(APIView):
-
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         suggestions = SuggestionClient.objects.all()
         data = []
         for suggestion in suggestions:
             created_by_name = suggestion.created_by.first_name if suggestion.created_by else None
             updated_by_name = suggestion.updated_by.first_name if suggestion.updated_by else None
+            created_at_str = suggestion.created_at.strftime('%Y-%m-%d %H:%M:%S') if suggestion.created_at else None
+            updated_at_str = suggestion.updated_at.strftime('%Y-%m-%d %H:%M:%S') if suggestion.updated_at else None
             suggestion_data = {
                 'id': suggestion.id,
                 'name': suggestion.name,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
-                'created_at': suggestion.created_at,
-                'updated_at': suggestion.updated_at,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
             }
             data.append(suggestion_data)
         return Response(data, status=status.HTTP_200_OK)

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'RH',
     'crispy_forms',
     'user',
-    'client',
+    'CRM',
     'fournisseur',
     'indicateur',
     'risk',
