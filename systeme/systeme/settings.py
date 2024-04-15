@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     'indicateur',
     'risk',
     'simple_history',
+    'action',
+    'doc',
+    'reunion',
+    'audit',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -119,11 +123,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Tunis'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_L10N = True
+
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

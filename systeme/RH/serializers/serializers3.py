@@ -14,16 +14,11 @@ class EvaluationFroidSerializer(serializers.ModelSerializer):
         fields = ['name','formation', 'date_realisation', 'criteres', 'coefficients', 'pieces_jointes', 'responsable_formation']
 
 
-class CompetenceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Competence
-        fields = ['name', 'niveau_requis']
-
 
 class EvaluationCompetenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = EvaluationCompetence
-        fields = ['name','competence', 'niveau_acquis', 'commentaires','employe_concerne', 'pieces_jointes']
+        fields = ['name', 'skills_acquis','skills_requis', 'commentaires','employe_concerne', 'pieces_jointes']
 
 class PlanActionSerializer(serializers.ModelSerializer):
     class Meta:

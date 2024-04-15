@@ -47,7 +47,7 @@ urlpatterns = [
     #CRUD  Employe
 
     path('dashboard_employe/',DashboardEmployeAPIView.as_view(), name='dashboard_employe'),
-    path('create_employe/', CreateEmployeAPIView.as_view(), name='create_employe'),
+    path('create-employe/', EmployeCreationView.as_view(), name='create_employe'),
     path('update_employe/<int:pk>/', UpdateEmployeAPIView.as_view(), name='update_employe'),
     path('employe/<int:pk>/', SingularEmployeAPIView.as_view(), name='singular_employe'),
     path('delete_employe/<int:pk>/', DeleteEmployeAPIView.as_view(), name='delete_employe'),
@@ -55,7 +55,7 @@ urlpatterns = [
     #CRUD  Participant
 
     path('dashboard_participant/',DashboardParticipantAPIView.as_view(), name='dashboard_participant'),
-    path('create_participant/', CreateParticipantAPIView.as_view(), name='create_participant'),
+    path('create_participant/', ParticipantCreationView.as_view(), name='create_participant'),
     path('update_participant/<int:pk>/', UpdateParticipantAPIView.as_view(), name='update_participant'),
     path('participant/<int:pk>/', SingularParticipantAPIView.as_view(), name='singular_participant'),
     path('delete_participant/<int:pk>/', DeleteParticipantAPIView.as_view(), name='delete_participant'),
@@ -63,7 +63,7 @@ urlpatterns = [
     #CRUD  Responsable Formation
 
     path('dashboard_responsable_formation/',DashboardResponsableFormationAPIView.as_view(), name='dashboard_responsable_formation'),
-    path('create_responsable_formation/', CreateResponsableFormationAPIView.as_view(), name='create_responsable_formation'),
+    path('create_responsable_formation/', ResponsableFormationCreationView.as_view(), name='create_responsable_formation'),
     path('update_responsable_formation/<int:pk>/', UpdateResponsableFormationAPIView.as_view(), name='update_responsable_formation'),
     path('responsable_formation/<int:pk>/', SingularResponsableFormationAPIView.as_view(), name='singular_responsable_formation'),
     path('delete_responsable_formation/<int:pk>/', DeleteResponsableFormationAPIView.as_view(), name='delete_responsable_formation'),
@@ -99,14 +99,6 @@ urlpatterns = [
     path('update_evaluation_froid/<int:pk>/', UpdateEvaluationFroidAPIView.as_view(), name='update_evaluation_froid'),
     path('evaluation_froid/<int:pk>/', SingularEvaluationFroidAPIView.as_view(), name='singular_evaluation_froid'),
     path('delete_evaluation_froid/<int:pk>/', DeleteEvaluationFroidAPIView.as_view(), name='delete_evaluation_froid'),
-
-    #CRUD  Competence
-
-    path('dashboard_competence/',DashboardCompetenceAPIView.as_view(), name='dashboard_competence'),
-    path('create_competence/', CreateCompetenceAPIView.as_view(), name='create_competence'),
-    path('update_competence/<int:pk>/', UpdateCompetenceAPIView.as_view(), name='update_competence'),
-    path('competence/<int:pk>/', SingularCompetenceAPIView.as_view(), name='singular_competence'),
-    path('delete_competence/<int:pk>/', DeleteCompetenceAPIView.as_view(), name='delete_competence'),
 
     #CRUD Plan Action
 

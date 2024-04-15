@@ -4,10 +4,15 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
-from rest_framework import status
+from rest_framework import status,permissions
 from ..serializers.serializers2 import *
 from ..modelsRH.models2 import*
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
+import random
+import string
+from braces.views import GroupRequiredMixin
+from django.contrib.auth.models import Group
 
 #Afficher Formation
 
@@ -36,8 +41,9 @@ class DashboardFormationAPIView(APIView):
 # Ajouter Formation
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
-class CreateFormationAPIView(APIView):
+class CreateFormationAPIView(GroupRequiredMixin,APIView):
     permission_classes = [IsAuthenticated]
+    group_required = 'Responsable RH'
 
     def post(self, request):
         serializer = FormationSerializer(data=request.data)
@@ -124,22 +130,46 @@ class DashboardEmployeAPIView(APIView):
 
 # Ajouter Employe
 
-@method_decorator(login_required(login_url='login'), name='dispatch')
-class CreateEmployeAPIView(APIView):
-    permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        serializer = EmployeSerializer(data=request.data)
-        if serializer.is_valid():
-            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-            serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
-            employe_data = serializer.data
-            employe_data['created_by'] = request.user.first_name
-            employe_data['created_at'] = created_at
-            employe_data['id'] = serializer.instance.id 
-            return Response(employe_data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def generate_random_password():
+    length = 10
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for i in range(length))
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class EmployeCreationView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+    
+    def post(self, request, format=None):
+        data = self.request.data
+        nom = data.get('nom')
+        prenom = data.get('prenom')
+        username = data.get('username')
+        email = data.get('email')
+        created_by = request.user
+        is_user = data.get('is_user')
+        
+        if is_user:
+            password = generate_random_password()
+            user = User.objects.create_user(username=email, password=password, first_name=prenom, last_name=nom)
+        else:
+            password = None
+        Employe.objects.create(
+            nom=nom,
+            prenom=prenom,
+            username=username,
+            email=email,
+            password=password, 
+            created_by=created_by,
+            updated_by=created_by,
+            created_at=timezone.now(),
+            updated_at=timezone.now(),
+            is_user=is_user
+        )
+        if is_user:
+            return Response({'success': 'Employé créé avec succès. Mot de passe : {}'.format(password)})
+        else:
+            return Response({'success': 'Employé créé avec succès.'})
     
 #Modifier Employe
 
@@ -214,21 +244,46 @@ class DashboardParticipantAPIView(APIView):
 # Ajouter Participant
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
-class CreateParticipantAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+class ParticipantCreationView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+    
+    def post(self, request, format=None):
+        data = self.request.data
+        nom = data.get('nom')
+        prenom = data.get('prenom')
+        username = data.get('username')
+        email = data.get('email')
+        employe_id = data.get('employe')
+        employe = get_object_or_404(Employe, pk=employe_id)
+        created_by = request.user
+        is_user = data.get('is_user')
+        
+        if is_user:
+            password = generate_random_password()
+            user = User.objects.create_user(username=email, password=password, first_name=prenom, last_name=nom)
+            participant_group = Group.objects.get(name='Participant')
+            user.groups.add(participant_group)
+        else:
+            password = None
 
-    def post(self, request):
-        serializer = ParticipantSerializer(data=request.data)
-        if serializer.is_valid():
-            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-            serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
-            participant_data = serializer.data
-            participant_data['created_by'] = request.user.first_name
-            participant_data['created_at'] = created_at
-            participant_data['id'] = serializer.instance.id 
-            return Response(participant_data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        Participant.objects.create(
+            nom=nom,
+            prenom=prenom,
+            username=username,
+            email=email,
+            employe = employe,
+            password=password, 
+            created_by=created_by,
+            updated_by=created_by,
+            created_at=timezone.now(),
+            updated_at=timezone.now(),
+            is_user=is_user
+        )
+        
+        if is_user:
+            return Response({'success': 'Participant créé avec succès. Mot de passe : {}'.format(password)})
+        else:
+            return Response({'success': 'Participant créé avec succès.'})
     
 #Modifier Participant
 
@@ -303,21 +358,39 @@ class DashboardResponsableFormationAPIView(APIView):
 # Ajouter Responsable Formation
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
-class CreateResponsableFormationAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        serializer = ResponsableFormationSerializer(data=request.data)
-        if serializer.is_valid():
-            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-            serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
-            responsable_formation_data = serializer.data
-            responsable_formation_data['created_by'] = request.user.first_name
-            responsable_formation_data['created_at'] = created_at
-            responsable_formation_data['id'] = serializer.instance.id 
-            return Response(responsable_formation_data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class ResponsableFormationCreationView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+    
+    def post(self, request, format=None):
+        data = self.request.data
+        nom = data.get('nom')
+        prenom = data.get('prenom')
+        username = data.get('username')
+        email = data.get('email')
+        created_by = request.user
+        is_user = data.get('is_user')
+        
+        if is_user:
+            password = generate_random_password()
+            user = User.objects.create_user(username=email, password=password, first_name=prenom, last_name=nom)
+        else:
+            password = None
+        ResponsableFormation.objects.create(
+            nom=nom,
+            prenom=prenom,
+            username=username,
+            email=email,
+            password=password, 
+            created_by=created_by,
+            updated_by=created_by,
+            created_at=timezone.now(),
+            updated_at=timezone.now(),
+            is_user=is_user
+        )
+        if is_user:
+            return Response({'success': 'Responsable Formation créé avec succès. Mot de passe : {}'.format(password)})
+        else:
+            return Response({'success': 'Responsable Formation créé avec succès.'})
     
 #Modifier Responsable Formation
 
@@ -366,4 +439,3 @@ class DeleteResponsableFormationAPIView(APIView):
         responsable_formation.delete()
         return Response({"message": "L ResponsableFormation a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
     
-

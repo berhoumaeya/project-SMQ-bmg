@@ -232,8 +232,18 @@ class CreateEvaluationCompetenceAPIView(APIView):
             evaluation_competence_data['created_by'] = request.user.first_name
             evaluation_competence_data['created_at'] = created_at
             evaluation_competence_data['id'] = serializer.instance.id 
-            if evaluation.niveau_acquis < evaluation.competence.niveau_requis:
-                PlanAction.objects.create(evaluation=evaluation, description="Plan d'action automatique généré pour cet Employe",created_by = request.user,created_at = created_at)
+            skills_acquis  = evaluation.skills_acquis
+            skills_requis  = evaluation.skills_requis
+            if skills_acquis and skills_requis:
+                for skill, niveau_requis in skills_requis.items():
+                    niveau_acquis = skills_acquis.get(skill, 0)
+                    if niveau_acquis < niveau_requis:
+                        PlanAction.objects.create(
+                            evaluation=evaluation, 
+                            description="Plan d'action automatique généré pour cet Employe",
+                            created_by=request.user,
+                            created_at=created_at
+                        )
             return Response(evaluation_competence_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -284,98 +294,6 @@ class DeleteEvaluationCompetenceAPIView(APIView):
         evaluation_competence.delete()
         return Response({"message": "La Evaluation Competence a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
     
-#Afficher  Competences
-
-
-@method_decorator(login_required(login_url='login'), name='dispatch')
-class DashboardCompetenceAPIView(APIView):
-        permission_classes = [IsAuthenticated]
-        
-        def get(self, request):
-            competences = Competence.objects.all()
-            data = []
-            for competence in competences:
-                created_by_name = competence.created_by.first_name if competence.created_by else None
-                updated_by_name = competence.updated_by.first_name if competence.updated_by else None
-                competence_data = {
-                    'id': competence.id,
-                    'name': competence.name,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
-                    'created_at': competence.created_at,
-                    'updated_at': competence.updated_at,
-                }
-                data.append(competence_data)
-            return Response(data, status=status.HTTP_200_OK) 
-    
-
-# Ajouter  Competence
-
-@method_decorator(login_required(login_url='login'), name='dispatch')
-class CreateCompetenceAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        serializer = CompetenceSerializer(data=request.data)
-        if serializer.is_valid():
-            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-            serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
-            competence_data = serializer.data
-            competence_data['created_by'] = request.user.first_name
-            competence_data['created_at'] = created_at
-            competence_data['id'] = serializer.instance.id 
-            return Response(competence_data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-#Modifier  Competence
-
-@method_decorator(login_required(login_url='login'), name='dispatch')
-class UpdateCompetenceAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    def put(self, request, pk):
-        competence = get_object_or_404(Competence, pk=pk)
-        serializer = CompetenceSerializer(competence, data=request.data)
-        if serializer.is_valid():
-            updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-            serializer.validated_data['updated_at'] = updated_at
-            serializer.save(updated_by=request.user)
-            competence_data = serializer.data
-            competence_data['updated_by'] = request.user.first_name
-            competence_data['updated_at'] = updated_at
-            return Response(competence_data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-# Afficher  Competence
-    
-@method_decorator(login_required(login_url='login'), name='dispatch')
-class SingularCompetenceAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, pk):
-        competence = get_object_or_404(Competence, pk=pk)
-        serializer = CompetenceSerializer(competence)
-        serialized_data = serializer.data
-        serialized_data['created_by'] = competence.created_by.first_name 
-        serialized_data['updated_by'] = competence.updated_by.first_name 
-        serialized_data['created_at'] = competence.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = competence.updated_at.strftime('%Y-%m-%d %H:%M:%S')
-        return Response(serialized_data)
-    
-# Supprimer  Competence
-
-
-@method_decorator(login_required(login_url='login'), name='dispatch')
-class DeleteCompetenceAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, pk):
-        competence = get_object_or_404(Competence, pk=pk)
-        competence.delete()
-        return Response({"message": "La  Competence a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
-    
-
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardPlanActionAPIView(APIView):

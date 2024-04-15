@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import JSONField
 from ..modelsRH.models2 import Formation,Employe,Participant
+from copy import deepcopy
 
 #class Evaluation chaud
 
@@ -56,26 +58,6 @@ class EvaluationFroid(models.Model):
     def __str__(self):
         return self.name
     
-# class Competence
-
-class Competence(models.Model):
-
-    created_at = models.DateTimeField(null=True, default=None)
-    updated_at = models.DateTimeField(null=True, default=None)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_competence',null=True)
-    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='updated_competence', null=True)
-    
-    NIVEAU_CHOICES = [
-        (1, 'Niveau 1'),
-        (2, 'Niveau 2'),
-        (3, 'Niveau 3'),
-        (4, 'Niveau 4'),
-    ]
-    name = models.CharField(max_length=100)
-    niveau_requis = models.IntegerField(choices=NIVEAU_CHOICES)
-
-    def __str__(self):
-        return self.name
 
 #class EvaluationCompetence
     
@@ -86,8 +68,8 @@ class EvaluationCompetence(models.Model):
     updated_at = models.DateTimeField(null=True, default=None)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_evaluation_competence',null=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='updated_evaluation_competence', null=True)
-    competence = models.ForeignKey(Competence, on_delete=models.CASCADE)
-    niveau_acquis = models.IntegerField(choices=Competence.NIVEAU_CHOICES)
+    skills_acquis = JSONField(default=dict)
+    skills_requis = JSONField(default=dict)
     commentaires = models.TextField(blank=True)
     pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
     employe_concerne = models.ForeignKey(Employe,on_delete=models.CASCADE, related_name='Employe_concerné',null=True)
@@ -107,3 +89,9 @@ class PlanAction(models.Model):
 
     def __str__(self):
         return f"Plan d'action pour {self.evaluation.name}"
+    
+
+class ClotureFormation(models.Model):
+    liste_presence = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    support_formation = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    certifications = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
