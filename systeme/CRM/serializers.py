@@ -10,7 +10,7 @@ class ClientSerializer(serializers.ModelSerializer):
 class ReclamationClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReclamationClient
-        fields = ['code', 'date', 'nom_client', 'description', 'type_reclamation', 'date_livraison', 'gravite', 'responsable_traitement', 'decisions', 'declencher_plan_action', 'reclamation_fournisseur', 'plan_action', 'fichier_pdf']
+        fields = ['code', 'date', 'client', 'description', 'type_reclamation', 'date_livraison', 'gravite', 'responsable_traitement', 'decisions', 'declencher_plan_action', 'reclamation_fournisseur', 'plan_action', 'fichier_pdf']
 
 
 class EnqueteSerializer(serializers.ModelSerializer):

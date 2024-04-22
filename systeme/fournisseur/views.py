@@ -60,7 +60,7 @@ class UpdateFournisseurAPIView(APIView):
     
     def put(self, request, pk):
         fournisseur = get_object_or_404(Fournisseur, pk=pk)
-        serializer = FournisseurSerializer(fournisseur, data=request.data)
+        serializer = FournisseurSerializer(fournisseur, data=request.data,partial=True)
         if serializer.is_valid():
             updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['updated_at'] = updated_at
@@ -79,10 +79,10 @@ class SingularFournisseurAPIView(APIView):
 
     def get(self, request, pk):
         fournisseur = get_object_or_404(Fournisseur, pk=pk)
-        serializer = FournisseurSerializer(Fournisseur)
+        serializer = FournisseurSerializer(fournisseur)
         serialized_data = serializer.data
-        serialized_data['created_by'] = fournisseur.created_by.first_name 
-        serialized_data['updated_by'] = fournisseur.updated_by.first_name 
+        serialized_data['created_by'] = fournisseur.created_by.first_name if fournisseur.created_by else None
+        serialized_data['updated_by'] = fournisseur.updated_by.first_name if fournisseur.updated_by else None
         serialized_data['created_at'] = fournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') if fournisseur.created_at else None
         serialized_data['updated_at'] = fournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if fournisseur.updated_at else None
         return Response(serialized_data)
@@ -204,7 +204,6 @@ class DashboardEvaluationFournisseurAPIView(APIView):
             updated_at_str = Evaluationfournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.updated_at else None
             Evaluationfournisseur_data = {
                 'id': Evaluationfournisseur.id,
-                'Numero_Sequentiel': Evaluationfournisseur.numero_sequentiel,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,

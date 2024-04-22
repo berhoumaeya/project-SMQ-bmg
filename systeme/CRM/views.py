@@ -193,7 +193,7 @@ class DashboardEnqueteAPIView(APIView):
             created_at_str = enquete.created_at.strftime('%Y-%m-%d %H:%M:%S') if enquete.created_at else None
             updated_at_str = enquete.updated_at.strftime('%Y-%m-%d %H:%M:%S') if enquete.updated_at else None
             enquete_data = {
-                'id': enquete.id,
+                'reference': enquete.reference,
                 'reference': enquete.reference,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
@@ -217,7 +217,7 @@ class CreateEnqueteAPIView(APIView):
             enquete_data = serializer.data
             enquete_data['created_by'] = request.user.first_name
             enquete_data['created_at'] = created_at
-            enquete_data['id'] = serializer.instance.id 
+            enquete_data['reference'] = serializer.instance.reference
             return Response(enquete_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

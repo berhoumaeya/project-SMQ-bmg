@@ -47,13 +47,8 @@ class ReclamationFournisseur(models.Model):
     updated_at = models.DateTimeField(null=True, default=None)
     numero_sequentiel = models.CharField(max_length=50, unique=True)
     date_reclamation = models.DateField()
-    nom_fournisseur = models.CharField(max_length=100)
+    fournisseur = models.ForeignKey(Fournisseur, on_delete=models.CASCADE,null=True)
     description = models.TextField()
-    TYPE_CHOICES = [
-        ('type1', 'Type 1'),
-        ('type2', 'Type 2'),
-        ('type3', 'Type 3'),
-    ]
     type_reclamation = models.ForeignKey(TypeReclamation, on_delete=models.CASCADE, null=True, blank=True)
     GRAVITE_CHOICES = [
         ('faible', 'Faible'),

@@ -1,19 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import Group
+from simple_history.models import HistoricalRecords
 
-
-class RedacteurManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(groups__name='redacteur')
-
-class VerificateurManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(groups__name='verificateur')
-
-class ApprobateurManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(groups__name='approbateur')
 
 class Site(models.Model):
     nom = models.CharField(max_length=100)
@@ -71,6 +60,7 @@ class DocInt(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='documentInterne_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.libelle
@@ -101,6 +91,8 @@ class DocExt(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='documentExterne_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.designation
+    

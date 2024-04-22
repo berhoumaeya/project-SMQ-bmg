@@ -16,17 +16,17 @@ urlpatterns = [
     path('reclamation_client/<int:pk>/', SingularReclamationClientAPIView.as_view(), name='singular_reclamation_client'),
     path('delete_reclamation_client/<int:pk>/', DeleteReclamationClientAPIView.as_view(), name='delete_reclamation_client'),
 
-    path('dashboard_enquete/', DashboardReclamationClientAPIView.as_view(), name='dashboard_enquete'),
+    path('dashboard_enquete/', DashboardEnqueteAPIView.as_view(), name='dashboard_enquete'),
     path('create_enquete/', CreateEnqueteAPIView.as_view(), name='create_enquete'),
-    path('update_enquete/<int:pk>/', UpdateReclamationClientAPIView.as_view(), name='update_enquete'),
-    path('enquete/<int:pk>/', SingularReclamationClientAPIView.as_view(), name='singular_enquete'),
-    path('delete_enquete/<int:pk>/', DeleteReclamationClientAPIView.as_view(), name='delete_enquete'),
+    path('update_enquete/<int:pk>/', UpdateEnqueteAPIView.as_view(), name='update_enquete'),
+    path('enquete/<int:pk>/', SingularEnqueteAPIView.as_view(), name='singular_enquete'),
+    path('delete_enquete/<int:pk>/', DeleteEnqueteAPIView.as_view(), name='delete_enquete'),
 
-    path('dashboard_suggestion/', DashboardReclamationClientAPIView.as_view(), name='dashboard_suggestion'),
-    path('create_suggestion/', CreateReclamationClientAPIView.as_view(), name='create_suggestion'),
-    path('update_suggestion/<int:pk>/', UpdateReclamationClientAPIView.as_view(), name='update_suggestion'),
-    path('suggestion/<int:pk>/', SingularReclamationClientAPIView.as_view(), name='singular_suggestion'),
-    path('delete_suggestion/<int:pk>/', DeleteReclamationClientAPIView.as_view(), name='delete_suggestion'),
+    path('dashboard_suggestion/', DashboardSuggestionAPIView.as_view(), name='dashboard_suggestion'),
+    path('create_suggestion/', CreateSuggestionAPIView.as_view(), name='create_suggestion'),
+    path('update_suggestion/<int:pk>/', UpdateSuggestionAPIView.as_view(), name='update_suggestion'),
+    path('suggestion/<int:pk>/', SingularSuggestionAPIView.as_view(), name='singular_suggestion'),
+    path('delete_suggestion/<int:pk>/', DeleteSuggestionAPIView.as_view(), name='delete_suggestion'),
 
 
 

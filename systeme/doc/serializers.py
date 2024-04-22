@@ -10,7 +10,7 @@ class DemandSerializer(serializers.ModelSerializer):
 class DocumentInterneSerializer(serializers.ModelSerializer):
     class Meta:
         model = DocInt
-        fields = ['libelle', 'type', 'fichier', 'selection_site', 'selection_activite'
+        fields = ['id','libelle', 'type', 'fichier', 'selection_site', 'selection_activite'
                   , 'selection_verificateur', 'selection_approbateur', 'liste_informee',
                    ]
         
@@ -19,4 +19,4 @@ class DocumentInterneSerializer(serializers.ModelSerializer):
 class DocumentExterneSerializer(serializers.ModelSerializer):
     class Meta:
         model = DocExt
-        fields = ['type', 'designation', 'lieu_classement', 'duree_classement', 'liste_informee', 'fichier']
+        fields = ['id','type', 'designation', 'lieu_classement', 'duree_classement', 'liste_informee', 'fichier']

@@ -5,6 +5,7 @@ from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from .models import *
+from doc.models import DemandDocument
 from .serializers import NotificationSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -142,7 +143,7 @@ class CheckNotificationAPIView(APIView):
 class UserProfileAPIView(APIView):
     def get(self, request):
         user = request.user
-        
+        demandes = DemandDocument.objects.filter(created_by = user)
         notifications = Notification.objects.filter(recipient=user)
         
         notifications_data = []
@@ -153,12 +154,24 @@ class UserProfileAPIView(APIView):
                 'created_at': notification.created_at.strftime('%Y-%m-%d %H:%M:%S') if notification.created_at else None
             }
             notifications_data.append(notification_data)
+
+        demandes_data = []
+        for demande in demandes:
+            demande_data = {
+                'Type': demande.type.type_de_document,
+                'document_object': demande.document_object,
+                'attached_file': demande.attached_file if demande.attached_file else None,
+                'Statut': demande.is_validated,
+                'created_at': demande.created_at.strftime('%Y-%m-%d %H:%M:%S') if demande.created_at else None
+            }
+            demandes_data.append(demande_data)
         
         user_data = {
             'username': user.username,
             'Prenom': user.first_name,
             'nom': user.last_name,
-            'notifications': notifications_data
+            'notifications': notifications_data,
+            'Demandes':demandes_data,
         }
         
         return Response(user_data)

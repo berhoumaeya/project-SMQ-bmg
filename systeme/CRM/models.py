@@ -58,7 +58,7 @@ class ResponsableTraitement(models.Model):
 class ReclamationClient(models.Model):
     code = models.CharField(max_length=50)
     date = models.DateField()
-    nom_client = models.CharField(max_length=255)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE,null=True)
     description = models.TextField()
     type_reclamation = models.ForeignKey(TypeReclamation, on_delete=models.CASCADE)
     date_livraison = models.DateField()

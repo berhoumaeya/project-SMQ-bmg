@@ -7,14 +7,17 @@ class Audit(models.Model):
     reference_audit = models.CharField(max_length=100) 
     demandeur = models.ForeignKey(User, on_delete=models.CASCADE)  
     designation = models.TextField() 
-    champ_audit = models.ManyToManyField(User, related_name='audits_access', limit_choices_to={'groups__name': 'audit'}) 
+    #limit_choices_to={'groups__name': 'audit'}
+    champ_audit = models.ManyToManyField(User, related_name='audits_access'  ) 
     type_audit = models.CharField(max_length=100) 
-    auditeurs = models.ManyToManyField(User, related_name='audits_auditors', limit_choices_to={'groups__name': 'Employe'})
+    #, limit_choices_to={'groups__name': 'Employe'}
+    auditeurs = models.ManyToManyField(User, related_name='audits_auditors')
     date_debut_audit = models.DateField() 
     date_fin_audit = models.DateField()  
     document_reference = models.ForeignKey(DocExt,on_delete=models.CASCADE, related_name='audits_auditors')
     audités = models.ManyToManyField(User, related_name='audits_audited') 
-    responsable_validation = models.ForeignKey(User, on_delete=models.CASCADE, related_name='audits_validator', limit_choices_to={'groups__name': 'Employe'})  
+    #, limit_choices_to={'groups__name': 'Employe'}
+    responsable_validation = models.ForeignKey(User, on_delete=models.CASCADE, related_name='audits_validator')  
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='audit_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
@@ -31,8 +34,9 @@ class PlanAudit(models.Model):
     heure_fin = models.IntegerField() 
     lieu = models.CharField(max_length=100)  
     commentaires = models.TextField()  
-    personnes_concernees = models.ManyToManyField(User, related_name='personnes_concernees', limit_choices_to={'groups__name': 'Employe'})
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plan_audit_created', limit_choices_to={'groups__name': 'redacteur'})
+    #, limit_choices_to={'groups__name': 'Employe'}
+    personnes_concernees = models.ManyToManyField(User, related_name='personnes_concernees')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plan_audit_created')
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='plan_audit_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)

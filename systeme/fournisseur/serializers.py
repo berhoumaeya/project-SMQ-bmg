@@ -9,7 +9,7 @@ class FournisseurSerializer(serializers.ModelSerializer):
 class ReclamationFournisseurSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReclamationFournisseur
-        fields = ['numero_sequentiel', 'date_reclamation', 'nom_fournisseur', 'description', 'type_reclamation', 'gravite', 'designation', 'pieces_jointes', 'actions', 'reclamation_client']
+        fields = ['numero_sequentiel', 'date_reclamation', 'fournisseur', 'description', 'type_reclamation', 'gravite', 'designation', 'pieces_jointes', 'actions', 'reclamation_client']
 
 class EvaluationFournisseurSerializer(serializers.ModelSerializer):
     class Meta:
