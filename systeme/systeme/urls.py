@@ -30,4 +30,6 @@ urlpatterns = [
     path('doc/',include('doc.urls')),
     path('reunion/',include('reunion.urls')),
     path('audit/',include('audit.urls')),
+    path('produit/',include('produit.urls')),
+    path('conformite/',include('conformite.urls')),
 ]

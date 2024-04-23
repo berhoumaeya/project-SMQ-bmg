@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from produit.models import FicheTraitementNonConformite,NonConformite
+from produit.serializers import FicheTraitementNonConformiteSerializer
 from .serializers import ClientSerializer,ReclamationClientSerializer,EnqueteSerializer,SuggestionClientSerializer
 from .models import*
 from django.contrib.auth.decorators import login_required
@@ -130,10 +132,33 @@ class CreateReclamationClientAPIView(APIView):
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
             serializer.save(created_by=request.user)
+            reclamation_instance = serializer.instance
             reclamation_data = serializer.data
             reclamation_data['created_by'] = request.user.first_name
             reclamation_data['created_at'] = created_at
             reclamation_data['id'] = serializer.instance.id 
+            plan = reclamation_instance.declencher_plan_action
+            if plan :
+                non_conformite_id = request.data.get('non_conformite')
+                non_conformite_instance = NonConformite.objects.get(id=non_conformite_id)
+                non_conformite_fk = non_conformite_instance.pk
+                fiche_traitement_data = {
+                    'non_conformite': non_conformite_fk, 
+                    'date_traitement': request.data.get('date_traitement'),
+                    'cout_non_conformite': request.data.get('cout_non_conformite'),
+                    'quantite_rejetee': request.data.get('quantite_rejetee'),
+                    'valeur_quantite_rejetee': request.data.get('valeur_quantite_rejetee'),
+                    'quantite_declassee': request.data.get('quantite_declassee'),
+                    'valeur_quantite_declassee': request.data.get('valeur_quantite_declassee'),
+                    'quantite_acceptee': request.data.get('quantite_acceptee'),
+                    'created_by': request.user,
+                    'created_at': created_at
+                }
+                serializer2 = FicheTraitementNonConformiteSerializer(data=fiche_traitement_data)
+                if serializer2.is_valid():  
+                    serializer2.save()
+                else:
+                    return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
             return Response(reclamation_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

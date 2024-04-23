@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'doc',
     'reunion',
     'audit',
+    'produit',
+    'conformite'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
