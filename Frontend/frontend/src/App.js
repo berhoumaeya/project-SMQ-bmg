@@ -5,6 +5,8 @@ import Home from './containers/Home';
 import Register from './containers/Register';
 import Login from './containers/Log';
 import Dashboard from './containers/Dashboard';
+import DashboardRH from './containers/DashboardRH';
+import Application  from './containers/Application';
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -18,6 +20,8 @@ const App = () => (
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboardRH" element={<DashboardRH />}/>
+          <Route path="/app" element={<Application />}/>
         </Routes>
       </Layout>
     </Router>

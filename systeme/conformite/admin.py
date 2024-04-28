@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+admin.site.register(FicheExigenceReglementaire)
+admin.site.register(Exigence)
+admin.site.register(Type_fiche)

@@ -46,9 +46,9 @@ class CreateMeetAPIView(APIView):
         if serializer.is_valid():
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
+            serializer.save(demandeur=request.user)
             meet_data = serializer.data
-            meet_data['created_by'] = request.user.first_name
+            meet_data['demandeur'] = request.user.first_name
             meet_data['created_at'] = created_at
             meet_data['id'] = serializer.instance.id 
             return Response(meet_data, status=status.HTTP_201_CREATED)

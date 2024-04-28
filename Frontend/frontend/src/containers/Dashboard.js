@@ -57,7 +57,7 @@ function Dashboard() {
         {
             title: "Ressources Humaines",
             description: "Gérez les ressources humaines de votre entreprise.",
-            url: "/dashboard_RH"
+            url: "/dashboardRH"
         },
         {
             title: "Réunion",

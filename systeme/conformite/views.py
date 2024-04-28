@@ -25,7 +25,7 @@ class DashboardExigenceAPIView(APIView):
             updated_at_str = risk.updated_at.strftime('%Y-%m-%d %H:%M:%S') if risk.updated_at else None
             risk_data = {
                 'id': risk.id,
-                'nom': risk.nom_risk,
+                'nom': risk.nom,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,
@@ -49,7 +49,6 @@ class CreateExigenceAPIView(APIView):
             risk_data['created_by'] = request.user.first_name
             risk_data['created_at'] = created_at
             risk_data['id'] = serializer.instance.id 
-            risk_data['evaluation_risk'] = serializer.instance.methode_calcul
             return Response(risk_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -68,7 +67,6 @@ class UpdateExigenceAPIView(APIView):
             risk_data = serializer.data
             risk_data['updated_by'] = request.user.first_name
             risk_data['updated_at'] = updated_at
-            risk_data['evaluation_risk'] = serializer.instance.methode_calcul
             return Response(risk_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -81,7 +79,6 @@ class SingularExigenceAPIView(APIView):
         risk = get_object_or_404(FicheExigenceReglementaire, pk=pk)
         serializer = FicheExigenceReglementaireSerializer(risk)
         serialized_data = serializer.data
-        serialized_data['evaluation_risk'] = serializer.instance.methode_calcul
         serialized_data['created_by'] = risk.created_by.first_name 
         serialized_data['updated_by'] = risk.updated_by.first_name 
         serialized_data['created_at'] = risk.created_at.strftime('%Y-%m-%d %H:%M:%S') if risk.created_at else None
