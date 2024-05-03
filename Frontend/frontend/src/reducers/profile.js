@@ -9,8 +9,6 @@ import {
      username:'',
      first_name:'',
      last_name:'',
-     phone:'',
-     city:''
  };
  
  function profileReducer(state = initialState,action){
@@ -24,8 +22,6 @@ import {
                  username : payload.username,
                  first_name : payload.profile.first_name,
                  last_name : payload.profile.last_name,
-                 phone : payload.profile.phone,
-                 city : payload.profile.city,
              }
          case LOAD_USER_PROFILE_FAIL:
              return {
@@ -33,8 +29,6 @@ import {
                  username : '',
                  first_name : '',
                  last_name : '',
-                 phone : '',
-                 city : '',
              }
              case UPDATE_USER_PROFILE_FAIL:
                  return {

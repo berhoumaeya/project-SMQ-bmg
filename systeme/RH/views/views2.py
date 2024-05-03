@@ -19,20 +19,18 @@ from django.contrib.auth.models import Group
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardFormationAPIView(APIView):
-        
+        permission_classes = [IsAuthenticated]
         def get(self, request):
             formations = Formation.objects.all()
             data = []
             for formation in formations:
-                created_by_name = formation.created_by.first_name if formation.created_by else None
-                updated_by_name = formation.updated_by.first_name if formation.updated_by else None
                 formation_data = {
                     'id': formation.id,
-                    'name': formation.intitule_formation,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
-                    'created_at': formation.created_at,
-                    'updated_at': formation.updated_at,
+                    'intitule_formation': formation.intitule_formation,
+                    'type_formation': formation.type_formation,
+                    'theme_formation': formation.theme_formation,
+                    'responsable_formation': formation.responsable_formation.nom,
+                    'responsable_validation': formation.responsable_validation.nom,
                 }
                 data.append(formation_data)
             return Response(data, status=status.HTTP_200_OK)  
@@ -54,7 +52,6 @@ class CreateFormationAPIView(GroupRequiredMixin,APIView):
             formation_data = serializer.data
             formation_data['created_by'] = request.user.first_name
             formation_data['created_at'] = created_at
-            formation_data['id'] = serializer.instance.id 
             return Response(formation_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -87,10 +84,10 @@ class SingularFormationAPIView(APIView):
         formation = get_object_or_404(Formation, pk=pk)
         serializer = FormationSerializer(formation)
         serialized_data = serializer.data
-        serialized_data['created_by'] = formation.created_by.first_name 
-        serialized_data['updated_by'] = formation.updated_by.first_name 
-        serialized_data['created_at'] = formation.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = formation.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['created_by'] = formation.created_by.first_name if formation.created_by else None
+        serialized_data['updated_by'] = formation.updated_by.first_name if formation.updated_by else None
+        serialized_data['created_at'] = formation.created_at.strftime('%Y-%m-%d %H:%M:%S') if formation.created_at else None
+        serialized_data['updated_at'] = formation.updated_at.strftime('%Y-%m-%d %H:%M:%S') if formation.updated_at else None
         return Response(serialized_data)
     
 # Supprimer Formation

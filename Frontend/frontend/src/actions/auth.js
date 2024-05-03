@@ -12,7 +12,9 @@ import {
     AUTHENTICATED_SUCCESS,
     AUTHENTICATED_FAIL,
     DELETE_USER_SUCCESS,
-    DELETE__USER_FAIL
+    DELETE__USER_FAIL,
+    AJOUTER_FORMATION_SUCCESS,
+    AJOUTER_FORMATION_FAIL,
 } from './types';
 
 // Action to check if the user is authenticated
@@ -61,7 +63,7 @@ export const login = (username, password) => async dispatch => {
     };
 
     // Create request body with username and password
-    const body = JSON.stringify({ username, password });
+    const body = JSON.stringify({username,password});
 
     try {
         // Send a POST request to login endpoint
@@ -124,7 +126,7 @@ export const logout = () => async dispatch => {
 };
 
 // Action to handle user registration
-export const register = (last_name , first_name, username, password, re_password) => async dispatch => {
+export const register = (username , password, prenom, nom, re_password) => async dispatch => {
     // Set up HTTP headers with CSRF token
     const config = {
         headers: {
@@ -134,21 +136,21 @@ export const register = (last_name , first_name, username, password, re_password
         }
     };
 
-    // Create request body with username, password, and re_password
-    const body = JSON.stringify({last_name , first_name, username, password, re_password});
+    // Create request body with prenom, password, and re_password
+    const body = JSON.stringify({username , password, prenom, nom, re_password});
 
     try {
         // Send a POST request to register endpoint
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/register`, body, config);
 
         // Check response and dispatch appropriate action
-        if (res.data.error) {
+        if (res.data.success) {
             dispatch({
-                type: REGISTER_FAIL
+                type: REGISTER_SUCCESS
             });
         } else {
             dispatch({
-                type: REGISTER_SUCCESS
+                type: REGISTER_FAIL
             });
         }
     } catch (err) {
@@ -191,3 +193,38 @@ export const delete_account = () => async dispatch => {
         });
     }
 }
+
+
+export const ajouter_formation = (intitule_formation , type_formation, organisme_formation, theme_formation, date_debut_formation,date_fin_formation,responsable_formation,responsable_validation,participants,pieces_jointes,parametre_validation) => async dispatch => {
+    // Set up HTTP headers with CSRF token
+    const config = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRFToken': Cookies.get('csrftoken')
+        }
+    };
+
+    // Create request body with prenom, password, and re_password
+    const body = JSON.stringify({intitule_formation , type_formation, organisme_formation, theme_formation, date_debut_formation,date_fin_formation,responsable_formation,responsable_validation,participants,pieces_jointes,parametre_validation});
+
+    try {
+        // Send a POST request to register endpoint
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/RH/create_formation`, body, config);
+
+        // Check response and dispatch appropriate action
+        if (res.data.success) {
+            dispatch({
+                type: AJOUTER_FORMATION_SUCCESS
+            });
+        } else {
+            dispatch({
+                type: AJOUTER_FORMATION_FAIL
+            });
+        }
+    } catch (err) {
+        dispatch({
+            type: AJOUTER_FORMATION_FAIL
+        });
+    }
+};

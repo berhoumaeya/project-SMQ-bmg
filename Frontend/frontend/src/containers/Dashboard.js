@@ -77,12 +77,12 @@ function Dashboard() {
         {
             title: "Fournisseur",
             description: "Gérez les informations sur les fournisseurs et les contacts.",
-            url: "/dashboard_fournisseur"
+            url: "/DashboardFournisseur"
         },
         {
             title: "Client",
             description: "Consultez les informations sur les clients et les contacts.",
-            url: "/dashboard_client"
+            url: "/DashboardClient"
         },
         {
             title: "Indicateur",
@@ -97,7 +97,7 @@ function Dashboard() {
         {
             title: "Documentation",
             description: "Accédez à la documentation pour obtenir des informations utiles.",
-            url: "/dashboard_documentation"
+            url: "/DashboardDoc"
         },
         {
             title: "Conformité reglementaire",

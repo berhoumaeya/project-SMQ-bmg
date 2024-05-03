@@ -20,7 +20,7 @@ export const load_user = () => async dispatch => {
 
     try {
         // Send a GET request to load user profile
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/profile/user`, config);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile`, config);
 
         // Check response and dispatch appropriate action
         if (res.data.error) {
@@ -41,7 +41,7 @@ export const load_user = () => async dispatch => {
 };
 
 // Action to update user profile
-export const update_profile = (first_name, last_name, phone, city) => async dispatch => {
+export const update_profile = (username, nom, prenom, password) => async dispatch => {
     // Set up HTTP headers with CSRF token
     const config = {
         headers: {
@@ -54,10 +54,10 @@ export const update_profile = (first_name, last_name, phone, city) => async disp
     // Create request body with user profile data and 'withCredentials' flag
     const body = JSON.stringify({
         'withCredentials': true,
-        first_name,
-        last_name,
-        phone,
-        city
+        username,
+        nom,
+        prenom,
+        password
     });
 
     try {

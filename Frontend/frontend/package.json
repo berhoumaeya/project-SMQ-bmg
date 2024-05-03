@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "rimraf C:\\Users\\Zikoo\\OneDrive\\Bureau\\PFE\\systeme\\build && react-scripts build && xcopy /s /e /q build C:\\Users\\Zikoo\\OneDrive\\Bureau\\PFE\\systeme\\build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

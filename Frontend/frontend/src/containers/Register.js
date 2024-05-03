@@ -10,6 +10,8 @@ const Register = ({ register, isAuthenticated }) => {
     // State to manage form data and account creation status
     const [formData, setFormData] = useState({
         username: '',
+        nom : '',
+        prenom : '' ,
         password: '',
         re_password: ''
     });
@@ -17,7 +19,7 @@ const Register = ({ register, isAuthenticated }) => {
     const [accountCreated, setAccountCreated] = useState(false);
 
     // Destructure form data
-    const { username, password, re_password } = formData;
+    const { username, nom, prenom ,password,re_password} = formData;
 
     // Event handler to update form data on input change
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +30,7 @@ const Register = ({ register, isAuthenticated }) => {
 
         // Check if passwords match before attempting registration
         if (password === re_password) {
-            register(username, password, re_password);
+            register(username, password, re_password ,prenom,nom);
             setAccountCreated(true);
         }
     };
@@ -53,10 +55,10 @@ const Register = ({ register, isAuthenticated }) => {
                         className='form-control'
                         type='text'
                         placeholder='Nom*'
-                        name='Nom'
+                        name='nom'
                         required
                         onChange={e => onChange(e)}
-                        value={username}
+                        value={nom}
                     />
                 </div>
                 <div className='form-group'>
@@ -65,10 +67,10 @@ const Register = ({ register, isAuthenticated }) => {
                         className='form-control'
                         type='text'
                         placeholder='Prénom*'
-                        name='Prénom'
+                        name='prenom'
                         required
                         onChange={e => onChange(e)}
-                        value={username}
+                        value={prenom}
                     />
                 </div>
                 <div className='form-group'>
@@ -77,7 +79,7 @@ const Register = ({ register, isAuthenticated }) => {
                         className='form-control'
                         type='text'
                         placeholder='Email*'
-                        name='Email'
+                        name='username'
                         required
                         onChange={e => onChange(e)}
                         value={username}
@@ -87,9 +89,9 @@ const Register = ({ register, isAuthenticated }) => {
                     <label className='form-label'> Mot de passe :</label>
                     <input
                         className='form-control'
-                        type='Mot de passe'
+                        type='password'
                         placeholder='Mot de passe*'
-                        name='Mot de passe'
+                        name='password'
                         required
                         onChange={e => onChange(e)}
                         value={password}

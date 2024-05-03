@@ -5,11 +5,16 @@ import Home from './containers/Home';
 import Register from './containers/Register';
 import Login from './containers/Log';
 import Dashboard from './containers/Dashboard';
-import DashboardRH from './containers/DashboardRH';
-import Application  from './containers/Application';
-
+import DashboardRH from './containers/RH/DashboardRH';
+import Dashboardformation from './containers/RH/formation/Dashboardformation';
+import { Student  } from './components/Student';
 import { Provider } from 'react-redux';
 import store from './store';
+import DashboardClient from './containers/Client/DashboardClient';
+import DashboardFournisseur from './containers/Fournisseur/DashboardFournisseur'
+import DashboardDoc from './containers/DOcumentation/DashboardDoc';
+import Formation from './containers/RH/formation/formation';
+import AddFormation from './containers/RH/formation/ajouter-formation';
 
 const App = () => (
   <Provider store={store}>
@@ -21,7 +26,13 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboardRH" element={<DashboardRH />}/>
-          <Route path="/app" element={<Application />}/>
+          <Route path="/dashboardformation" element={<Dashboardformation />}/>
+          <Route path="/student" element={<Student />} />
+          <Route path="/dashboardClient" element={<DashboardClient />} />
+          <Route path="/dashboardFournisseur" element={<DashboardFournisseur />} />
+          <Route path="/dashboardDoc" element={<DashboardDoc />} />
+          <Route path="/formation/:id" element={<Formation />} />
+          <Route path="/ajouter-formation/" element={<AddFormation />} />
         </Routes>
       </Layout>
     </Router>

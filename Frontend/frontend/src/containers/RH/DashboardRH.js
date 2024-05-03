@@ -7,7 +7,7 @@ function DashboardRH({ user }) {
     { title: 'Gérer les participants', link: '/dashboard_participant' },
     { title: 'Gérer Employe', link: '/dashboard_employe' },
     { title: 'Gérer Fiche Employe', link: '/dashboard_fiche_employe' },
-    { title: 'Gérer Formation', link: '/dashboard_formation' },
+    { title: 'Gérer Formation', link: '/Dashboardformation' },
     { title: 'Gérer Evaluation Chaud', link: '/evaluation_chaud' },
     { title: 'Gérer Evaluation Froid', link: '/evaluation_froid' },
     { title: 'Gérer Compétences', link: '/gerer_competences' },
