@@ -10,13 +10,13 @@ class ResponsableFormationSerializer(serializers.ModelSerializer):
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
-        fields = ['nom', 'prenom', 'username', 'email', 'pieces_jointes', 'employe','is_user']
+        fields = ['nom', 'prenom', 'username', 'email','formation_concerne' 'pieces_jointes', 'employe','is_user']
 
 
 class EmployeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employe
-        fields = ['nom', 'prenom', 'username', 'email', 'pieces_jointes','is_user']
+        fields = ['id','nom', 'prenom', 'username', 'email', 'pieces_jointes','is_user']
 
 class FormationSerializer(serializers.ModelSerializer):
     class Meta:

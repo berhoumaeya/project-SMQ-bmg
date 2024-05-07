@@ -15,6 +15,15 @@ import DashboardFournisseur from './containers/Fournisseur/DashboardFournisseur'
 import DashboardDoc from './containers/DOcumentation/DashboardDoc';
 import Formation from './containers/RH/formation/formation';
 import AddFormation from './containers/RH/formation/ajouter-formation';
+import DashboardEmploye from './containers/RH/Employe/Dashboardemploye';
+import EmployeDetail from './containers/RH/Employe/employe';
+import AddEmploye from './containers/RH/Employe/ajouter-employe';
+import UpdateEmploye from './containers/RH/Employe/update-employe';
+
+import DashboardParticipant from './containers/RH/participant/Dashboardparticipant';
+import ParticipantDetail from './containers/RH/participant/participant';
+import ParticipantForm from './containers/RH/participant/ajouter-participant';
+
 
 const App = () => (
   <Provider store={store}>
@@ -33,6 +42,14 @@ const App = () => (
           <Route path="/dashboardDoc" element={<DashboardDoc />} />
           <Route path="/formation/:id" element={<Formation />} />
           <Route path="/ajouter-formation/" element={<AddFormation />} />
+          <Route path="/dashboardemploye" element={<DashboardEmploye />}/>
+          <Route path="/employe/:id" element={<EmployeDetail />}/>
+          <Route path="/ajouter-employe/" element={<AddEmploye />} />
+          <Route path="/update-employe/:id" element={<UpdateEmploye />} />
+
+          <Route path="/participant/:id" element={<ParticipantDetail />}/>
+          <Route path="/ajouter-participant/" element={<ParticipantForm />} />
+          <Route path="/Dashboardparticipant" element={<DashboardParticipant />} />
         </Routes>
       </Layout>
     </Router>

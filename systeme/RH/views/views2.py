@@ -112,15 +112,12 @@ class DashboardEmployeAPIView(APIView):
             employes = Employe.objects.all()
             data = []
             for employe in employes:
-                created_by_name = employe.created_by.first_name if employe.created_by else None
-                updated_by_name = employe.updated_by.first_name if employe.updated_by else None
                 employe_data = {
                     'id': employe.id,
-                    'name': employe.username,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
-                    'created_at': employe.created_at,
-                    'updated_at': employe.updated_at,
+                    'nom': employe.nom,
+                    'prenom': employe.prenom,
+                    'username': employe.username,
+                    'email': employe.email,
                 }
                 data.append(employe_data)
             return Response(data, status=status.HTTP_200_OK)  
@@ -225,15 +222,13 @@ class DashboardParticipantAPIView(APIView):
             participants = Participant.objects.all()
             data = []
             for participant in participants:
-                created_by_name = participant.created_by.first_name if participant.created_by else None
-                updated_by_name = participant.updated_by.first_name if participant.updated_by else None
                 participant_data = {
                     'id': participant.id,
-                    'name': participant.username,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
-                    'created_at': participant.created_at,
-                    'updated_at': participant.updated_at,
+                    'nom': participant.nom,
+                    'prenom': participant.prenom,
+                    'username': participant.username,
+                    'email': participant.email,
+                    'formation':participant.formation_concerne
                 }
                 data.append(participant_data)
             return Response(data, status=status.HTTP_200_OK)  
@@ -252,6 +247,8 @@ class ParticipantCreationView(APIView):
         email = data.get('email')
         employe_id = data.get('employe')
         employe = get_object_or_404(Employe, pk=employe_id)
+        formation_id = data.get('formation_concerne')
+        formation = get_object_or_404(Formation, pk=formation_id)
         created_by = request.user
         is_user = data.get('is_user')
         
@@ -269,11 +266,10 @@ class ParticipantCreationView(APIView):
             username=username,
             email=email,
             employe = employe,
+            formation_concerne = formation,
             password=password, 
             created_by=created_by,
-            updated_by=created_by,
             created_at=timezone.now(),
-            updated_at=timezone.now(),
             is_user=is_user
         )
         

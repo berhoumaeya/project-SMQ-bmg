@@ -4,8 +4,8 @@ function DashboardRH({ user }) {
   const gestionSections = [
     { title: 'Gérer les responsables formation', link: '/dashboard_responsable' },
     { title: 'Gérer JobPost', link: '/dashboard' },
-    { title: 'Gérer les participants', link: '/dashboard_participant' },
-    { title: 'Gérer Employe', link: '/dashboard_employe' },
+    { title: 'Gérer les participants', link: '/Dashboardparticipant' },
+    { title: 'Gérer Employe', link: '/Dashboardemploye' },
     { title: 'Gérer Fiche Employe', link: '/dashboard_fiche_employe' },
     { title: 'Gérer Formation', link: '/Dashboardformation' },
     { title: 'Gérer Evaluation Chaud', link: '/evaluation_chaud' },

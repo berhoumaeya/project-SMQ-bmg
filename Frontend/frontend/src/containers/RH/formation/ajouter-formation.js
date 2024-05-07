@@ -12,7 +12,7 @@ const AddFormation = () => {
         date_fin_formation: '',
         responsable_formation: '',
         responsable_validation: '',
-        participants: [], 
+        participants: [], // Mettre à jour pour stocker les participants sélectionnés
         pieces_jointes: null,
         parametre_validation: ''
     });
@@ -64,9 +64,14 @@ const AddFormation = () => {
     const handleSubmit = async e => {
         e.preventDefault();
         try {
-            
+            const formDataToSend = new FormData();
+            for (const key in formData) {
+                if (formData.hasOwnProperty(key)) {
+                    formDataToSend.append(key, formData[key]);
+                }
+            }
 
-            await axios.post(`http://localhost:8000/RH/create_formation/`, formData, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/RH/create_formation/`, formDataToSend, {
                 headers : {
                     'Accept':'*/*',
                     "Content-Type":'application/json',
@@ -75,6 +80,7 @@ const AddFormation = () => {
             });
         } catch (error) {
             console.error('Error adding formation:', error);
+            // Gérer l'erreur
         }
     };
     return (

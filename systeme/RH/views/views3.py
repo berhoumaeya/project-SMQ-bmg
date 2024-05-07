@@ -240,7 +240,7 @@ class CreateEvaluationCompetenceAPIView(APIView):
                     if niveau_acquis < niveau_requis:
                         PlanAction.objects.create(
                             evaluation=evaluation, 
-                            description="Plan d'action automatique généré pour cet Employe",
+                            description="Plan d'action automatique généré pour cet Employee",
                             created_by=request.user,
                             created_at=created_at
                         )

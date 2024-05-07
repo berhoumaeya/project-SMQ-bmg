@@ -36,8 +36,8 @@ const FormationDetail = () => {
                         <p><strong>Créé par :</strong> {formation.created_by}</p>
                         <p><strong>Modifié par :</strong> {formation.updated_by}</p>
                         <p><strong>Date de modification :</strong> {formation.updated_at}</p>
-                        <p><strong>Participants :</strong> {formation.participants}</p>
-                        <p><strong>Paramètre de validation :</strong> {formation.parametre_validation}</p>
+                        <p><strong>Participants :</strong> {formation.participants.username}</p>
+                        <p><strong>Paramètre de validation :</strong> {formation.parametre_validation.username}</p>
                         <p><strong>Date de clôture de la formation :</strong> {formation.date_cloture}</p>
                         <p><strong>Pièces jointes :</strong> {formation.pieces_jointes}</p>
                     </div>
