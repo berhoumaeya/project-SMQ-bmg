@@ -141,6 +141,7 @@ class CheckNotificationAPIView(APIView):
             return Response({'error': 'Vous n avez pas la permission d accéder à cette notification.'}, status=403)
         
 class UserProfileAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user
         demandes = DemandDocument.objects.filter(created_by = user)

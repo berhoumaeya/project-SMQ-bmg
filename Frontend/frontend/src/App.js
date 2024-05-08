@@ -24,6 +24,13 @@ import DashboardParticipant from './containers/RH/participant/Dashboardparticipa
 import ParticipantDetail from './containers/RH/participant/participant';
 import ParticipantForm from './containers/RH/participant/ajouter-participant';
 
+import DashboardFiche from './containers/RH/fiche/Dashboardfiche';
+import FicheDetail from './containers/RH/fiche/fiche';
+import FicheForm from './containers/RH/fiche/ajouter-fiche';
+
+import DashboardChaud from './containers/RH/Evaluation chaud/DashboardEvaluationChaud';
+import ChaudDetail from './containers/RH/Evaluation chaud/chaud';
+
 
 const App = () => (
   <Provider store={store}>
@@ -50,6 +57,15 @@ const App = () => (
           <Route path="/participant/:id" element={<ParticipantDetail />}/>
           <Route path="/ajouter-participant/" element={<ParticipantForm />} />
           <Route path="/Dashboardparticipant" element={<DashboardParticipant />} />
+
+          <Route path="/dashboardfiche/" element={<DashboardFiche />} />
+          <Route path="/ajouter-fiche/" element={<FicheForm />} />
+
+          <Route path="/fiche/:id" element={<FicheDetail />} />
+          <Route path="/DashboardEvaluationChaud/" element={<DashboardChaud />} />
+          <Route path="/chaud/:id" element={<ChaudDetail />} />
+
+
         </Routes>
       </Layout>
     </Router>

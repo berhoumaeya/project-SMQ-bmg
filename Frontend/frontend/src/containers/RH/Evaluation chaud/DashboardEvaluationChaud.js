@@ -3,14 +3,14 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import "../Dashboard.css"
 
-const DashboardFiche = () => {
+const DashboardChaud = () => {
     const [fiche_employes, setFormations] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchFormations = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_fiche_employe/`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_evaluation_chaud/`, {
                     headers: {
                         'Accept': '*/*', 
                     }
@@ -32,28 +32,28 @@ const DashboardFiche = () => {
     return (
         <div>
              <div className="employes-header">
-                <h3>Liste des fiches Employes</h3>
+                <h3>Liste des Evaluation Chaud</h3>
             </div>
             <table className="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nom fiche</th>
-                        <th>Post Employe</th>
-                        <th>Fiche de l'employe</th>
-                        <th>address Employe</th>
-                        <th>Détails</th>
+                        <th>Nom evaluation</th>
+                        <th>crée par</th>
+                        <th>crée à</th>
+                        <th>Modifié par</th>
+                        <th>Modifié à</th>
                     </tr>
                 </thead>
                 <tbody>
                     {fiche_employes.map(fiche => (
                         <tr key={fiche.id}>
-                            <td>{fiche.id}</td>
                             <td>{fiche.name}</td>
-                            <td>{fiche.job_position}</td>
-                            <td>{fiche.employe_concerne}</td>
-                            <td>{fiche.address}</td>
-                            <Link to={`/fiche/${fiche.id}`}>Détails</Link>
+                            <td>{fiche.created_by}</td>
+                            <td>{fiche.created_at}</td>
+                            <td>{fiche.updated_by}</td>
+                            <td>{fiche.updated_at}</td>
+                            <Link to={`/chaud/${fiche.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
@@ -65,4 +65,4 @@ const DashboardFiche = () => {
     );
 };
 
-export default DashboardFiche;
+export default DashboardChaud;

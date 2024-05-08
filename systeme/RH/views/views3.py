@@ -81,9 +81,9 @@ class SingularEvaluationChaudAPIView(APIView):
         serializer = EvaluationChaudSerializer(evaluation_Chaud)
         serialized_data = serializer.data
         serialized_data['created_by'] = evaluation_Chaud.created_by.first_name 
-        serialized_data['updated_by'] = evaluation_Chaud.updated_by.first_name 
+        serialized_data['updated_by'] = evaluation_Chaud.updated_by.first_name if evaluation_Chaud.updated_by else None
         serialized_data['created_at'] = evaluation_Chaud.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = evaluation_Chaud.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = evaluation_Chaud.updated_at.strftime('%Y-%m-%d %H:%M:%S') if evaluation_Chaud.updated_at else None
         return Response(serialized_data)
     
 # Supprimer Evaluation Chaud

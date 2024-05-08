@@ -228,7 +228,7 @@ class DashboardParticipantAPIView(APIView):
                     'prenom': participant.prenom,
                     'username': participant.username,
                     'email': participant.email,
-                    'formation':participant.formation_concerne
+                    'formation_concerne':participant.formation_concerne.intitule_formation,
                 }
                 data.append(participant_data)
             return Response(data, status=status.HTTP_200_OK)  
@@ -248,7 +248,7 @@ class ParticipantCreationView(APIView):
         employe_id = data.get('employe')
         employe = get_object_or_404(Employe, pk=employe_id)
         formation_id = data.get('formation_concerne')
-        formation = get_object_or_404(Formation, pk=formation_id)
+        formation_concerne = get_object_or_404(Formation, pk=formation_id)
         created_by = request.user
         is_user = data.get('is_user')
         
@@ -265,8 +265,8 @@ class ParticipantCreationView(APIView):
             prenom=prenom,
             username=username,
             email=email,
-            employe = employe,
-            formation_concerne = formation,
+            employe= employe,
+            formation_concerne = formation_concerne,
             password=password, 
             created_by=created_by,
             created_at=timezone.now(),
@@ -308,9 +308,9 @@ class SingularParticipantAPIView(APIView):
         serializer = ParticipantSerializer(participant)
         serialized_data = serializer.data
         serialized_data['created_by'] = participant.created_by.first_name 
-        serialized_data['updated_by'] = participant.updated_by.first_name 
+        serialized_data['updated_by'] = participant.updated_by.first_name if participant.updated_by else None
         serialized_data['created_at'] = participant.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = participant.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = participant.updated_at.strftime('%Y-%m-%d %H:%M:%S') if participant.updated_at else None
         return Response(serialized_data)
     
 # Supprimer Participant

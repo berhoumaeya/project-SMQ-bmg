@@ -376,15 +376,14 @@ class DashboardFicheEmployeAPIView(APIView):
             fiches = FicheEmployee.objects.all()
             data = []
             for fiche in fiches:
-                created_by_name = fiche.created_by.first_name if fiche.created_by else None
-                updated_by_name = fiche.updated_by.first_name if fiche.updated_by else None
+
                 fiche_data = {
                     'id': fiche.id,
                     'name': fiche.name,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
-                    'created_at': fiche.created_at,
-                    'updated_at': fiche.updated_at,
+                    'job_position': fiche.job_position.title,
+                    'employe_concerne': fiche.employe_concerne.username,
+                    # 'department': fiche.department.name,
+                    'address': fiche.address.address_name,
                 }
                 data.append(fiche_data)
             return Response(data, status=status.HTTP_200_OK)  
@@ -438,9 +437,9 @@ class SingularFicheEmployeAPIView(APIView):
         serializer = FicheEmployeSerializer(fiche_employe)
         serialized_data = serializer.data
         serialized_data['created_by'] = fiche_employe.created_by.first_name 
-        serialized_data['updated_by'] = fiche_employe.updated_by.first_name 
+        serialized_data['updated_by'] = fiche_employe.updated_by.first_name if fiche_employe.updated_by else None 
         serialized_data['created_at'] = fiche_employe.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = fiche_employe.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = fiche_employe.updated_at.strftime('%Y-%m-%d %H:%M:%S') if fiche_employe.updated_at else None 
         return Response(serialized_data)
     
 # Supprimer fiche_employe

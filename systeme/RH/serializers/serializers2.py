@@ -4,13 +4,13 @@ from ..modelsRH.models2 import *
 class ResponsableFormationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResponsableFormation
-        fields = ['nom', 'prenom', 'username', 'email', 'pieces_jointes','is_user']
+        fields = ['id','nom', 'prenom', 'username', 'email', 'pieces_jointes','is_user']
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
-        fields = ['nom', 'prenom', 'username', 'email','formation_concerne' 'pieces_jointes', 'employe','is_user']
+        fields = ['id','nom', 'prenom', 'username', 'email','formation_concerne' ,'pieces_jointes', 'employe','is_user']
 
 
 class EmployeSerializer(serializers.ModelSerializer):
