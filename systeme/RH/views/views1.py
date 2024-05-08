@@ -403,7 +403,6 @@ class CreateFicheEmployeAPIView(APIView):
             fiche_employe_data = serializer.data
             fiche_employe_data['created_by'] = request.user.first_name
             fiche_employe_data['created_at'] = created_at
-            fiche_employe_data['id'] = serializer.instance.id 
             return Response(fiche_employe_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

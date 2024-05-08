@@ -27,6 +27,7 @@ import ParticipantForm from './containers/RH/participant/ajouter-participant';
 import DashboardFiche from './containers/RH/fiche/Dashboardfiche';
 import FicheDetail from './containers/RH/fiche/fiche';
 import FicheForm from './containers/RH/fiche/ajouter-fiche';
+import UpdateFiche from './containers/RH/fiche/update-fiche';
 
 import DashboardChaud from './containers/RH/Evaluation chaud/DashboardEvaluationChaud';
 import ChaudDetail from './containers/RH/Evaluation chaud/chaud';
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/dashboardDoc" element={<DashboardDoc />} />
           <Route path="/formation/:id" element={<Formation />} />
           <Route path="/ajouter-formation/" element={<AddFormation />} />
+
           <Route path="/dashboardemploye" element={<DashboardEmploye />}/>
           <Route path="/employe/:id" element={<EmployeDetail />}/>
           <Route path="/ajouter-employe/" element={<AddEmploye />} />
@@ -60,8 +62,9 @@ const App = () => (
 
           <Route path="/dashboardfiche/" element={<DashboardFiche />} />
           <Route path="/ajouter-fiche/" element={<FicheForm />} />
-
+          <Route path="/update-fiche/:id" element={<UpdateFiche />} />
           <Route path="/fiche/:id" element={<FicheDetail />} />
+
           <Route path="/DashboardEvaluationChaud/" element={<DashboardChaud />} />
           <Route path="/chaud/:id" element={<ChaudDetail />} />
 

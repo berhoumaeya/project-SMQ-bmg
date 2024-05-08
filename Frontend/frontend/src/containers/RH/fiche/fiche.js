@@ -7,6 +7,7 @@ import "../Detail.css"
 const FicheDetail = () => {
   const { id } = useParams();
   const [fiche_employe, setFormation] = useState(null);
+  const [departement, setdepartement] = useState(null);
   const [deleteReussi, setdeleteReussi] = useState(false);
 
   useEffect(() => {
