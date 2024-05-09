@@ -2,29 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navigate ,Link} from 'react-router-dom';
 import './FormationForm.css';
-import { format } from 'date-fns';
 import Cookies from 'js-cookie';
 function AddFormation() {
-    const [formData, setFormData] = useState({
-        intitule_formation: '',
-        type_formation: '',
-        organisme_formation: '',
-        theme_formation: '',
-        date_debut_formation: '',
-        date_fin_formation: '',
-        responsable_formation: '',
-        responsable_validation: '',
-        participant: [], 
-        pieces_jointes: null,
-        parametre_validation: ''
-    });
+    const [responsablesFormations, setResponsablesFormations] = useState([]);
+    const [responsablesValidations, setResponsablesValidations] = useState([]);
+    const [participantss, setParticipants] = useState([]);
+
+    const [intitule_formation, setIntitule_formation] = useState('');
+    const [type_formation, setType_formation] = useState('');
+    const [organisme_formation, setOrganisme_formation] = useState('');
+    const [theme_formation, setTheme_formation] = useState('');
+    const [date_debut_formation, setDate_debut_formation] = useState('');
+    const [date_fin_formation, setDate_fin_formation] = useState('');
+    const [responsable_formation, setResponsable_formation] = useState('');
+    const [responsable_validation, setResponsable_validation] = useState('');
+    const [participantID, setParticipant] = useState('');
+    const [pieces_jointes, setPieces_jointes] = useState(null);
+    const [parametre_validation, setParametre_validation] = useState('');
 
 
     const [ajoutReussi, setAjoutReussi] = useState(false);
 
-    const [responsablesFormations, setResponsablesFormations] = useState([]);
-    const [responsablesValidations, setResponsablesValidations] = useState([]);
-    const [participants, setParticipants] = useState([]);
 
     useEffect(() => {
                  axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_responsable_formation/`)
@@ -52,28 +50,26 @@ function AddFormation() {
                 });
             },[]);
 
-            function handleDateChange(event) {
-                const date = new Date(event.target.value);
-                const dateEnFormatSouhaite = format(date, 'yyyy-MM-dd');
-                setFormData({ ...formData, date_debut_formation: dateEnFormatSouhaite });
-                setFormData({ ...formData, date_fin_formation: dateEnFormatSouhaite });
-            }
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        if (new Date(date_debut_formation) >= new Date(date_fin_formation)) {
+            alert("La date de début doit être avant la date de fin.");
+            return;
+        }
+
         const Data = {
-            intitule_formation: formData.intitule_formation,
-            type_formation: formData.type_formation,
-            organisme_formation: formData.organisme_formation,
-            theme_formation: formData.theme_formation,
-            date_debut_formation: formData.date_debut_formation,
-            date_fin_formation: formData.date_fin_formation,
-            responsable_formation: formData.responsable_formation,
-            responsable_validation: formData.responsable_validation,
-            participant: formData.participant, 
-            pieces_jointes: formData.pieces_jointes,
-            parametre_validation: formData.parametre_validation
+            intitule_formation: intitule_formation,
+            type_formation: type_formation,
+            organisme_formation: organisme_formation,
+            theme_formation: theme_formation,
+            date_debut_formation: date_debut_formation,
+            date_fin_formation: date_fin_formation,
+            responsable_formation: responsable_formation,
+            responsable_validation: responsable_validation,
+            participants: participantID, 
+            pieces_jointes: pieces_jointes,
+            parametre_validation: parametre_validation
         };
 
         const headers = {
@@ -87,11 +83,21 @@ function AddFormation() {
         axios.post(`${process.env.REACT_APP_API_URL}/RH/create_formation/`, Data, { headers : headers})
         .then(response =>{
             console.log('Ajout succès',response.data);
-            setFormData('');
-            setAjoutReussi(false);
+            setIntitule_formation('');
+            setType_formation('');
+            setOrganisme_formation('');
+            setTheme_formation('');
+            setDate_debut_formation('');
+            setDate_fin_formation('');
+            setResponsable_formation('');
+            setResponsable_validation('');
+            setParticipant('');
+            setPieces_jointes(null);
+            setParametre_validation('');
+            setAjoutReussi(true);
         })
         .catch(error =>{
-            console.error('Erreur lors de l\'ajout')
+            console.error('Erreur lors de l\'ajout',error)
         });
         };
         if(ajoutReussi){
@@ -104,11 +110,11 @@ function AddFormation() {
             <form onSubmit={handleSubmit} className="form">
                 <div className="form-group">
                     <label>Intitulé de la formation :</label>
-                    <input type="text" name="intitule_formation" value={formData.intitule_formation} onChange={(e) => setFormData({...formData, intitule_formation : e.target.value})} />
+                    <input type="text" name="intitule_formation" value={intitule_formation} onChange={(e) => setIntitule_formation(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label>Type de formation :</label>
-                    <select value={formData.type_formation} onChange={(e) => setFormData({...formData, type_formation : e.target.value})}>
+                    <select value={type_formation} onChange={(e) => setType_formation(e.target.value)}>
                     <option value="">Sélectionner...</option>
                         <option value="interne">Formation en interne</option>
                         <option value="intra">Formation en intra</option>
@@ -116,23 +122,23 @@ function AddFormation() {
                 </div>
                 <div className="form-group">
                     <label>Organisme de formation :</label>
-                    <input type="text" name="organisme_formation" value={formData.organisme_formation} onChange={(e) => setFormData({...formData, organisme_formation : e.target.value})} />
+                    <input type="text" name="organisme_formation" value={organisme_formation} onChange={(e) => setOrganisme_formation(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label>Thème de formation :</label>
-                    <textarea name="theme_formation" value={formData.theme_formation} onChange={(e) => setFormData({...formData, theme_formation : e.target.value})}></textarea>
+                    <input type="text" name="theme_formation" value={theme_formation} onChange={(e) => setTheme_formation(e.target.value)}></input>
                 </div>
-                {/* <div className="form-group">
+                <div className="form-group">
                     <label>Date de début de la formation :</label>
-                    <input type="date" name="date_debut_formation" value={formData.date_debut_formation} onChange={handleDateChange} />
+                    <input type="date" name="date_debut_formation" value={date_debut_formation} onChange={(e) => setDate_debut_formation(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label>Date de fin de la formation :</label>
-                    <input type="date" name="date_fin_formation" value={formData.date_fin_formation}onChange={handleDateChange} />
-                </div> */}
+                    <input type="date" name="date_fin_formation" value={date_fin_formation}onChange={(e) => setDate_fin_formation(e.target.value)} />
+                </div>
                 <div className="form-group">
                     <label>Responsable de la formation :</label>
-                    <select value={formData.responsable_formation} onChange={(e) => setFormData({...formData, responsable_formation : e.target.value})}>
+                    <select value={responsable_formation} onChange={(e) => setResponsable_formation(e.target.value)}>
                     <option value="">Sélectionner...</option>
                         {responsablesFormations.map(responsable_formation => (
                             <option key={responsable_formation.id} value={responsable_formation.id}>{responsable_formation.name}</option>
@@ -141,7 +147,7 @@ function AddFormation() {
                 </div>
                 <div className="form-group">
                     <label>Responsable de la validation :</label>
-                    <select value={formData.responsable_validation} onChange={(e) => setFormData({...formData, responsable_validation : e.target.value})}>
+                    <select value={responsable_validation} onChange={(e) => setResponsable_validation(e.target.value)}>
                     <option value="">Sélectionner...</option>
                         {responsablesValidations.map(responsable_validation => (
                             <option key={responsable_validation.id} value={responsable_validation.id}>{responsable_validation.username}</option>
@@ -150,16 +156,16 @@ function AddFormation() {
                 </div>
                 <div className="form-group">
                     <label>Participants :</label>
-                    <select multiple value={formData.participant} onChange={(e) => setFormData({...formData, participant: Array.from(e.target.selectedOptions, option => option.value)})}>
-                    {participants.map(participant => (<option key={participant.id} value={participant.id}>{participant.username}</option>))}</select>
+                    <select multiple value={participantID} onChange={e => setParticipant(Array.from(e.target.selectedOptions, option => option.value))}>
+                    {participantss.map(participants => (<option key={participants.id} value={participants.id}>{participants.username}</option>))}</select>
                 </div>
                 <div className="form-group">
                     <label>Pièces jointes :</label>
-                    <input type="file" name="pieces_jointes" onChange={(e) => setFormData({...formData, pieces_jointes : e.target.value})} />
+                    <input type="file" name="pieces_jointes" onChange={(e) => setPieces_jointes(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label>Paramètre de validation :</label>
-                    <select value={formData.parametre_validation} onChange={(e) => setFormData({...formData, parametre_validation : e.target.value})}>
+                    <select value={parametre_validation} onChange={(e) => setParametre_validation(e.target.value)}>
                     <option value="">Sélectionner...</option>
                         <option value="chaud">Évaluation à chaud</option>
                         <option value="froid">Évaluation à froid</option>

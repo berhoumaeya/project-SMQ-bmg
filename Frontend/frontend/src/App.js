@@ -43,11 +43,12 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboardRH" element={<DashboardRH />}/>
-          <Route path="/dashboardformation" element={<Dashboardformation />}/>
           <Route path="/student" element={<Student />} />
           <Route path="/dashboardClient" element={<DashboardClient />} />
           <Route path="/dashboardFournisseur" element={<DashboardFournisseur />} />
           <Route path="/dashboardDoc" element={<DashboardDoc />} />
+
+          <Route path="/dashboardformation" element={<Dashboardformation />}/>
           <Route path="/formation/:id" element={<Formation />} />
           <Route path="/ajouter-formation/" element={<AddFormation />} />
 

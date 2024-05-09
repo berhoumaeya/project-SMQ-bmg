@@ -53,7 +53,10 @@ class CreateFormationAPIView(GroupRequiredMixin,APIView):
             formation_data['created_by'] = request.user.first_name
             formation_data['created_at'] = created_at
             return Response(formation_data, status=status.HTTP_201_CREATED)
+        print("%%%%%",status)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+   
     
 #Modifier Formation
 
@@ -142,6 +145,9 @@ class EmployeCreationView(APIView):
         email = data.get('email')
         created_by = request.user
         is_user = data.get('is_user')
+
+        # if not (nom and prenom and username and email):
+        #     return Response({'error': 'All required fields (nom, prenom, username, email) must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
         
         if is_user:
             password = generate_random_password()

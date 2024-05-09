@@ -41,7 +41,7 @@ function FicheForm() {
     const [cin, setCin] = useState('');
     const [pieces_jointes, setPiecesJointes] = useState(null);
     const [employe_concernes, setEmployes] = useState([]);
-    const [employe_concerneID, setEmploye] = useState([]);
+    const [employe_concerneID, setEmploye] = useState('');
 
 
     const [ajoutReussi, setAjoutReussi] = useState(false);
@@ -55,7 +55,7 @@ function FicheForm() {
           const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/fiche_employe/${id}/`);
           const data = response.data;
            setName(data.name);
-           setJobPosition(data.job_positions);
+           setJobPosition(data.job_position);
            setWorkMobile(data.work_mobile);
            setWorkPhone(data.work_phone);
            setWorkEmail(data.work_email);
@@ -77,7 +77,7 @@ function FicheForm() {
            setCnss(data.cnss);
            setCin(data.cin);
            setPiecesJointes(data.pieces_jointes);
-           setEmploye(data.employe_concerneID);
+           setEmploye(data.employe_concerne);
         } catch (error) {
           console.error('Erreur lors de la récupération des données de employe:', error);
         }

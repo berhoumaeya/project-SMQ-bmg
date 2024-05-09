@@ -82,9 +82,9 @@ class SingularJobPostAPIView(APIView):
         serializer = JobPostSerializer(jobpost)
         serialized_data = serializer.data
         serialized_data['created_by'] = jobpost.created_by.first_name 
-        serialized_data['updated_by'] = jobpost.updated_by.first_name 
+        serialized_data['updated_by'] = jobpost.updated_by.first_name if jobpost.updated_by else None
         serialized_data['created_at'] = jobpost.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = jobpost.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = jobpost.updated_at.strftime('%Y-%m-%d %H:%M:%S') if jobpost.updated_at else None
         return Response(serialized_data)
     
 # Supprimer JobPost
@@ -170,9 +170,9 @@ class SingularDepartmentAPIView(APIView):
         serializer = DepartmentSerializer(dep)
         serialized_data = serializer.data
         serialized_data['created_by'] = dep.created_by.first_name 
-        serialized_data['updated_by'] = dep.updated_by.first_name 
+        serialized_data['updated_by'] = dep.updated_by.first_name if dep.updated_by else None
         serialized_data['created_at'] = dep.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = dep.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = dep.updated_at.strftime('%Y-%m-%d %H:%M:%S') if dep.updated_at else None
         return Response(serialized_data)
     
 # Supprimer Department
@@ -259,10 +259,10 @@ class SingularAddressAPIView(APIView):
         address = get_object_or_404(Address, pk=pk)
         serializer = AddressSerializer(address)
         serialized_data = serializer.data
-        serialized_data['created_by'] = address.created_by.first_name 
+        serialized_data['created_by'] = address.created_by.first_name if address.updated_by else None
         serialized_data['updated_by'] = address.updated_by.first_name 
         serialized_data['created_at'] = address.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = address.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = address.updated_at.strftime('%Y-%m-%d %H:%M:%S') if address.updated_by else None
         return Response(serialized_data)
     
 # Supprimer Address
@@ -349,9 +349,9 @@ class SingularPosteAPIView(APIView):
         serializer = PosteFonctionSerializer(Poste)
         serialized_data = serializer.data
         serialized_data['created_by'] = Poste.created_by.first_name 
-        serialized_data['updated_by'] = Poste.updated_by.first_name 
+        serialized_data['updated_by'] = Poste.updated_by.first_name if Poste.updated_by else None
         serialized_data['created_at'] = Poste.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = Poste.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['updated_at'] = Poste.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Poste.updated_at else None
         return Response(serialized_data)
     
 # Supprimer Poste
@@ -383,7 +383,6 @@ class DashboardFicheEmployeAPIView(APIView):
                     'job_position': fiche.job_position.title,
                     'employe_concerne': fiche.employe_concerne.username,
                     # 'department': fiche.department.name,
-                    'address': fiche.address.address_name,
                 }
                 data.append(fiche_data)
             return Response(data, status=status.HTTP_200_OK)  

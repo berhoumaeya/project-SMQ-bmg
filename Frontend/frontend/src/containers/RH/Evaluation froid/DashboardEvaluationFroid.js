@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import "../Dashboard.css"
 
 const DashboardFroid = () => {
-    const [fiche_employes, setFormations] = useState([]);
+    const [froids, setFormations] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const DashboardFroid = () => {
     return (
         <div>
              <div className="employes-header">
-                <h3>Liste des Evaluation Chaud</h3>
+                <h3>Liste des Evaluation Froid</h3>
             </div>
             <table className="table table-bordered" id="dataTable">
                 <thead>
@@ -46,20 +46,20 @@ const DashboardFroid = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {fiche_employes.map(fiche => (
-                        <tr key={fiche.id}>
-                            <td>{fiche.name}</td>
-                            <td>{fiche.created_by}</td>
-                            <td>{fiche.created_at}</td>
-                            <td>{fiche.updated_by}</td>
-                            <td>{fiche.updated_at}</td>
-                            <Link to={`/chaud/${fiche.id}`}>Détails</Link>
+                    {froids.map(froid => (
+                        <tr key={froid.id}>
+                            <td>{froid.name}</td>
+                            <td>{froid.created_by}</td>
+                            <td>{froid.created_at}</td>
+                            <td>{froid.updated_by}</td>
+                            <td>{froid.updated_at}</td>
+                            <Link to={`/froid/${froid.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-fiche/`}>
-                    <button>Ajouter fiche Employe</button>
+            <Link to={`/ajouter-froid/`}>
+                    <button>Ajouter Evaluation froid</button>
             </Link>
         </div>
     );

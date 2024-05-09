@@ -24,12 +24,13 @@ export const checkAuthenticated = (username, password) => async dispatch => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'X-CSRFToken': Cookies.get('csrftoken')
         }
     };
 
     try {
         // Send a POST request to check authentication status
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/authenticated`, config);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/authenticated`, config);
 
         // Check response and dispatch appropriate action
         if (res.data.error || res.data.isAuthenticated === 'error') {

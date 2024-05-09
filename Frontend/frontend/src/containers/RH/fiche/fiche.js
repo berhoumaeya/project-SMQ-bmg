@@ -7,7 +7,15 @@ import "../Detail.css"
 const FicheDetail = () => {
   const { id } = useParams();
   const [fiche_employe, setFormation] = useState(null);
-  const [departement, setdepartement] = useState(null);
+  const [employe, setEmploye] = useState('');
+  const [post, setPost] = useState('');
+  const [manager, setManager] = useState('');
+  const [coach, setCoach] = useState('');
+  const [address, setAddress] = useState('');
+  const [address_Work, setAddress_Work] = useState('');
+  const [departmentsNames, setDepartment] = useState([]);
+
+
   const [deleteReussi, setdeleteReussi] = useState(false);
 
   useEffect(() => {
@@ -15,6 +23,30 @@ const FicheDetail = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/fiche_employe/${id}/`);
         setFormation(response.data);
+
+        const employeresponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/employe/${response.data.employe_concerne}/`);
+        setEmploye(employeresponse.data.username);
+
+        const postresponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/job_post/${response.data.job_position}/`);
+        setPost(postresponse.data.title);
+
+        const managerresponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/employe/${response.data.manager}/`);
+        setManager(managerresponse.data.username);
+
+        const coachresponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/employe/${response.data.coach}/`);
+        setCoach(coachresponse.data.username);
+
+        const addressresponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/address/${response.data.address}/`);
+        setAddress(addressresponse.data.address_name);
+
+        const addressworkdresponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/address/${response.data.work_address}/`);
+        setAddress_Work(addressworkdresponse.data.address_name);
+
+        const depDetails = await Promise.all(response.data.department.map(async (depID) => {
+          const depResponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/department/${depID}/`);
+          return depResponse.data.name;
+      }));
+      setDepartment(depDetails);
       } catch (error) {
         console.error('Erreur lors de la récupération des données de employe:', error);
       }
@@ -45,16 +77,16 @@ if (deleteReussi){
                     <div className="card-body">
                         <p><strong>ID :</strong> {fiche_employe.id}</p>
                         <p><strong>name fiche_employe :</strong> {fiche_employe.name}</p>
-                        <p><strong>Post occupé :</strong> {fiche_employe.job_position}</p>
+                        <p><strong>Post occupé :</strong> {post}</p>
                         <p><strong>work_mobile   :</strong> {fiche_employe.work_mobile}</p>
                         <p><strong>work_phone  :</strong> {fiche_employe.work_phone}</p>
                         <p><strong>work_email  :</strong> {fiche_employe.work_email}</p>
-                        <p><strong>department :</strong> {fiche_employe.department}</p>
-                        <p><strong>manager :</strong> {fiche_employe.manager}</p>
+                        <p><strong>department :</strong> {departmentsNames.join(', ')}</p>
+                        <p><strong>manager :</strong> {manager}</p>
                         <p><strong>Modifié par :</strong> {fiche_employe.updated_by}</p>
                         <p><strong>Modifié à :</strong> {fiche_employe.updated_at}</p>
-                        <p><strong>coach :</strong> {fiche_employe.coach}</p>
-                        <p><strong>work_address :</strong> {fiche_employe.work_address}</p>
+                        <p><strong>coach :</strong> {coach}</p>
+                        <p><strong>work_address :</strong> {address_Work}</p>
                         <p><strong>work_location :</strong> {fiche_employe.work_location}</p>
                         <p><strong>working_hours :</strong> {fiche_employe.working_hours}</p>
                         <p><strong>bank_account_number   :</strong> {fiche_employe.username}</p>
@@ -68,9 +100,9 @@ if (deleteReussi){
                         <p><strong>cnss  :</strong> {fiche_employe.cnss}</p>
                         <p><strong>cin  :</strong> {fiche_employe.cin}</p>
                         <p><strong>pieces_jointes :</strong> {fiche_employe.pieces_jointes}</p>
-                        <p><strong>address :</strong> {fiche_employe.address}</p>
+                        <p><strong>address :</strong> {address}</p>
                         <p><strong>crée par  :</strong> {fiche_employe.created_by}</p>
-                        <p><strong>employe_concerne :</strong> {fiche_employe.employe_concerne}</p>
+                        <p><strong>employe_concerne :</strong> {employe}</p>
                     </div>
                     <br />
                     <a href="/Dashboardfiche"><button className="btn-gray">Retour</button></a>&nbsp;

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import "../Dashboard.css"
 
 const DashboardChaud = () => {
-    const [fiche_employes, setFormations] = useState([]);
+    const [chauds, setFormations] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -46,20 +46,20 @@ const DashboardChaud = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {fiche_employes.map(fiche => (
-                        <tr key={fiche.id}>
-                            <td>{fiche.name}</td>
-                            <td>{fiche.created_by}</td>
-                            <td>{fiche.created_at}</td>
-                            <td>{fiche.updated_by}</td>
-                            <td>{fiche.updated_at}</td>
-                            <Link to={`/chaud/${fiche.id}`}>Détails</Link>
+                    {chauds.map(chaud => (
+                        <tr key={chaud.id}>
+                            <td>{chaud.name}</td>
+                            <td>{chaud.created_by}</td>
+                            <td>{chaud.created_at}</td>
+                            <td>{chaud.updated_by}</td>
+                            <td>{chaud.updated_at}</td>
+                            <Link to={`/chaud/${chaud.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-fiche/`}>
-                    <button>Ajouter fiche Employe</button>
+            <Link to={`/ajouter-chaud/`}>
+                    <button>Ajouter Evaluation Chaud</button>
             </Link>
         </div>
     );

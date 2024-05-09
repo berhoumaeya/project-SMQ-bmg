@@ -37,7 +37,7 @@ function FicheForm() {
     const [cin, setCin] = useState('');
     const [pieces_jointes, setPiecesJointes] = useState(null);
     const [employe_concernes, setEmployes] = useState([]);
-    const [employe_concerneID, setEmploye] = useState([]);
+    const [employe_concerneID, setEmploye] = useState('');
 
 
     const [ajoutReussi, setAjoutReussi] = useState(false);
@@ -81,7 +81,7 @@ function FicheForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const participantData = {
+    const Data = {
         name: name,
         work_mobile: work_mobile,
         work_phone : work_phone,
@@ -115,7 +115,7 @@ function FicheForm() {
       'X-CSRFToken': Cookies.get('csrftoken')
     };
 
-    axios.post(`${process.env.REACT_APP_API_URL}/RH/create_fiche_employe/`, participantData, { headers: headers })
+    axios.post(`${process.env.REACT_APP_API_URL}/RH/create_fiche_employe/`, Data, { headers: headers })
       .then(response => {
         console.log('Fiche ajouté avec succès :', response.data);
         setName('');
@@ -183,7 +183,7 @@ function FicheForm() {
             <select value={work_addressID} onChange={(e) => setWorkAddress(e.target.value)}>
               <option value="">Sélectionner...</option>
               {work_addresss.map(work_address => (
-                <option key={work_address.id} value={work_address.id}>{work_address.id}</option>
+                <option key={work_address.id} value={work_address.id}>{work_address.address_name}</option>
               ))}
             </select>
           </label>
@@ -286,7 +286,7 @@ function FicheForm() {
             <select value={addressID} onChange={(e) => setAddress(e.target.value)}>
               <option value="">Sélectionner...</option>
               {addresss.map(address => (
-                <option key={address.id} value={address.id}>{address.id}</option>
+                <option key={address.id} value={address.id}>{address.address_name}</option>
               ))}
             </select>
           </label>
