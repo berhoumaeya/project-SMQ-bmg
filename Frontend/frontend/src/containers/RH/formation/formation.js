@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom'; 
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 
 const FormationDetail = () => {
   const { id } = useParams();
@@ -8,6 +10,8 @@ const FormationDetail = () => {
   const [responsableValidationName, setResponsableValidationName] = useState('');
   const [responsableFormationName, setResponsableFormationName] = useState('');
   const [participantsNames, setParticipantsNames] = useState([]);
+
+  const [deleteReussi, setDeleteReussi] = useState(false);
 
   useEffect(() => {
     const fetchFormation = async () => {
@@ -23,7 +27,7 @@ const FormationDetail = () => {
 
         const participantsDetails = await Promise.all(response.data.participants.map(async (participantId) => {
           const participantResponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/participant/${participantId}/`);
-          return participantResponse.data.nom;
+          return participantResponse.data.username;
       }));
       setParticipantsNames(participantsDetails);
 
@@ -34,6 +38,24 @@ const FormationDetail = () => {
 
     fetchFormation();
   }, [id]);
+
+  const handleDelete = async () => {
+    const headers = {
+      'Accept': '*/*',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken'),
+    };
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_formation/${id}/`, { headers: headers });
+      setDeleteReussi(true);
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la fiche:', error);
+    }
+  };
+
+  if (deleteReussi) {
+    return <Navigate to="/Dashboardformation" />;
+  }
     return (
         <div>
             {formation ? (
@@ -59,8 +81,8 @@ const FormationDetail = () => {
                     </div>
                     <br />
                     <a href="/Dashboardformation" className="btn btn-secondary">Retour</a>&nbsp;
-                    <a href={"/update_formation/" + formation.id} className="btn btn-info">Modifier</a>&nbsp;
-                    <a href={"/delete_formation/" + formation.id} className="btn btn-danger">Supprimer</a>
+                    <Link to={`/update-formation/${formation.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
+                    <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
                 </div>
             ):(
                 <p>chargement ... </p>

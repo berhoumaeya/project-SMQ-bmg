@@ -13,8 +13,10 @@ import store from './store';
 import DashboardClient from './containers/Client/DashboardClient';
 import DashboardFournisseur from './containers/Fournisseur/DashboardFournisseur'
 import DashboardDoc from './containers/DOcumentation/DashboardDoc';
+
 import Formation from './containers/RH/formation/formation';
 import AddFormation from './containers/RH/formation/ajouter-formation';
+
 import DashboardEmploye from './containers/RH/Employe/Dashboardemploye';
 import EmployeDetail from './containers/RH/Employe/employe';
 import AddEmploye from './containers/RH/Employe/ajouter-employe';
@@ -23,6 +25,16 @@ import UpdateEmploye from './containers/RH/Employe/update-employe';
 import DashboardParticipant from './containers/RH/participant/Dashboardparticipant';
 import ParticipantDetail from './containers/RH/participant/participant';
 import ParticipantForm from './containers/RH/participant/ajouter-participant';
+import UpdateParticipant from './containers/RH/participant/update-participant';
+
+import DashboardResponsable from './containers/RH/Responsable/Dashboardresponsable';
+import ResponsableForm from './containers/RH/Responsable/ajouter-responsable';
+import ResponsableDetail from './containers/RH/Responsable/responsable';
+import UpdateResponsable from './containers/RH/Responsable/update-responsable';
+
+import DashboardCompetence from './containers/RH/Competences/Dashboardcompetence';
+import CompetenceForm from './containers/RH/Competences/ajouter-competence';
+
 
 import DashboardFiche from './containers/RH/fiche/Dashboardfiche';
 import FicheDetail from './containers/RH/fiche/fiche';
@@ -31,6 +43,7 @@ import UpdateFiche from './containers/RH/fiche/update-fiche';
 
 import DashboardChaud from './containers/RH/Evaluation chaud/DashboardEvaluationChaud';
 import ChaudDetail from './containers/RH/Evaluation chaud/chaud';
+import ChaudForm from './containers/RH/Evaluation chaud/ajouter-chaud';
 
 
 const App = () => (
@@ -41,7 +54,7 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/dashboardRH" element={<DashboardRH />}/>
           <Route path="/student" element={<Student />} />
           <Route path="/dashboardClient" element={<DashboardClient />} />
@@ -57,9 +70,18 @@ const App = () => (
           <Route path="/ajouter-employe/" element={<AddEmploye />} />
           <Route path="/update-employe/:id" element={<UpdateEmploye />} />
 
+          <Route path="/dashboardresponsable" element={<DashboardResponsable />}/>
+          <Route path="/responsable/:id" element={<ResponsableDetail />}/>
+          <Route path="/ajouter-responsable/" element={<ResponsableForm />} />
+          <Route path="/update-responsable/:id" element={<UpdateResponsable />} />
+
+          <Route path="/dashboardcompetence" element={<DashboardCompetence />}/>
+          <Route path="/ajouter-competence/" element={<CompetenceForm />} />
+
           <Route path="/participant/:id" element={<ParticipantDetail />}/>
           <Route path="/ajouter-participant/" element={<ParticipantForm />} />
           <Route path="/Dashboardparticipant" element={<DashboardParticipant />} />
+          <Route path="/update-participant/:id" element={<UpdateParticipant />} />
 
           <Route path="/dashboardfiche/" element={<DashboardFiche />} />
           <Route path="/ajouter-fiche/" element={<FicheForm />} />
@@ -68,6 +90,8 @@ const App = () => (
 
           <Route path="/DashboardEvaluationChaud/" element={<DashboardChaud />} />
           <Route path="/chaud/:id" element={<ChaudDetail />} />
+          <Route path="/ajouter-chaud/" element={<ChaudForm />} />
+
 
 
         </Routes>

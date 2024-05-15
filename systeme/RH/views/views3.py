@@ -201,15 +201,11 @@ class DashboardEvaluationCompetenceAPIView(APIView):
             competences = EvaluationCompetence.objects.all()
             data = []
             for competence in competences:
-                created_by_name = competence.created_by.first_name if competence.created_by else None
-                updated_by_name = competence.updated_by.first_name if competence.updated_by else None
                 competence_data = {
                     'id': competence.id,
                     'name': competence.name,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
+                    'employe_concerne':competence.employe_concerne.username,
                     'created_at': competence.created_at,
-                    'updated_at': competence.updated_at,
                 }
                 data.append(competence_data)
             return Response(data, status=status.HTTP_200_OK) 
@@ -227,23 +223,24 @@ class CreateEvaluationCompetenceAPIView(APIView):
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
             serializer.save(created_by=request.user)
-            evaluation = serializer.save()
             evaluation_competence_data = serializer.data
             evaluation_competence_data['created_by'] = request.user.first_name
-            evaluation_competence_data['created_at'] = created_at
-            evaluation_competence_data['id'] = serializer.instance.id 
-            skills_acquis  = evaluation.skills_acquis
-            skills_requis  = evaluation.skills_requis
-            if skills_acquis and skills_requis:
-                for skill, niveau_requis in skills_requis.items():
-                    niveau_acquis = skills_acquis.get(skill, 0)
-                    if niveau_acquis < niveau_requis:
-                        PlanAction.objects.create(
-                            evaluation=evaluation, 
-                            description="Plan d'action automatique généré pour cet Employee",
-                            created_by=request.user,
-                            created_at=created_at
-                        )
+            evaluation_competence_data['created_at'] = created_at            
+            # if not PlanAction.objects.filter(evaluation=evaluation).exists():
+            #     skills_acquis = evaluation.skills_acquis
+            #     skills_requis = evaluation.skills_requis
+            #     if skills_acquis and skills_requis:
+            #         for skill, niveau_requis in skills_requis.items():
+            #             niveau_acquis = skills_acquis.get(skill, 0)
+            #             if niveau_acquis < niveau_requis:
+            #                 PlanAction.objects.create(
+            #                     evaluation=evaluation, 
+            #                     description="Plan d'action automatique généré pour cet Employee",
+            #                     created_by=request.user,
+            #                     created_at=created_at
+            #                 )
+            print("%%%%%",status)
+            print(serializer.errors)
             return Response(evaluation_competence_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -276,10 +273,10 @@ class SingularEvaluationCompetenceAPIView(APIView):
         evaluation_competence = get_object_or_404(EvaluationCompetence, pk=pk)
         serializer = EvaluationCompetenceSerializer(evaluation_competence)
         serialized_data = serializer.data
-        serialized_data['created_by'] = evaluation_competence.created_by.first_name 
-        serialized_data['updated_by'] = evaluation_competence.updated_by.first_name 
-        serialized_data['created_at'] = evaluation_competence.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = evaluation_competence.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        serialized_data['created_by'] = evaluation_competence.created_by.first_name if evaluation_competence.created_by else None
+        serialized_data['updated_by'] = evaluation_competence.updated_by.first_name if evaluation_competence.updated_by else None
+        serialized_data['created_at'] = evaluation_competence.created_at.strftime('%Y-%m-%d %H:%M:%S') if evaluation_competence.created_at else None
+        serialized_data['updated_at'] = evaluation_competence.updated_at.strftime('%Y-%m-%d %H:%M:%S') if evaluation_competence.updated_at else None
         return Response(serialized_data)
     
 # Supprimer Evaluation Competence

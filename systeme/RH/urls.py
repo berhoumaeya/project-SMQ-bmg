@@ -4,6 +4,13 @@ from .views.views2 import *
 from .views.views3 import *
 urlpatterns = [
 
+    path('piece_jointe/<int:fiche_id>/', get_piece_jointe, name='piece_jointe'),
+    path('piece_jointe_responsable/<int:responsable_id>/', get_piece_jointe_responsable, name='piece_jointe_responsable'),
+    path('piece_jointe_participant/<int:participant_id>/', get_piece_jointe_participant, name='piece_jointe_participant'),
+    path('piece_jointe_employe/<int:employe_id>/', get_piece_jointe_employe, name='piece_jointe_employe'),
+    path('piece_jointe_formation/<int:formation_id>/', get_piece_jointe_formation, name='piece_jointe_formation'),
+
+
     #CRUD position occupé
 
     path('dashboard_job_post/',DashboardJobPostAPIView.as_view(), name='dashboard_job_post'),
@@ -27,14 +34,6 @@ urlpatterns = [
     path('update_address/<int:pk>/', UpdateAddressAPIView.as_view(), name='update_address'),
     path('address/<int:pk>/', SingularAddressAPIView.as_view(), name='singular_address'),
     path('delete_address/<int:pk>/', DeleteAddressAPIView.as_view(), name='delete_address'),
-
-    #CRUD Poste/Fonction
-
-    path('dashboard_poste/',DashboardPostAPIView.as_view(), name='dashboard_poste'),
-    path('create_poste/', CreatePosteAPIView.as_view(), name='create_poste'),
-    path('update_poste/<int:pk>/', UpdatePosteAPIView.as_view(), name='update_poste'),
-    path('poste/<int:pk>/', SingularPosteAPIView.as_view(), name='singular_poste'),
-    path('delete_poste/<int:pk>/', DeletePosteAPIView.as_view(), name='delete_poste'),
 
     #CRUD Fiche Employe
 

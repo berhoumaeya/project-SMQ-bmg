@@ -58,9 +58,8 @@ const DashboardEmploye = () => {
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-employe/`}>
-                    <button>Ajouter Employe</button>
-            </Link>
+            <Link to={`/ajouter-employe/`}><button>Ajouter Employe</button></Link>
+            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
         </div>
     );
 };

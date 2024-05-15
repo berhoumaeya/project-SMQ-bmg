@@ -16,7 +16,7 @@ function AddFormation() {
     const [date_fin_formation, setDate_fin_formation] = useState('');
     const [responsable_formation, setResponsable_formation] = useState('');
     const [responsable_validation, setResponsable_validation] = useState('');
-    const [participantID, setParticipant] = useState('');
+    const [participantID, setParticipant] = useState([]);
     const [pieces_jointes, setPieces_jointes] = useState(null);
     const [parametre_validation, setParametre_validation] = useState('');
 

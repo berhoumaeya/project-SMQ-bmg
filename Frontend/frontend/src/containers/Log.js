@@ -35,7 +35,7 @@ const Login = ({ login, isAuthenticated }) => {
 
     // If user is already authenticated, redirect to the dashboard
     if (isAuthenticated) {
-        return <Navigate to="/dashboard" />;
+        return <Navigate to="/Dashboard" />;
     }
 
     // Render the login form

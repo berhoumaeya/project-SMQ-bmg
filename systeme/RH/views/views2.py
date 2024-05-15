@@ -12,7 +12,30 @@ from django.contrib.auth.hashers import make_password
 import random
 import string
 from braces.views import GroupRequiredMixin
+from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import Group
+from django.http import FileResponse
+
+
+def get_piece_jointe_participant(request, participant_id):
+    participant = get_object_or_404(Participant, id=participant_id)
+    piece_jointe_path = participant.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_responsable(request, responsable_id):
+    responsable = get_object_or_404(ResponsableFormation, id=responsable_id)
+    piece_jointe_path = responsable.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_employe(request, employe_id):
+    employe = get_object_or_404(Employe, id=employe_id)
+    piece_jointe_path = employe.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_formation(request, formation_id):
+    formation = get_object_or_404(Formation, id=formation_id)
+    piece_jointe_path = formation.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
 #Afficher Formation
 
@@ -145,6 +168,7 @@ class EmployeCreationView(APIView):
         email = data.get('email')
         created_by = request.user
         is_user = data.get('is_user')
+        pieces_jointes = data.get('pieces_jointes')
 
         # if not (nom and prenom and username and email):
         #     return Response({'error': 'All required fields (nom, prenom, username, email) must be provided.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -164,7 +188,8 @@ class EmployeCreationView(APIView):
             updated_by=created_by,
             created_at=timezone.now(),
             updated_at=timezone.now(),
-            is_user=is_user
+            is_user=is_user,
+            pieces_jointes = pieces_jointes
         )
         if is_user:
             return Response({'success': 'Employé créé avec succès. Mot de passe : {}'.format(password)})
@@ -234,10 +259,10 @@ class DashboardParticipantAPIView(APIView):
                     'prenom': participant.prenom,
                     'username': participant.username,
                     'email': participant.email,
-                    'formation_concerne':participant.formation_concerne.intitule_formation,
                 }
                 data.append(participant_data)
             return Response(data, status=status.HTTP_200_OK)  
+        
 
 # Ajouter Participant
 
@@ -252,15 +277,21 @@ class ParticipantCreationView(APIView):
         username = data.get('username')
         email = data.get('email')
         employe_id = data.get('employe')
-        employe = get_object_or_404(Employe, pk=employe_id)
-        formation_id = data.get('formation_concerne')
-        formation_concerne = get_object_or_404(Formation, pk=formation_id)
-        created_by = request.user
         is_user = data.get('is_user')
-        
+        pieces_jointes = data.get('pieces_jointes')
+
+        employe = get_object_or_404(Employe, pk=employe_id)
+
+        if not (nom and prenom and username and email and employe_id):
+            raise ValidationError("Tous les champs doivent être remplis.")
+
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("Cet email est déjà utilisé.")
+
+        # Créer le participant ou l'utilisateur
         if is_user:
             password = generate_random_password()
-            user = User.objects.create_user(username=email, password=password, first_name=prenom, last_name=nom)
+            user = User.objects.create_user(username=email, password=password, first_name=prenom, last_name=nom, email=email)
             participant_group = Group.objects.get(name='Participant')
             user.groups.add(participant_group)
         else:
@@ -271,14 +302,14 @@ class ParticipantCreationView(APIView):
             prenom=prenom,
             username=username,
             email=email,
-            employe= employe,
-            formation_concerne = formation_concerne,
+            employe=employe,
             password=password, 
-            created_by=created_by,
+            created_by=request.user,
             created_at=timezone.now(),
-            is_user=is_user
+            is_user=is_user ,
+            pieces_jointes = pieces_jointes
         )
-        
+
         if is_user:
             return Response({'success': 'Participant créé avec succès. Mot de passe : {}'.format(password)})
         else:
@@ -345,11 +376,10 @@ class DashboardResponsableFormationAPIView(APIView):
                 updated_by_name = responsable_formation.updated_by.first_name if responsable_formation.updated_by else None
                 responsable_formation_data = {
                     'id': responsable_formation.id,
-                    'name': responsable_formation.username,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
-                    'created_at': responsable_formation.created_at,
-                    'updated_at': responsable_formation.updated_at,
+                    'nom': responsable_formation.nom,
+                    'prenom': responsable_formation.prenom,
+                    'username': responsable_formation.username,
+                    'email': responsable_formation.email,
                 }
                 data.append(responsable_formation_data)
             return Response(data, status=status.HTTP_200_OK)
@@ -368,6 +398,7 @@ class ResponsableFormationCreationView(APIView):
         email = data.get('email')
         created_by = request.user
         is_user = data.get('is_user')
+        pieces_jointes = data.get('pieces_jointes')
         
         if is_user:
             password = generate_random_password()
@@ -384,7 +415,8 @@ class ResponsableFormationCreationView(APIView):
             updated_by=created_by,
             created_at=timezone.now(),
             updated_at=timezone.now(),
-            is_user=is_user
+            is_user=is_user,
+            pieces_jointes = pieces_jointes
         )
         if is_user:
             return Response({'success': 'Responsable Formation créé avec succès. Mot de passe : {}'.format(password)})

@@ -15,7 +15,7 @@ function ChaudForm() {
     const [participant, setParticipant] = useState([]);
 
     const [formations, setFormations] = useState([]);
-    const [formation, setFormation] = useState([]);
+    const [formation, setFormation] = useState('');
 
 
 
@@ -39,6 +39,11 @@ function ChaudForm() {
       });
     },[]);
 
+    const handleFileChange = (event) => {
+      const selectedFile = event.target.files[0];
+      setPiecesJointes(selectedFile);
+  };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const Data = {
@@ -53,13 +58,13 @@ function ChaudForm() {
 
         const headers = {
             'Accept':'*/*',
-            "Content-Type":'application/json',
+            'Content-Type': 'multipart/form-data',
             'X-CSRFToken': Cookies.get('csrftoken')
           };
 
-          axios.post(`${process.env.REACT_APP_API_URL}/RH/create_fiche_employe/`, Data, { headers: headers })
+          axios.post(`${process.env.REACT_APP_API_URL}/RH/create_evaluation_chaud/`, Data, { headers: headers })
       .then(response => {
-        console.log('Fiche ajouté avec succès :', response.data);
+        console.log('Evaluation ajouté avec succès :', response.data);
         setName('');
         setDate('');
         setCriteres('');

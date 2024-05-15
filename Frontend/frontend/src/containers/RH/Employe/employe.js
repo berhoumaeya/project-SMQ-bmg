@@ -45,11 +45,12 @@ if (deleteReussi){
                         <p><strong>ID :</strong> {employe.id}</p>
                         <p><strong>Nom employe :</strong> {employe.nom}</p>
                         <p><strong>Prenom employe :</strong> {employe.prenom}</p>
-                        <p><strong>Nom d'utilisateur Employe  :</strong> {employe.username}</p>
+                        <p><strong>Nom d'utilisateur employe  :</strong> {employe.username}</p>
                         <p><strong>Email de employe :</strong> {employe.email}</p>
                         <p><strong>Est un utilisateur :</strong> {employe.is_user ? 'Oui' : 'Non'}</p>
                         <p><strong>Date de création :</strong> {employe.created_at}</p>
                         <p><strong>Créé par :</strong> {employe.created_by}</p>
+                        <p><strong>Pièces jointes :</strong> {employe.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_employe/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
                         <p><strong>Modifié par :</strong> {employe.updated_by}</p>
                         <p><strong>Date de modification :</strong> {employe.updated_at}</p>
                     </div>

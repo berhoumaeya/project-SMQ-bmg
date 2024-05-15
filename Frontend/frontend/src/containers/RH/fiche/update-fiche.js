@@ -12,38 +12,36 @@ function FicheForm() {
 
 
     const [name, setName] = useState('');
-    const [job_positions, setJobPositions] = useState([]);
-    const [job_positionID, setJobPosition] = useState('');
     const [work_mobile, setWorkMobile] = useState('');
     const [work_phone, setWorkPhone] = useState('');
     const [work_email, setWorkEmail] = useState('');
-    const [departments, setDepartments] = useState([]);
-    const [managers, setManagers] = useState([]);
-    const [coachs, setCoachs] = useState([]);
-    const [work_addresss, setWorkAddresss] = useState([]);
-    const [departmentID, setDepartment] = useState('');
-    const [managerID, setManager] = useState('');
-    const [coachID, setCoach] = useState('');
     const [work_addressID, setWorkAddress] = useState('');
     const [work_location, setWorkLocation] = useState('');
-    const [addresss, setAddresss] = useState([]);
-    const [addressID, setAddress] = useState('');
-    const [working_hours, setWorkingHours] = useState('');
-    const [bank_account_number, setBankAccountNumber] = useState('');
-    const [home_work_distance, setHomeWorkDistance] = useState('');
-    const [martial_status, setMartialStatus] = useState('');
-    const [emergency_contact, setEmergencyContact] = useState('');
-    const [emergency_phone, setEmergencyPhone] = useState('');
-    const [certificate_level, setCertificateLevel] = useState('');
+    const [cin, setCin] = useState('');
+    const [cnss, setCnss] = useState('');
     const [field_of_study, setFieldOfStudy] = useState('');
     const [school, setSchool] = useState('');
-    const [cnss, setCnss] = useState('');
-    const [cin, setCin] = useState('');
+    const [certificate_level, setCertificateLevel] = useState('');
+    const [emergency_phone, setEmergencyPhone] = useState('');
+    const [emergency_contact, setEmergencyContact] = useState('');
+    const [bank_account_number, setBankAccountNumber] = useState('');
+    const [working_hours, setWorkingHours] = useState('');
+    const [home_work_distance, setHomeWorkDistance] = useState('');
+    const [martial_status, setMartialStatus] = useState('');
     const [pieces_jointes, setPiecesJointes] = useState(null);
+    const [job_positions, setJobPositions] = useState([]);
+    const [job_positionID, setJobPosition] = useState('');
+    const [departments, setDepartments] = useState([]);
+    const [departmentID, setDepartment] = useState([]);
+    const [managers, setManagers] = useState([]);
+    const [managerID, setManager] = useState('');
+    const [coachs, setCoachs] = useState([]);
+    const [coachID, setCoach] = useState('');
+    const [addresss, setAddresss] = useState([]);
+    const [addressID, setAddress] = useState('');
+    const [piecesJointesUrl, setPiecesJointesUrl] = useState('');
     const [employe_concernes, setEmployes] = useState([]);
     const [employe_concerneID, setEmploye] = useState('');
-
-
     const [ajoutReussi, setAjoutReussi] = useState(false);
 
     
@@ -76,7 +74,9 @@ function FicheForm() {
            setSchool(data.school);
            setCnss(data.cnss);
            setCin(data.cin);
-           setPiecesJointes(data.pieces_jointes);
+           if (data.pieces_jointes){
+            setPiecesJointesUrl(`${data.pieces_jointes}`);
+           }
            setEmploye(data.employe_concerne);
         } catch (error) {
           console.error('Erreur lors de la récupération des données de employe:', error);
@@ -86,78 +86,86 @@ function FicheForm() {
       fetchEmploye();
 
 
-    axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_employe/`)
+      axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_employe/`)
       .then(response => {
-        setEmployes(response.data);
-        setManagers(response.data);
-        setCoachs(response.data);
+          setEmployes(response.data);
+          setManagers(response.data);
+          setCoachs(response.data);
       })
       .catch(error => {
-        console.error('Erreur lors de la récupération des employés :', error);
+          console.error('Erreur lors de la récupération des employés :', error);
       });
 
-    axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_job_post/`)
+  axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_job_post/`)
       .then(response => {
-        setJobPositions(response.data);
+          setJobPositions(response.data);
       })
       .catch(error => {
-        console.error('Erreur lors de la récupération des position :', error);
-    });
-
-    axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_address/`)
-      .then(response => {
-        setAddresss(response.data);
-        setWorkAddresss(response.data)
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des address :', error);
+          console.error('Erreur lors de la récupération des positions :', error);
       });
 
-    axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_department/`)
+  axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_address/`)
       .then(response => {
-        setDepartments(response.data);
+          setAddresss(response.data);
       })
       .catch(error => {
-        console.error('Erreur lors de la récupération des departments :', error);
-    });
-  }, [id]);
+          console.error('Erreur lors de la récupération des adresses :', error);
+      });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const participantData = {
-        name: name,
-        work_mobile: work_mobile,
-        work_phone : work_phone,
-        work_email: work_email,
-        work_address: work_addressID,
-        work_location: work_location,
-        department: departmentID,
-        manager: managerID,
-        coach: coachID,
-        address : addressID,
-        job_position: job_positionID,
-        working_hours: parseFloat(working_hours),
-        bank_account_number: bank_account_number,
-        home_work_distance: parseFloat(home_work_distance),
-        martial_status: martial_status,
-        emergency_contact: emergency_contact,
-        emergency_phone: emergency_phone,
-        certificate_level: certificate_level,
-        field_of_study: field_of_study,
-        school : school,
-        cnss: cnss,
-        cin: cin,
-        pieces_jointes: pieces_jointes,
-        employe_concerne: employe_concerneID,
-    };
+  axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_department/`)
+      .then(response => {
+          setDepartments(response.data);
+      })
+      .catch(error => {
+          console.error('Erreur lors de la récupération des départements :', error);
+      });
+}, [id]);
 
-    const headers = {
-      'Accept':'*/*',
-      "Content-Type":'application/json',
-      'X-CSRFToken': Cookies.get('csrftoken')
-    };
+const handleFileChange = (event) => {
+  const selectedFile = event.target.files[0];
+  setPiecesJointes(selectedFile);
+};
 
-    axios.put(`${process.env.REACT_APP_API_URL}/RH/update_fiche_employe/${id}/`, participantData, { headers: headers })
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('work_mobile', work_mobile);
+  formData.append('work_phone', work_phone);
+  formData.append('work_email', work_email);
+  formData.append('work_address', work_addressID);
+  formData.append('work_location', work_location);
+  formData.append('cin', cin);
+  formData.append('cnss', cnss);
+  formData.append('field_of_study', field_of_study);
+  formData.append('home_work_distance', home_work_distance);
+  formData.append('school', school);
+  formData.append('certificate_level', certificate_level);
+  formData.append('emergency_phone', emergency_phone);
+  formData.append('emergency_contact', emergency_contact);
+  formData.append('bank_account_number', bank_account_number);
+  formData.append('working_hours', working_hours);
+  formData.append('martial_status', martial_status);
+  formData.append('job_position', job_positionID);
+  formData.append('manager', managerID);
+  formData.append('coach', coachID);
+  formData.append('address', addressID);
+  departmentID.forEach(id => {
+      formData.append('department', id);
+  });
+  formData.append('employe_concerne', employe_concerneID);
+  if (pieces_jointes) {
+      formData.append('pieces_jointes', pieces_jointes);
+  }
+  const headers = {
+    'Accept': '*/*',
+    'Content-Type': 'multipart/form-data',
+    'X-CSRFToken': Cookies.get('csrftoken')
+};
+
+    axios.put(`${process.env.REACT_APP_API_URL}/RH/update_fiche_employe/${id}/`, formData, { headers: headers })
       .then(response => {
         console.log('Fiche modifié avec succès :', response.data);
         setName('');
@@ -195,194 +203,169 @@ function FicheForm() {
     return <Navigate to="/Dashboardfiche" />;
 }
 
-  return (
-    <div className="form-container">
+return (
+  <div className="form-container">
       <div className="form-card">
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-group">
-            <label>
-              Nom fiche :
-              <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Work Mobile :
-              <input type="text" name="work_mobile" value={work_mobile} onChange={(e) => setWorkMobile(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-            <div className="form-group">
-            <label>
-            work phone :
-              <input type="text" name="work_phone" value={work_phone} onChange={(e) => setWorkPhone(e.target.value)} />
-            </label>
-            <div className="form-group">
-          <label>
-            work Address :
-            <select value={work_addressID} onChange={(e) => setWorkAddress(e.target.value)}>
-              <option value="">Sélectionner...</option>
-              {work_addresss.map(work_address => (
-                <option key={work_address.id} value={work_address.id}>{work_address.id}</option>
-              ))}
-            </select>
-          </label>
-          </div>
-          </div>
-              Work location :
-              <input type="text" name="work_location" value={work_location} onChange={(e) => setWorkLocation(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Working Email :
-              <input type="email" name="work_email" value={work_email} onChange={(e) => setWorkEmail(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Cin :
-              <input type="text" name="cin" value={cin} onChange={(e) => setCin(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Cnss :
-              <input type="text" name="cnss" value={cnss} onChange={(e) => setCnss(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-            field_of_study :
-              <input type="text" name="field_of_study" value={field_of_study} onChange={(e) => setFieldOfStudy(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-            school :
-              <input type="text" name="school" value={school} onChange={(e) => setSchool(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-            certificate_level :
-              <input type="text" name="certificate_level" value={certificate_level} onChange={(e) => setCertificateLevel(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-            emergency_phone :
-              <input type="text" name="emergency_phone" value={emergency_phone} onChange={(e) => setEmergencyPhone(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-            emergency_contact :
-              <input type="text" name="emergency_contact" value={emergency_contact} onChange={(e) => setEmergencyContact(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-            bank_account_number:
-              <input type="text" name="bank_account_number" value={bank_account_number} onChange={(e) => setBankAccountNumber(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-          <label>
-            Position :
-            <select value={job_positionID} onChange={(e) => setJobPosition(e.target.value)}>
-              <option value="">Sélectionner...</option>
-              {job_positions.map(job_position => (
-                <option key={job_position.id} value={job_position.id}>{job_position.title}</option>
-              ))}
-            </select>
-          </label>
-          </div>
-          <div className="form-group">
-          <label>
-            Manager :
-            <select value={managerID} onChange={(e) => setManager(e.target.value)}>
-              <option value="">Sélectionner...</option>
-              {managers.map(manager => (
-                <option key={manager.id} value={manager.id}>{manager.username}</option>
-              ))}
-            </select>
-          </label>
-          </div>
-          <div className="form-group">
-          <label>
-            Coach :
-            <select value={coachID} onChange={(e) => setCoach(e.target.value)}>
-              <option value="">Sélectionner...</option>
-              {coachs.map(coach => (
-                <option key={coach.id} value={coach.id}>{coach.username}</option>
-              ))}
-            </select>
-          </label>
-          </div>
-          <div className="form-group">
-          <label>
-            Address :
-            <select value={addressID} onChange={(e) => setAddress(e.target.value)}>
-              <option value="">Sélectionner...</option>
-              {addresss.map(address => (
-                <option key={address.id} value={address.id}>{address.id}</option>
-              ))}
-            </select>
-          </label>
-          </div>
-                <div className="form-group">
-                    <label>Departements :</label>
-                    <select 
-                        multiple 
-                        value={departmentID} 
-                        onChange={e => setDepartment(Array.from(e.target.selectedOptions, option => option.value))}
-                        >
-                        {departments.map(department => (
-                            <option key={department.id} value={department.id}>{department.name}</option>
-                        ))}
-                        </select>
-                </div>
-                <div>
-        <label>État civil :</label>
-        <select value={martial_status} onChange={(e) => setMartialStatus(e.target.value)}>
-          <option value="">Sélectionner...</option>
-          <option value="C">Célibataire</option>
-          <option value="M">Marié</option>
-          <option value="D">Divorcé</option>
-          <option value="V">Veuf</option>
-        </select>
+          <form onSubmit={handleSubmit} className="form">
+              <div className="form-group">
+                  <label>Nom :</label>
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Mobile :</label>
+                  <input type="text" value={work_mobile} onChange={(e) => setWorkMobile(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Téléphone :</label>
+                  <input type="text" value={work_phone} onChange={(e) => setWorkPhone(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Email :</label>
+                  <input type="email" value={work_email} onChange={(e) => setWorkEmail(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Adresse de travail :</label>
+                  <select value={work_addressID} onChange={(e) => setWorkAddress(e.target.value)}>
+                      <option value="">Sélectionner...</option>
+                      {addresss.map(address => (
+                          <option key={address.id} value={address.id}>{address.name}</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label>Localisation de travail :</label>
+                  <input type="text" value={work_location} onChange={(e) => setWorkLocation(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>CIN :</label>
+                  <input type="text" value={cin} onChange={(e) => setCin(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>CNSS :</label>
+                  <input type="text" value={cnss} onChange={(e) => setCnss(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Domaine d'étude :</label>
+                  <input type="text" value={field_of_study} onChange={(e) => setFieldOfStudy(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Distance domicile-travail :</label>
+                  <input type="text" value={home_work_distance} onChange={(e) => setHomeWorkDistance(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Établissement scolaire :</label>
+                  <input type="text" value={school} onChange={(e) => setSchool(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Niveau de certificat :</label>
+                  <input type="text" value={certificate_level} onChange={(e) => setCertificateLevel(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Contact d'urgence :</label>
+                  <input type="text" value={emergency_contact} onChange={(e) => setEmergencyContact(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Téléphone d'urgence :</label>
+                  <input type="text" value={emergency_phone} onChange={(e) => setEmergencyPhone(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Numéro de compte bancaire :</label>
+                  <input type="text" value={bank_account_number} onChange={(e) => setBankAccountNumber(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>Heures de travail :</label>
+                  <input type="text" value={working_hours} onChange={(e) => setWorkingHours(e.target.value)} />
+              </div>
+              <div className="form-group">
+                  <label>État civil :</label>
+                  <select value={martial_status} onChange={(e) => setMartialStatus(e.target.value)}>
+                      <option value="">Sélectionner...</option>
+                      <option value="C">Célibataire</option>
+                      <option value="M">Marié</option>
+                      <option value="D">Divorcé</option>
+                      <option value="V">Veuf</option>
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label>Poste :</label>
+                  <select value={job_positionID} onChange={(e) => setJobPosition(e.target.value)}>
+                      <option value="">Sélectionner...</option>
+                      {job_positions.map(job_position => (
+                          <option key={job_position.id} value={job_position.id}>{job_position.title}</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label>Manager :</label>
+                  <select value={managerID} onChange={(e) => setManager(e.target.value)}>
+                      <option value="">Sélectionner...</option>
+                      {managers.map(manager => (
+                          <option key={manager.id} value={manager.id}>{manager.username}</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label>Coach :</label>
+                  <select value={coachID} onChange={(e) => setCoach(e.target.value)}>
+                      <option value="">Sélectionner...</option>
+                      {coachs.map(coach => (
+                          <option key={coach.id} value={coach.id}>{coach.username}</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label>Adresse :</label>
+                  <select value={addressID} onChange={(e) => setAddress(e.target.value)}>
+                      <option value="">Sélectionner...</option>
+                      {addresss.map(address => (
+                          <option key={address.id} value={address.id}>{address.name}</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label>Départements :</label>
+                  <select multiple value={departmentID} onChange={(e) => setDepartment(Array.from(e.target.selectedOptions, option => option.value))}>
+                      {departments.map(department => (
+                          <option key={department.id} value={department.id}>{department.name}</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="form-group">
+                  <label>Employé concerné :</label>
+                  <select value={employe_concerneID} onChange={(e) => setEmploye(e.target.value)}>
+                      <option value="">Sélectionner...</option>
+                      {employe_concernes.map(employe_concerne => (
+                          <option key={employe_concerne.id} value={employe_concerne.id}>{employe_concerne.username}</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="form-group">
+    <label>Pièces jointes :</label>
+    {piecesJointesUrl ? (
+        <div>
+            <input 
+                type="text" 
+                value={piecesJointesUrl} 
+                onChange={(e) => setPiecesJointesUrl(e.target.value)} 
+            />
+            <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
+        </div>
+    ) : (
+        <input 
+            type="file" 
+            onChange={handleFileChange} 
+        />
+    )}
+</div>
+              <button className="btn btn-success mt-3" type="submit">Modifier Fiche</button>
+              <Link to="/Dashboardfiche">
+                  <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
+              </Link>
+          </form>
       </div>
-          <label>
-            Employe concernée :
-            <select value={employe_concerneID} onChange={(e) => setEmploye(e.target.value)}>
-              <option value="">Sélectionner...</option>
-              {employe_concernes.map(employe_concerne => (
-                <option key={employe_concerne.id} value={employe_concerne.id}>{employe_concerne.username}</option>
-              ))}
-            </select>
-          </label>
-          <div>
-        <label>Heures de travail :</label>
-        <input type="text" value={working_hours} onChange={(e) => setWorkingHours(e.target.value)} />
-      </div>
-      <div>
-        <label>Distance Home Work :</label>
-        <input type="text" value={home_work_distance} onChange={(e) => setHomeWorkDistance(e.target.value)} />
-      </div>
-          <div>
-        <label>Pièces jointes :</label>
-        <input type="file" onChange={(e) => setPiecesJointes(e.target.value)} />
-      </div>
-          <button className="btn btn-success mt-3" type="submit">Modifier Fiche</button>
-                    <Link to="/Dashboardfiche">
-                        <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
-                    </Link>
-        </form>
-      </div>
-    </div>
-  );
+  </div>
+);
 }
+
 
 export default FicheForm;

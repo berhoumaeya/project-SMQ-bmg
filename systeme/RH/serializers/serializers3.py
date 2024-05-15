@@ -5,13 +5,13 @@ from ..modelsRH.models3 import *
 class EvaluationChaudSerializer(serializers.ModelSerializer):
     class Meta:
         model = EvaluationChaud
-        fields = ['id','name','formation', 'date_realisation', 'criteres', 'coefficients', 'pieces_jointes', 'participant']
+        fields = ['id','name','formation', 'date_realisation', 'criteres', 'coefficients', 'pieces_jointes']
 
 
 class EvaluationFroidSerializer(serializers.ModelSerializer):
     class Meta:
         model = EvaluationFroid
-        fields = ['name','formation', 'date_realisation', 'criteres', 'coefficients', 'pieces_jointes', 'responsable_formation']
+        fields = ['id','name','formation', 'date_realisation', 'criteres', 'coefficients', 'pieces_jointes']
 
 
 

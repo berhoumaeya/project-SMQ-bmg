@@ -10,7 +10,7 @@ class ResponsableFormationSerializer(serializers.ModelSerializer):
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
-        fields = ['id','nom', 'prenom', 'username', 'email','formation_concerne' ,'pieces_jointes', 'employe','is_user']
+        fields = ['id','nom', 'prenom', 'username', 'email' ,'pieces_jointes', 'employe','is_user','formations_concernees']
 
 
 class EmployeSerializer(serializers.ModelSerializer):
@@ -21,5 +21,5 @@ class EmployeSerializer(serializers.ModelSerializer):
 class FormationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Formation
-        fields = ['id','intitule_formation', 'type_formation', 'organisme_formation', 'theme_formation','date_debut_formation','date_fin_formation', 'responsable_validation','responsable_formation', 'participants', 'pieces_jointes', 'parametre_validation', 'date_cloture']
+        fields = ['id','intitule_formation','statut','type_formation', 'organisme_formation', 'theme_formation','date_debut_formation','date_fin_formation', 'responsable_validation','responsable_formation', 'participants', 'pieces_jointes', 'parametre_validation', 'date_cloture']
         

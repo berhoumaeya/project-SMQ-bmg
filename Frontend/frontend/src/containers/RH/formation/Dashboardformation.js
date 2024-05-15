@@ -32,9 +32,6 @@ const DashboardFormation = () => {
         <div>
              <div className="formations-header">
                 <h3>Liste des Formations</h3>
-                <Link to={`/ajouter-formation/`}>
-                    <button>Ajouter Formation</button>
-                </Link>
             </div>
             <table className="table table-bordered" id="dataTable">
                 <thead>
@@ -62,6 +59,8 @@ const DashboardFormation = () => {
                     ))}
                 </tbody>
             </table>
+            <Link to={`/ajouter-formation/`}><button>Ajouter Formation</button></Link>
+            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
         </div>
     );
 };

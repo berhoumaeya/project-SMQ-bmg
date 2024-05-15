@@ -30,14 +30,14 @@ const Register = ({ register, isAuthenticated }) => {
 
         // Check if passwords match before attempting registration
         if (password === re_password) {
-            register(username, password, re_password ,prenom,nom);
+            register(username, password,prenom,nom,re_password);
             setAccountCreated(true);
         }
     };
 
     // If the user is already authenticated, redirect to the dashboard
     if (isAuthenticated) {
-        return <Navigate to="/dashboard" />;
+        return <Navigate to="/Dashboard" />;
     } else if (accountCreated) {
         // If the account is created successfully, redirect to the login page
         return <Navigate to="/login" />;

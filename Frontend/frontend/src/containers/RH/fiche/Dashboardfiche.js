@@ -41,7 +41,6 @@ const DashboardFiche = () => {
                         <th>Nom fiche</th>
                         <th>Post Employe</th>
                         <th>Fiche de l'employe</th>
-                        <th>address Employe</th>
                         <th>Détails</th>
                     </tr>
                 </thead>
@@ -52,15 +51,13 @@ const DashboardFiche = () => {
                             <td>{fiche.name}</td>
                             <td>{fiche.job_position}</td>
                             <td>{fiche.employe_concerne}</td>
-                            <td>{fiche.address}</td>
                             <Link to={`/fiche/${fiche.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-fiche/`}>
-                    <button>Ajouter fiche Employe</button>
-            </Link>
+            <Link to={`/ajouter-fiche/`}><button>Ajouter fiche Employe</button></Link>
+            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
         </div>
     );
 };

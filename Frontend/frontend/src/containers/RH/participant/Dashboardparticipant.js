@@ -42,7 +42,6 @@ const DashboardParticipant = () => {
                         <th>Prenom Participant</th>
                         <th>Nom de l'utilisateur Participant</th>
                         <th>Email Participant</th>
-                        <th>Formation concernée</th>
                         <th>Détails de Participant</th>
                     </tr>
                 </thead>
@@ -54,15 +53,13 @@ const DashboardParticipant = () => {
                             <td>{participant.prenom}</td>
                             <td>{participant.username}</td>
                             <td>{participant.email}</td>
-                            <td>{participant.formation_concerne}</td>
                             <Link to={`/participant/${participant.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-participant/`}>
-                    <button>Ajouter participant</button>
-            </Link>
+            <Link to={`/ajouter-participant/`}><button>Ajouter participant</button></Link>
+            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
         </div>
     );
 };

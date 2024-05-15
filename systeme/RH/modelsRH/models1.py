@@ -15,7 +15,7 @@ class JobPost(models.Model):
     main_mission = models.CharField(max_length=255)
     required_skills = models.CharField(max_length=255)
     main_activity = models.CharField(max_length=255)
-    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes_job/', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -32,7 +32,7 @@ class Department(models.Model):
     
 class Address(models.Model):
 
-    address_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_address',null=True)
@@ -43,7 +43,7 @@ class Address(models.Model):
     Zip_code = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.address_name
+        return self.name
     
 
 class FicheEmployee(models.Model):
@@ -56,7 +56,7 @@ class FicheEmployee(models.Model):
     department = models.ManyToManyField('Department')
     manager = models.ForeignKey('Employe', on_delete=models.SET_NULL, null=True, blank=True, related_name='managed_employees')
     coach = models.ForeignKey('Employe', on_delete=models.SET_NULL, null=True, blank=True, related_name='coached_employees')
-    work_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, related_name='employees_work_address')
+    work_address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True, related_name='employees_work_address')
     work_location = models.CharField(max_length=255)
     address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True, related_name='employees_address')
     working_hours = models.FloatField()
@@ -88,19 +88,3 @@ class FicheEmployee(models.Model):
     def __str__(self):
         return self.name
     
-
-class PosteFonction(models.Model):
-    
-    created_at = models.DateTimeField(null=True, default=None)
-    updated_at = models.DateTimeField(null=True, default=None)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_poste_fonction',null=True)
-    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='updated_poste_fonction', null=True)
-    intitule_fonction = models.CharField(max_length=255,)
-    positionnement = models.CharField(max_length=255,)
-    mission_principale = models.TextField()
-    relation_fonctionnelle = models.ManyToManyField('Employe')
-    competences_requises = models.TextField()
-    activite_principale = models.TextField()
-
-    def __str__(self):
-        return self.intitule_fonction

@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import JSONField
-from ..modelsRH.models2 import Formation,Employe,Participant
+from ..modelsRH.models2 import Formation,Employe
 from copy import deepcopy
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 #class Evaluation chaud
 
@@ -25,8 +27,7 @@ class EvaluationChaud(models.Model):
         ('5', 'évaluation satisfaisante'),
     ]
     coefficients = models.CharField(max_length=50, choices=COEFFICIENTS_CHOICES)
-    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
-    participant =models.ForeignKey(Participant, on_delete=models.CASCADE)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes_chaud/', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -52,8 +53,8 @@ class EvaluationFroid(models.Model):
         ('5', 'évaluation satisfaisante'),
     ]
     coefficients = models.CharField(max_length=50, choices=COEFFICIENTS_CHOICES)
-    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
-    responsable_formation =models.ForeignKey('ResponsableFormation', on_delete=models.CASCADE)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes_froid/', blank=True, null=True)
+
 
     def __str__(self):
         return self.name
@@ -71,11 +72,18 @@ class EvaluationCompetence(models.Model):
     skills_acquis = JSONField(default=dict)
     skills_requis = JSONField(default=dict)
     commentaires = models.TextField(blank=True)
-    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes_competence/', blank=True, null=True)
     employe_concerne = models.ForeignKey(Employe,on_delete=models.CASCADE, related_name='Employe_concerné',null=True)
 
     def __str__(self):
         return self.name
+    
+@receiver(post_save, sender=EvaluationCompetence)
+def update_skills_requis(sender, instance, **kwargs):
+    if not kwargs.get('raw', False): 
+        skills_acquis = instance.skills_acquis
+        skills_requis = {skill: 5 for skill in skills_acquis}
+        instance.skills_requis = skills_requis
     
 #class plan action    
 
