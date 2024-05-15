@@ -1,1 +1,1 @@
-Changement de module RH et l'ajout de module client
+- Champ de type JSON en react
