@@ -14,10 +14,10 @@ function AddFormation() {
     const [theme_formation, setTheme_formation] = useState('');
     const [date_debut_formation, setDate_debut_formation] = useState('');
     const [date_fin_formation, setDate_fin_formation] = useState('');
-    const [responsable_formation, setResponsable_formation] = useState('');
+    const [responsable_formationID, setResponsable_formation] = useState([]);
     const [responsable_validation, setResponsable_validation] = useState('');
     const [participantID, setParticipant] = useState([]);
-    const [pieces_jointes, setPieces_jointes] = useState(null);
+    const [pieces_jointes, setPiecesJointes] = useState(null);
     const [parametre_validation, setParametre_validation] = useState('');
 
 
@@ -50,6 +50,11 @@ function AddFormation() {
                 });
             },[]);
 
+            const handleFileChange = (event) => {
+                const selectedFile = event.target.files[0];
+                setPiecesJointes(selectedFile);
+            };      
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -58,29 +63,36 @@ function AddFormation() {
             return;
         }
 
-        const Data = {
-            intitule_formation: intitule_formation,
-            type_formation: type_formation,
-            organisme_formation: organisme_formation,
-            theme_formation: theme_formation,
-            date_debut_formation: date_debut_formation,
-            date_fin_formation: date_fin_formation,
-            responsable_formation: responsable_formation,
-            responsable_validation: responsable_validation,
-            participants: participantID, 
-            pieces_jointes: pieces_jointes,
-            parametre_validation: parametre_validation
-        };
+        const formData = new FormData();
+
+        formData.append('intitule_formation', intitule_formation);
+        formData.append('type_formation', type_formation);
+        formData.append('organisme_formation', organisme_formation);
+        formData.append('theme_formation', theme_formation);
+        formData.append('date_debut_formation', date_debut_formation);
+        formData.append('date_fin_formation', date_fin_formation);
+        formData.append('responsable_validation', responsable_validation);
+        participantID.forEach(id => {
+            formData.append('participants', id);
+        });
+        responsable_formationID.forEach(id => {
+            formData.append('responsable_formation', id);
+        });
+        formData.append('parametre_validation', parametre_validation);
+
+        if (pieces_jointes) {
+            formData.append('pieces_jointes', pieces_jointes);
+        }
 
         const headers = {
             'Accept':'*/*',
-            "Content-Type":'application/json',
+            'Content-Type': 'multipart/form-data',
             'X-CSRFToken': Cookies.get('csrftoken'),
 
         }
        
 
-        axios.post(`${process.env.REACT_APP_API_URL}/RH/create_formation/`, Data, { headers : headers})
+        axios.post(`${process.env.REACT_APP_API_URL}/RH/create_formation/`, formData, { headers : headers})
         .then(response =>{
             console.log('Ajout succès',response.data);
             setIntitule_formation('');
@@ -89,10 +101,9 @@ function AddFormation() {
             setTheme_formation('');
             setDate_debut_formation('');
             setDate_fin_formation('');
-            setResponsable_formation('');
+            setResponsable_formation([]);
             setResponsable_validation('');
-            setParticipant('');
-            setPieces_jointes(null);
+            setParticipant([]);
             setParametre_validation('');
             setAjoutReussi(true);
         })
@@ -137,14 +148,13 @@ function AddFormation() {
                     <input type="date" name="date_fin_formation" value={date_fin_formation}onChange={(e) => setDate_fin_formation(e.target.value)} />
                 </div>
                 <div className="form-group">
-                    <label>Responsable de la formation :</label>
-                    <select value={responsable_formation} onChange={(e) => setResponsable_formation(e.target.value)}>
-                    <option value="">Sélectionner...</option>
-                        {responsablesFormations.map(responsable_formation => (
-                            <option key={responsable_formation.id} value={responsable_formation.id}>{responsable_formation.name}</option>
-                        ))}
-                    </select>
-                </div>
+                        <label>Responsables Formation :</label>
+                        <select multiple value={responsable_formationID} onChange={(e) => setResponsable_formation(Array.from(e.target.selectedOptions, option => option.value))}>
+                            {responsablesFormations.map(responsable_formation => (
+                                <option key={responsable_formation.id} value={responsable_formation.id}>{responsable_formation.username}</option>
+                            ))}
+                        </select>
+                    </div>
                 <div className="form-group">
                     <label>Responsable de la validation :</label>
                     <select value={responsable_validation} onChange={(e) => setResponsable_validation(e.target.value)}>
@@ -155,14 +165,17 @@ function AddFormation() {
                     </select>
                 </div>
                 <div className="form-group">
-                    <label>Participants :</label>
-                    <select multiple value={participantID} onChange={e => setParticipant(Array.from(e.target.selectedOptions, option => option.value))}>
-                    {participantss.map(participants => (<option key={participants.id} value={participants.id}>{participants.username}</option>))}</select>
-                </div>
-                <div className="form-group">
-                    <label>Pièces jointes :</label>
-                    <input type="file" name="pieces_jointes" onChange={(e) => setPieces_jointes(e.target.value)} />
-                </div>
+                        <label>Participants :</label>
+                        <select multiple value={participantID} onChange={(e) => setParticipant(Array.from(e.target.selectedOptions, option => option.value))}>
+                            {participantss.map(participants => (
+                                <option key={participants.id} value={participants.id}>{participants.username}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Pièces jointes :</label>
+                        <input type="file" onChange={handleFileChange} />
+                    </div>
                 <div className="form-group">
                     <label>Paramètre de validation :</label>
                     <select value={parametre_validation} onChange={(e) => setParametre_validation(e.target.value)}>

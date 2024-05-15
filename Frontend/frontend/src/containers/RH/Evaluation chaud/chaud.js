@@ -7,6 +7,7 @@ import "../Detail.css"
 const ChaudDetail = () => {
   const { id } = useParams();
   const [chaud, setFormation] = useState(null);
+  const [formation, setForm] = useState('');
   const [deleteReussi, setdeleteReussi] = useState(false);
 
   useEffect(() => {
@@ -14,6 +15,9 @@ const ChaudDetail = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/evaluation_chaud/${id}/`);
         setFormation(response.data);
+
+        const responseForm = await axios.get(`${process.env.REACT_APP_API_URL}/RH/formation/${response.data.formation}/`);
+        setForm(responseForm.data.intitule_formation);
       } catch (error) {
         console.error('Erreur lors de la récupération des données des evaluation:', error);
       }
@@ -31,7 +35,7 @@ const ChaudDetail = () => {
         await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_evaluation_chaud/${id}/`,{headers:headers});
         setdeleteReussi(true)
     } catch (error) {
-        console.error('Erreur lors de la suppression de la fiche:', error);
+        console.error('Erreur lors de la suppression de la evaluation:', error);
     }
 };
 if (deleteReussi){
@@ -44,12 +48,11 @@ if (deleteReussi){
                     <div className="card-body">
                         <p><strong>ID :</strong> {chaud.id}</p>
                         <p><strong>name evaluation :</strong> {chaud.name}</p>
-                        <p><strong>Formation :</strong> {chaud.formation}</p>
+                        <p><strong>Formation :</strong> {formation}</p>
                         <p><strong>Date de réalisation :</strong> {chaud.date_realisation}</p>
                         <p><strong>criteres   :</strong> {chaud.criteres}</p>
                         <p><strong>coefficients  :</strong> {chaud.coefficients}</p>
-                        <p><strong>pieces_jointes  :</strong> {chaud.pieces_jointes}</p>
-                        <p><strong>participant :</strong> {chaud.participant}</p>
+                        <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_chaud/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
                         <p><strong>Modifié par :</strong> {chaud.updated_by}</p>
                         <p><strong>Modifié à :</strong> {chaud.updated_at}</p>
                         <p><strong>crée par  :</strong> {chaud.created_by}</p>

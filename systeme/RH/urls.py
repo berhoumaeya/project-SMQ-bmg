@@ -9,6 +9,12 @@ urlpatterns = [
     path('piece_jointe_participant/<int:participant_id>/', get_piece_jointe_participant, name='piece_jointe_participant'),
     path('piece_jointe_employe/<int:employe_id>/', get_piece_jointe_employe, name='piece_jointe_employe'),
     path('piece_jointe_formation/<int:formation_id>/', get_piece_jointe_formation, name='piece_jointe_formation'),
+    path('piece_jointe_chaud/<int:chaud_id>/', get_piece_jointe_chaud, name='piece_jointe_chaud'),
+    path('piece_jointe_froid/<int:froid_id>/', get_piece_jointe_froid, name='piece_jointe_froid'),
+    path('piece_jointe_position/<int:position_id>/', get_piece_jointe_position, name='piece_jointe_position'),
+
+
+
 
 
     #CRUD position occupé

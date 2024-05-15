@@ -48,6 +48,7 @@ const DashboardChaud = () => {
                 <tbody>
                     {chauds.map(chaud => (
                         <tr key={chaud.id}>
+                            <td>{chaud.id}</td>
                             <td>{chaud.name}</td>
                             <td>{chaud.created_by}</td>
                             <td>{chaud.created_at}</td>

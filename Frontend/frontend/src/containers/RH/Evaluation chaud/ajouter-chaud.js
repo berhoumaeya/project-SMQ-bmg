@@ -11,9 +11,6 @@ function ChaudForm() {
     const [criteres, setCriteres] = useState('');
     const [coefficients, setCoefficients] = useState('');
     const [pieces_jointes, setPiecesJointes] = useState(null);
-    const [participants, setParticipants] = useState([]);
-    const [participant, setParticipant] = useState([]);
-
     const [formations, setFormations] = useState([]);
     const [formation, setFormation] = useState('');
 
@@ -30,13 +27,6 @@ function ChaudForm() {
         console.error('Erreur lors de la récupération des formations :', error);
       });
 
-      axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_participant/`)
-      .then(response => {
-          setParticipants(response.data);
-      })
-      .catch(error => {
-          console.error('Error',error)
-      });
     },[]);
 
     const handleFileChange = (event) => {
@@ -46,15 +36,15 @@ function ChaudForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const Data = {
-            name : name,
-            date_realisation : date_realisation,
-            criteres : criteres,
-            coefficients : coefficients,
-            pieces_jointes : pieces_jointes,
-            participant : participant,
-            formation : formation,
-        };
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('date_realisation', date_realisation);
+        formData.append('criteres', criteres);
+        formData.append('coefficients', coefficients);
+        if (pieces_jointes) {
+          formData.append('pieces_jointes', pieces_jointes);
+      }
+        formData.append('formation', formation);
 
         const headers = {
             'Accept':'*/*',
@@ -62,15 +52,13 @@ function ChaudForm() {
             'X-CSRFToken': Cookies.get('csrftoken')
           };
 
-          axios.post(`${process.env.REACT_APP_API_URL}/RH/create_evaluation_chaud/`, Data, { headers: headers })
+          axios.post(`${process.env.REACT_APP_API_URL}/RH/create_evaluation_chaud/`, formData, { headers: headers })
       .then(response => {
         console.log('Evaluation ajouté avec succès :', response.data);
         setName('');
         setDate('');
         setCriteres('');
         setCoefficients('');
-        setPiecesJointes('');
-        setParticipant('');
         setFormation('');
 
         setAjoutReussi(true);
@@ -125,16 +113,11 @@ return(
               ))}
             </select>
           </label>
-          <label>
-            Participant  :
-            <select value={participant} onChange={(e) => setParticipant(e.target.value)}>
-              <option value="">Sélectionner...</option>
-              {participants.map(participant => (
-                <option key={participant.id} value={participant.id}>{participant.username}</option>
-              ))}
-            </select>
-          </label>
-          <button className="btn btn-success mt-3" type="submit">Ajouter Participant</button>
+          <div className="form-group">
+                        <label>Pièces jointes :</label>
+                        <input type="file" onChange={handleFileChange} />
+                    </div>
+          <button className="btn btn-success mt-3" type="submit">Evaluer</button>
                     <Link to="/DashboardEvaluationChaud">
                         <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
                     </Link>

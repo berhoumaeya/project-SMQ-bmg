@@ -52,7 +52,6 @@ class DashboardFormationAPIView(APIView):
                     'intitule_formation': formation.intitule_formation,
                     'type_formation': formation.type_formation,
                     'theme_formation': formation.theme_formation,
-                    'responsable_formation': formation.responsable_formation.nom,
                     'responsable_validation': formation.responsable_validation.nom,
                 }
                 data.append(formation_data)

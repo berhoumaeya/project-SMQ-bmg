@@ -7,7 +7,6 @@ import Login from './containers/Log';
 import Dashboard from './containers/Dashboard';
 import DashboardRH from './containers/RH/DashboardRH';
 import Dashboardformation from './containers/RH/formation/Dashboardformation';
-import { Student  } from './components/Student';
 import { Provider } from 'react-redux';
 import store from './store';
 import DashboardClient from './containers/Client/DashboardClient';
@@ -16,6 +15,7 @@ import DashboardDoc from './containers/DOcumentation/DashboardDoc';
 
 import Formation from './containers/RH/formation/formation';
 import AddFormation from './containers/RH/formation/ajouter-formation';
+import UpdateFormation from './containers/RH/formation/update-formation';
 
 import DashboardEmploye from './containers/RH/Employe/Dashboardemploye';
 import EmployeDetail from './containers/RH/Employe/employe';
@@ -45,6 +45,15 @@ import DashboardChaud from './containers/RH/Evaluation chaud/DashboardEvaluation
 import ChaudDetail from './containers/RH/Evaluation chaud/chaud';
 import ChaudForm from './containers/RH/Evaluation chaud/ajouter-chaud';
 
+import DashboardFroid from './containers/RH/Evaluation froid/DashboardEvaluationFroid';
+import FroidDetail from './containers/RH/Evaluation froid/froid';
+import FroidForm from './containers/RH/Evaluation froid/ajout-froid';
+
+import DashboardPost from './containers/RH/position/Dashboardposition';
+import AddPost from './containers/RH/position/ajouter-position';
+import PostDetail from './containers/RH/position/position';
+import UpdatePost from './containers/RH/position/update-position';
+
 
 const App = () => (
   <Provider store={store}>
@@ -56,7 +65,6 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/dashboardRH" element={<DashboardRH />}/>
-          <Route path="/student" element={<Student />} />
           <Route path="/dashboardClient" element={<DashboardClient />} />
           <Route path="/dashboardFournisseur" element={<DashboardFournisseur />} />
           <Route path="/dashboardDoc" element={<DashboardDoc />} />
@@ -64,11 +72,18 @@ const App = () => (
           <Route path="/dashboardformation" element={<Dashboardformation />}/>
           <Route path="/formation/:id" element={<Formation />} />
           <Route path="/ajouter-formation/" element={<AddFormation />} />
+          <Route path="/update-formation/:id" element={<UpdateFormation />} />
 
           <Route path="/dashboardemploye" element={<DashboardEmploye />}/>
           <Route path="/employe/:id" element={<EmployeDetail />}/>
           <Route path="/ajouter-employe/" element={<AddEmploye />} />
           <Route path="/update-employe/:id" element={<UpdateEmploye />} />
+
+          <Route path="/Dashboardposition" element={<DashboardPost />}/>
+          <Route path="/position/:id" element={<PostDetail />}/>
+          <Route path="/ajouter-position/" element={<AddPost />} />
+          <Route path="/update-position/" element={<UpdatePost />} />
+
 
           <Route path="/dashboardresponsable" element={<DashboardResponsable />}/>
           <Route path="/responsable/:id" element={<ResponsableDetail />}/>
@@ -91,6 +106,10 @@ const App = () => (
           <Route path="/DashboardEvaluationChaud/" element={<DashboardChaud />} />
           <Route path="/chaud/:id" element={<ChaudDetail />} />
           <Route path="/ajouter-chaud/" element={<ChaudForm />} />
+
+          <Route path="/DashboardEvaluationFroid/" element={<DashboardFroid />} />
+          <Route path="/froid/:id" element={<FroidDetail />} />
+          <Route path="/ajouter-froid/" element={<FroidForm />} />
 
 
 

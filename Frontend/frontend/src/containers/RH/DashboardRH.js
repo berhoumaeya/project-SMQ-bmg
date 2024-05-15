@@ -3,7 +3,7 @@ import React from 'react';
 function DashboardRH({ user }) {
   const gestionSections = [
     { title: 'Gérer les responsables formation', link: '/Dashboardresponsable' },
-    { title: 'Gérer JobPost', link: '/dashboard' },
+    { title: 'Gérer JobPost', link: '/Dashboardposition' },
     { title: 'Gérer les participants', link: '/Dashboardparticipant' },
     { title: 'Gérer Employe', link: '/Dashboardemploye' },
     { title: 'Gérer Fiche Employe', link: '/Dashboardfiche' },
@@ -12,7 +12,6 @@ function DashboardRH({ user }) {
     { title: 'Gérer Evaluation Froid', link: '/DashboardEvaluationFroid' },
     { title: 'Gérer Evaluation Compétences', link: '/Dashboardcompetence' },
     { title: 'Gérer Adresse', link: '/gerer_adresse' },
-    { title: 'Gérer Département', link: '/dashboard_department' },
   ];
 
   const sectionGroups = [];

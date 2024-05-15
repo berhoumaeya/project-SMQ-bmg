@@ -40,7 +40,6 @@ const DashboardFormation = () => {
                         <th>Intitule Formation</th>
                         <th>Type Formation</th>
                         <th>Théme de formation</th>
-                        <th>Responsable Formation</th>
                         <th>Responsable Validation</th>
                         <th>Détails de la formation</th>
                     </tr>
@@ -52,7 +51,6 @@ const DashboardFormation = () => {
                             <td>{formation.intitule_formation}</td>
                             <td>{formation.type_formation}</td>
                             <td>{formation.theme_formation}</td>
-                            <td>{formation.responsable_formation}</td>
                             <td>{formation.responsable_validation}</td>
                             <Link to={`/formation/${formation.id}`}>Détails</Link>
                         </tr>

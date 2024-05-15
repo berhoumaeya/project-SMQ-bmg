@@ -39,7 +39,7 @@ function AddEmploye() {
 
     axios.post(`${process.env.REACT_APP_API_URL}/RH/create-employe/`, formData, { headers: headers })
       .then(response => {
-        console.log('Participant ajouté avec succès :', response.data);
+        console.log('Employe ajouté avec succès :', response.data);
         setNom('');
         setPrenom('');
         setEmail('');
@@ -49,7 +49,7 @@ function AddEmploye() {
         setAjoutReussi(true);
       })
       .catch(error => {
-        console.error('Erreur lors de l\'ajout du participant :', error);
+        console.error('Erreur lors de l\'ajout du Employe :', error);
       });
   };
 

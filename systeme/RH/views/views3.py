@@ -8,8 +8,21 @@ from rest_framework import status
 from ..serializers.serializers3 import *
 from ..modelsRH.models3 import*
 from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
+
 
 #Afficher Evaluations Chaud
+
+
+def get_piece_jointe_chaud(request, chaud_id):
+    chaud = get_object_or_404(EvaluationChaud, id=chaud_id)
+    piece_jointe_path = chaud.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_froid(request, froid_id):
+    froid = get_object_or_404(EvaluationFroid, id=froid_id)
+    piece_jointe_path = froid.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -47,8 +60,9 @@ class CreateEvaluationChaudAPIView(APIView):
             evaluation_chaud_data = serializer.data
             evaluation_chaud_data['created_by'] = request.user.first_name
             evaluation_chaud_data['created_at'] = created_at
-            evaluation_chaud_data['id'] = serializer.instance.id 
             return Response(evaluation_chaud_data, status=status.HTTP_201_CREATED)
+        print("%%%%%",status)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 #Modifier Evaluation Chaud
@@ -140,6 +154,9 @@ class CreateEvaluationFroidAPIView(APIView):
             evaluation_froid_data['created_at'] = created_at
             evaluation_froid_data['id'] = serializer.instance.id 
             return Response(evaluation_froid_data, status=status.HTTP_201_CREATED)
+        
+        print("%%%%%",status)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 #Modifier Evaluation Froid
@@ -239,9 +256,9 @@ class CreateEvaluationCompetenceAPIView(APIView):
             #                     created_by=request.user,
             #                     created_at=created_at
             #                 )
-            print("%%%%%",status)
-            print(serializer.errors)
             return Response(evaluation_competence_data, status=status.HTTP_201_CREATED)
+        print("%%%%%",status)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 #Modifier Evaluation Competence

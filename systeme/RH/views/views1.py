@@ -16,6 +16,11 @@ def get_piece_jointe(request, fiche_id):
     fiche = get_object_or_404(FicheEmployee, id=fiche_id)
     piece_jointe_path = fiche.pieces_jointes.path
     return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_position(request, post_id):
+    post = get_object_or_404(JobPost, id=post_id)
+    piece_jointe_path = post.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 #Afficher tout les JobPost
 
 
@@ -26,15 +31,11 @@ class DashboardJobPostAPIView(APIView):
             posts = JobPost.objects.all()
             data = []
             for post in posts:
-                created_by_name = post.created_by.first_name if post.created_by else None
-                updated_by_name = post.updated_by.first_name if post.updated_by else None
                 post_data = {
                     'id': post.id,
                     'title': post.title,
-                    'created_by': created_by_name,
-                    'updated_by': updated_by_name,
-                    'created_at': post.created_at,
-                    'updated_at': post.updated_at,
+                    'position': post.position,
+                    'main_mission': post.main_mission,
                 }
                 data.append(post_data)
             return Response(data, status=status.HTTP_200_OK)

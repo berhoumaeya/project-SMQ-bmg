@@ -10,7 +10,13 @@ function CompetenceForm() {
     const [employe_concernes, setEmployes] = useState([]);
     const [employe_concerneID, setEmploye] = useState('');
     const [commentaires, setCommentaires] = useState('');
-    const [skillsAcquis, setSkillsAcquis] = useState({});
+    const [skillsAcquis, setSkillsAcquis] = useState({
+        communication: 7,
+        "developpement": 8,
+        "marketing": 9,
+        "sience":4
+    });
+    // skillsAcquis
     const [ajoutReussi, setAjoutReussi] = useState(false);
 
     useEffect(() => {

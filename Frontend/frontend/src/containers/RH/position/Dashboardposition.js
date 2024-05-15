@@ -3,14 +3,14 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import "../Dashboard.css"
 
-const DashboardFroid = () => {
-    const [froids, setFormations] = useState([]);
+const DashboardPost = () => {
+    const [posts, setFormations] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchFormations = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_evaluation_froid/`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_job_post/`, {
                     headers: {
                         'Accept': '*/*', 
                     }
@@ -31,39 +31,35 @@ const DashboardFroid = () => {
 
     return (
         <div>
-             <div className="employes-header">
-                <h3>Liste des Evaluation Froid</h3>
+             <div className="posts-header">
+                <h3>Liste des posts</h3>
             </div>
             <table className="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nom evaluation</th>
-                        <th>crée par</th>
-                        <th>crée à</th>
-                        <th>Modifié par</th>
-                        <th>Modifié à</th>
+                        <th>Titre Position</th>
+                        <th>Position</th>
+                        <th>Mission principale</th>
+                        <th>Détails de Position</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {froids.map(froid => (
-                        <tr key={froid.id}>
-                            <td>{froid.id}</td>
-                            <td>{froid.name}</td>
-                            <td>{froid.created_by}</td>
-                            <td>{froid.created_at}</td>
-                            <td>{froid.updated_by}</td>
-                            <td>{froid.updated_at}</td>
-                            <Link to={`/froid/${froid.id}`}>Détails</Link>
+                    {posts.map(Position => (
+                        <tr key={Position.id}>
+                            <td>{Position.id}</td>
+                            <td>{Position.title}</td>
+                            <td>{Position.position}</td>
+                            <td>{Position.main_mission}</td>
+                            <Link to={`/Position/${Position.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-froid/`}>
-                    <button>Ajouter Evaluation Froid</button>
-            </Link>
+            <Link to={`/ajouter-Position/`}><button>Ajouter Position</button></Link>
+            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
         </div>
     );
 };
 
-export default DashboardFroid;
+export default DashboardPost;

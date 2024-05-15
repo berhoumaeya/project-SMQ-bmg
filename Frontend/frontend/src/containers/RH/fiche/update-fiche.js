@@ -7,7 +7,7 @@ import '../formation/FormationForm.css';
 import { Navigate ,Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-function FicheForm() {
+function UpdateFiche() {
     const { id } = useParams();
 
 
@@ -200,8 +200,9 @@ const handleSubmit = (event) => {
       });
   };
   if(ajoutReussi){
-    return <Navigate to="/Dashboardfiche" />;
-}
+    return <Navigate to={`/fiche/${id}`} />;
+  }
+
 
 return (
   <div className="form-container">
@@ -368,4 +369,4 @@ return (
 }
 
 
-export default FicheForm;
+export default UpdateFiche;
