@@ -27,7 +27,7 @@ urlpatterns = [
     path('fournisseur/',include('fournisseur.urls')),
     path('indicateur/',include('indicateur.urls')),
     path('risk/',include('risk.urls')),
-    path('action',include('action.urls')),
+    path('action/',include('action.urls')),
     path('doc/',include('doc.urls')),
     path('reunion/',include('reunion.urls')),
     path('audit/',include('audit.urls')),

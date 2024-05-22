@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TimeZoneSelect from 'react-timezone-select';
-import '../formation/FormationForm.css';
+import './FicheForm.css';
 import { Navigate ,Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -301,155 +301,157 @@ function FicheForm() {
 
     return (
         <div className="form-container">
-            <div className="form-card">
-                <form onSubmit={handleSubmit} className="form">
-                    <div className="form-group">
-                        <label>Nom :</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Mobile :</label>
-                        <input type="text" value={work_mobile} onChange={(e) => setWorkMobile(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Téléphone :</label>
-                        <input type="text" value={work_phone} onChange={(e) => setWorkPhone(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Email :</label>
-                        <input type="email" value={work_email} onChange={(e) => setWorkEmail(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Adresse de travail :</label>
-                        <select value={work_addressID} onChange={(e) => setWorkAddress(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {addresss.map(address => (
-                                <option key={address.id} value={address.id}>{address.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Localisation de travail :</label>
-                        <input type="text" value={work_location} onChange={(e) => setWorkLocation(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>CIN :</label>
-                        <input type="text" value={cin} onChange={(e) => setCin(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>CNSS :</label>
-                        <input type="text" value={cnss} onChange={(e) => setCnss(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Domaine d'étude :</label>
-                        <input type="text" value={field_of_study} onChange={(e) => setFieldOfStudy(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Distance domicile-travail :</label>
-                        <input type="text" value={home_work_distance} onChange={(e) => setHomeWorkDistance(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Établissement scolaire :</label>
-                        <input type="text" value={school} onChange={(e) => setSchool(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Niveau de certificat :</label>
-                        <input type="text" value={certificate_level} onChange={(e) => setCertificateLevel(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Contact d'urgence :</label>
-                        <input type="text" value={emergency_contact} onChange={(e) => setEmergencyContact(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Téléphone d'urgence :</label>
-                        <input type="text" value={emergency_phone} onChange={(e) => setEmergencyPhone(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Numéro de compte bancaire :</label>
-                        <input type="text" value={bank_account_number} onChange={(e) => setBankAccountNumber(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Heures de travail :</label>
-                        <input type="text" value={working_hours} onChange={(e) => setWorkingHours(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Fuseau horaire :</label>
-                        <TimeZoneSelect value={timezone_field} onChange={(value) => setTimezoneField(value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>État civil :</label>
-                        <select value={martial_status} onChange={(e) => setMartialStatus(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="C">Célibataire</option>
-                            <option value="M">Marié</option>
-                            <option value="D">Divorcé</option>
-                            <option value="V">Veuf</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Poste :</label>
-                        <select value={job_positionID} onChange={(e) => setJobPosition(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {job_positions.map(job_position => (
-                                <option key={job_position.id} value={job_position.id}>{job_position.title}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Manager :</label>
-                        <select value={managerID} onChange={(e) => setManager(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {managers.map(manager => (
-                                <option key={manager.id} value={manager.id}>{manager.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Coach :</label>
-                        <select value={coachID} onChange={(e) => setCoach(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {coachs.map(coach => (
-                                <option key={coach.id} value={coach.id}>{coach.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Adresse :</label>
-                        <select value={addressID} onChange={(e) => setAddress(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {addresss.map(address => (
-                                <option key={address.id} value={address.id}>{address.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Départements :</label>
-                        <select multiple value={departmentID} onChange={(e) => setDepartment(Array.from(e.target.selectedOptions, option => option.value))}>
-                            {departments.map(department => (
-                                <option key={department.id} value={department.id}>{department.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Employé concerné :</label>
-                        <select value={employe_concerneID} onChange={(e) => setEmploye(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {employe_concernes.map(employe_concerne => (
-                                <option key={employe_concerne.id} value={employe_concerne.id}>{employe_concerne.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Pièces jointes :</label>
-                        <input type="file" onChange={handleFileChange} />
-                    </div>
+        <div className="form-card">
+        <h3>Ajouter une Fiche</h3>
+            <form onSubmit={handleSubmit} className="form">
+                <div className="form-group">
+                    <label>Nom Fiche:</label>
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Employé concerné :</label>
+                    <select value={employe_concerneID} onChange={(e) => setEmploye(e.target.value)}>
+                        <option value="">Sélectionner...</option>
+                        {employe_concernes.map(employe_concerne => (
+                            <option key={employe_concerne.id} value={employe_concerne.id}>{employe_concerne.username}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Mobile :</label>
+                    <input type="text" value={work_mobile} onChange={(e) => setWorkMobile(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Téléphone :</label>
+                    <input type="text" value={work_phone} onChange={(e) => setWorkPhone(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Email :</label>
+                    <input type="email" value={work_email} onChange={(e) => setWorkEmail(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Adresse de travail :</label>
+                    <select value={work_addressID} onChange={(e) => setWorkAddress(e.target.value)}>
+                        <option value="">Sélectionner...</option>
+                        {addresss.map(address => (
+                            <option key={address.id} value={address.id}>{address.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Localisation de travail :</label>
+                    <input type="text" value={work_location} onChange={(e) => setWorkLocation(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>CIN :</label>
+                    <input type="text" value={cin} onChange={(e) => setCin(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>CNSS :</label>
+                    <input type="text" value={cnss} onChange={(e) => setCnss(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Domaine d'étude :</label>
+                    <input type="text" value={field_of_study} onChange={(e) => setFieldOfStudy(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Distance domicile-travail :</label>
+                    <input type="text" value={home_work_distance} onChange={(e) => setHomeWorkDistance(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Établissement scolaire :</label>
+                    <input type="text" value={school} onChange={(e) => setSchool(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Niveau de certificat :</label>
+                    <input type="text" value={certificate_level} onChange={(e) => setCertificateLevel(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Contact d'urgence :</label>
+                    <input type="text" value={emergency_contact} onChange={(e) => setEmergencyContact(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Téléphone d'urgence :</label>
+                    <input type="text" value={emergency_phone} onChange={(e) => setEmergencyPhone(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Numéro de compte bancaire :</label>
+                    <input type="text" value={bank_account_number} onChange={(e) => setBankAccountNumber(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Heures de travail :</label>
+                    <input type="text" value={working_hours} onChange={(e) => setWorkingHours(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Fuseau horaire :</label>
+                    <TimeZoneSelect value={timezone_field} onChange={(value) => setTimezoneField(value)} />
+                </div>
+                <div className="form-group">
+                    <label>État civil :</label>
+                    <select value={martial_status} onChange={(e) => setMartialStatus(e.target.value)}>
+                        <option value="">Sélectionner...</option>
+                        <option value="C">Célibataire</option>
+                        <option value="M">Marié</option>
+                        <option value="D">Divorcé</option>
+                        <option value="V">Veuf</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Poste :</label>
+                    <select value={job_positionID} onChange={(e) => setJobPosition(e.target.value)}>
+                        <option value="">Sélectionner...</option>
+                        {job_positions.map(job_position => (
+                            <option key={job_position.id} value={job_position.id}>{job_position.title}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Manager :</label>
+                    <select value={managerID} onChange={(e) => setManager(e.target.value)}>
+                        <option value="">Sélectionner...</option>
+                        {managers.map(manager => (
+                            <option key={manager.id} value={manager.id}>{manager.username}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Coach :</label>
+                    <select value={coachID} onChange={(e) => setCoach(e.target.value)}>
+                        <option value="">Sélectionner...</option>
+                        {coachs.map(coach => (
+                            <option key={coach.id} value={coach.id}>{coach.username}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Adresse :</label>
+                    <select value={addressID} onChange={(e) => setAddress(e.target.value)}>
+                        <option value="">Sélectionner...</option>
+                        {addresss.map(address => (
+                            <option key={address.id} value={address.id}>{address.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Départements :</label>
+                    <select multiple value={departmentID} onChange={(e) => setDepartment(Array.from(e.target.selectedOptions, option => option.value))}>
+                        {departments.map(department => (
+                            <option key={department.id} value={department.id}>{department.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Pièces jointes :</label>
+                    <input type="file" onChange={handleFileChange} />
+                </div>
+                <div className="button-group">
                     <button className="btn btn-success mt-3" type="submit">Ajouter Fiche</button>
-                    <Link to="/Dashboardfiche">
-                        <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
-                    </Link>
-                </form>
-            </div>
+                    <Link to="/Dashboardfiche" className="btn btn-gray mt-3">Retour au tableau de bord</Link>
+                </div>
+            </form>
         </div>
+    </div>
+    
     );
 }
 

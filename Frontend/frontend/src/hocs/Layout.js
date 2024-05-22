@@ -2,13 +2,11 @@ import React, { Fragment, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { connect } from 'react-redux';
 import { checkAuthenticated } from '../actions/auth';
-import { load_user } from '../actions/profile';
 
-const Layout = ({ children, checkAuthenticated, load_user }) => {
+const Layout = ({ children, checkAuthenticated }) => {
     useEffect(() => {
         checkAuthenticated();
-        load_user();
-    }, [checkAuthenticated, load_user]);
+    }, [checkAuthenticated]);
 
     return (
         <Fragment>
@@ -19,8 +17,7 @@ const Layout = ({ children, checkAuthenticated, load_user }) => {
 };
 
 const mapDispatchToProps = {
-    checkAuthenticated,
-    load_user,
+    checkAuthenticated
 };
 
 export default connect(null, mapDispatchToProps)(Layout);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './Dashboard.css';
 
 const DashboardFormation = () => {
     const [formations, setFormations] = useState([]);
@@ -30,36 +31,39 @@ const DashboardFormation = () => {
 
     return (
         <div>
-             <div className="formations-header">
-                <h3>Liste des Formations</h3>
-            </div>
-            <table className="table table-bordered" id="dataTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Intitule Formation</th>
-                        <th>Type Formation</th>
-                        <th>Théme de formation</th>
-                        <th>Responsable Validation</th>
-                        <th>Détails de la formation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {formations.map(formation => (
-                        <tr key={formation.id}>
-                            <td>{formation.id}</td>
-                            <td>{formation.intitule_formation}</td>
-                            <td>{formation.type_formation}</td>
-                            <td>{formation.theme_formation}</td>
-                            <td>{formation.responsable_validation}</td>
-                            <Link to={`/formation/${formation.id}`}>Détails</Link>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <Link to={`/ajouter-formation/`}><button>Ajouter Formation</button></Link>
-            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
-        </div>
+    <div className="formations-header">
+        <h3>Liste des Formations</h3>
+    </div>
+    <table className="table table-bordered" id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Intitulé Formation</th>
+                <th>Type Formation</th>
+                <th>Thème de formation</th>
+                <th>Responsable Validation</th>
+                <th>Détails de la formation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {formations.map(formation => (
+                <tr key={formation.id}>
+                    <td>{formation.id}</td>
+                    <td>{formation.intitule_formation}</td>
+                    <td>{formation.type_formation}</td>
+                    <td>{formation.theme_formation}</td>
+                    <td>{formation.responsable_validation}</td>
+                    <td><Link to={`/formation/${formation.id}`} className="details-link">Détails</Link></td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+    <div className="button-group">
+        <Link to={`/ajouter-formation/`} className="btn btn-primary">Ajouter Formation</Link>
+        <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+    </div>
+</div>
+
     );
 };
 

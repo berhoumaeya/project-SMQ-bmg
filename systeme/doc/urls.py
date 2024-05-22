@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
     path('create-demand/', CreateDemandAPIView.as_view(), name='create_demand'),
     path('document-pending/', DocumentPendingAPIView.as_view(), name='document_pending'),
+    path('document-pending/<int:document_id>/', DocumentPendingAPIView.as_view(), name='document_update'),
     path('create-document-interne/', CreateDocumentInterneAPIView.as_view(), name='create_document_interne'),
     path('documents/verification/', DocumentVerifAPIView.as_view(), name='document_verification'),
     path('documents/Approuve/', DocumentApprouveAPIView.as_view(), name='document_Approuve'),

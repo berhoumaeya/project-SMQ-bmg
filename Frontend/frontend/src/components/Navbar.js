@@ -1,55 +1,69 @@
-import React, {Fragment} from 'react';
-import { Link , NavLink} from 'react-router-dom';
-import { connect} from 'react-redux';
+import React, { Fragment, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
-const navbar = ({isAuthenticated,logout}) => {
-    const authLinks =  (
-        <Fragment>
-             <li className='nav-item'>
-                     <NavLink className='nav-link'  to='/dashboard'>Dashboard</NavLink>
-             </li>
-             <li className='nav-item'>
-                     <a  className='nav-link' onClick={logout} href='#!'>Logout</a>
-             </li>
-        </Fragment>
-        
-    );
-    const guestLinks =  (
-        <Fragment>
-             <li className='nav-item'>
-                     <NavLink className='nav-link'  to='/login'>Login</NavLink>
-             </li>
-             <li className='nav-item'>
-                     <NavLink className='nav-link'   to='/register'>Register</NavLink>
-             </li>
-             <li className='nav-item'>
-                     <NavLink className='nav-link'   to='/dashboard'>Dashboard</NavLink>
-             </li>
-        </Fragment>
-        
-    );
-    return(
-        <nav className='navbar navbar-expand-lg bg-body-tertiary'>
-            <div className='container-fluid'>
-                <Link className='navbar-brand' exact to='/'>BMG</Link>
-                <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
-                    <span className='navbar-toggler-icon'></span>
-                </button>
-                <div className='collapse navbar-collapse' id='navbarNav'>
-                    <ul className='navbar-nav'>
-                        <li className='nav-item'>
-                            <NavLink className='nav-link'  exact to='/'>Home</NavLink>
-                        </li>
-                        {isAuthenticated ? authLinks  : guestLinks }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    );
+const Navbar = ({ isAuthenticated, user, logout }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">BMG</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav me-auto">
+            {!isAuthenticated && (
+              <li className="nav-item">
+                <NavLink className="nav-link" exact to="/">Home</NavLink>
+              </li>
+            )}
+            {!isAuthenticated && (
+              <Fragment>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/login">Login</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/register">Register</NavLink>
+                </li>
+              </Fragment>
+            )}
+            {isAuthenticated && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
+              </li>
+            )}
+          </ul>
+          {isAuthenticated && (
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#!" role="button" onClick={toggleDropdown}>
+                  {user ? `Welcome, ${user.username}` : 'Account'}
+                </a>
+                {dropdownOpen && (
+                  <div className="dropdown-menu dropdown-menu-end show">
+                    <Link className="dropdown-item" to="/Profile">Profile</Link>
+                    <Link className="dropdown-item" to="/" onClick={logout}>Logout</Link>
+                  </div>
+                )}
+              </li>
+            </ul>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
 };
+
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
 });
 
-export default connect(mapStateToProps, { logout })(navbar);
+export default connect(mapStateToProps, { logout })(Navbar);

@@ -53,48 +53,45 @@ class CreateDemandAPIView(GroupRequiredMixin,APIView):
     
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
-class DocumentPendingAPIView(GroupRequiredMixin,APIView):
+class DocumentPendingAPIView(GroupRequiredMixin, APIView):
     permission_classes = [IsAuthenticated]
-    group_required = 'superviseur'
+    group_required = 'superviseur'  # This is checked by GroupRequiredMixin
 
     def get(self, request):
         fiches_pending = DemandDocument.objects.filter(is_validated=False)
-        serializer = DemandSerializer(fiches_pending, many=True)
-        return Response(serializer.data)
-    
+        data = []
+        for fiche in fiches_pending:
+            fiche_data = {
+                'id': fiche.id,
+                'Type': fiche.type.type_de_document,
+                'attached_file': fiche.attached_file if fiche.attached_file else None,
+                'statut': fiche.is_validated,
+                'created_by': fiche.created_by.first_name,
+                'created_at': fiche.created_at
+            }
+            data.append(fiche_data)
+        return Response(data, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        document_id = request.data.get('document_id')
+    def put(self, request, document_id):
         is_validated = request.data.get('is_validated')
 
-        if not document_id or is_validated is None:
-            return Response({"message": "L'ID du demande et le nouveau statut sont requis."}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            document = get_object_or_404(DemandDocument, pk=document_id)
-        except DemandDocument.DoesNotExist:
-            return Response({"message": "La demande spécifié n'existe pas."}, status=status.HTTP_404_NOT_FOUND)
-
-        recipient_username = request.data.get('recipient')
-        try:
-            recipient = User.objects.get(username=recipient_username)
-        except User.DoesNotExist:
-            return Response({"recipient": ["L'utilisateur spécifié n'existe pas."]}, status=status.HTTP_400_BAD_REQUEST)
-
-        request.data['recipient'] = recipient.pk
-        serializer = NotificationSerializer(data=request.data)
+        if is_validated is None:
+            return Response({"message": "Le nouveau statut est requis."}, status=status.HTTP_400_BAD_REQUEST)
+        document = get_object_or_404(DemandDocument, pk=document_id)
+        recipient_pk = document.created_by.pk 
+        message = "validé" if is_validated else "refusé"
+        serializer = NotificationSerializer(data={'recipient': recipient_pk, 'message': message})
         if serializer.is_valid():
-            message = serializer.validated_data.get('message')  
-            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-            serializer.validated_data['created_at'] = created_at
             serializer.save(sender=request.user)
             document.is_validated = is_validated
             document.save()
-            send_notification(request.user, recipient, message)
+
+            send_notification(request.user, document.created_by, message)
+
             if is_validated:
-                return Response({"message": f"La demande {document_id} a été validé avec succès."}, status=status.HTTP_200_OK)
+                return Response({"message": f"La demande {document_id} a été validée avec succès."}, status=status.HTTP_200_OK)
             else:
-                return Response({"message": f"La demande {document_id} a été refusé."}, status=status.HTTP_200_OK)
+                return Response({"message": f"La demande {document_id} a été refusée."}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

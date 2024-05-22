@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { register } from '../actions/auth';
 import CSRFToken from '../components/CSRFToken';
 
+
 // Define the Register component
 const Register = ({ register, isAuthenticated }) => {
     // State to manage form data and account creation status
@@ -46,7 +47,7 @@ const Register = ({ register, isAuthenticated }) => {
     // Render the registration form
     return (
         <div className='container mt-5'>
-            <h1>Inscrivez-vous pour un compte</h1>
+            <h1>Inscrivez-vous</h1>
             <form onSubmit={e => onSubmit(e)}>
                 <CSRFToken />
                 <div className='form-group'>

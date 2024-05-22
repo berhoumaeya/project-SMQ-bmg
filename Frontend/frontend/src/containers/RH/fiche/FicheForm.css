@@ -12,12 +12,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-section {
-    margin-bottom: 20px;
-}
-
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
@@ -26,9 +22,8 @@
 }
 
 .form-group input[type="text"],
-.form-group select,
-.form-group input[type="date"],
-.form-group input[type="file"] {
+.form-group input[type="email"],
+.form-group select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -39,35 +34,10 @@
     height: 100px; /* Ajustez la hauteur selon le nombre d'options */
 }
 
-.form-group small {
-    display: block;
-    color: #888;
-    margin-top: 5px;
-}
-
-.form-actions {
+.button-group {
     text-align: right;
 }
 
-/* Styles pour les boutons */
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn-gray {
-    background-color: #ccc;
-    color: #333;
-    margin-right: 10px;
-}
-
-.btn:hover {
-    opacity: 0.8;
+.button-group .btn {
+    margin-left: 10px;
 }

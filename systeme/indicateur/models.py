@@ -22,6 +22,14 @@ class TypeResultatAttendu(models.Model):
 
     def __str__(self):
         return self.nom
+    
+class Alert(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='alerts')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Alert for {self.user.username} at {self.created_at}"
 
 class Indicateur(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='indicateur_created', null=True)
@@ -79,5 +87,8 @@ class SuiviIndicateur(models.Model):
 
 @receiver(post_save, sender=SuiviIndicateur)
 def generer_alerte_agenda(sender, instance, created, **kwargs):
-    if created:
-        instance.responsable.alert_set.create(message=f"Rappel : Suivi de l'indicateur {instance.indicateur.nom}")
+    if created and instance.created_by:
+        Alert.objects.create(
+            user=instance.created_by,
+            message=f"Rappel : Suivi de l'indicateur {instance.indicateur.libelle}"
+        )

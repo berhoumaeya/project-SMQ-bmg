@@ -3,7 +3,6 @@ import { Navigate, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../actions/auth';
 import CSRFToken from '../components/CSRFToken';
-
 // The Login component receives the login action and isAuthenticated state as props
 const Login = ({ login, isAuthenticated }) => {
     // State to manage form data and login error

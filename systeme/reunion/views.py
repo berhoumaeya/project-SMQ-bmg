@@ -22,7 +22,7 @@ class DashboardMeetAPIView(APIView):
         meets = Meeting.objects.all()
         data = []
         for meet in meets:
-            created_by_name = meet.created_by.first_name if meet.created_by else None
+            created_by_name = meet.demandeur.first_name if meet.demandeur else None
             updated_by_name = meet.updated_by.first_name if meet.updated_by else None
             created_at_str = meet.created_at.strftime('%Y-%m-%d %H:%M:%S') if meet.created_at else None
             updated_at_str = meet.updated_at.strftime('%Y-%m-%d %H:%M:%S') if meet.updated_at else None
@@ -69,7 +69,6 @@ class UpdateMeetAPIView(APIView):
             meet_data = serializer.data
             meet_data['demandeur'] = request.user.first_name
             meet_data['updated_at'] = updated_at
-            meet_data['evaluation_meet'] = serializer.instance.methode_calcul
             return Response(meet_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -96,7 +95,7 @@ class DeleteMeetAPIView(APIView):
     def delete(self, request, pk):
         meet = get_object_or_404(Meeting, pk=pk)
         meet.delete()
-        return Response({"message": "Le fiche risk a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "La réunion a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
     
 
 @method_decorator(login_required(login_url='login'), name='dispatch')

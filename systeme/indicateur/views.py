@@ -108,20 +108,20 @@ class DashboardSuiviIndicateurAPIView(APIView):
     def get(self, request):
         SuiviIndicateurs = SuiviIndicateur.objects.all()
         data = []
-        for SuiviIndicateur in SuiviIndicateurs:
-            created_by_name = SuiviIndicateur.created_by.first_name if SuiviIndicateur.created_by else None
-            updated_by_name = SuiviIndicateur.updated_by.first_name if SuiviIndicateur.updated_by else None
-            created_at_str = SuiviIndicateur.created_at.strftime('%Y-%m-%d %H:%M:%S') if SuiviIndicateur.created_at else None
-            updated_at_str = SuiviIndicateur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if SuiviIndicateur.updated_at else None
-            SuiviIndicateur_data = {
-                'id': SuiviIndicateur.id,
-                'Libelle': SuiviIndicateur.libelle,
+        for suiviIndicateur in SuiviIndicateurs:
+            created_by_name = suiviIndicateur.created_by.first_name if suiviIndicateur.created_by else None
+            updated_by_name = suiviIndicateur.updated_by.first_name if suiviIndicateur.updated_by else None
+            created_at_str = suiviIndicateur.created_at.strftime('%Y-%m-%d %H:%M:%S') if suiviIndicateur.created_at else None
+            updated_at_str = suiviIndicateur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if suiviIndicateur.updated_at else None
+            suiviIndicateur_data = {
+                'id': suiviIndicateur.id,
+                'Libelle': suiviIndicateur.libelle,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,
                 'updated_at': updated_at_str,
             }
-            data.append(SuiviIndicateur_data)
+            data.append(suiviIndicateur_data)
         return Response(data, status=status.HTTP_200_OK)
 
 # Ajouter un SuiviIndicateur

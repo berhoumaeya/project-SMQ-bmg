@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom'; 
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import "../Detail.css";
+import '../formation/details.css'
 
 const FicheDetail = () => {
   const { id } = useParams();
@@ -78,6 +78,7 @@ const FicheDetail = () => {
           <div className="card-body">
             <p><strong>ID :</strong> {fiche_employe.id}</p>
             <p><strong>name fiche_employe :</strong> {fiche_employe.name}</p>
+            <p><strong>employe_concerne :</strong> {employe}</p>
             <p><strong>Post occupé :</strong> {post}</p>
             <p><strong>work_mobile   :</strong> {fiche_employe.work_mobile}</p>
             <p><strong>work_phone  :</strong> {fiche_employe.work_phone}</p>
@@ -103,9 +104,7 @@ const FicheDetail = () => {
             <p><strong>Pièces jointes :</strong> {fiche_employe.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
             <p><strong>address :</strong> {address}</p>
             <p><strong>crée par  :</strong> {fiche_employe.created_by}</p>
-            <p><strong>employe_concerne :</strong> {employe}</p>
           </div>
-          <br />
           <a href="/Dashboardfiche"><button className="btn-gray">Retour</button></a>&nbsp;
           <Link to={`/update-fiche/${fiche_employe.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
           <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>

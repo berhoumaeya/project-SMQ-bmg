@@ -119,78 +119,96 @@ function AddFormation() {
         <div className="form-card">
             <h3>Ajouter une Formation</h3>
             <form onSubmit={handleSubmit} className="form">
-                <div className="form-group">
-                    <label>Intitulé de la formation :</label>
-                    <input type="text" name="intitule_formation" value={intitule_formation} onChange={(e) => setIntitule_formation(e.target.value)} />
+                <div className="form-section">
+                    <h4>Informations sur la Formation</h4>
+                    <div className="form-group">
+                        <label>Intitulé de la formation <span className="required">*</span>:</label>
+                        <input type="text" name="intitule_formation" value={intitule_formation} onChange={(e) => setIntitule_formation(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                        <label>Type de formation <span className="required">*</span>:</label>
+                        <select value={type_formation} onChange={(e) => setType_formation(e.target.value)}>
+                            <option value="">Sélectionner...</option>
+                            <option value="interne">Formation en interne</option>
+                            <option value="intra">Formation en intra</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Organisme de formation :</label>
+                        <input type="text" name="organisme_formation" value={organisme_formation} onChange={(e) => setOrganisme_formation(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                        <label>Thème de formation :</label>
+                        <input type="text" name="theme_formation" value={theme_formation} onChange={(e) => setTheme_formation(e.target.value)}></input>
+                    </div>
+                    <div className="form-group">
+                        <label>Date de début de la formation :</label>
+                        <input type="date" name="date_debut_formation" value={date_debut_formation} onChange={(e) => setDate_debut_formation(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                        <label>Date de fin de la formation :</label>
+                        <input type="date" name="date_fin_formation" value={date_fin_formation}onChange={(e) => setDate_fin_formation(e.target.value)} />
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Type de formation :</label>
-                    <select value={type_formation} onChange={(e) => setType_formation(e.target.value)}>
-                    <option value="">Sélectionner...</option>
-                        <option value="interne">Formation en interne</option>
-                        <option value="intra">Formation en intra</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>Organisme de formation :</label>
-                    <input type="text" name="organisme_formation" value={organisme_formation} onChange={(e) => setOrganisme_formation(e.target.value)} />
-                </div>
-                <div className="form-group">
-                    <label>Thème de formation :</label>
-                    <input type="text" name="theme_formation" value={theme_formation} onChange={(e) => setTheme_formation(e.target.value)}></input>
-                </div>
-                <div className="form-group">
-                    <label>Date de début de la formation :</label>
-                    <input type="date" name="date_debut_formation" value={date_debut_formation} onChange={(e) => setDate_debut_formation(e.target.value)} />
-                </div>
-                <div className="form-group">
-                    <label>Date de fin de la formation :</label>
-                    <input type="date" name="date_fin_formation" value={date_fin_formation}onChange={(e) => setDate_fin_formation(e.target.value)} />
-                </div>
-                <div className="form-group">
-                        <label>Responsables Formation :</label>
+    
+                <div className="form-section">
+                    <h4>Responsabilités et Participants</h4>
+                    <div className="form-group">
+                        <label>Responsables Formation <span className="required">*</span>:</label>
                         <select multiple value={responsable_formationID} onChange={(e) => setResponsable_formation(Array.from(e.target.selectedOptions, option => option.value))}>
                             {responsablesFormations.map(responsable_formation => (
                                 <option key={responsable_formation.id} value={responsable_formation.id}>{responsable_formation.username}</option>
                             ))}
                         </select>
                     </div>
-                <div className="form-group">
-                    <label>Responsable de la validation :</label>
-                    <select value={responsable_validation} onChange={(e) => setResponsable_validation(e.target.value)}>
-                    <option value="">Sélectionner...</option>
-                        {responsablesValidations.map(responsable_validation => (
-                            <option key={responsable_validation.id} value={responsable_validation.id}>{responsable_validation.username}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="form-group">
-                        <label>Participants :</label>
-                        <select multiple value={participantID} onChange={(e) => setParticipant(Array.from(e.target.selectedOptions, option => option.value))}>
-                            {participantss.map(participants => (
-                                <option key={participants.id} value={participants.id}>{participants.username}</option>
+                    <div className="form-group">
+                        <label>Responsable de la validation <span className="required">*</span>:</label>
+                        <select value={responsable_validation} onChange={(e) => setResponsable_validation(e.target.value)}>
+                            <option value="">Sélectionner...</option>
+                            {responsablesValidations.map(responsable_validation => (
+                                <option key={responsable_validation.id} value={responsable_validation.id}>{responsable_validation.username}</option>
                             ))}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Pièces jointes :</label>
-                        <input type="file" onChange={handleFileChange} />
+                        <label>Participants <span className="required">*</span>:</label>
+                        <select multiple value={participantID} onChange={(e) => setParticipant(Array.from(e.target.selectedOptions, option => option.value))}>
+                            {participantss.map(participant => (
+                                <option key={participant.id} value={participant.id}>{participant.username}</option>
+                            ))}
+                        </select>
                     </div>
-                <div className="form-group">
-                    <label>Paramètre de validation :</label>
-                    <select value={parametre_validation} onChange={(e) => setParametre_validation(e.target.value)}>
-                    <option value="">Sélectionner...</option>
-                        <option value="chaud">Évaluation à chaud</option>
-                        <option value="froid">Évaluation à froid</option>
-                    </select>
                 </div>
-                <button className="btn btn-primary mt-3"  type="submit">Ajouter Formation</button>
-                <Link to="/Dashboardformation">
-                        <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
-                    </Link>
+    
+                <div className="form-section">
+                    <h4>Pièces jointes</h4>
+                    <div className="form-group">
+                        <label>Pièces jointes :</label>
+                        <input type="file" onChange={handleFileChange} accept=".pdf,.doc,.docx" />
+                        <small>Formats acceptés : PDF, Word (.doc, .docx)</small>
+                    </div>
+                </div>
+    
+                <div className="form-section">
+                    <h4>Paramètre de validation</h4>
+                    <div className="form-group">
+                        <label>Paramètre de validation <span className="required">*</span>:</label>
+                        <select value={parametre_validation} onChange={(e) => setParametre_validation(e.target.value)}>
+                            <option value="">Sélectionner...</option>
+                            <option value="chaud">Évaluation à chaud</option>
+                            <option value="froid">Évaluation à froid</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div className="form-actions">
+                    <button className="btn btn-primary" type="submit">Ajouter Formation</button>
+                    <Link to="/Dashboardformation" className="btn btn-gray">Retour au tableau de bord</Link>
+                </div>
             </form>
         </div>
     </div>
+    
 );
       
     

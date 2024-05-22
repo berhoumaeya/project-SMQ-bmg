@@ -176,3 +176,9 @@ class UserProfileAPIView(APIView):
         }
         
         return Response(user_data)
+    
+class UserListAPIView(APIView):
+    def get(self, request):
+        users = User.objects.all()
+        user_data = [{'id': user.id, 'username': user.first_name} for user in users]
+        return Response(user_data)

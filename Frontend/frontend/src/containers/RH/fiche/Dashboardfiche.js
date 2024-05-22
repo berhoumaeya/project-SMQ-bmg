@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import "../Dashboard.css"
+import "../formation/Dashboard.css"
 
 const DashboardFiche = () => {
     const [fiche_employes, setFormations] = useState([]);
@@ -56,8 +56,10 @@ const DashboardFiche = () => {
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-fiche/`}><button>Ajouter fiche Employe</button></Link>
-            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
+            <div className="button-group">
+            <Link to={`/ajouter-fiche/`} className="btn btn-primary">Ajouter fiche Employe</Link>
+            <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+           </div>
         </div>
     );
 };

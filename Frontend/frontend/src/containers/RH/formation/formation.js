@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom'; 
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import './details.css'
 
 
 const FormationDetail = () => {
@@ -61,37 +62,74 @@ const FormationDetail = () => {
     return <Navigate to="/Dashboardformation" />;
   }
     return (
-        <div>
-            {formation ? (
-                <div className="card" >
-                    <div className="card-body">
-                        <p><strong>ID :</strong> {formation.id}</p>
-                        <p><strong>Intitulé de la formation :</strong> {formation.intitule_formation}</p>
-                        <p><strong>Type de formation :</strong> {formation.type_formation}</p>
-                        <p><strong>Organisme de formation :</strong> {formation.organisme_formation}</p>
-                        <p><strong>Thème de formation :</strong> {formation.theme_formation}</p>
-                        <p><strong>Date de début de la formation :</strong> {formation.date_debut_formation}</p>
-                        <p><strong>Date de fin de la formation :</strong> {formation.date_fin_formation}</p>
-                        <p><strong>Responsable de la validation :</strong> {responsableValidationName}</p>
-                        <p><strong>Responsable de la Formation :</strong> {responsableFormationName.join(', ')}</p>
-                        <p><strong>Date de création :</strong> {formation.created_at}</p>
-                        <p><strong>Créé par :</strong> {formation.created_by}</p>
-                        <p><strong>Modifié par :</strong> {formation.updated_by}</p>
-                        <p><strong>Date de modification :</strong> {formation.updated_at}</p>
-                        <p><strong>Participants :</strong>{participantsNames.join(', ')}</p>
-                        <p><strong>Paramètre de validation :</strong> {formation.parametre_validation}</p>
-                        <p><strong>Date de clôture de la formation :</strong> {formation.date_cloture}</p>
-                        <p><strong>Pièces jointes :</strong> {formation.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_formation/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                    </div>
-                    <br />
-                    <a href="/Dashboardformation" className="btn btn-secondary">Retour</a>&nbsp;
-                    <Link to={`/update-formation/${formation.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
-                    <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-                </div>
-            ):(
-                <p>chargement ... </p>
-            )}
-        </div>
+      <div>
+      {formation ? (
+          <div className="card">
+              <div className="card-body">
+                  <h3>Détails de la Formation</h3>
+                  <div className="detail">
+                      <strong>ID :</strong> {formation.id}
+                  </div>
+                  <div className="detail">
+                      <strong>Intitulé de la formation :</strong> {formation.intitule_formation}
+                  </div>
+                  <div className="detail">
+                      <strong>Type de formation :</strong> {formation.type_formation}
+                  </div>
+                  <div className="detail">
+                      <strong>Organisme de formation :</strong> {formation.organisme_formation}
+                  </div>
+                  <div className="detail">
+                      <strong>Thème de formation :</strong> {formation.theme_formation}
+                  </div>
+                  <div className="detail">
+                      <strong>Date de début de la formation :</strong> {formation.date_debut_formation}
+                  </div>
+                  <div className="detail">
+                      <strong>Date de fin de la formation :</strong> {formation.date_fin_formation}
+                  </div>
+                  <div className="detail">
+                      <strong>Responsable de la validation :</strong> {responsableValidationName}
+                  </div>
+                  <div className="detail">
+                      <strong>Responsable de la Formation :</strong> {responsableFormationName.join(', ')}
+                  </div>
+                  <div className="detail">
+                      <strong>Date de création :</strong> {formation.created_at}
+                  </div>
+                  <div className="detail">
+                      <strong>Créé par :</strong> {formation.created_by}
+                  </div>
+                  <div className="detail">
+                      <strong>Modifié par :</strong> {formation.updated_by}
+                  </div>
+                  <div className="detail">
+                      <strong>Date de modification :</strong> {formation.updated_at}
+                  </div>
+                  <div className="detail">
+                      <strong>Participants :</strong>{participantsNames.join(', ')}
+                  </div>
+                  <div className="detail">
+                      <strong>Paramètre de validation :</strong> {formation.parametre_validation}
+                  </div>
+                  <div className="detail">
+                      <strong>Date de clôture de la formation :</strong> {formation.date_cloture}
+                  </div>
+                  <div className="detail">
+                      <strong>Pièces jointes :</strong> {formation.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_formation/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}
+                  </div>
+              </div>
+              <div className="button-group">
+                  <a href="/Dashboardformation" className="btn btn-secondary">Retour</a>
+                  <Link to={`/update-formation/${formation.id}`} className="btn btn-primary">Modifier</Link>
+                  <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+              </div>
+          </div>
+      ) : (
+          <p>Chargement...</p>
+      )}
+  </div>
+  
     );
 };
 

@@ -53,6 +53,9 @@ import DashboardPost from './containers/RH/position/Dashboardposition';
 import AddPost from './containers/RH/position/ajouter-position';
 import PostDetail from './containers/RH/position/position';
 import UpdatePost from './containers/RH/position/update-position';
+import UserProfile from './containers/Profile';
+
+import DemandList from './containers/DOcumentation/ListeDemande';
 
 
 const App = () => (
@@ -63,6 +66,11 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+
+          <Route path="/Profile" element={<UserProfile />} />
+
+          <Route path="/ListeDemande" element={<DemandList />} />
+
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/dashboardRH" element={<DashboardRH />}/>
           <Route path="/dashboardClient" element={<DashboardClient />} />

@@ -13,30 +13,28 @@ export const load_user = () => async dispatch => {
     // Set up HTTP headers
     const config = {
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': '*/*'
         }
     };
 
     try {
         // Send a GET request to load user profile
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile`, config);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile/`, config);
 
         // Check response and dispatch appropriate action
-        if (res.data.error) {
-            dispatch({
-                type: LOAD_USER_PROFILE_FAIL,
-            });
-        } else {
+        if (res.data.success) {
             dispatch({
                 type: LOAD_USER_PROFILE_SUCCESS,
                 payload: res.data
             });
+        } else {
+            dispatch({
+                type: LOAD_USER_PROFILE_FAIL,
+                payload: false
+            });
         }
     } catch (err) {
-        dispatch({
-            type: LOAD_USER_PROFILE_FAIL,
-        });
+        console.log('dispatch:', typeof dispatch);
     }
 };
 
@@ -47,13 +45,12 @@ export const update_profile = (username, nom, prenom, password) => async dispatc
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken')
+            'X-CSRFToken': Cookies.get('csrftoken'),
         }
     };
 
-    // Create request body with user profile data and 'withCredentials' flag
+    // Create request body with user profile data
     const body = JSON.stringify({
-        'withCredentials': true,
         username,
         nom,
         prenom,
@@ -69,7 +66,7 @@ export const update_profile = (username, nom, prenom, password) => async dispatc
             dispatch({
                 type: UPDATE_USER_PROFILE_SUCCESS,
                 payload: res.data
-            })
+            });
         } else {
             dispatch({
                 type: UPDATE_USER_PROFILE_FAIL
@@ -77,8 +74,9 @@ export const update_profile = (username, nom, prenom, password) => async dispatc
         }
 
     } catch (err) {
+        console.error('Error updating user profile:', err);
         dispatch({
             type: UPDATE_USER_PROFILE_FAIL
         });
     }
-}
+};

@@ -4,7 +4,7 @@ from .models import ActionPrincipale,SousAction,ClotureAction
 class ActionPrincipaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActionPrincipale
-        fields = ['nom_action', 'numero_sequentiel', 'designation', 'description', 'type_action', 'source_action','cause_action', 'gravite_action', 'priorite_action', 'responsable_validation', 'site', 'piece_jointe', 'plan']
+        fields = ['nom_action', 'designation', 'description', 'type_action', 'source_action','cause_action', 'gravite_action', 'priorite_action', 'responsable_validation', 'site', 'piece_jointe', 'plan']
 
 class SousActionSerializer(serializers.ModelSerializer):
     class Meta:

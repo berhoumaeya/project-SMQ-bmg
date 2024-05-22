@@ -43,7 +43,6 @@ class PrioriteAction(models.Model):
 class ActionPrincipale(models.Model):
 
     nom_action = models.CharField(max_length=100,default=None)
-    numero_sequentiel = models.AutoField(primary_key=True)
     designation = models.TextField()
     description = models.TextField()
     type_action = models.ForeignKey(TypeAction, on_delete=models.CASCADE, related_name='actions_type')

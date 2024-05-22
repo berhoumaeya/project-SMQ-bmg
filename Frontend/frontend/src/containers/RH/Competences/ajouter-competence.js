@@ -10,12 +10,7 @@ function CompetenceForm() {
     const [employe_concernes, setEmployes] = useState([]);
     const [employe_concerneID, setEmploye] = useState('');
     const [commentaires, setCommentaires] = useState('');
-    const [skillsAcquis, setSkillsAcquis] = useState({
-        communication: 7,
-        "developpement": 8,
-        "marketing": 9,
-        "sience":4
-    });
+    const [skillsAcquis, setSkillsAcquis] = useState({});
     // skillsAcquis
     const [ajoutReussi, setAjoutReussi] = useState(false);
 
@@ -116,6 +111,7 @@ function CompetenceForm() {
         }} 
     />
 </div>
+{JSON.stringify(skillsAcquis)}
                     <div className="form-group">
                         <label>Pièces jointes :</label>
                         <input type="file" onChange={handleFileChange} />

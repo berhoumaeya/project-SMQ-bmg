@@ -1,16 +1,10 @@
-// import { connect } from 'react-redux';
-// import { update_profile } from '../actions/profile';
-// import { delete_account } from '../actions/auth';
-// , { useState, useEffect }
-
-
-
 import React, { useState } from "react";
+import { FaUser, FaBook, FaUserFriends, FaBuilding, FaChartBar, FaClipboardList, FaExclamationTriangle, FaHandshake, FaGavel, FaUsers, FaCalendarAlt, FaTasks, FaBalanceScale, FaFileAlt } from 'react-icons/fa';
 
-function ModuleTile({ title, description, url }) {
+function ModuleTile({ title, description, url, icon }) {
     return (
         <div className="border p-5">
-            <h4>{title}</h4>
+            <h4>{icon} {title}</h4>
             <p>{description}</p>
             <a href={url} className="btn btn-primary">Accéder</a>   
         </div>
@@ -50,59 +44,70 @@ function SearchBar({ onSearch }) {
 function Dashboard() {
     const [modules] = useState([
         {
-            title: "Risk",
-            description: "Évaluez et gérez les risques associés à vos activités.",
-            url: "/dashboard_risk"
-        },
-        {
             title: "Ressources Humaines",
             description: "Gérez les ressources humaines de votre entreprise.",
-            url: "/dashboardRH"
-        },
-        {
-            title: "Réunion",
-            description: "Planifiez et organisez vos réunions efficacement.",
-            url: "/dashboard_reunion"
-        },
-        {
-            title: "Audit",
-            description: "Accédez à l'outil d'audit pour suivre les performances.",
-            url: "/dashboard_audit"
-        },
-        {
-            title: "Actions",
-            description: "Gérez et suivez les actions en cours dans votre entreprise.",
-            url: "/dashboard_action"
-        },
-        {
-            title: "Fournisseur",
-            description: "Gérez les informations sur les fournisseurs et les contacts.",
-            url: "/DashboardFournisseur"
-        },
-        {
-            title: "Client",
-            description: "Consultez les informations sur les clients et les contacts.",
-            url: "/DashboardClient"
-        },
-        {
-            title: "Indicateur",
-            description: "Visualisez les indicateurs clés de performance de votre entreprise.",
-            url: "/dashboard_indicateur"
-        },
-        {
-            title: "Produit Non Conforme",
-            description: "Gérez les produits non conformes et les actions correctives.",
-            url: "/dashboard_produit"
+            url: "/dashboardRH",
+            icon: <FaUser />
         },
         {
             title: "Documentation",
             description: "Accédez à la documentation pour obtenir des informations utiles.",
-            url: "/DashboardDoc"
+            url: "/DashboardDoc",
+            icon: <FaBook />
+        },
+        {
+            title: "Client",
+            description: "Consultez les informations sur les clients et les contacts.",
+            url: "/DashboardClient",
+            icon: <FaUserFriends />
+        },
+        {
+            title: "Fournisseur",
+            description: "Gérez les informations sur les fournisseurs et les contacts.",
+            url: "/DashboardFournisseur",
+            icon: <FaBuilding />
+        },
+        {
+            title: "Indicateur",
+            description: "Visualisez les indicateurs clés de performance de votre entreprise.",
+            url: "/dashboard_indicateur",
+            icon: <FaChartBar />
+        },
+        {
+            title: "Audit",
+            description: "Accédez à l'outil d'audit pour suivre les performances.",
+            url: "/dashboard_audit",
+            icon: <FaClipboardList />
+        },
+        {
+            title: "Produit Non Conforme",
+            description: "Gérez les produits non conformes et les actions correctives.",
+            url: "/dashboard_produit",
+            icon: <FaExclamationTriangle />
+        },
+        {
+            title: "Risk",
+            description: "Évaluez et gérez les risques associés à vos activités.",
+            url: "/dashboard_risk",
+            icon: <FaHandshake />
+        },
+        {
+            title: "Réunion",
+            description: "Planifiez et organisez vos réunions efficacement.",
+            url: "/dashboard_reunion",
+            icon: <FaGavel />
+        },
+        {
+            title: "Actions",
+            description: "Gérez et suivez les actions en cours dans votre entreprise.",
+            url: "/dashboard_action",
+            icon: <FaTasks />
         },
         {
             title: "Conformité reglementaire",
             description: "Assurez-vous que votre entreprise respecte les réglementations en vigueur.",
-            url: "/dashboard_conformité"
+            url: "/dashboard_conformité",
+            icon: <FaBalanceScale />
         },
     ]);
 
@@ -127,6 +132,7 @@ function Dashboard() {
                                 title={module.title}
                                 description={module.description}
                                 url={module.url}
+                                icon={module.icon}
                             />
                         </div>
                     ))}
@@ -137,6 +143,7 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
 
 
 
