@@ -5,7 +5,7 @@ from .models import DocInt,DocExt,DemandDocument
 class DemandSerializer(serializers.ModelSerializer):
     class Meta:
         model = DemandDocument
-        fields = ['type','document_object','attached_file','is_validated']
+        fields = ['id','type','document_object','attached_file','is_validated']
 
 class DocumentInterneSerializer(serializers.ModelSerializer):
     class Meta:

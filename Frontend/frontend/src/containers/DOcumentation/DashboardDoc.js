@@ -2,7 +2,7 @@ import React from 'react';
 
 function DashboardDoc({ user }) {
   const gestionSections = [
-    { title: 'Gérer les Documents internes', link: '/dashboard_internes' },
+    { title: 'Gérer les Documents internes', link: '/DashboardDocInt' },
     { title: 'Gérer les Documents externes', link: '/dashboard_externes' },
     { title: 'Liste des demandes', link: '/ListeDemande' },
     { title: 'Créer demande', link: '/CréerDemande' },

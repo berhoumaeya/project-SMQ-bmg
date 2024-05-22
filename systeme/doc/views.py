@@ -11,7 +11,7 @@ from user.serializers import NotificationSerializer
 from django.contrib.auth.decorators import login_required
 from braces.views import GroupRequiredMixin
 from user.models import send_notification
-
+import json
 
 #Créer demande
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -55,7 +55,7 @@ class CreateDemandAPIView(GroupRequiredMixin,APIView):
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DocumentPendingAPIView(GroupRequiredMixin, APIView):
     permission_classes = [IsAuthenticated]
-    group_required = 'superviseur'  # This is checked by GroupRequiredMixin
+    group_required = 'superviseur' 
 
     def get(self, request):
         fiches_pending = DemandDocument.objects.filter(is_validated=False)
@@ -94,7 +94,27 @@ class DocumentPendingAPIView(GroupRequiredMixin, APIView):
                 return Response({"message": f"La demande {document_id} a été refusée."}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
+#Demande Accepté
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DocumentAcceptedAPIView(GroupRequiredMixin, APIView):
+    permission_classes = [IsAuthenticated]
+    group_required = 'superviseur' 
+
+    def get(self, request):
+        fiches_pending = DemandDocument.objects.filter(is_validated=True)
+        data = []
+        for fiche in fiches_pending:
+            fiche_data = {
+                'id': fiche.id,
+                'Type': fiche.type.type_de_document,
+                'attached_file': fiche.attached_file if fiche.attached_file else None,
+                'statut': fiche.is_validated,
+                'created_by': fiche.created_by.first_name,
+                'created_at': fiche.created_at
+            }
+            data.append(fiche_data)
+        return Response(data, status=status.HTTP_200_OK)
 #créer document interne
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -114,8 +134,10 @@ class CreateDocumentInterneAPIView(GroupRequiredMixin, APIView):
                 client_data = serializer.data
                 client_data['selection_redacteur'] = request.user.first_name
                 client_data['created_at'] = created_at
-                client_data['id'] = serializer.instance.id 
                 return Response(client_data, status=status.HTTP_201_CREATED)
+            
+            errors_json = json.dumps(serializer.errors, indent=4)
+            print(errors_json)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"message": "Impossible de créer le document. La demande associé n'est pas validé."}, status=status.HTTP_400_BAD_REQUEST)
@@ -232,10 +254,10 @@ class DashboardDocIntAPIView(APIView):
             doc_data = {
                 'id': doc.id,
                 'libelle': doc.libelle,
-                'type': doc.type.type_de_document if doc.type else None,
+                'type': doc.type if doc.type else None,
                 'fichier': doc.fichier.url if doc.fichier else None,
-                'selection_site': doc.selection_site.nom if doc.selection_site else None,
-                'selection_activite': doc.selection_activite.nom if doc.selection_activite else None,
+                'selection_site': doc.selection_site if doc.selection_site else None,
+                'selection_activite': doc.selection_activite if doc.selection_activite else None,
                 'selection_redacteur': created_by_name,
                 'selection_verificateur': doc.selection_verificateur.first_name if doc.selection_verificateur else None,
                 'selection_approbateur': doc.selection_approbateur.first_name if doc.selection_approbateur else None,
@@ -289,10 +311,10 @@ class DocumentDetailsAPIView(APIView):
             version_data = {
                 'id': version.pk, 
                 'libelle': version.libelle,
-                'type': version.type.type_de_document,
+                'type': version.type,
                 'fichier': version.fichier,
-                'selection_site': version.selection_site.nom,
-                'selection_activite': version.selection_activite.nom,
+                'selection_site': version.selection_site,
+                'selection_activite': version.selection_activite,
                 'selection_redacteur': version.selection_redacteur.first_name,
                 'selection_verificateur': version.selection_verificateur.first_name,
                 'selection_approbateur': version.selection_approbateur.first_name,

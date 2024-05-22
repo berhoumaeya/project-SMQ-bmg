@@ -40,10 +40,10 @@ class DemandDocument(models.Model):
 class DocInt(models.Model):
 
     libelle = models.CharField(max_length=255)
-    type = models.ForeignKey('Type_Document', on_delete=models.CASCADE)
+    type = models.CharField(max_length=255,null=True, default=None)
     fichier = models.FileField(upload_to='documents/', null=True, blank=True)
-    selection_site = models.ForeignKey('Site', on_delete=models.CASCADE)
-    selection_activite = models.ForeignKey('Activite', on_delete=models.CASCADE)
+    selection_site = models.CharField(max_length=255,null=True, default=None)
+    selection_activite = models.CharField(max_length=255,null=True, default=None)
     selection_redacteur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents_rediges', limit_choices_to={'groups__name': 'redacteur'})
     selection_verificateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents_verifies', limit_choices_to={'groups__name': 'verificateur'})
     selection_approbateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents_approuves', limit_choices_to={'groups__name': 'approbateur'})

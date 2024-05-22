@@ -57,6 +57,10 @@ import UserProfile from './containers/Profile';
 
 import DemandList from './containers/DOcumentation/ListeDemande';
 
+import CreateDocumentForm from './containers/DOcumentation/CréerDocInt';
+
+import DashboardDocInt from './containers/DOcumentation/DashboardDocInt';
+
 
 const App = () => (
   <Provider store={store}>
@@ -70,6 +74,10 @@ const App = () => (
           <Route path="/Profile" element={<UserProfile />} />
 
           <Route path="/ListeDemande" element={<DemandList />} />
+
+          <Route path="/CréerDocInt" element={<CreateDocumentForm />} />
+
+          <Route path="/DashboardDocInt" element={<DashboardDocInt />} />
 
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/dashboardRH" element={<DashboardRH />}/>
