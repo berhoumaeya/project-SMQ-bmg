@@ -12,8 +12,8 @@ class Notification(models.Model):
     
 
 # Envoi d'une notification
-def send_notification(sender, recipient, message):
-    notification = Notification(sender=sender, recipient=recipient, message=message)
+def send_notification(sender, recipient, message,created_at):
+    notification = Notification(sender=sender, recipient=recipient, message=message,created_at=created_at)
 
 # Récupération des notifications non lues pour un utilisateur
 def get_unread_notifications(user):

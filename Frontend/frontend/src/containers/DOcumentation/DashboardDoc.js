@@ -4,8 +4,12 @@ function DashboardDoc({ user }) {
   const gestionSections = [
     { title: 'Gérer les Documents internes', link: '/DashboardDocInt' },
     { title: 'Gérer les Documents externes', link: '/dashboard_externes' },
-    { title: 'Liste des demandes', link: '/ListeDemande' },
     { title: 'Créer demande', link: '/CréerDemande' },
+    { title: 'Liste des demandes', link: '/ListeDemande' },
+    { title: 'Liste des documents à vérifier', link: '/VerifDoc' },
+    { title: 'Liste des documents à approuver', link: '/ApprouveDoc' },
+
+
   ];
 
   const sectionGroups = [];

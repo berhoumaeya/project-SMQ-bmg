@@ -24,10 +24,16 @@ class Type_Document(models.Model) :
     
 class DemandDocument(models.Model):
 
-    type = models.ForeignKey('Type_Document', on_delete=models.CASCADE)
+    type = models.CharField(max_length=255,null=True, default=None)
     document_object = models.CharField(max_length=255)
     attached_file = models.FileField(upload_to='demand_attachments/', blank=True, null=True)
-    is_validated = models.BooleanField(default=False)
+    STATUT_CHOICES = [
+        ('En attente', 'En attente'),
+        ('Validé', 'Validé'),
+        ('Refusé', 'Refusé'),
+        ('terminé','terminé'),
+    ]
+    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='En attente')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='demand_rediges', limit_choices_to={'groups__name': 'redacteur'})
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='demand_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
@@ -56,7 +62,7 @@ class DocInt(models.Model):
         ('Vérifié','Vérifié'),
         ('Rejeté', 'Rejeté'),
     ]
-    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='En attente')
+    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='En cours')
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='documentInterne_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)

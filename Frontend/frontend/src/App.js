@@ -56,10 +56,17 @@ import UpdatePost from './containers/RH/position/update-position';
 import UserProfile from './containers/Profile';
 
 import DemandList from './containers/DOcumentation/ListeDemande';
+import VerifList from './containers/DOcumentation/VerifDoc';
+import ApprouveList from './containers/DOcumentation/ApprouveDoc';
 
 import CreateDocumentForm from './containers/DOcumentation/CréerDocInt';
+import ModifierDoc from './containers/DOcumentation/modifierDocInt';
 
 import DashboardDocInt from './containers/DOcumentation/DashboardDocInt';
+
+import DemandeAcc from './containers/DOcumentation/demandeAccepte';
+
+import CreateDemande from './containers/DOcumentation/CréerDemande';
 
 
 const App = () => (
@@ -74,10 +81,19 @@ const App = () => (
           <Route path="/Profile" element={<UserProfile />} />
 
           <Route path="/ListeDemande" element={<DemandList />} />
+          <Route path="/CréerDemande" element={<CreateDemande />} />
 
-          <Route path="/CréerDocInt" element={<CreateDocumentForm />} />
+          <Route path="/CréerDocInt/:id" element={<CreateDocumentForm />} />
+          <Route path="/modifierDocInt/:id" element={<ModifierDoc />} />
+          <Route path="/VerifDoc" element={<VerifList />} />
+          <Route path="/ApprouveDoc" element={<ApprouveList />} />
+
 
           <Route path="/DashboardDocInt" element={<DashboardDocInt />} />
+
+          <Route path="/demandeAccepte" element={<DemandeAcc />} />
+
+
 
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/dashboardRH" element={<DashboardRH />}/>

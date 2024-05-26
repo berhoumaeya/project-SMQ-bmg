@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User , Group
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
@@ -23,7 +23,7 @@ class CheckAuthenticatedView(APIView):
             isAuthenticated = user.is_authenticated
 
             if isAuthenticated:
-                return Response({'isAuthenticated': 'success', 'username': user.first_name})
+                return Response({'isAuthenticated': 'success','id': user.id, 'username': user.first_name})
             else:
                 return Response({'isAuthenticated': 'error'})
         except:
@@ -152,18 +152,19 @@ class UserProfileAPIView(APIView):
             notification_data = {
                 'sender': notification.sender.first_name + ' ' + notification.sender.last_name,
                 'message': notification.message,
-                'created_at': notification.created_at.strftime('%Y-%m-%d %H:%M:%S') if notification.created_at else None
+                'created_at': notification.created_at.strftime('%Y-%m-%d %H:%M:%S')
             }
             notifications_data.append(notification_data)
 
         demandes_data = []
         for demande in demandes:
             demande_data = {
-                'Type': demande.type.type_de_document,
+                'id':demande.id,
+                'Type': demande.type,
                 'document_object': demande.document_object,
                 'attached_file': demande.attached_file if demande.attached_file else None,
-                'Statut': demande.is_validated,
-                'created_at': demande.created_at.strftime('%Y-%m-%d %H:%M:%S') if demande.created_at else None
+                'statut': demande.statut,
+                'created_at': demande.created_at.strftime('%Y-%m-%d %H:%M:%S') 
             }
             demandes_data.append(demande_data)
         
@@ -181,4 +182,52 @@ class UserListAPIView(APIView):
     def get(self, request):
         users = User.objects.all()
         user_data = [{'id': user.id, 'username': user.first_name} for user in users]
+        return Response(user_data)
+    
+class UserDetailAPIView(APIView):
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        user_data = {'id': user.id, 'username': user.first_name}
+        return Response(user_data)
+    
+class AppListAPIView(APIView):
+    def get(self, request):
+        approbateur_group = Group.objects.get(name='approbateur')
+        users = User.objects.filter(groups=approbateur_group)
+        user_data = [{'id': user.id, 'username': user.first_name} for user in users]
+        return Response(user_data)
+    
+class AppDetailView(APIView):
+    def get(self, request, user_id):
+        approbateur_group = Group.objects.get(name='approbateur')
+        user = get_object_or_404(User, id=user_id, groups=approbateur_group)
+        user_data = {'id': user.id, 'username': user.first_name}
+        return Response(user_data)
+    
+class VerListAPIView(APIView):
+    def get(self, request):
+        approbateur_group = Group.objects.get(name='verificateur')
+        users = User.objects.filter(groups=approbateur_group)
+        user_data = [{'id': user.id, 'username': user.first_name} for user in users]
+        return Response(user_data)
+    
+class VerDetailView(APIView):
+    def get(self, request, user_id):
+        verificateur_group = Group.objects.get(name='verificateur')
+        user = get_object_or_404(User, id=user_id, groups=verificateur_group)
+        user_data = {'id': user.id, 'username': user.first_name}
+        return Response(user_data)
+    
+class SuppListAPIView(APIView):
+    def get(self, request):
+        approbateur_group = Group.objects.get(name='superviseur')
+        users = User.objects.filter(groups=approbateur_group)
+        user_data = [{'id': user.id, 'username': user.first_name} for user in users]
+        return Response(user_data)
+    
+class SuppDetailView(APIView):
+    def get(self, request, user_id):
+        superviseur_group = Group.objects.get(name='superviseur')
+        user = get_object_or_404(User, id=user_id, groups=superviseur_group)
+        user_data = {'id': user.id, 'username': user.first_name}
         return Response(user_data)

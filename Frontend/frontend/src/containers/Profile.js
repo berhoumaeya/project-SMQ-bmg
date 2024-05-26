@@ -40,32 +40,39 @@ function UserProfile() {
     {userData ? (
       <div className="user-profile-card">
         <h1 className="user-profile-header">Profil Utilisateur</h1>
-        <p>E-mail: <span className="user-profile-bold">{userData.username}</span></p>
-        <p>Prénom: <span className="user-profile-bold">{userData.Prenom}</span></p>
-        <p>Nom: <span className="user-profile-bold">{userData.nom}</span></p>
+        <div className="user-profile-details">
+          <p><span className="user-profile-label">E-mail:</span> {userData.username}</p>
+          <p><span className="user-profile-label">Prénom:</span> {userData.Prenom}</p>
+          <p><span className="user-profile-label">Nom:</span> {userData.nom}</p>
+        </div>
 
-        <h2 className="user-profile-section-header">Notifications</h2>
-        <ul>
-          {userData.notifications.map((notification, index) => (
-            <li key={index} className="user-profile-notification">
-              <p>Expéditeur: <span className="user-profile-bold">{notification.sender}</span></p>
-              <p>Message: {notification.message}</p>
-              <p>Reçu le: {notification.created_at}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="user-profile-section">
+          <h2 className="user-profile-section-header">Notifications</h2>
+          <ul>
+            {userData.notifications.map((notification, index) => (
+              <li key={index} className="user-profile-notification">
+                <p><span className="user-profile-label">Expéditeur:</span> <span className="user-profile-bold">{notification.sender}</span></p>
+                <p><span className="user-profile-label">Message:</span> {notification.message}</p>
+                <p><span className="user-profile-label">Reçu le:</span> {notification.created_at}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <h2 className="user-profile-section-header">Demandes</h2>
-        <ul>
-          {userData.Demandes.map((demande, index) => (
-            <li key={index} className="user-profile-demande">
-              <p>Type: <span className="user-profile-bold">{demande.Type}</span></p>
-              <p>Objet du document: {demande.document_object}</p>
-              <p>Statut: {demande.Statut ? 'Validé' : 'Non validé'}</p>
-              <p>Créé le: {demande.created_at}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="user-profile-section">
+          <h2 className="user-profile-section-header">Demandes</h2>
+          <ul>
+            {userData.Demandes.map((demande, index) => (
+              <li key={index} className="user-profile-demande">
+                <p><span className="user-profile-label">Demande N°:</span> {demande.id}</p>
+                <p><span className="user-profile-label">Type:</span> {demande.Type}</p>
+                <p><span className="user-profile-label">Objet du document:</span> {demande.document_object}</p>
+                <p><span className="user-profile-label">Statut:</span> {demande.statut}</p>
+                <p><span className="user-profile-label">Créé le:</span> {demande.created_at}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <button className="user-profile-button">Modifier Profil</button>
       </div>

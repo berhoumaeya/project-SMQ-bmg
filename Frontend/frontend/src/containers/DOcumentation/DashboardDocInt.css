@@ -1,0 +1,107 @@
+.dashboard-doc-int {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.documents-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.document-card {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.document-card:hover {
+    transform: translateY(-5px);
+}
+
+.document-card-body {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.document-card-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.document-card-text {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.document-card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.document-card-buttons .btn {
+    margin: 0 5px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.pdf-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pdf-button:hover {
+    background-color: #0056b3;
+}
+
+.dashboard-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.dashboard-buttons .btn {
+    margin: 0 10px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
