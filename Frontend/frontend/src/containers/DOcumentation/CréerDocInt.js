@@ -9,7 +9,6 @@ const CreateDocumentForm = () => {
     const [errors, setErrors] = useState({});
     const [fichier, setPiecesJointes] = useState(null);
     const [libelle, setLibelle] = useState('');
-    const [type, setType] = useState('');
     const [selection_site, setSelectionSite] = useState('');
     const [selection_activite, setSelectionActivite] = useState('');
     const [selection_verificateurID, setSelectionVerificateur] = useState('');
@@ -45,7 +44,6 @@ const CreateDocumentForm = () => {
 
         const formData = new FormData();
         formData.append('libelle', libelle);
-        formData.append('type', type);
         formData.append('selection_site', selection_site);
         formData.append('selection_activite', selection_activite);
         formData.append('selection_verificateur', selection_verificateurID);
@@ -65,7 +63,6 @@ const CreateDocumentForm = () => {
             .then(response => {
                 console.log('Document interne créé avec succès:', response.data);
                 setLibelle('');
-                setType('');
                 setListeInformee([]);
                 setSelectionApprobateur('');
                 setSelectionVerificateur('');
@@ -94,19 +91,27 @@ const CreateDocumentForm = () => {
                         <input type="text" name="libelle" value={libelle} onChange={(e) => setLibelle(e.target.value)} />
                     </div>
                     <div className="form-group">
-                        <label>Type:</label>
-                        {errors.type && <p className="error-text">{errors.type}</p>}
-                        <input type="text" value={type} onChange={(e) => setType(e.target.value)} />
-                    </div>
-                    <div className="form-group">
                         <label>Site:</label>
                         {errors.selection_site && <p className="error-text">{errors.selection_site}</p>}
-                        <input type="text" value={selection_site} onChange={(e) => setSelectionSite(e.target.value)} />
+                        <select value={selection_site} onChange={(e) => setSelectionSite(e.target.value)}>
+                            <option value="">Sélectionner...</option>
+                            <option value="Site 1">Site 1</option>
+                            <option value="Site 2">Site 2</option>
+                            <option value="Site 3">Site 3</option>
+                            <option value="Site 4">Site 4</option>
+                        </select>
                     </div>
                     <div className="form-group">
                         <label>Activité:</label>
                         {errors.selection_activite && <p className="error-text">{errors.selection_activite}</p>}
-                        <input type="text" value={selection_activite} onChange={(e) => setSelectionActivite(e.target.value)} />
+                        <select value={selection_activite} onChange={(e) => setSelectionActivite(e.target.value)}>
+                            <option value="">Sélectionner...</option>
+                            <option value="Développement">Développement</option>
+                            <option value="Test">Test</option>
+                            <option value="Documentation">Documentation</option>
+                            <option value="Déploiement">Déploiement</option>
+                            <option value="Support">Support</option>
+                        </select>
                     </div>
                     <div className="form-group">
                         <label>Vérificateur:</label>

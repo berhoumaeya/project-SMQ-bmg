@@ -126,8 +126,10 @@ class CreateDocumentInterneAPIView(GroupRequiredMixin, APIView):
             
             serializer = DocumentInterneSerializer(data=request.data)
             if serializer.is_valid():
+                document_type = document.type
                 created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
                 serializer.validated_data['created_at'] = created_at
+                serializer.validated_data['type'] = document_type
                 serializer.save(selection_redacteur=request.user)
                 data = serializer.data
                 data['selection_redacteur'] = request.user.first_name
@@ -421,7 +423,7 @@ class DocumentExtDetailsAPIView(APIView):
                 'Designation': version.designation,
                 'type': version.type,
                 'fichier': version.fichier,
-                'lieu_classement': version.lieu_classement.LIEU_CLASSEMENT_CHOICES,
+                'lieu_classement': version.lieu_classement,
                 'duree_classement': version.duree_classement,
                 'liste_informee': [user.username for user in doc_int_instance.liste_informee.all()],
                 'created_at': version.created_at.strftime('%Y-%m-%d %H:%M:%S'),
@@ -448,8 +450,9 @@ class DashboardDocExtAPIView(APIView):
             doc_data = {
                 'id': doc.id,
                 'type': doc.type,
+                'designation':doc.designation,
                 'fichier': doc.fichier.url if doc.fichier else None,
-                'lieu_classement': doc.lieu_classement.LIEU_CLASSEMENT_CHOICES,
+                'lieu_classement': doc.lieu_classement,
                 'duree_classement': doc.duree_classement,
                 'liste_informee': [user.first_name for user in doc.liste_informee.all()],
                 'created_by': created_by_name,

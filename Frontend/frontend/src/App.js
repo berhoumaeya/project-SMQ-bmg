@@ -62,7 +62,10 @@ import ApprouveList from './containers/DOcumentation/ApprouveDoc';
 import CreateDocumentForm from './containers/DOcumentation/CréerDocInt';
 import ModifierDoc from './containers/DOcumentation/modifierDocInt';
 
+import DocExtForm from './containers/DOcumentation/CréerDocExt';
+
 import DashboardDocInt from './containers/DOcumentation/DashboardDocInt';
+import DashboardDocExt from './containers/DOcumentation/DashboardDocExt';
 
 import DemandeAcc from './containers/DOcumentation/demandeAccepte';
 
@@ -90,6 +93,11 @@ const App = () => (
 
 
           <Route path="/DashboardDocInt" element={<DashboardDocInt />} />
+          <Route path="/DashboardDocExt" element={<DashboardDocExt />} />
+
+          <Route path="/CréerDocExt" element={<DocExtForm />} />
+
+
 
           <Route path="/demandeAccepte" element={<DemandeAcc />} />
 

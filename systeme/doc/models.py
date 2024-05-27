@@ -1,30 +1,19 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.contrib.auth.models import Group
 from simple_history.models import HistoricalRecords
 
 
-class Site(models.Model):
-    nom = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nom
-
-class Activite(models.Model):
-    nom = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nom
-    
-class Type_Document(models.Model) : 
-    type_de_document = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.type_de_document
     
 class DemandDocument(models.Model):
 
-    type = models.CharField(max_length=255,null=True, default=None)
+    TYPE_CHOICES = [
+        ('Manuel', 'Manuel'),
+        ('Procédure', 'Procédure'),
+        ('Politique', 'Politique'),
+        ('Rapport', 'Rapport'),
+        ('Mémoire', 'Mémoire'),
+    ]
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES,default=None)
     document_object = models.CharField(max_length=255)
     attached_file = models.FileField(upload_to='demand_attachments/', blank=True, null=True)
     STATUT_CHOICES = [
@@ -46,10 +35,30 @@ class DemandDocument(models.Model):
 class DocInt(models.Model):
 
     libelle = models.CharField(max_length=255)
-    type = models.CharField(max_length=255,null=True, default=None)
+    TYPE_CHOICES = [
+        ('Manuel', 'Manuel'),
+        ('Procédure', 'Procédure'),
+        ('Politique', 'Politique'),
+        ('Rapport', 'Rapport'),
+        ('Mémoire', 'Mémoire'),
+    ]
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES,default=None)
     fichier = models.FileField(upload_to='documents/', null=True, blank=True)
-    selection_site = models.CharField(max_length=255,null=True, default=None)
-    selection_activite = models.CharField(max_length=255,null=True, default=None)
+    SITE_CHOICES = [
+        ('Site 1', 'Site 1'),
+        ('Site 2', 'Site 2'),
+        ('Site 3', 'Site 3'),
+        ('Site 4', 'Site 4'),
+    ]
+    selection_site = models.CharField(max_length=50, choices=SITE_CHOICES,default=None)
+    ACTIVITE_CHOICES = [
+        ('Développement', 'Développement'),
+        ('Test', 'Test'),
+        ('Documentation', 'Documentation'),
+        ('Déploiement', 'Déploiement'),
+        ('Support', 'Support'),
+    ]
+    selection_activite = models.CharField(max_length=50, choices=ACTIVITE_CHOICES,default=None)
     selection_redacteur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents_rediges', limit_choices_to={'groups__name': 'redacteur'})
     selection_verificateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents_verifies', limit_choices_to={'groups__name': 'verificateur'})
     selection_approbateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents_approuves', limit_choices_to={'groups__name': 'approbateur'})
@@ -71,15 +80,7 @@ class DocInt(models.Model):
     def __str__(self):
         return self.libelle
     
-
-class Lieu_Classement(models.Model) : 
-
-    LIEU_CLASSEMENT_CHOICES = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.LIEU_CLASSEMENT_CHOICES
     
-
 
 class DocExt(models.Model):
 
@@ -89,7 +90,13 @@ class DocExt(models.Model):
     ]
     type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     designation = models.CharField(max_length=255)
-    lieu_classement = models.ForeignKey(Lieu_Classement, on_delete=models.CASCADE)
+    LIEU_CHOICES = [
+        ('Archives', 'Archives'),
+        ('Bureau', 'Bureau'),
+        ('Entrepôt', 'Entrepôt'),
+        ('Cloud', 'Cloud'),
+    ]
+    lieu_classement = models.CharField(max_length=50, choices=LIEU_CHOICES,default=None)
     duree_classement = models.CharField(max_length=100)
     liste_informee = models.ManyToManyField(User, related_name='documentsExterne_informes')
     fichier = models.FileField(upload_to='documents/', blank=True, null=True)

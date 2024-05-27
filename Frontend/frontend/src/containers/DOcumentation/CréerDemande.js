@@ -62,7 +62,15 @@ const CreateDemande = () => {
                     <div className="form-group">
                         <label>Type:</label>
                         {errors.type && <p className="error-text">{errors.type}</p>}
-                        <input type="text" value={type} onChange={(e) => setType(e.target.value)} />
+                        <select value={type} onChange={(e) => setType(e.target.value)}>
+                            <option value="">Sélectionner...</option>
+                            <option value="Manuel">Manuel</option>
+                            <option value="Procédure">Procédure</option>
+                            <option value="Politique">Politique</option>
+                            <option value="Rapport">Rapport</option>
+                            <option value="Mémoire">Mémoire</option>
+                        </select>
+                        
                     </div>
                     <div className="form-group">
                         <label>Pièces jointes :</label>
