@@ -2,44 +2,41 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
     
-class TypeNonConforme(models.Model):
-    nom = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.nom
-    
-
-class SourceNonConforme(models.Model):
-    nom = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nom
-    
-class NiveauNonConforme(models.Model):
-    nom = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nom
-    
-class ProduitNonConforme(models.Model):
-    nom = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nom
-    
     
 
 class NonConformite(models.Model):
+
     date_detection = models.DateField()
     designation_produit_non_conforme = models.CharField(max_length=100)
     description_non_conformite = models.TextField()
-    produits_non_conformes = models.ManyToManyField(ProduitNonConforme, related_name='non_conformites')
-    type_non_conformite = models.ForeignKey(TypeNonConforme, on_delete=models.CASCADE)
-    source_non_conformite = models.ForeignKey(SourceNonConforme, on_delete=models.CASCADE)
-    niveau_gravite = models.ForeignKey(NiveauNonConforme, on_delete=models.CASCADE)
-    pieces_jointes = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    produits_non_conformes = models.CharField(max_length=100,default=None)
+    SOURCE_CHOICES = [
+        ('Usine', 'Usine'),
+        ('Fournisseur', 'Fournisseur'),
+        ('Processus de production', 'Processus de production'),
+        ('Transport', 'Transport'),
+        ('Stockage', 'Stockage'),
+    ]
+
+    TYPE_CHOICES = [
+        ('Matière première défectueuse', 'Matière première défectueuse'),
+        ('Erreur de production', 'Erreur de production'),
+        ('Défaut d\'emballage', 'Défaut d\'emballage'),
+        ('Problème de livraison', 'Problème de livraison'),
+        ('Mauvaise manipulation', 'Mauvaise manipulation'),
+    ]
+    type_non_conformite = models.CharField(max_length=50, choices=TYPE_CHOICES,default=None)
+    source_non_conformite = models.CharField(max_length=50, choices=SOURCE_CHOICES,default=None)
+    GRAVITE_CHOICES = [
+        ('Faible', 'Faible'),
+        ('Moyenne', 'Moyenne'),
+        ('Élevée', 'Élevée'),
+    ]
+    niveau_gravite = models.CharField(max_length=50, choices=GRAVITE_CHOICES,default=None)
+    pieces_jointes = models.FileField(upload_to='pieces_jointes_produit/', blank=True, null=True)
     personnes_a_notifier = models.ManyToManyField(User, related_name='non_conformites_a_notifier')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creer_nonConformite', limit_choices_to={'groups__name': 'redacteur'})
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creer_nonConformite')
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='modifier_nonConformite', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
@@ -53,7 +50,7 @@ class FicheNonConformite(models.Model):
     type_non_conformite = models.CharField(max_length=100)
     numero_OF = models.CharField(max_length=100) 
     numero_O = models.CharField(max_length=100) 
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creer_fiche_nonConformite', limit_choices_to={'groups__name': 'redacteur'})
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creer_fiche_nonConformite')
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='modifier_fiche_nonConformite', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)

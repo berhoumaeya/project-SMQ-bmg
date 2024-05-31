@@ -18,6 +18,7 @@ urlpatterns = [
     path('app/', AppListAPIView.as_view(), name='app-list'),
     path('verif/', VerListAPIView.as_view(), name='verif-list'),
     path('supp/', SuppListAPIView.as_view(), name='supp-list'),
+    path('resTrait/', ResponsableTraitementListAPIView.as_view(), name='supp-list'),
 
     path('users/<int:user_id>/', UserDetailAPIView.as_view(), name='user-detail'),
     path('app/<int:user_id>/', AppDetailView.as_view(), name='app-detail'),

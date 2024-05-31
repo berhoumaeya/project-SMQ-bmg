@@ -2,7 +2,7 @@ import React from 'react';
 
 function DashboardClient({ user }) {
   const gestionSections = [
-    { title: 'Gérer les Clients', link: '/dashboard_Clients' },
+    { title: 'Gérer les Clients', link: '/Clients' },
     { title: 'Gérer les réclamations clients', link: '/dashboard_reclamation_client' },
     { title: 'Gérer les Enquete clients', link: '/dashboard_enquete_client' },
     { title: 'Gérer les suggestions clients', link: '/dashboard_suggestion_client' },

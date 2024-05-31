@@ -14,9 +14,18 @@ from braces.views import GroupRequiredMixin
 from user.models import send_notification
 import json
 
+def get_piece_jointe_demande(request, doc_id):
+    doc = get_object_or_404(DemandDocument, id=doc_id)
+    piece_jointe_path = doc.attached_file.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
 def get_piece_jointe_docInt(request, doc_id):
     doc = get_object_or_404(DocInt, id=doc_id)
+    piece_jointe_path = doc.fichier.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_docExt(request, doc_id):
+    doc = get_object_or_404(DocExt, id=doc_id)
     piece_jointe_path = doc.fichier.path
     return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
@@ -56,7 +65,7 @@ class DemandePendingAPIView(GroupRequiredMixin, APIView):
                 'id': demande.id,
                 'type': demande.type,
                 'document_object' : demande.document_object,
-                'attached_file_url': demande.attached_file.url if demande.attached_file else None,
+                'attached_file': demande.attached_file.url if demande.attached_file else None,
                 'statut': demande.statut,
                 'created_by': demande.created_by.first_name,
                 'created_at': demande.created_at
@@ -433,6 +442,33 @@ class DocumentExtDetailsAPIView(APIView):
             versions_data.append(version_data)
         
         return Response(versions_data)
+    
+#Un doc Externe
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DocExtDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        doc = get_object_or_404(DocExt, pk=pk)
+        created_by_name = doc.created_by.first_name if doc.created_by else None
+        updated_by_name = doc.updated_by.first_name if doc.updated_by else None
+        created_at_str = doc.created_at.strftime('%Y-%m-%d %H:%M:%S') if doc.created_at else None
+        updated_at_str = doc.updated_at.strftime('%Y-%m-%d %H:%M:%S') if doc.updated_at else None
+        data = {
+            'id': doc.id,
+                'designation': doc.designation,
+                'type': doc.type if doc.type else None,
+                'fichier': doc.fichier.url if doc.fichier else None,
+                'lieu_classement': doc.lieu_classement,
+                'duree_classement': doc.duree_classement ,
+                'created_by': created_by_name,
+                'liste_informee': [user.first_name for user in doc.liste_informee.all()],
+                'updated_by': updated_by_name,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
+        }
+        return Response(data, status=status.HTTP_200_OK)
     
 
 # Afficher tous les Documents Ext

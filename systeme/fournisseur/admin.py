@@ -3,4 +3,5 @@ from .models import *
 
 admin.site.register(Fournisseur)
 admin.site.register(ReclamationFournisseur)
+admin.site.register(TypeProduit)
 admin.site.register(EvaluationFournisseur)

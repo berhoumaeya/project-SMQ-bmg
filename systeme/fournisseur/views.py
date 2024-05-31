@@ -5,9 +5,25 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from django.http import FileResponse
 from .serializers import *
 from .models import*
 from django.contrib.auth.decorators import login_required
+
+def get_piece_jointe_fournisseur(request, fou_id):
+    doc = get_object_or_404(Fournisseur, id=fou_id)
+    piece_jointe_path = doc.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_reclamation_fournisseur(request, fou_id):
+    doc = get_object_or_404(ReclamationFournisseur, id=fou_id)
+    piece_jointe_path = doc.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_evaluation_fournisseur(request, fou_id):
+    doc = get_object_or_404(EvaluationFournisseur, id=fou_id)
+    piece_jointe_path = doc.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
 
 #Tout fournisseur
@@ -20,17 +36,13 @@ class DashboardFournisseurAPIView(APIView):
         fournisseurs = Fournisseur.objects.all()
         data = []
         for fournisseur in fournisseurs:
-            created_by_name = fournisseur.created_by.first_name if fournisseur.created_by else None
-            updated_by_name = fournisseur.updated_by.first_name if fournisseur.updated_by else None
-            created_at_str = fournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') if fournisseur.created_at else None
-            updated_at_str = fournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if fournisseur.updated_at else None
             fournisseur_data = {
-                'id': fournisseur.id,
+                'id':fournisseur.id,
+                'code_fournisseur': fournisseur.code_fournisseur,
                 'nom': fournisseur.nom,
-                'created_by': created_by_name,
-                'updated_by': updated_by_name,
-                'created_at': created_at_str,
-                'updated_at': updated_at_str,
+                'categorie': fournisseur.categorie,
+                'type_fournisseur': fournisseur.type_fournisseur,
+                'fournisseur_agree': fournisseur.fournisseur_agree,
             }
             data.append(fournisseur_data)
         return Response(data, status=status.HTTP_200_OK)
@@ -51,6 +63,8 @@ class CreateFournisseurAPIView(APIView):
             fournisseur_data['created_at'] = created_at
             fournisseur_data['id'] = serializer.instance.id 
             return Response(fournisseur_data, status=status.HTTP_201_CREATED)
+        print("%%%%%",status)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Modifier un Fournisseur
@@ -70,6 +84,8 @@ class UpdateFournisseurAPIView(APIView):
             fournisseur_data['updated_by'] = request.user.first_name
             fournisseur_data['updated_at'] = updated_at
             return Response(fournisseur_data, status=status.HTTP_200_OK)
+        print("%%%%%",status)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Afficher un Fournisseur
@@ -129,12 +145,13 @@ class DashboardReclamationFournisseurAPIView(APIView):
 class CreateReclamationFournisseurAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request,pk):
+        fournisseur = get_object_or_404(Fournisseur, pk=pk)
         serializer = ReclamationFournisseurSerializer(data=request.data)
         if serializer.is_valid():
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
+            serializer.save(created_by=request.user,fournisseur=fournisseur)
             Reclamationfournisseur_data = serializer.data
             Reclamationfournisseur_data['created_by'] = request.user.first_name
             Reclamationfournisseur_data['created_at'] = created_at
@@ -166,15 +183,34 @@ class UpdateReclamationFournisseurAPIView(APIView):
 class SingularReclamationFournisseurAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk):
-        Reclamationfournisseur = get_object_or_404(ReclamationFournisseur, pk=pk)
-        serializer = ReclamationFournisseurSerializer(Reclamationfournisseur)
-        serialized_data = serializer.data
-        serialized_data['created_by'] = Reclamationfournisseur.created_by.first_name 
-        serialized_data['updated_by'] = Reclamationfournisseur.updated_by.first_name 
-        serialized_data['created_at'] = Reclamationfournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') if Reclamationfournisseur.created_at else None
-        serialized_data['updated_at'] = Reclamationfournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Reclamationfournisseur.updated_at else None
-        return Response(serialized_data)
+    def get(self, request,fournisseur_id):
+
+        fournisseur = get_object_or_404(Fournisseur, pk=fournisseur_id)
+        reclamations = ReclamationFournisseur.objects.filter(fournisseur=fournisseur)
+        data = []
+        for reclamation in reclamations:
+            created_by_name = reclamation.created_by.first_name 
+            updated_by_name = reclamation.updated_by.first_name if reclamation.updated_by else None
+            created_at_str = reclamation.created_at.strftime('%Y-%m-%d %H:%M:%S') 
+            updated_at_str = reclamation.updated_at.strftime('%Y-%m-%d %H:%M:%S') if reclamation.updated_at else None
+            reclamation_data = {
+                'id': reclamation.id,
+                'numero_sequentiel': reclamation.numero_sequentiel,
+                'date_reclamation': reclamation.date_reclamation,
+                'description': reclamation.description,
+                'reclamation_client': reclamation.reclamation_client.code if reclamation.reclamation_client else None,
+                'type_reclamation': reclamation.type_reclamation,
+                'gravite': reclamation.gravite,
+                'designation': reclamation.designation,
+                'actions': reclamation.actions,
+                'pieces_jointes': reclamation.pieces_jointes.url if reclamation.pieces_jointes else None,
+                'created_by': created_by_name,
+                'updated_by': updated_by_name,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
+            }
+            data.append(reclamation_data)
+        return Response(data, status=status.HTTP_200_OK)
 
 # Supprimer un Reclamationfournisseur
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -194,16 +230,23 @@ class DeleteReclamationFournisseurAPIView(APIView):
 class DashboardEvaluationFournisseurAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        Evaluationfournisseurs = EvaluationFournisseur.objects.all()
+    def get(self, request,fournisseur_id):
+
+        fournisseur = get_object_or_404(Fournisseur, pk=fournisseur_id)
+        Evaluationfournisseurs = EvaluationFournisseur.objects.filter(fournisseur=fournisseur)
         data = []
         for Evaluationfournisseur in Evaluationfournisseurs:
-            created_by_name = Evaluationfournisseur.created_by.first_name if Evaluationfournisseur.created_by else None
+            created_by_name = Evaluationfournisseur.created_by.first_name 
             updated_by_name = Evaluationfournisseur.updated_by.first_name if Evaluationfournisseur.updated_by else None
-            created_at_str = Evaluationfournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.created_at else None
+            created_at_str = Evaluationfournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') 
             updated_at_str = Evaluationfournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.updated_at else None
             Evaluationfournisseur_data = {
                 'id': Evaluationfournisseur.id,
+                'type_produit': Evaluationfournisseur.type_produit.nom,
+                'critere_evaluation': Evaluationfournisseur.critere_evaluation,
+                'notes': Evaluationfournisseur.notes,
+                'commentaires': Evaluationfournisseur.commentaires,
+                'periodicite_evaluation': Evaluationfournisseur.periodicite_evaluation,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,
@@ -217,16 +260,18 @@ class DashboardEvaluationFournisseurAPIView(APIView):
 class CreateEvaluationFournisseurAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request,pk):
+        fournisseur = get_object_or_404(Fournisseur, pk=pk)
         serializer = EvaluationFournisseurSerializer(data=request.data)
         if serializer.is_valid():
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
+            serializer.validated_data['periodicite_evaluation'] = fournisseur.periodicite_evaluation
+            serializer.save(created_by=request.user,fournisseur=fournisseur)
             Evaluationfournisseur_data = serializer.data
             Evaluationfournisseur_data['created_by'] = request.user.first_name
             Evaluationfournisseur_data['created_at'] = created_at
-            Evaluationfournisseur_data['id'] = serializer.instance.id 
+            Evaluationfournisseur_data['periodicite_evaluation'] = fournisseur.periodicite_evaluation
             return Response(Evaluationfournisseur_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -250,6 +295,7 @@ class UpdateEvaluationFournisseurAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Afficher un Evaluationfournisseur
+
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class SingularEvaluationFournisseurAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -258,9 +304,10 @@ class SingularEvaluationFournisseurAPIView(APIView):
         Evaluationfournisseur = get_object_or_404(EvaluationFournisseur, pk=pk)
         serializer = EvaluationFournisseurSerializer(Evaluationfournisseur)
         serialized_data = serializer.data
+        serialized_data['periodicite_evaluation'] = Evaluationfournisseur.periodicite_evaluation
         serialized_data['created_by'] = Evaluationfournisseur.created_by.first_name 
-        serialized_data['updated_by'] = Evaluationfournisseur.updated_by.first_name 
-        serialized_data['created_at'] = Evaluationfournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.created_at else None
+        serialized_data['updated_by'] = Evaluationfournisseur.updated_by.first_name if Evaluationfournisseur.updated_by else None
+        serialized_data['created_at'] = Evaluationfournisseur.created_at.strftime('%Y-%m-%d %H:%M:%S') 
         serialized_data['updated_at'] = Evaluationfournisseur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if Evaluationfournisseur.updated_at else None
         return Response(serialized_data)
 
@@ -273,3 +320,9 @@ class DeleteEvaluationFournisseurAPIView(APIView):
         Evaluationfournisseur = get_object_or_404(EvaluationFournisseur, pk=pk)
         Evaluationfournisseur.delete()
         return Response({"message": "L Evaluation a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    
+class TypeProduitListCreateAPIView(APIView):
+    def get(self, request):
+        types_produits = TypeProduit.objects.all()
+        serializer = TypeProduitSerializer(types_produits, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

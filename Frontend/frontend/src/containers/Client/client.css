@@ -1,0 +1,133 @@
+.dashboard-doc-int {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.clients-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.client-card {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.client-card:hover {
+    transform: translateY(-5px);
+}
+
+.client-card-body {
+    padding: 15px;
+    flex-grow: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.client-card-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.client-card-text {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.client-card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.client-card-buttons .btn {
+    margin: 0 5px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.pdf-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pdf-button:hover {
+    background-color: #0056b3;
+}
+
+.dashboard-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.dashboard-buttons .btn {
+    margin: 0 10px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.evaluations-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.evaluations-header h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.search-input, .type-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.type-select {
+    margin-left: 10px; 
+}

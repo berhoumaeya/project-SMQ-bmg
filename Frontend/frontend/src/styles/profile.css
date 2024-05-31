@@ -1,22 +1,27 @@
 .user-profile-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  align-items: flex-start;
+  padding: 20px;
+  background-color: #f2f2f2;
+  min-height: 100vh;
 }
 
 .user-profile-card {
-  background-color: #f9f9f9;
+  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 100%;
+  z-index: 1; /* Assurez-vous que la carte est au-dessus */
 }
 
 .user-profile-header {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #333;
 }
 
 .user-profile-details {
@@ -25,10 +30,14 @@
 
 .user-profile-label {
   font-weight: bold;
+  color: #555;
+  display: inline-block;
+  width: 150px; /* Ajustez la largeur selon vos besoins */
 }
 
 .user-profile-bold {
   font-weight: bold;
+  color: #333;
 }
 
 .user-profile-section {
@@ -36,21 +45,50 @@
 }
 
 .user-profile-section-header {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  color: #444;
 }
 
 .user-profile-notification,
 .user-profile-demande {
-  margin-bottom: 15px;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.user-profile-notification:hover,
+.user-profile-demande:hover {
+  background-color: #f0f0f0;
+}
+
+.notification-content,
+.demande-content {
+  flex: 1;
 }
 
 .user-profile-notification p,
 .user-profile-demande p {
   margin: 5px 0;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: color 0.3s ease;
+  align-self: flex-end;
+}
+
+.delete-button:hover {
+  color: #d9363e;
 }
 
 .user-profile-button {
@@ -63,6 +101,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 1em;
 }
 
 .user-profile-button:hover {
@@ -71,4 +110,6 @@
 
 .user-profile-loading {
   text-align: center;
+  font-size: 1.2em;
+  color: #666;
 }

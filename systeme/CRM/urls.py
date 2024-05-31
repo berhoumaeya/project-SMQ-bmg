@@ -4,16 +4,19 @@ from .views import *
 
 urlpatterns = [
 
-    path('dashboard_client/', DashboardClientAPIView.as_view(), name='dashboard_client'),
+    path('clients/<int:client_id>/', get_piece_jointe_client, name='clients'),
+
+
+    path('dashboard_client/<int:pk>/', SingularClientAPIView.as_view(), name='dashboard_client'),
     path('create_client/', CreateClientAPIView.as_view(), name='create_client'),
     path('update_client/<int:pk>/', UpdateClientAPIView.as_view(), name='update_client'),
-    path('client/<int:pk>/', SingularClientAPIView.as_view(), name='singular_client'),
+    path('client/', DashboardClientAPIView.as_view(), name='singular_client'),
     path('delete_client/<int:pk>/', DeleteClientAPIView.as_view(), name='delete_client'),
 
-    path('dashboard_reclamation_client/', DashboardReclamationClientAPIView.as_view(), name='dashboard_reclamation_client'),
-    path('create_reclamation_client/', CreateReclamationClientAPIView.as_view(), name='create_reclamation_client'),
+    path('dashboard_reclamation_client/<int:client_id>/', DashboardReclamationClientAPIView.as_view(), name='dashboard_reclamation_client'),
+    path('create_reclamation_client/<int:client_id>/', CreateReclamationClientAPIView.as_view(), name='create_reclamation_client'),
     path('update_reclamation_client/<int:pk>/', UpdateReclamationClientAPIView.as_view(), name='update_reclamation_client'),
-    path('reclamation_client/<int:pk>/', SingularReclamationClientAPIView.as_view(), name='singular_reclamation_client'),
+    path('reclamation_client/', SingularReclamationClientAPIView.as_view(), name='singular_reclamation_client'),
     path('delete_reclamation_client/<int:pk>/', DeleteReclamationClientAPIView.as_view(), name='delete_reclamation_client'),
 
     path('dashboard_enquete/', DashboardEnqueteAPIView.as_view(), name='dashboard_enquete'),

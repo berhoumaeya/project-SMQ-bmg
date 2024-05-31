@@ -108,7 +108,7 @@ const DashboardDocExt = () => {
                             <p className="document-card-text"><strong>Modifié le :</strong> {doc.updated_at}</p>
                             <p className="document-card-text"><strong>Crée par:</strong> {doc.created_by}</p>
                             <p className="document-card-text"><strong>Crée à:</strong> {doc.created_at}</p>
-                            <p><strong>Pièces jointes :</strong> {doc.fichier ? <a href={`${process.env.REACT_APP_API_URL}/doc/documents/${doc.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+                            <p><strong>Pièces jointes :</strong> {doc.fichier ? <a href={`${process.env.REACT_APP_API_URL}/doc/documentsExt/${doc.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
                             <div className="document-card-buttons">
                                 <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-primary">Modifier</Link>
                                 <button onClick={() => handleDelete(doc.id)} className="btn btn-danger">Supprimer</button>

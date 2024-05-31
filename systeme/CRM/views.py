@@ -5,36 +5,45 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from produit.models import FicheTraitementNonConformite,NonConformite
-from produit.serializers import FicheTraitementNonConformiteSerializer
+from produit.models import NonConformite
+from produit.serializers import NonConformiteSerializer
 from .serializers import ClientSerializer,ReclamationClientSerializer,EnqueteSerializer,SuggestionClientSerializer
 from .models import*
+from django.http import FileResponse
 from django.contrib.auth.decorators import login_required
 
+def get_piece_jointe_client(request, client_id):
+    client = get_object_or_404(Client, id=client_id)
+    piece_jointe_path = client.pieces_jointes.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
-# Afficher tous les clients
+
+# Afficher un client
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
-class DashboardClientAPIView(APIView):
+class SingularClientAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self, request):
-        clients = Client.objects.all()
-        data = []
-        for client in clients:
-            created_by_name = client.created_by.first_name if client.created_by else None
-            updated_by_name = client.updated_by.first_name if client.updated_by else None
-            created_at_str = client.created_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None
-            updated_at_str = client.updated_at.strftime('%Y-%m-%d %H:%M:%S') if client.updated_at else None
-            client_data = {
-                'id': client.id,
-                'nom': client.nom,
+    def get(self, request,pk):
+        client = get_object_or_404(Client, pk=pk)
+        created_by_name = client.created_by.first_name if client.created_by else None
+        updated_by_name = client.updated_by.first_name if client.updated_by else None
+        created_at_str = client.created_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None
+        updated_at_str = client.updated_at.strftime('%Y-%m-%d %H:%M:%S') if client.updated_at else None
+        client_data = {
+                'id' : client.id,
+                'nom' : client.nom,
+                'code_client' : client.code_client,
+                'raison_sociale' : client.raison_sociale,
+                'type_client':client.type_client,
+                'categorie':client.categorie,
+                'activite': client.activite,
+                'pieces_jointes':client.pieces_jointes.url if client.pieces_jointes else None,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,
                 'updated_at': updated_at_str,
             }
-            data.append(client_data)
-        return Response(data, status=status.HTTP_200_OK)
+        return Response(client_data, status=status.HTTP_200_OK)
 
 # Ajouter un client
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -72,20 +81,22 @@ class UpdateClientAPIView(APIView):
             return Response(client_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Afficher un client
+# Afficher tous clients
 @method_decorator(login_required(login_url='login'), name='dispatch')
-class SingularClientAPIView(APIView):
+class DashboardClientAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk):
-        client = get_object_or_404(Client, pk=pk)
-        serializer = ClientSerializer(client)
-        serialized_data = serializer.data
-        serialized_data['created_by'] = client.created_by.first_name if client.created_by else None
-        serialized_data['updated_by'] = client.updated_by.first_name if client.updated_by else None
-        serialized_data['created_at'] = client.created_at.strftime('%Y-%m-%d %H:%M:%S') if client.created_at else None
-        serialized_data['updated_at'] = client.updated_at.strftime('%Y-%m-%d %H:%M:%S') if client.updated_at else None
-        return Response(serialized_data)
+    def get(self, request):
+        clients = Client.objects.all()
+        data = []
+        for client in clients:
+            doc_data = {
+                'id' : client.id,
+                'nom' : client.nom,
+                'code_client' : client.code_client,
+            }
+            data.append(doc_data)
+        return Response(data, status=status.HTTP_200_OK)
 
 # Supprimer un client
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -102,8 +113,9 @@ class DeleteClientAPIView(APIView):
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardReclamationClientAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self, request):
-        reclamations = ReclamationClient.objects.all()
+    def get(self, request,client_id):
+        client = get_object_or_404(Client, pk=client_id)
+        reclamations = ReclamationClient.objects.filter(client=client)
         data = []
         for reclamation in reclamations:
             created_by_name = reclamation.created_by.first_name if reclamation.created_by else None
@@ -113,6 +125,12 @@ class DashboardReclamationClientAPIView(APIView):
             reclamation_data = {
                 'id': reclamation.id,
                 'code': reclamation.code,
+                'description': reclamation.description,
+                'type_reclamation': reclamation.type_reclamation,
+                'date_livraison': reclamation.date_livraison,
+                'gravite': reclamation.gravite,
+                'responsable_traitement': reclamation.responsable_traitement.first_name,
+                'decisions': reclamation.decisions,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,
@@ -122,44 +140,50 @@ class DashboardReclamationClientAPIView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 # Ajouter une réclamation client
-@method_decorator(login_required(login_url='login'), name='dispatch')
+@method_decorator(login_required(login_url='login'), name='dispatch')    
 class CreateReclamationClientAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, client_id):
+        client = get_object_or_404(Client, pk=client_id)
         serializer = ReclamationClientSerializer(data=request.data)
+
         if serializer.is_valid():
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
-            reclamation_instance = serializer.instance
+
+            plan = serializer.validated_data.get('declencher_plan_action')
+            if plan:
+                non_conformite_data = {
+                    'date_detection': request.data.get('date_detection'),
+                    'designation_produit_non_conforme': request.data.get('designation_produit_non_conforme'),
+                    'description_non_conformite': request.data.get('description_non_conformite'),
+                    'produits_non_conformes': request.data.get('produits_non_conformes'),
+                    'type_non_conformite': request.data.get('type_non_conformite'),
+                    'source_non_conformite': request.data.get('source_non_conformite'),
+                    'niveau_gravite': request.data.get('niveau_gravite'),
+                    'personnes_a_notifier': request.data.get('personnes_a_notifier'),
+                    'pieces_jointes': request.data.get('pieces_jointes'),
+                }
+
+                serializer2 = NonConformiteSerializer(data=non_conformite_data)
+                if not serializer2.is_valid():
+                    print("%%%%%",status)
+                    print(serializer2.errors)
+                    return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            serializer.save(created_by=request.user,client=client)
             reclamation_data = serializer.data
             reclamation_data['created_by'] = request.user.first_name
             reclamation_data['created_at'] = created_at
-            reclamation_data['id'] = serializer.instance.id 
-            plan = reclamation_instance.declencher_plan_action
-            if plan :
-                non_conformite_id = request.data.get('non_conformite')
-                non_conformite_instance = NonConformite.objects.get(id=non_conformite_id)
-                non_conformite_fk = non_conformite_instance.pk
-                fiche_traitement_data = {
-                    'non_conformite': non_conformite_fk, 
-                    'date_traitement': request.data.get('date_traitement'),
-                    'cout_non_conformite': request.data.get('cout_non_conformite'),
-                    'quantite_rejetee': request.data.get('quantite_rejetee'),
-                    'valeur_quantite_rejetee': request.data.get('valeur_quantite_rejetee'),
-                    'quantite_declassee': request.data.get('quantite_declassee'),
-                    'valeur_quantite_declassee': request.data.get('valeur_quantite_declassee'),
-                    'quantite_acceptee': request.data.get('quantite_acceptee'),
-                    'created_by': request.user,
-                    'created_at': created_at
-                }
-                serializer2 = FicheTraitementNonConformiteSerializer(data=fiche_traitement_data)
-                if serializer2.is_valid():  
-                    serializer2.save()
-                else:
-                    return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            if plan:
+                serializer2.validated_data['created_at'] = created_at
+                serializer2.save(created_by=request.user)
+
             return Response(reclamation_data, status=status.HTTP_201_CREATED)
+        print("%%%%%",status)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Modifier une réclamation client
@@ -185,14 +209,11 @@ class UpdateReclamationClientAPIView(APIView):
 class SingularReclamationClientAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk):
-        reclamation = get_object_or_404(ReclamationClient, pk=pk)
-        serializer = ReclamationClientSerializer(reclamation)
+    def get(self, request):
+
+        reclamation = ReclamationClient.objects.all()
+        serializer = ReclamationClientSerializer(reclamation, many=True)
         serialized_data = serializer.data
-        serialized_data['created_by'] = reclamation.created_by.first_name if reclamation.created_by else None
-        serialized_data['updated_by'] = reclamation.updated_by.first_name if reclamation.updated_by else None
-        serialized_data['created_at'] = reclamation.created_at.strftime('%Y-%m-%d %H:%M:%S') if reclamation.created_at else None
-        serialized_data['updated_at'] = reclamation.updated_at.strftime('%Y-%m-%d %H:%M:%S') if reclamation.updated_at else None
         return Response(serialized_data)
 
 # Supprimer une réclamation client

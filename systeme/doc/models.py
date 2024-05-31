@@ -99,7 +99,7 @@ class DocExt(models.Model):
     lieu_classement = models.CharField(max_length=50, choices=LIEU_CHOICES,default=None)
     duree_classement = models.CharField(max_length=100)
     liste_informee = models.ManyToManyField(User, related_name='documentsExterne_informes')
-    fichier = models.FileField(upload_to='documents/', blank=True, null=True)
+    fichier = models.FileField(upload_to='documentsExt/', blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='documentExterne_created', null=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='documentExterne_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)

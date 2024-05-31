@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TimeZoneSelect from 'react-timezone-select';
 import { useParams } from 'react-router-dom'; 
-import Select from 'react-select';
 import '../formation/FormationForm.css';
 import { Navigate ,Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -158,7 +156,9 @@ const handleSubmit = (event) => {
   formData.append('employe_concerne', employe_concerneID);
   if (pieces_jointes) {
       formData.append('pieces_jointes', pieces_jointes);
-  }
+  }else if (piecesJointesUrl === '') {
+    formData.append('pieces_jointes', '');
+    }
   const headers = {
     'Accept': '*/*',
     'Content-Type': 'multipart/form-data',

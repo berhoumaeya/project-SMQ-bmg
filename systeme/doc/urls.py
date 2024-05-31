@@ -3,7 +3,9 @@ from .views import *
 
 urlpatterns = [
 
+    path('demand_attachments/<int:doc_id>/', get_piece_jointe_demande, name='demand_attachments'),
     path('documents/<int:doc_id>/', get_piece_jointe_docInt, name='documents'),
+    path('documentsExt/<int:doc_id>/', get_piece_jointe_docExt, name='documentsExt'),
 
 
     path('create-demand/', CreateDemandAPIView.as_view(), name='create_demand'),
@@ -22,6 +24,8 @@ urlpatterns = [
     path('documents/Delete/<int:pk>/', DeleteDocIntAPIView.as_view(), name='document_Delete'),
     path('documents/', DashboardDocIntAPIView.as_view(), name='document-detail'),
     path('details/<int:pk>/', DocIntDetailView.as_view(), name='doc-detail'),
+
+    path('detailsExt/<int:pk>/', DocExtDetailView.as_view(), name='docExt-detail'),
 
     
     path('historique/<int:pk>/', DocumentDetailsAPIView.as_view(), name='document-download'),

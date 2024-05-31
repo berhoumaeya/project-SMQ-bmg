@@ -61,6 +61,7 @@ import ApprouveList from './containers/DOcumentation/ApprouveDoc';
 
 import CreateDocumentForm from './containers/DOcumentation/CréerDocInt';
 import ModifierDoc from './containers/DOcumentation/modifierDocInt';
+import ModifierDocExt from './containers/DOcumentation/modifierDocExt';
 
 import DocExtForm from './containers/DOcumentation/CréerDocExt';
 
@@ -70,6 +71,25 @@ import DashboardDocExt from './containers/DOcumentation/DashboardDocExt';
 import DemandeAcc from './containers/DOcumentation/demandeAccepte';
 
 import CreateDemande from './containers/DOcumentation/CréerDemande';
+
+// Clients
+import AllClients from './containers/Client/Clients';
+import Client from './containers/Client/ConsulterClient';
+import AddClient from './containers/Client/CréerClient';
+import ModifierClient from './containers/Client/modifierclient';
+
+//Réclamation Client
+import CreateReclamation from './containers/Client/CréerReclamationClient';
+import Allreclamations from './containers/Client/AllReclamations';
+
+//Fournisseurs
+import AllFournisseurs from './containers/Fournisseur/fournisseurs';
+import Fournisseur from './containers/Fournisseur/ConsulterFournisseur';
+import AddFournisseur from './containers/Fournisseur/CréerFournisseur';
+import AddEvaluationFournisseur from './containers/Fournisseur/CréerEvaluationFournisseur';
+import AllEvaluations from './containers/Fournisseur/AllEvaluationFournisseur';
+import AllReclamation from './containers/Fournisseur/AllReclamationFournisseur';
+import AddReclamationFournisseur from './containers/Fournisseur/CréerRéclamationFournisseur';
 
 
 const App = () => (
@@ -96,6 +116,7 @@ const App = () => (
           <Route path="/DashboardDocExt" element={<DashboardDocExt />} />
 
           <Route path="/CréerDocExt" element={<DocExtForm />} />
+          <Route path="/modifierDocExt/:id" element={<ModifierDocExt />} />
 
 
 
@@ -150,6 +171,34 @@ const App = () => (
           <Route path="/DashboardEvaluationFroid/" element={<DashboardFroid />} />
           <Route path="/froid/:id" element={<FroidDetail />} />
           <Route path="/ajouter-froid/" element={<FroidForm />} />
+
+          {/* Clients : */}
+          <Route path="/Clients" element={<AllClients />} />
+          <Route path="/ConsulterClient/:id" element={<Client />} />
+          <Route path="/CréerClient" element={<AddClient />} />
+          <Route path="/modifierclient/:id" element={<ModifierClient />} />
+
+          {/* Réclamation Clients : */}
+          <Route path="/CréerReclamationClient/:id" element={<CreateReclamation />} />
+          <Route path="/AllReclamations/:id/" element={<Allreclamations />} />
+
+          {/* Fournisseurs : */}
+          <Route path="/fournisseurs" element={<AllFournisseurs />} />
+          <Route path="/ConsulterFournisseur/:id/" element={<Fournisseur />} />
+          <Route path="/CréerFournisseur" element={<AddFournisseur />} />
+          <Route path="/CréerEvaluationFournisseur/:id/" element={<AddEvaluationFournisseur />} />
+          <Route path="/AllEvaluationFournisseur/:id/" element={<AllEvaluations />} />
+          <Route path="/AllReclamationFournisseur/:id/" element={<AllReclamation />} />
+          <Route path="/CréerRéclamationFournisseur/:id/" element={<AddReclamationFournisseur />} />
+
+
+
+          
+
+
+
+
+
 
 
 

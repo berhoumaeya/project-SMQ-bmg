@@ -2,7 +2,7 @@ import React from 'react';
 
 function DashboardFournisseur({ user }) {
   const gestionSections = [
-    { title: 'Gérer les fournisseurs', link: '/dashboard_fournisseurs' },
+    { title: 'Gérer les fournisseurs', link: '/fournisseurs' },
     { title: 'Gérer les réclamations fournisseurs', link: '/dashboard_reclamation_fournisseurs' },
     { title: 'Gérer Evaluations fournisseurs', link: '/dashboard_evaluation_fournisseur' },
   ];

@@ -67,6 +67,9 @@ function DemandList() {
                         <strong>Créé à :</strong> {new Date(demand.created_at).toLocaleString()}
                     </div>
                     <div>
+                    <strong>Pièces jointes :</strong> {demand.attached_file ? <a href={`${process.env.REACT_APP_API_URL}/doc/demand_attachments/${demand.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}
+                    </div>
+                    <div>
                         <strong>Statut :</strong> {demand.statut}
                     </div>
                     <button className="accept-button" onClick={() => handleStatusChange(demand.id, 'Validé')}>Accepter</button>

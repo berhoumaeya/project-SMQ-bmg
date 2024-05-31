@@ -206,8 +206,8 @@ class AppDetailView(APIView):
     
 class VerListAPIView(APIView):
     def get(self, request):
-        approbateur_group = Group.objects.get(name='verificateur')
-        users = User.objects.filter(groups=approbateur_group)
+        verificateur_group = Group.objects.get(name='verificateur')
+        users = User.objects.filter(groups=verificateur_group)
         user_data = [{'id': user.id, 'username': user.first_name} for user in users]
         return Response(user_data)
     
@@ -220,8 +220,8 @@ class VerDetailView(APIView):
     
 class SuppListAPIView(APIView):
     def get(self, request):
-        approbateur_group = Group.objects.get(name='superviseur')
-        users = User.objects.filter(groups=approbateur_group)
+        superviseur_group = Group.objects.get(name='superviseur')
+        users = User.objects.filter(groups=superviseur_group)
         user_data = [{'id': user.id, 'username': user.first_name} for user in users]
         return Response(user_data)
     
@@ -229,5 +229,19 @@ class SuppDetailView(APIView):
     def get(self, request, user_id):
         superviseur_group = Group.objects.get(name='superviseur')
         user = get_object_or_404(User, id=user_id, groups=superviseur_group)
+        user_data = {'id': user.id, 'username': user.first_name}
+        return Response(user_data)
+    
+class ResponsableTraitementListAPIView(APIView):
+    def get(self, request):
+        responsable_traitement_group = Group.objects.get(name='responsable_traitement')
+        users = User.objects.filter(groups=responsable_traitement_group)
+        user_data = [{'id': user.id, 'username': user.first_name} for user in users]
+        return Response(user_data)
+    
+class ResponsableTraitementDetailView(APIView):
+    def get(self, request, user_id):
+        responsable_traitement_group = Group.objects.get(name='responsable_traitement')
+        user = get_object_or_404(User, id=user_id, groups=responsable_traitement_group)
         user_data = {'id': user.id, 'username': user.first_name}
         return Response(user_data)

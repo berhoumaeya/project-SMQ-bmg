@@ -73,7 +73,9 @@ function ModifierDoc() {
         liste_informeeID.forEach(id => {formData.append('liste_informee', id)});
         if (fichier) {
             formData.append('fichier', fichier);
-        }
+        }else if (piecesJointesUrl === '') {
+            formData.append('fichier', '');
+            }
 
         const headers = {
             'Accept': '*/*',
