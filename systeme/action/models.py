@@ -42,18 +42,53 @@ class PrioriteAction(models.Model):
 
 class ActionPrincipale(models.Model):
 
+    TYPE_CHOICES = [
+        ('Corrective', 'Corrective'),
+        ('Preventive', 'Preventive'),
+        ('Improvement', 'Improvement'),
+    ]
+
+    SOURCE_CHOICES = [
+        ('Audit', 'Audit'),
+        ('Customer Feedback', 'Customer Feedback'),
+        ('Internal Review', 'Internal Review'),
+    ]
+
+    CAUSE_CHOICES = [
+        ('Human Error', 'Human Error'),
+        ('Equipment Failure', 'Equipment Failure'),
+        ('Process Gap', 'Process Gap'),
+    ]
+
+    GRAVITE_CHOICES = [
+        ('Low', 'Low'),
+        ('Medium', 'Medium'),
+        ('High', 'High'),
+    ]
+
+    PRIORITE_CHOICES = [
+        ('Low', 'Low'),
+        ('Medium', 'Medium'),
+        ('High', 'High'),
+    ]
+    SITE_CHOICES = [
+        ('New York', 'New York'),
+        ('Los Angeles', 'Los Angeles'),
+        ('Chicago', 'Chicago'),
+    ]
+
+    type_action = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    source_action = models.CharField(max_length=20, choices=SOURCE_CHOICES)
+    cause_action = models.CharField(max_length=20, choices=CAUSE_CHOICES)
+    gravite_action = models.CharField(max_length=20, choices=GRAVITE_CHOICES)
+    priorite_action = models.CharField(max_length=20, choices=PRIORITE_CHOICES)
+    site = models.CharField(max_length=50, choices=SITE_CHOICES)
     nom_action = models.CharField(max_length=100,default=None)
     designation = models.TextField()
     description = models.TextField()
-    type_action = models.ForeignKey(TypeAction, on_delete=models.CASCADE, related_name='actions_type')
-    source_action = models.ForeignKey(SourceAction, on_delete=models.CASCADE, related_name='actions_source')
-    cause_action = models.ForeignKey(CauseAction, on_delete=models.CASCADE, related_name='actions_cause')
-    gravite_action = models.ForeignKey(GraviteAction, on_delete=models.CASCADE, related_name='actions_gravite')
-    priorite_action = models.ForeignKey(PrioriteAction, on_delete=models.CASCADE, related_name='actions_priorite')
     responsable_validation = models.ForeignKey(Employe, on_delete=models.CASCADE, related_name='actions_responsable_validation')
-    site = models.ForeignKey(Site, on_delete=models.CASCADE, related_name='actions_site')
     plan = models.ForeignKey(PlanAction, on_delete=models.CASCADE, blank=True, null=True, related_name='actions_plan')
-    piece_jointe = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+    piece_jointe = models.FileField(upload_to='pieces_jointes_action/', blank=True, null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_actions', null=True)

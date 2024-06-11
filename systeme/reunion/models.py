@@ -17,7 +17,14 @@ class Meeting(models.Model):
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
     date_previsionnelle = models.DateField()
-    type_reunion = models.ForeignKey(type, on_delete=models.CASCADE, related_name='type_reunion')
+    TYPES = [
+        ('Team Meeting', 'Team Meeting'),
+        ('Client Meeting', 'Client Meeting'),
+        ('Project Meeting', 'Project Meeting'),
+        ('One-on-One', 'One-on-One'),
+        ('Brainstorming', 'Brainstorming'),
+    ]
+    type_reunion = models.CharField(max_length=50, choices=TYPES,default=None)
     lieu = models.CharField(max_length=100)
     ordre_du_jour = models.TextField()
     participants = models.ManyToManyField(Participant, related_name='meetings_attended')
@@ -29,13 +36,9 @@ class Meeting(models.Model):
     
 
 class Decision(models.Model):
+    meeting = models.ForeignKey(Meeting ,on_delete=models.CASCADE,null=True)
     decision_text = models.TextField()  
-    meeting = models.ForeignKey('Meeting', on_delete=models.CASCADE)  
     action_prise = models.ForeignKey(ActionPrincipale,on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='decision_reunion', limit_choices_to={'groups__name': 'Employe'})
-    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='decision_updated', null=True)
-    created_at = models.DateTimeField(null=True, default=None)
-    updated_at = models.DateTimeField(null=True, default=None)
 
     def __str__(self):
         return self.decision_text

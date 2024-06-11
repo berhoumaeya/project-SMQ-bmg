@@ -120,6 +120,7 @@ const DashboardDocInt = () => {
                             <p className="document-card-text"><strong>Crée à:</strong> {doc.created_at}</p>
                             <p><strong>Pièces jointes :</strong> {doc.fichier ? <a href={`${process.env.REACT_APP_API_URL}/doc/documents/${doc.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
                             <div className="document-card-buttons">
+                               <Link to={`/archive/${doc.id}`} className="btn btn-primary">Archive</Link>
                                 <Link to={`/modifierDocInt/${doc.id}`} className="btn btn-primary">Modifier</Link>
                                 <button onClick={() => handleDelete(doc.id)} className="btn btn-danger">Supprimer</button>
                                 <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>

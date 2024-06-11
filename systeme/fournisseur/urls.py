@@ -27,6 +27,8 @@ urlpatterns = [
     path('delete_EvaluationFournisseur/<int:pk>/', DeleteEvaluationFournisseurAPIView.as_view(), name='delete_EvaluationFournisseur'),
 
     path('types-produits/', TypeProduitListCreateAPIView.as_view(), name='type-produit-list-create'),
+    path('types-produits/<int:id>/', TypeProduitListAPIView.as_view(), name='type-produit-list'),
+
 
 
 ]

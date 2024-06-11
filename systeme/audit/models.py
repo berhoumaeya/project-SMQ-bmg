@@ -8,16 +8,18 @@ class Audit(models.Model):
     demandeur = models.ForeignKey(User, on_delete=models.CASCADE)  
     designation = models.TextField() 
     #limit_choices_to={'groups__name': 'audit'}
-    champ_audit = models.ManyToManyField(User, related_name='audits_access'  ) 
     type_audit = models.CharField(max_length=100) 
+    SOURCE_CHOICES = [
+        ('Réalisé', 'Réalisé'),
+        ('Non Réalisé', 'Non Réalisé'),
+        ('En attente', 'En attente'),
+    ]
+    statut = models.CharField(max_length=20, choices=SOURCE_CHOICES,default='En attente',null=True)
     #, limit_choices_to={'groups__name': 'Employe'}
-    auditeurs = models.ManyToManyField(User, related_name='audits_auditors')
     date_debut_audit = models.DateField() 
     date_fin_audit = models.DateField()  
     document_reference = models.ForeignKey(DocExt,on_delete=models.CASCADE, related_name='audits_auditors')
-    audités = models.ManyToManyField(User, related_name='audits_audited') 
-    #, limit_choices_to={'groups__name': 'Employe'}
-    responsable_validation = models.ForeignKey(User, on_delete=models.CASCADE, related_name='audits_validator')  
+    #, limit_choices_to={'groups__name': 'Employe'}S
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='audit_updated', null=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)

@@ -60,43 +60,43 @@ function Dashboard() {
         {
             title: "Indicateur",
             description: "Visualisez les indicateurs clés de performance de votre entreprise.",
-            url: "/dashboard_indicateur",
+            url: "/indicateurs",
             icon: <FaChartBar />
         },
         {
             title: "Audit",
             description: "Accédez à l'outil d'audit pour suivre les performances.",
-            url: "/dashboard_audit",
+            url: "/Audits",
             icon: <FaClipboardList />
         },
         {
             title: "Produit Non Conforme",
             description: "Gérez les produits non conformes et les actions correctives.",
-            url: "/dashboard_produit",
+            url: "/allProduit",
             icon: <FaExclamationTriangle />
         },
         {
             title: "Risk",
             description: "Évaluez et gérez les risques associés à vos activités.",
-            url: "/dashboard_risk",
+            url: "/AllRisque",
             icon: <FaHandshake />
         },
         {
             title: "Réunion",
             description: "Planifiez et organisez vos réunions efficacement.",
-            url: "/dashboard_reunion",
+            url: "/allreunion",
             icon: <FaGavel />
         },
         {
             title: "Actions",
             description: "Gérez et suivez les actions en cours dans votre entreprise.",
-            url: "/dashboard_action",
+            url: "/Actions",
             icon: <FaTasks />
         },
         {
             title: "Conformité reglementaire",
             description: "Assurez-vous que votre entreprise respecte les réglementations en vigueur.",
-            url: "/dashboard_conformité",
+            url: "/Allconformite",
             icon: <FaBalanceScale />
         },
     ]);

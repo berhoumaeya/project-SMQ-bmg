@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 from pathlib import Path
 import os
-
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'djoser',
     'RH',
     'crispy_forms',
     'user',
@@ -54,7 +55,7 @@ INSTALLED_APPS = [
     'reunion',
     'audit',
     'produit',
-    'conformite'
+    'conformitereglementaire'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4' 
@@ -97,7 +98,7 @@ WSGI_APPLICATION = 'systeme.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql',
-        'NAME':'qualite',
+        'NAME':'pfepfe',
         'USER':'postgres',
         'PASSWORD':'admin',
     },
@@ -158,6 +159,20 @@ REST_FRAMEWORK = {
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+
+# #mot de passe : rfwi apfj kepa fgez
+
+
+# logging.basicConfig(level=logging.DEBUG)
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com' 
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'ferchichizakaria@gmail.com'
+# EMAIL_HOST_PASSWORD = 'rfwi apfj kepa fgez'
+
+# EMAIL_DEBUG = True

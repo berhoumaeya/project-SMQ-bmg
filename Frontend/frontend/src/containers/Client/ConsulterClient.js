@@ -66,8 +66,8 @@ const Client = () => {
                             <p className="document-card-text"><strong>Activité:</strong> {clients.activite}</p>
                             <p className="document-card-text"><strong>Type client:</strong> {clients.type_client}</p>
                             <p className="document-card-text"><strong>Categorie client:</strong> {clients.categorie}</p>
-                            <p className="document-card-text"><strong>Modifié par:</strong> {clients.updated_by}</p>
-                            <p className="document-card-text"><strong>Modifié le :</strong> {clients.updated_at}</p>
+                            <p className="document-card-text"><strong>Modifié par:</strong> {clients.updated_by ? clients.updated_by : 'Pas de modification'}</p>
+                            <p className="document-card-text"><strong>Modifié le :</strong> {clients.updated_at ? clients.updated_at : 'Pas de modification'}</p>
                             <p className="document-card-text"><strong>Crée par:</strong> {clients.created_by}</p>
                             <p className="document-card-text"><strong>Crée à:</strong> {clients.created_at}</p>
                             <p><strong>Pièces jointes :</strong> {clients.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/CRM/clients/${clients.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
@@ -85,10 +85,7 @@ const Client = () => {
                 <Link to={`/AllReclamations/${id}/`} className="btn btn-primary">Consulter réclamation</Link>
             </div>
             <div className="dashboard-buttons">
-                <Link to={`/Enquete/`} className="btn btn-primary">Consulter Enquete</Link>
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/Suggestion/`} className="btn btn-primary">Consulter Suggestion</Link>
+                <Link to={`/AllSuggestion/${id}/`} className="btn btn-primary">Consulter Suggestion</Link>
             </div>
             <div className="dashboard-buttons">
                 <Link to={`/Clients/`} className="btn btn-secondary">Retour</Link>

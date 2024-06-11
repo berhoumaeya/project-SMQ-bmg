@@ -26,7 +26,7 @@ const AddReclamationFournisseur = () => {
     const [ajoutReussi, setAjoutReussi] = useState(false);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/CRM/reclamation_client/`)
+        axios.get(`${process.env.REACT_APP_API_URL}/CRM/allReclamation/`)
             .then(response => setreclamation_clients(response.data))
             .catch(error => console.error('Error fetching type:', error));
     }, [id]);
@@ -160,7 +160,7 @@ const AddReclamationFournisseur = () => {
                     </div>
                     <div className="button-group">
                         <button className="btn btn-success mt-3" type="submit">ajouter Evaluation</button>
-                        <Link to={`/AllEvaluationFournisseur/${id}/`} className="btn btn-gray mt-3">Retour au tableau de bord</Link>
+                        <Link to={`/AllReclamationFournisseur/${id}/`} className="btn btn-gray mt-3">Retour au tableau de bord</Link>
                     </div>
                 </form>
             </div>

@@ -51,7 +51,7 @@ const AllFournisseurs = () => {
                 <Link to={`/CréerFournisseur/`} className="btn btn-primary">Ajouter Fournisseur</Link>
             </div>
             <div className="dashboard-buttons">
-                <Link to={`/DashboardFournisseur/`} className="btn btn-secondary">Retour</Link>
+                <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>
     );

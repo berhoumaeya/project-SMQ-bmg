@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+
 
 const DocExtForm = () => {
 
@@ -13,7 +15,8 @@ const DocExtForm = () => {
     const [duree_classement, setduree_classement] = useState('');
     const [liste_informeeID, setListeInformee] = useState([]);
     const [liste_informees, setListeInformees] = useState([]);
-    const [ajoutReussi, setAjoutReussi] = useState(false);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/user/users/`)
@@ -54,7 +57,8 @@ const DocExtForm = () => {
                 setListeInformee([]);
                 setduree_classement('');
                 setlieu_classement('');
-                setAjoutReussi(true);
+                toast.success('Ajout avec succès!');
+                navigate('/DashboardDocExt');
             })
             .catch(error => {
                 console.error('Error creating document:', error);
@@ -62,9 +66,6 @@ const DocExtForm = () => {
             });
     };
 
-    if (ajoutReussi) {
-        return <Navigate to="/DashboardDocExt" />;
-    }
 
     return (
         <div className="form-container">

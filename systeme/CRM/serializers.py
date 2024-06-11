@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Client,ReclamationClient,SuggestionClient,Enquete
+from .models import Client,ReclamationClient,SuggestionClient,ClientEnquete
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,16 +10,16 @@ class ClientSerializer(serializers.ModelSerializer):
 class ReclamationClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReclamationClient
-        fields = ['id','code', 'description', 'type_reclamation', 'date_livraison', 'gravite', 'responsable_traitement', 'decisions', 'declencher_plan_action', 'reclamation_fournisseur', 'plan_action', 'fichier_pdf']
+        fields = ['id','code', 'description', 'type_reclamation', 'date_livraison', 'gravite', 'responsable_traitement', 'decisions', 'declencher_plan_action', 'reclamation_fournisseur', 'plan_action', 'fichier_pdf','client']
 
 
 class EnqueteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Enquete
-        fields = ['name_enquete', 'date_debut', 'date_fin', 'clients', 'type_questionnaire']
+        model = ClientEnquete
+        fields = ['id','name_enquete','clients', 'date_debut', 'date_fin', 'type_questionnaire','pieces_jointes']
 
 
 class SuggestionClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = SuggestionClient
-        fields = ['name','date', 'client_concerne', 'type_suggestion', 'description', 'receptionnaire', 'est_validee']
+        fields = ['name','date', 'type_suggestion', 'description', 'receptionnaire', 'actions','pieces_jointes']

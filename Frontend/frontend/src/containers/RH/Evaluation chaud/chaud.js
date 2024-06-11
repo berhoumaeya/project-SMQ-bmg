@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom'; 
+import { useParams, Navigate } from 'react-router-dom'; 
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import "../Detail.css"
@@ -53,15 +53,12 @@ if (deleteReussi){
                         <p><strong>criteres   :</strong> {chaud.criteres}</p>
                         <p><strong>coefficients  :</strong> {chaud.coefficients}</p>
                         <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_chaud/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                        <p><strong>Modifié par :</strong> {chaud.updated_by}</p>
-                        <p><strong>Modifié à :</strong> {chaud.updated_at}</p>
                         <p><strong>crée par  :</strong> {chaud.created_by}</p>
                         <p><strong>crée à :</strong> {chaud.created_at}</p>
 
                     </div>
                     <br />
                     <a href="/DashboardEvaluationChaud"><button className="btn-gray">Retour</button></a>&nbsp;
-                    <Link to={`/update_evaluation_chaud/${chaud.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
                     <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
                 </div>
             ):(

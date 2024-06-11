@@ -326,3 +326,9 @@ class TypeProduitListCreateAPIView(APIView):
         types_produits = TypeProduit.objects.all()
         serializer = TypeProduitSerializer(types_produits, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class TypeProduitListAPIView(APIView):
+    def get(self, request,id):
+        types_produits = TypeProduit.objects.filter(id=id)
+        serializer = TypeProduitSerializer(types_produits, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -25,7 +25,5 @@ class FicheEmployeSerializer(serializers.ModelSerializer):
         fields = ['id','name','job_position', 'work_mobile', 'work_phone', 'work_email', 'department', 'manager', 'coach', 'work_address', 'work_location', 'address', 'working_hours', 'bank_account_number', 'home_work_distance', 'martial_status', 'emergency_contact', 'emergency_phone', 'certificate_level', 'field_of_study', 'school', 'cnss', 'cin', 'pieces_jointes', 'employe_concerne']
 
     def __init__(self, *args, **kwargs):
-            employes = kwargs.pop('employes', None)
-            super(FicheEmployeSerializer, self).__init__(*args, **kwargs)
-            if employes is not None:
-                self.fields['employe_concerne'].queryset = employes
+        super(FicheEmployeSerializer, self).__init__(*args, **kwargs)
+        self.fields['employe_concerne'].queryset = Employe.objects.filter(statut='En attente')

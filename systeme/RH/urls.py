@@ -52,6 +52,8 @@ urlpatterns = [
     #CRUD  Employe
 
     path('dashboard_employe/',DashboardEmployeAPIView.as_view(), name='dashboard_employe'),
+    path('dashboard_employe_fiche/',DashboardEmployeNonFicheAPIView.as_view(), name='dashboard_employe_fiche'),
+
     path('create-employe/', EmployeCreationView.as_view(), name='create_employe'),
     path('update_employe/<int:pk>/', UpdateEmployeAPIView.as_view(), name='update_employe'),
     path('employe/<int:pk>/', SingularEmployeAPIView.as_view(), name='singular_employe'),
@@ -70,7 +72,7 @@ urlpatterns = [
     path('dashboard_responsable_formation/',DashboardResponsableFormationAPIView.as_view(), name='dashboard_responsable_formation'),
     path('create_responsable_formation/', ResponsableFormationCreationView.as_view(), name='create_responsable_formation'),
     path('update_responsable_formation/<int:pk>/', UpdateResponsableFormationAPIView.as_view(), name='update_responsable_formation'),
-    path('responsable_formation/<int:pk>/', SingularResponsableFormationAPIView.as_view(), name='singular_responsable_formation'),
+    path('responsable/<int:pk>/', SingularResponsableFormationAPIView.as_view(), name='singular_responsable_formation'),
     path('delete_responsable_formation/<int:pk>/', DeleteResponsableFormationAPIView.as_view(), name='delete_responsable_formation'),
 
     #CRUD  Formation
@@ -83,8 +85,8 @@ urlpatterns = [
 
     #CRUD  Evaluation Competence
 
-    path('dashboard_evaluation_competence/',DashboardEvaluationCompetenceAPIView.as_view(), name='dashboard_evaluation_competence'),
-    path('create_evaluation_competence/', CreateEvaluationCompetenceAPIView.as_view(), name='create_evaluation_competence'),
+    path('dashboard_evaluation_competence/<int:pk>/',DashboardEvaluationCompetenceAPIView.as_view(), name='dashboard_evaluation_competence'),
+    path('create_evaluation_competence/<int:pk>/', CreateEvaluationCompetenceAPIView.as_view(), name='create_evaluation_competence'),
     path('update_evaluation_competence/<int:pk>/', UpdateEvaluationCompetenceAPIView.as_view(), name='update_evaluation_competence'),
     path('evaluation_competence/<int:pk>/', SingularEvaluationCompetenceAPIView.as_view(), name='singular_evaluation_competence'),
     path('delete_evaluation_competence/<int:pk>/', DeleteEvaluationCompetenceAPIView.as_view(), name='delete_evaluation_competence'),

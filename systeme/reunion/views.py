@@ -2,8 +2,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Meeting, Decision
-
-
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
@@ -11,12 +9,20 @@ from django.shortcuts import get_object_or_404
 from .serializers import MeetingSerializer,DecisionSerializer
 from .models import*
 from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
+from rest_framework import permissions
+
+
+def get_piece_jointe_meet(request, fiche_id):
+    fiche = get_object_or_404(Meeting, id=fiche_id)
+    piece_jointe_path = fiche.piece_jointe.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
 
 # Afficher tous les Meet
 
-@method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardMeetAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
 
     def get(self, request):
         meets = Meeting.objects.all()
@@ -24,14 +30,19 @@ class DashboardMeetAPIView(APIView):
         for meet in meets:
             created_by_name = meet.demandeur.first_name if meet.demandeur else None
             updated_by_name = meet.updated_by.first_name if meet.updated_by else None
-            created_at_str = meet.created_at.strftime('%Y-%m-%d %H:%M:%S') if meet.created_at else None
-            updated_at_str = meet.updated_at.strftime('%Y-%m-%d %H:%M:%S') if meet.updated_at else None
+            created_at = meet.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            updated_at = meet.updated_at.strftime('%Y-%m-%d %H:%M:%S') if meet.updated_at else None
+
             meet_data = {
                 'id': meet.id,
                 'created_by': created_by_name,
+                'created_at': created_at,
                 'updated_by': updated_by_name,
-                'created_at': created_at_str,
-                'updated_at': updated_at_str,
+                'updated_at': updated_at,
+                'type_reunion': meet.type_reunion,
+                'lieu': meet.lieu,
+                'ordre_du_jour': meet.ordre_du_jour,
+                'piece_jointe':meet.piece_jointe.url if meet.piece_jointe else None
             }
             data.append(meet_data)
         return Response(data, status=status.HTTP_200_OK)
@@ -52,6 +63,7 @@ class CreateMeetAPIView(APIView):
             meet_data['created_at'] = created_at
             meet_data['id'] = serializer.instance.id 
             return Response(meet_data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Modifier un Meet
@@ -94,7 +106,10 @@ class DeleteMeetAPIView(APIView):
 
     def delete(self, request, pk):
         meet = get_object_or_404(Meeting, pk=pk)
-        meet.delete()
+        try :
+           meet.delete()
+        except :
+            return Response({'error':'Something wrong while try to delete'})
         return Response({"message": "La réunion a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
     
 
@@ -116,9 +131,21 @@ class MeetingMinutesAPIView(APIView):
                 'demandeur': meeting.demandeur.username,
                 'participants': [participant.username for participant in meeting.participants.all()],
                 'ordre_du_jour': meeting.ordre_du_jour,
-                'decisions_prises': [decision.decision_text for decision in decisions]
-            }
+                'decisions_prises': [decision.decision_text for decision in decisions]            }
 
             return Response(meeting_minutes, status=status.HTTP_200_OK)
         except Meeting.DoesNotExist:
             return Response({'error': 'Réunion non trouvée'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class CreateDecisionAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request,pk):
+        meeting = get_object_or_404(Meeting, pk=pk)
+        serializer = DecisionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(meeting = meeting)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

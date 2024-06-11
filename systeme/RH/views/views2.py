@@ -143,6 +143,25 @@ class DashboardEmployeAPIView(APIView):
                     'prenom': employe.prenom,
                     'username': employe.username,
                     'email': employe.email,
+                    'statut':employe.statut,
+                }
+                data.append(employe_data)
+            return Response(data, status=status.HTTP_200_OK)  
+        
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardEmployeNonFicheAPIView(APIView):
+        
+        def get(self, request):
+            employes = Employe.objects.filter(statut='En attente')
+            data = []
+            for employe in employes:
+                employe_data = {
+                    'id': employe.id,
+                    'nom': employe.nom,
+                    'prenom': employe.prenom,
+                    'username': employe.username,
+                    'email': employe.email,
+                    'statut':employe.statut,
                 }
                 data.append(employe_data)
             return Response(data, status=status.HTTP_200_OK)  

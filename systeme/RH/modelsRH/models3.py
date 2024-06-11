@@ -64,31 +64,24 @@ class EvaluationFroid(models.Model):
     
 class EvaluationCompetence(models.Model):
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,unique=True)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_evaluation_competence',null=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='updated_evaluation_competence', null=True)
-    skills_acquis = JSONField(default=dict)
-    skills_requis = JSONField(default=dict)
     commentaires = models.TextField(blank=True)
+    total_acquis = models.FloatField(default=0)
+    total_requis = models.FloatField(default=0)
     pieces_jointes = models.FileField(upload_to='pieces_jointes_competence/', blank=True, null=True)
     employe_concerne = models.ForeignKey(Employe,on_delete=models.CASCADE, related_name='Employe_concerné',null=True)
 
     def __str__(self):
         return self.name
     
-@receiver(post_save, sender=EvaluationCompetence)
-def update_skills_requis(sender, instance, **kwargs):
-    if not kwargs.get('raw', False): 
-        skills_acquis = instance.skills_acquis
-        skills_requis = {skill: 5 for skill in skills_acquis}
-        instance.skills_requis = skills_requis
-    
 #class plan action    
 
 class PlanAction(models.Model):
-    evaluation = models.OneToOneField(EvaluationCompetence, on_delete=models.CASCADE, related_name='plan_action')
+    competence = models.ForeignKey(EvaluationCompetence, on_delete=models.CASCADE, related_name='action_criteres',default=None)
     description = models.TextField()
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)
@@ -96,10 +89,31 @@ class PlanAction(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='updated_plan', null=True)
 
     def __str__(self):
-        return f"Plan d'action pour {self.evaluation.name}"
+        return f"Plan d'action pour {self.competence.name}"
     
 
 class ClotureFormation(models.Model):
     liste_presence = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
     support_formation = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
     certifications = models.FileField(upload_to='pieces_jointes/', blank=True, null=True)
+
+class CritereEvaluation(models.Model):
+
+    skills_acquis = models.CharField(max_length=100)
+    skills_requis = models.CharField(max_length=100)
+    CHOIX_NOTE = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10'),
+    )
+
+    note_acquis = models.PositiveIntegerField(choices=CHOIX_NOTE)
+    note_requis = models.PositiveIntegerField(choices=CHOIX_NOTE)
+    competence = models.ForeignKey(EvaluationCompetence, on_delete=models.CASCADE, related_name='criteres')

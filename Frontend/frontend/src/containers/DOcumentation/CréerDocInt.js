@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import { toast } from 'react-toastify';
 const CreateDocumentForm = () => {
     const { id } = useParams();
 
@@ -17,7 +17,9 @@ const CreateDocumentForm = () => {
     const [selection_approbateurs, setSelectionApprobateurs] = useState([]);
     const [liste_informeeID, setListeInformee] = useState([]);
     const [liste_informees, setListeInformees] = useState([]);
-    const [ajoutReussi, setAjoutReussi] = useState(false);
+
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/user/users/`)
@@ -68,17 +70,14 @@ const CreateDocumentForm = () => {
                 setSelectionVerificateur('');
                 setSelectionActivite('');
                 setSelectionSite('');
-                setAjoutReussi(true);
+                toast.success('Votre document à été envoyé au superviseur pour le vérifier');
+                navigate('/VerifDoc');
             })
             .catch(error => {
                 console.error('Error creating document:', error);
                 setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création du document.' });
             });
     };
-
-    if (ajoutReussi) {
-        return <Navigate to="/DashboardDocInt" />;
-    }
 
     return (
         <div className="form-container">

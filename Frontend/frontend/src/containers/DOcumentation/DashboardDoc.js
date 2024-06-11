@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link } from 'react-router-dom';
+
 
 function DashboardDoc({ user }) {
   const gestionSections = [
@@ -35,6 +37,9 @@ function DashboardDoc({ user }) {
           </div>
         ))}
       </div>
+      <div className="dashboard-buttons">
+                <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
+            </div>
     </div>
   );
 }

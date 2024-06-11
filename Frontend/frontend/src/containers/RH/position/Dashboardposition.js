@@ -56,8 +56,10 @@ const DashboardPost = () => {
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-Position/`}><button>Ajouter Position</button></Link>
-            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
+            <div className="button-group">
+             <Link to={`/ajouter-Position/`} className="btn btn-primary">Ajouter Position</Link>
+             <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+           </div>
         </div>
     );
 };

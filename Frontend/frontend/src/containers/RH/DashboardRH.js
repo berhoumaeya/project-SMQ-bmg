@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link } from 'react-router-dom';
+
 
 function DashboardRH({ user }) {
   const gestionSections = [
@@ -10,8 +12,6 @@ function DashboardRH({ user }) {
     { title: 'Gérer Formation', link: '/Dashboardformation' },
     { title: 'Gérer Evaluation Chaud', link: '/DashboardEvaluationChaud' },
     { title: 'Gérer Evaluation Froid', link: '/DashboardEvaluationFroid' },
-    { title: 'Gérer Evaluation Compétences', link: '/Dashboardcompetence' },
-    { title: 'Gérer Adresse', link: '/gerer_adresse' },
   ];
 
   const sectionGroups = [];
@@ -37,6 +37,9 @@ function DashboardRH({ user }) {
           </div>
         ))}
       </div>
+      <div className="dashboard-buttons">
+                <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
+            </div>
     </div>
   );
 }

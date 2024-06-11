@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import *
+from .views import RisqueListCreateAPIView, RisqueRetrieveUpdateDestroyAPIView, CritereEvaluationListCreateAPIView, CritereEvaluationRetrieveUpdateDestroyAPIView,get_piece_jointe_risk
 
 urlpatterns = [
-    path('dashboard_Risk/', DashboardRiskAPIView.as_view(), name='dashboard_Risk'),
-    path('create_Risk/', CreateRiskAPIView.as_view(), name='create_Risk'),
-    path('update_Risk/<int:pk>/', UpdateRiskAPIView.as_view(), name='update_Risk'),
-    path('Risk/<int:pk>/', SingularRiskAPIView.as_view(), name='singular_Risk'),
-    path('delete_Risk/<int:pk>/', DeleteRiskAPIView.as_view(), name='delete_Risk'),
+
+    path('pieces_jointes_risk/<int:risk_id>/', get_piece_jointe_risk, name='pieces_jointes_risk'),
+    path('risques/', RisqueListCreateAPIView.as_view(), name='liste_risques'),
+    path('risques/<int:id>/', RisqueRetrieveUpdateDestroyAPIView.as_view(), name='detail_risque'),
+    path('risques/<int:risque_id>/criteres/', CritereEvaluationListCreateAPIView.as_view(), name='liste_criteres'),
+    path('criteres/<int:id>/', CritereEvaluationRetrieveUpdateDestroyAPIView.as_view(), name='detail_critere'),
 ]

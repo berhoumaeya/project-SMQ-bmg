@@ -1,3 +1,4 @@
+from django.http import FileResponse
 from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -8,6 +9,12 @@ from rest_framework import status
 from .serializers import *
 from .models import*
 from django.contrib.auth.decorators import login_required
+
+
+def get_piece_jointe_action(request, doc_id):
+    doc = get_object_or_404(ActionPrincipale, id=doc_id)
+    piece_jointe_path = doc.piece_jointe.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
 
 #Tout Action
@@ -26,7 +33,18 @@ class DashboardActionAPIView(APIView):
             updated_at_str = action.updated_at.strftime('%Y-%m-%d %H:%M:%S') if action.updated_at else None
             action_data = {
                 'id': action.id,
-                'nom': action.nom_action,
+                'nom_action': action.nom_action,
+                'designation': action.designation,
+                'description': action.description,
+                'type_action': action.type_action,
+                'source_action': action.source_action,
+                'cause_action': action.cause_action,
+                'gravite_action': action.gravite_action,
+                'priorite_action': action.priorite_action,
+                'site': action.site,
+                'responsable_validation': action.responsable_validation.username,
+                'Plan': action.plan.description if action.plan else None,
+                'piece_jointe': action.piece_jointe.url if action.piece_jointe else None,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,

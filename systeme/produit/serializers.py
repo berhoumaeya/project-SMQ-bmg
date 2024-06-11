@@ -4,7 +4,7 @@ from .models import *
 class NonConformiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = NonConformite
-        fields = ['id', 'date_detection', 'designation_produit_non_conforme', 'description_non_conformite',
+        fields = ['id','reclamation_client' ,'date_detection', 'designation_produit_non_conforme', 'description_non_conformite',
                   'type_non_conformite', 'source_non_conformite', 'niveau_gravite', 'pieces_jointes', 
                   'personnes_a_notifier', 'produits_non_conformes']
 

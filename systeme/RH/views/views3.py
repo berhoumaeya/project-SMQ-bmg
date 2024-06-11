@@ -189,9 +189,7 @@ class SingularEvaluationFroidAPIView(APIView):
         serializer = EvaluationFroidSerializer(evaluation_froid)
         serialized_data = serializer.data
         serialized_data['created_by'] = evaluation_froid.created_by.first_name 
-        serialized_data['updated_by'] = evaluation_froid.updated_by.first_name 
         serialized_data['created_at'] = evaluation_froid.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        serialized_data['updated_at'] = evaluation_froid.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         return Response(serialized_data)
     
 # Supprimer Evaluation Froid
@@ -214,15 +212,23 @@ class DeleteEvaluationFroidAPIView(APIView):
 class DashboardEvaluationCompetenceAPIView(APIView):
         permission_classes = [IsAuthenticated]
         
-        def get(self, request):
-            competences = EvaluationCompetence.objects.all()
+        def get(self, request,pk):
+            comp = get_object_or_404(Employe,pk=pk)
+            competences = EvaluationCompetence.objects.filter(employe_concerne=pk)
             data = []
             for competence in competences:
+                criteres_serializer = CritereEvaluationSerializer(competence.criteres.all(), many=True)
+
                 competence_data = {
                     'id': competence.id,
                     'name': competence.name,
-                    'employe_concerne':competence.employe_concerne.username,
-                    'created_at': competence.created_at,
+                    'commentaires': competence.commentaires,
+                    'created_at': competence.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                    'created_by': competence.created_by.first_name,
+                    'criteres': criteres_serializer.data,
+                    'total_acquis': competence.total_acquis,
+                    'total_requis': competence.total_requis,
+                    'pieces_jointes': competence.pieces_jointes.url if competence.pieces_jointes else None,
                 }
                 data.append(competence_data)
             return Response(data, status=status.HTTP_200_OK) 
@@ -234,30 +240,28 @@ class DashboardEvaluationCompetenceAPIView(APIView):
 class CreateEvaluationCompetenceAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, pk):
+        empl = get_object_or_404(Employe, pk=pk)
         serializer = EvaluationCompetenceSerializer(data=request.data)
         if serializer.is_valid():
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
+            evaluation = serializer.save(created_by=request.user, employe_concerne=empl)
+            
             evaluation_competence_data = serializer.data
             evaluation_competence_data['created_by'] = request.user.first_name
-            evaluation_competence_data['created_at'] = created_at            
-            # if not PlanAction.objects.filter(evaluation=evaluation).exists():
-            #     skills_acquis = evaluation.skills_acquis
-            #     skills_requis = evaluation.skills_requis
-            #     if skills_acquis and skills_requis:
-            #         for skill, niveau_requis in skills_requis.items():
-            #             niveau_acquis = skills_acquis.get(skill, 0)
-            #             if niveau_acquis < niveau_requis:
-            #                 PlanAction.objects.create(
-            #                     evaluation=evaluation, 
-            #                     description="Plan d'action automatique généré pour cet Employee",
-            #                     created_by=request.user,
-            #                     created_at=created_at
-            #                 )
+            evaluation_competence_data['created_at'] = created_at
+
+            # Vérifier si total_acquis < total_requis pour créer un PlanAction
+            if evaluation.total_acquis < evaluation.total_requis:
+                PlanAction.objects.create(
+                    competence=evaluation,
+                    description="Plan d'action automatique généré pour améliorer les compétences",
+                    created_by=request.user,
+                    created_at=created_at
+                )
+
             return Response(evaluation_competence_data, status=status.HTTP_201_CREATED)
-        print("%%%%%",status)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

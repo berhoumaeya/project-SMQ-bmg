@@ -58,8 +58,10 @@ const DashboardEmploye = () => {
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-employe/`}><button>Ajouter Employe</button></Link>
-            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
+            <div className="button-group">
+             <Link to={`/ajouter-employe/`} className="btn btn-primary">Ajouter Employe</Link>
+             <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+           </div>
         </div>
     );
 };

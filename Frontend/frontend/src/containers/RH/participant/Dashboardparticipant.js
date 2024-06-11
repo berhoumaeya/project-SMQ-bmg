@@ -58,8 +58,10 @@ const DashboardParticipant = () => {
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-participant/`}><button>Ajouter participant</button></Link>
-            <Link to={`/DashboardRH/`}><button>Retour</button></Link>
+            <div className="button-group">
+             <Link to={`/ajouter-participant/`} className="btn btn-primary">Ajouter participant</Link>
+             <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+           </div>
         </div>
     );
 };

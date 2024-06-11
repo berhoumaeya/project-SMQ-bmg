@@ -54,10 +54,12 @@ if (deleteReussi){
                         <p><strong>Modifié par :</strong> {employe.updated_by}</p>
                         <p><strong>Date de modification :</strong> {employe.updated_at}</p>
                     </div>
-                    <br />
-                    <a href="/Dashboardemploye"><button className="btn-gray">Retour</button></a>&nbsp;
-                    <Link to={`/update-employe/${employe.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
+                    <div className="dashboard-buttons">
+                    <a href="/Dashboardemploye"><button className="btn btn-secondary">Retour</button></a>
+                    <Link to={`/update-employe/${employe.id}`}><button className="btn btn-success mt-3">Modifier</button></Link>
+                    <Link to={`/Dashboardcompetence/${employe.id}`}><button className="btn btn-primary">Consulter evaluations</button></Link>
                     <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+                    </div>
                 </div>
             ):(
                 <p>chargement ... </p>

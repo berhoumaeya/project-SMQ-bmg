@@ -1,11 +1,11 @@
 import React from 'react';
+import {Link } from 'react-router-dom';
+
 
 function DashboardClient({ user }) {
   const gestionSections = [
     { title: 'Gérer les Clients', link: '/Clients' },
-    { title: 'Gérer les réclamations clients', link: '/dashboard_reclamation_client' },
-    { title: 'Gérer les Enquete clients', link: '/dashboard_enquete_client' },
-    { title: 'Gérer les suggestions clients', link: '/dashboard_suggestion_client' },
+    { title: 'Gérer les Enquetes clients', link: '/AllEnquete' },
   ];
 
   const sectionGroups = [];
@@ -31,6 +31,9 @@ function DashboardClient({ user }) {
           </div>
         ))}
       </div>
+      <div className="dashboard-buttons">
+                <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
+            </div>
     </div>
   );
 }

@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/profile.css';
+import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UserProfile() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editProfileData, setEditProfileData] = useState({});
+  const [passwordData, setPasswordData] = useState({
+    old_password: '',
+    new_password: '',
+  });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,6 +43,60 @@ function UserProfile() {
     setUserData({ ...userData, notifications: updatedNotifications });
   };
 
+  const handleEditProfileChange = (e) => {
+    setEditProfileData({
+      ...editProfileData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlePasswordChange = (e) => {
+    setPasswordData({
+      ...passwordData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEditProfileSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`${process.env.REACT_APP_API_URL}/user/profile/`, editProfileData, {
+        headers: {
+          'Accept': '*/*',
+          'X-CSRFToken': Cookies.get('csrftoken'),
+        },
+      });
+      setUserData({ ...userData, ...editProfileData });
+      setEditMode(false);
+      toast.success('Profil mis à jour avec succès');
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du profil:', error);
+      setError(error);
+      toast.error('Erreur lors de la mise à jour du profil');
+    }
+  };
+
+  const handleChangePasswordSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.patch(`${process.env.REACT_APP_API_URL}/user/profile/`, passwordData, {
+        headers: {
+          'Accept': '*/*',
+          'X-CSRFToken': Cookies.get('csrftoken'),
+        },
+      });
+      toast.success('Mot de passe mis à jour avec succès');
+      setPasswordData({
+        old_password: '',
+        new_password: '',
+      });
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du mot de passe:', error);
+      setError(error);
+      toast.error('Erreur lors de la mise à jour du mot de passe');
+    }
+  };
+
   if (loading) {
     return <div>Chargement...</div>;
   }
@@ -44,6 +107,7 @@ function UserProfile() {
 
   return (
     <div className="user-profile-container">
+      <ToastContainer />
       {userData ? (
         <div className="user-profile-card">
           <h1 className="user-profile-header">Profil Utilisateur</h1>
@@ -86,7 +150,63 @@ function UserProfile() {
             </ul>
           </div>
 
-          <button className="user-profile-button">Modifier Profil</button>
+          <button className="user-profile-button" onClick={() => setEditMode(true)}>Modifier Profil</button>
+
+          {editMode && (
+            <form onSubmit={handleEditProfileSubmit} className="edit-profile-form">
+              <div className="form-group">
+                <label>Prénom:</label>
+                <input
+                  type="text"
+                  name="Prenom"
+                  value={editProfileData.Prenom || ''}
+                  onChange={handleEditProfileChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Nom:</label>
+                <input
+                  type="text"
+                  name="nom"
+                  value={editProfileData.nom || ''}
+                  onChange={handleEditProfileChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>E-mail:</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={editProfileData.username || ''}
+                  onChange={handleEditProfileChange}
+                />
+              </div>
+              <button type="submit" className="btn btn-primary">Enregistrer</button>
+              <button type="button" className="btn btn-secondary" onClick={() => setEditMode(false)}>Annuler</button>
+            </form>
+          )}
+
+          <form onSubmit={handleChangePasswordSubmit} className="change-password-form">
+            <div className="form-group">
+              <label>Ancien mot de passe:</label>
+              <input
+                type="password"
+                name="old_password"
+                value={passwordData.old_password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Nouveau mot de passe:</label>
+              <input
+                type="password"
+                name="new_password"
+                value={passwordData.new_password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">Changer le mot de passe</button>
+          </form>
         </div>
       ) : (
         <div className="user-profile-loading">Chargement...</div>

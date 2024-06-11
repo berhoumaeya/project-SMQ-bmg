@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+
 
 const CreateDemande = () => {
 
@@ -9,7 +11,8 @@ const CreateDemande = () => {
     const [attached_file, setPiecesJointes] = useState(null);
     const [document_object, setdocument_object] = useState('');
     const [type, setType] = useState('');
-    const [ajoutReussi, setAjoutReussi] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -35,19 +38,16 @@ const CreateDemande = () => {
         axios.post(`${process.env.REACT_APP_API_URL}/doc/create-demand/`, formData, { headers })
             .then(response => {
                 console.log('Document interne créé avec succès:', response.data);
+                toast.success('Demande envoyé ,en attendant un superviseur pour la traiter!');
+                navigate('/ListeDemande');
                 setdocument_object('');
                 setType('');
-                setAjoutReussi(true);
             })
             .catch(error => {
                 console.error('Error creating demande:', error);
                 setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création du demande.' });
             });
     };
-
-    if (ajoutReussi) {
-        return <Navigate to="/ListeDemande" />;
-    }
 
     return (
         <div className="form-container">

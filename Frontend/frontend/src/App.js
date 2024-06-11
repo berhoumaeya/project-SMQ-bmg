@@ -4,6 +4,7 @@ import Layout from './hocs/Layout';
 import Home from './containers/Home';
 import Register from './containers/Register';
 import Login from './containers/Log';
+import PasswordResetRequest from './containers/ResetPassword';
 import Dashboard from './containers/Dashboard';
 import DashboardRH from './containers/RH/DashboardRH';
 import Dashboardformation from './containers/RH/formation/Dashboardformation';
@@ -67,6 +68,7 @@ import DocExtForm from './containers/DOcumentation/CréerDocExt';
 
 import DashboardDocInt from './containers/DOcumentation/DashboardDocInt';
 import DashboardDocExt from './containers/DOcumentation/DashboardDocExt';
+import Archive from './containers/DOcumentation/archive';
 
 import DemandeAcc from './containers/DOcumentation/demandeAccepte';
 
@@ -81,6 +83,13 @@ import ModifierClient from './containers/Client/modifierclient';
 //Réclamation Client
 import CreateReclamation from './containers/Client/CréerReclamationClient';
 import Allreclamations from './containers/Client/AllReclamations';
+import ModifierReclamation from './containers/Client/ModifierReclamation';
+// Enquetes
+import AllEnquetes from './containers/Client/AllEnquete';
+import AddEnquete from './containers/Client/CréerEnquete';
+//Suggestions
+import AllSuggestions from './containers/Client/AllSuggestion';
+import CreateSuggestion from './containers/Client/CréerSuggestionClient';
 
 //Fournisseurs
 import AllFournisseurs from './containers/Fournisseur/fournisseurs';
@@ -91,15 +100,62 @@ import AllEvaluations from './containers/Fournisseur/AllEvaluationFournisseur';
 import AllReclamation from './containers/Fournisseur/AllReclamationFournisseur';
 import AddReclamationFournisseur from './containers/Fournisseur/CréerRéclamationFournisseur';
 
+//Risques
+import DashboardRisk from './containers/risque/AllRisque';
+import AddRisque from './containers/risque/AjouterRisk';
+import ModifierRisk from './containers/risque/ModifierRisk';
+
+//Conformite
+import DashboardConformite from './containers/conformite/Allconformite';
+import AddConformite from './containers/conformite/AjouterConformite';
+import ModifierConformite from './containers/conformite/ModifierConformite';
+
+//reunion
+import DashboardMeetings from './containers/reunion/allreunion';
+import Meet from './containers/reunion/ConsulterReunion';
+import AddDecision from './containers/reunion/PrendreDecision';
+import AddReunion from './containers/reunion/AjouterReunion';
+//actions
+import CreateActionForm from './containers/actions/ajouteraction';
+import Actions from './containers/actions/Actions';
+
+//indicateur
+import DashboardIndicateurs from './containers/indicateur/indicateurs';
+import Indicateur from './containers/indicateur/ConsulterIndicateur';
+import AddIndicateur from './containers/indicateur/AjouterIndicateur';
+import CreateSuiviIndicateurForm from './containers/indicateur/AjouterSuiviIndicateur';
+import SuiviIndicateur from './containers/indicateur/SuiviIndicateur';
+//
+import Audits from './containers/audit/audits';
+import ValidAudit from './containers/audit/valideraudit';
+
+//Guest
+import DashboardGuest from './containers/guest';
+import DashboardDocIntGuest from './containers/Documentguest';
+import DashboardMeetingsGuest from './containers/Reunionguest';
+
+//Produit
+import DashboardProduit from './containers/Produit/allProduit';
+
 
 const App = () => (
   <Provider store={store}>
     <Router>
       <Layout>
         <Routes>
+
+        <Route path="/guest" element={<DashboardGuest />} />
+        <Route path="/Documentguest" element={<DashboardDocIntGuest />} />
+        <Route path="/Reunionguest" element={<DashboardMeetingsGuest />} />
+
+        <Route path="/allProduit" element={<DashboardProduit />} />
+
+
+
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/ResetPassword" element={<PasswordResetRequest />} />
 
           <Route path="/Profile" element={<UserProfile />} />
 
@@ -114,6 +170,7 @@ const App = () => (
 
           <Route path="/DashboardDocInt" element={<DashboardDocInt />} />
           <Route path="/DashboardDocExt" element={<DashboardDocExt />} />
+          <Route path="/archive/:id" element={<Archive />} />
 
           <Route path="/CréerDocExt" element={<DocExtForm />} />
           <Route path="/modifierDocExt/:id" element={<ModifierDocExt />} />
@@ -151,8 +208,8 @@ const App = () => (
           <Route path="/ajouter-responsable/" element={<ResponsableForm />} />
           <Route path="/update-responsable/:id" element={<UpdateResponsable />} />
 
-          <Route path="/dashboardcompetence" element={<DashboardCompetence />}/>
-          <Route path="/ajouter-competence/" element={<CompetenceForm />} />
+          <Route path="/dashboardcompetence/:id/" element={<DashboardCompetence />}/>
+          <Route path="/ajouter-competence/:id/" element={<CompetenceForm />} />
 
           <Route path="/participant/:id" element={<ParticipantDetail />}/>
           <Route path="/ajouter-participant/" element={<ParticipantForm />} />
@@ -180,7 +237,16 @@ const App = () => (
 
           {/* Réclamation Clients : */}
           <Route path="/CréerReclamationClient/:id" element={<CreateReclamation />} />
+          <Route path="/ModifierReclamation/:reclamationId/" element={<ModifierReclamation />} />
           <Route path="/AllReclamations/:id/" element={<Allreclamations />} />
+
+          {/* Enquetes Clients : */}
+          <Route path="/AllEnquete/" element={<AllEnquetes />} />
+          <Route path="/CréerEnquete/" element={<AddEnquete />} />
+
+          {/* Suggestions Clients : */}
+          <Route path="/AllSuggestion/:id/" element={<AllSuggestions />} />
+          <Route path="/CréerSuggestionClient/:id/" element={<CreateSuggestion />} />
 
           {/* Fournisseurs : */}
           <Route path="/fournisseurs" element={<AllFournisseurs />} />
@@ -190,6 +256,48 @@ const App = () => (
           <Route path="/AllEvaluationFournisseur/:id/" element={<AllEvaluations />} />
           <Route path="/AllReclamationFournisseur/:id/" element={<AllReclamation />} />
           <Route path="/CréerRéclamationFournisseur/:id/" element={<AddReclamationFournisseur />} />
+
+          {/* Risk : */}
+          <Route path="/AllRisque/" element={<DashboardRisk />} />
+          <Route path="/AjouterRisk/" element={<AddRisque />} />
+          <Route path="/ModifierRisk/:id/" element={<ModifierRisk />} />
+
+          {/* Conformite : */}
+          <Route path="/Allconformite/" element={<DashboardConformite />} />
+          <Route path="/AjouterConformite/" element={<AddConformite />} />
+          <Route path="/ModifierConformite/:id/" element={<ModifierConformite />} />
+
+          {/* réunion : */}
+          <Route path="/allreunion/" element={<DashboardMeetings />} />
+          <Route path="/ConsulterReunion/:id/" element={<Meet />} />
+          <Route path="/PrendreDecision/:id/" element={<AddDecision />} />
+          <Route path="/AjouterReunion/" element={<AddReunion />} />
+          {/* Indicateurs : */}
+          <Route path="/indicateurs/" element={<DashboardIndicateurs />} />
+          <Route path="/ConsulterIndicateur/:id" element={<Indicateur />} />
+          <Route path="/AjouterIndicateur/" element={<AddIndicateur />} />
+          <Route path="/AjouterSuiviIndicateur/:id/" element={<CreateSuiviIndicateurForm />} />
+          <Route path="/SuiviIndicateur/:id/" element={<SuiviIndicateur />} />
+
+
+
+
+          {/* actions : */}
+          <Route path="/ajouteraction/" element={<CreateActionForm />} />
+          <Route path="/Actions/" element={<Actions />} />
+
+          {/* audits : */}
+          <Route path="/Audits/" element={<Audits />} />
+          <Route path="/valideraudit/" element={<ValidAudit />} />
+
+
+
+
+
+
+
+
+
 
 
 

@@ -10,9 +10,15 @@ const Home = () => (
       </p>
       <hr className="my-4" />
       <p className="text-center">Cliquez sur le bouton ci-dessous pour vous connecter.</p>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mb-3">
         <Link className="btn btn-primary btn-lg" to="/login">
           Se connecter
+        </Link>
+      </div>
+      <p className="text-center">Ou</p>
+      <div className="d-flex justify-content-center">
+        <Link className="btn btn-secondary btn-lg" to="/guest">
+          Continuer en tant que guest
         </Link>
       </div>
     </div>

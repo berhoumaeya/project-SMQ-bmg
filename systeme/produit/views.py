@@ -25,6 +25,14 @@ class DashboardProduitAPIView(APIView):
             updated_at_str = non.updated_at.strftime('%Y-%m-%d %H:%M:%S') if non.updated_at else None
             non_data = {
                 'id': non.id,
+                'date_detection': non.date_detection,
+                'designation_produit_non_conforme': non.designation_produit_non_conforme,
+                'reclamation_client': non.reclamation_client.client.nom if non.reclamation_client else None,
+                'description_non_conformite': non.description_non_conformite,
+                'produits_non_conformes': non.produits_non_conformes.nom,
+                'type_non_conformite': non.type_non_conformite,
+                'source_non_conformite': non.source_non_conformite,
+                'niveau_gravite': non.niveau_gravite,
                 'created_by': created_by_name,
                 'updated_by': updated_by_name,
                 'created_at': created_at_str,

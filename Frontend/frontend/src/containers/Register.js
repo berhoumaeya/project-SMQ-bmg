@@ -1,132 +1,100 @@
-// Import necessary dependencies
 import React, { useState } from 'react';
-import { Navigate, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { register } from '../actions/auth';
-import CSRFToken from '../components/CSRFToken';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+import { useNavigate , Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-
-// Define the Register component
-const Register = ({ register, isAuthenticated }) => {
-    // State to manage form data and account creation status
+const Register = () => {
     const [formData, setFormData] = useState({
         username: '',
-        nom : '',
-        prenom : '' ,
         password: '',
-        re_password: ''
+        re_password: '',
+        prenom: '',
+        nom: ''
     });
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
 
-    const [accountCreated, setAccountCreated] = useState(false);
-
-    // Destructure form data
-    const { username, nom, prenom ,password,re_password} = formData;
-
-    // Event handler to update form data on input change
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    // Event handler for form submission
-    const onSubmit = e => {
-        e.preventDefault();
-
-        // Check if passwords match before attempting registration
-        if (password === re_password) {
-            register(username, password,prenom,nom,re_password);
-            setAccountCreated(true);
-        }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
     };
 
-    // If the user is already authenticated, redirect to the dashboard
-    if (isAuthenticated) {
-        return <Navigate to="/Dashboard" />;
-    } else if (accountCreated) {
-        // If the account is created successfully, redirect to the login page
-        return <Navigate to="/login" />;
-    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post(`${process.env.REACT_APP_API_URL}/user/register`, formData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': Cookies.get('csrftoken'),
+            }
+        })
+        .then(response => {
+            navigate('/login');
+            toast.success(response.data.success);
+            setFormData({
+                username: '',
+                password: '',
+                re_password: '',
+                prenom: '',
+                nom: ''
+            });
+            setErrors({});
+        })
+        .catch(error => {
+            if (error.response && error.response.data) {
+                setErrors(error.response.data);
+            } else {
+                setErrors({ message: 'Une erreur s\'est produite.' });
+            }
+        });
+    };
 
-    // Render the registration form
     return (
         <div className='container mt-5'>
-            <h1>Inscrivez-vous</h1>
-            <form onSubmit={e => onSubmit(e)}>
-                <CSRFToken />
-                <div className='form-group'>
-                    <label className='form-label'> Nom :</label>
-                    <input
-                        className='form-control'
-                        type='text'
-                        placeholder='Nom*'
-                        name='nom'
-                        required
-                        onChange={e => onChange(e)}
-                        value={nom}
-                    />
-                </div>
-                <div className='form-group'>
-                    <label className='form-label'> Prénom :</label>
-                    <input
-                        className='form-control'
-                        type='text'
-                        placeholder='Prénom*'
-                        name='prenom'
-                        required
-                        onChange={e => onChange(e)}
-                        value={prenom}
-                    />
-                </div>
-                <div className='form-group'>
-                    <label className='form-label'> Email :</label>
-                    <input
-                        className='form-control'
-                        type='text'
-                        placeholder='Email*'
-                        name='username'
-                        required
-                        onChange={e => onChange(e)}
-                        value={username}
-                    />
-                </div>
-                <div className='form-group mt-3'>
-                    <label className='form-label'> Mot de passe :</label>
-                    <input
-                        className='form-control'
-                        type='password'
-                        placeholder='Mot de passe*'
-                        name='password'
-                        required
-                        onChange={e => onChange(e)}
-                        value={password}
-                        minLength='8'
-                    />
-                </div>
-                <div className='form-group mt-3'>
-                    <label className='form-label'> Confirmez Mot de passe :</label>
-                    <input
-                        className='form-control'
-                        type='password'
-                        placeholder='Confirmez Mot de passe*'
-                        name='re_password'
-                        required
-                        onChange={e => onChange(e)}
-                        value={re_password}
-                        minLength='8'
-                    />
-                </div>
-                <button className='btn btn-primary mt-3' type='submit'>
+            <ToastContainer />
+            <div className="form-card">
+                <h1>S'inscrire</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                         <label className='form-label'>Email:</label>
+                        {errors.username && <p className="error-text">{errors.username}</p>}
+                        <input className='form-control' type="email" name="username" value={formData.username} onChange={handleChange} required placeholder='Email*' />
+                    </div>
+                    <div className="form-group">
+                         <label className='form-label'>Prénom:</label>
+                        {errors.prenom && <p className="error-text">{errors.prenom}</p>}
+                        <input className='form-control' type="text" name="prenom" value={formData.prenom} onChange={handleChange} required placeholder='Prénom*' />
+                    </div>
+                    <div className="form-group">
+                         <label className='form-label'>Nom:</label>
+                        {errors.nom && <p className="error-text">{errors.nom}</p>}
+                        <input className='form-control' type="text" name="nom" value={formData.nom} onChange={handleChange} required placeholder='Nom*' />
+                    </div>
+                    <div className="form-group">
+                         <label className='form-label'>Mot de passe:</label>
+                        {errors.password && <p className="error-text">{errors.password}</p>}
+                        <input className='form-control' type="password" name="password" value={formData.password} onChange={handleChange} required placeholder='mot de passe*' minLength='8' />
+                    </div>
+                    <div className="form-group">
+                         <label className='form-label'>Confirmer le mot de passe:</label>
+                        {errors.re_password && <p className="error-text">{errors.re_password}</p>}
+                        <input className='form-control' type="password" name="re_password" value={formData.re_password} onChange={handleChange} required placeholder='confirmer mot de passe*' />
+                    </div>
+                    <button className='btn btn-primary mt-3' type='submit'>
                     S'inscrire
                 </button>
-            </form>
-            <p>
+                </form>
+                <p>
             Vous avez déjà un compte ? <Link to='/login'>Se connecter</Link>
             </p>
+            </div>
         </div>
     );
 };
 
-// Map the isAuthenticated state from Redux to props
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-});
-
-// Connect the component to Redux and export it
-export default connect(mapStateToProps, { register })(Register);
+export default Register;

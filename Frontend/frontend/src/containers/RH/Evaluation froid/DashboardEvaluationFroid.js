@@ -41,8 +41,6 @@ const DashboardFroid = () => {
                         <th>Nom evaluation</th>
                         <th>crée par</th>
                         <th>crée à</th>
-                        <th>Modifié par</th>
-                        <th>Modifié à</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,16 +50,15 @@ const DashboardFroid = () => {
                             <td>{froid.name}</td>
                             <td>{froid.created_by}</td>
                             <td>{froid.created_at}</td>
-                            <td>{froid.updated_by}</td>
-                            <td>{froid.updated_at}</td>
                             <Link to={`/froid/${froid.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-froid/`}>
-                    <button>Ajouter Evaluation Froid</button>
-            </Link>
+            <div className="button-group">
+             <Link to={`/ajouter-froid/`} className="btn btn-primary">Evaluer en froid</Link>
+             <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+           </div>
         </div>
     );
 };

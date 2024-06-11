@@ -93,10 +93,12 @@ function AddEmploye() {
             <label>Pièces jointes :</label>
             <input type="file" onChange={handleFileChange} />
           </div>
+          <div className="dashboard-buttons">
           <button className="btn btn-success mt-3" type="submit">Ajouter Employe</button>
           <Link to="/Dashboardemploye">
             <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
           </Link>
+          </div>
         </form>
       </div>
     </div>

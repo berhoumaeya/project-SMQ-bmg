@@ -2,7 +2,10 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('dashboard_audit/', DashboardauditAPIView.as_view(), name='dashboard_audit'),
+    path('dashboard_audit_all/', DashboardauditAPIView.as_view(), name='dashboard_audit'),
+    path('dashboard_audit/', DashboardVerifauditAPIView.as_view(), name='dashboard_audit'),
+    path('dashboard_audit/<int:document_id>/', DashboardVerifauditAPIView.as_view(), name='dashboard_audit'),
+
     path('create_audit/', CreateauditAPIView.as_view(), name='create_audit'),
     path('update_audit/<int:pk>/', UpdateauditAPIView.as_view(), name='update_audit'),
     path('audit/<int:pk>/', SingularauditAPIView.as_view(), name='singular_audit'),

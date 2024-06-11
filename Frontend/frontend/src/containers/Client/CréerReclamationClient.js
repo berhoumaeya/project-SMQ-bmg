@@ -27,6 +27,7 @@ const CreateReclamation = () => {
     const [designation_produit_non_conforme, setDesignationProduitNonConforme] = useState('');
     const [description_non_conformite, setDescriptionNonConformite] = useState('');
     const [produits_non_conformes, setProduitsNonConformes] = useState('');
+    const [produits, setproduits] = useState([]);
     const [type_non_conformite, setTypeNonConformite] = useState('');
     const [source_non_conformite, setSourceNonConformite] = useState('');
     const [niveau_gravite, setNiveauGravite] = useState('');
@@ -43,6 +44,10 @@ const CreateReclamation = () => {
 
         axios.get(`${process.env.REACT_APP_API_URL}/user/users/`)
             .then(response => setPersonnesANotifiers(response.data))
+            .catch(error => console.error('Error fetching users:', error));
+        
+            axios.get(`${process.env.REACT_APP_API_URL}/fournisseur/types-produits/`)
+            .then(response => setproduits(response.data))
             .catch(error => console.error('Error fetching users:', error));
     }, [id]);
 
@@ -82,7 +87,7 @@ const CreateReclamation = () => {
         formData.append('type_non_conformite', type_non_conformite);
         formData.append('source_non_conformite', source_non_conformite);
         formData.append('niveau_gravite', niveau_gravite);
-        personnes_a_notifierID.forEach(id => formData.append('personnes_a_notifier', id));
+        personnes_a_notifierID.forEach(id => { formData.append('personnes_a_notifier', id)});
             if (pieces_jointes) {
             formData.append('pieces_jointes', pieces_jointes);
         }
@@ -205,10 +210,15 @@ const CreateReclamation = () => {
                                 <input type="text" name="description_non_conformite" value={description_non_conformite} onChange={(e) => setDescriptionNonConformite(e.target.value)} required />
                             </div>
                             <div className="form-group">
-                                <label>Produits non conformes</label>
-                                {errors.produits_non_conformes && <p className="error-text">{errors.produits_non_conformes}</p>}
-                                <input type="text" name="produits_non_conformes" value={produits_non_conformes} onChange={(e) => setProduitsNonConformes(e.target.value)} required />
-                            </div>
+                        <label>Produit:</label>
+                        {errors.produits_non_conformes && <p className="error-text">{errors.produits_non_conformes}</p>}
+                        <select value={produits_non_conformes} onChange={(e) => setProduitsNonConformes(e.target.value)}>
+                            <option value="">Sélectionner...</option>
+                            {produits.map(produits_non_conformes => (
+                                <option key={produits_non_conformes.id} value={produits_non_conformes.id}>{produits_non_conformes.nom}</option>
+                            ))}
+                        </select>
+                    </div>
                             <div className="form-group">
                                 <label>Type Non conformité:</label>
                                 {errors.type_non_conformite && <p className="error-text">{errors.type_non_conformite}</p>}

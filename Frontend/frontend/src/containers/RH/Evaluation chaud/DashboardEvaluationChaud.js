@@ -41,8 +41,6 @@ const DashboardChaud = () => {
                         <th>Nom evaluation</th>
                         <th>crée par</th>
                         <th>crée à</th>
-                        <th>Modifié par</th>
-                        <th>Modifié à</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,16 +50,15 @@ const DashboardChaud = () => {
                             <td>{chaud.name}</td>
                             <td>{chaud.created_by}</td>
                             <td>{chaud.created_at}</td>
-                            <td>{chaud.updated_by}</td>
-                            <td>{chaud.updated_at}</td>
                             <Link to={`/chaud/${chaud.id}`}>Détails</Link>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Link to={`/ajouter-chaud/`}>
-                    <button>Ajouter Evaluation Chaud</button>
-            </Link>
+            <div className="button-group">
+             <Link to={`/ajouter-chaud/`} className="btn btn-primary">Evaluer en chaud</Link>
+             <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+           </div>
         </div>
     );
 };

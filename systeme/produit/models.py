@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from CRM.models import ReclamationClient
+from fournisseur.models import TypeProduit
     
 
     
@@ -8,9 +10,10 @@ from django.utils import timezone
 class NonConformite(models.Model):
 
     date_detection = models.DateField()
+    reclamation_client = models.ForeignKey(ReclamationClient, on_delete=models.CASCADE, related_name='reclamation_client_non_conforme',null=True)
     designation_produit_non_conforme = models.CharField(max_length=100)
     description_non_conformite = models.TextField()
-    produits_non_conformes = models.CharField(max_length=100,default=None)
+    produits_non_conformes = models.ForeignKey(TypeProduit, on_delete=models.CASCADE, related_name='TypeProduit_non_conforme')
     SOURCE_CHOICES = [
         ('Usine', 'Usine'),
         ('Fournisseur', 'Fournisseur'),

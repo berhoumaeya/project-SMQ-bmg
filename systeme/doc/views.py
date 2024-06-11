@@ -13,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 from braces.views import GroupRequiredMixin
 from user.models import send_notification
 import json
+from rest_framework import permissions
+
 
 def get_piece_jointe_demande(request, doc_id):
     doc = get_object_or_404(DemandDocument, id=doc_id)
@@ -115,7 +117,7 @@ class DocumentAcceptedAPIView(GroupRequiredMixin, APIView):
                 'id': demande.id,
                 'type': demande.type,
                 'document_object' : demande.document_object,
-                'attached_file_url': demande.attached_file if demande.attached_file else None,
+                'attached_file_url': request.build_absolute_uri(demande.attached_file.url) if demande.attached_file else None,
                 'statut': demande.statut,
                 'created_by': demande.created_by.first_name,
                 'created_at': demande.created_at
@@ -260,8 +262,8 @@ class DocumentApprouveAPIView(GroupRequiredMixin,APIView):
 
 # Afficher tous les Documents
 
-@method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardDocIntAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self, request):
         docs = DocInt.objects.filter(statut='Approuvé')
         data = []
@@ -361,7 +363,7 @@ class DocumentDetailsAPIView(APIView):
                 'id': version.pk, 
                 'libelle': version.libelle,
                 'type': version.type,
-                'fichier': version.fichier,
+                'fichier': version.fichier.url if version.fichier else None,
                 'selection_site': version.selection_site,
                 'selection_activite': version.selection_activite,
                 'selection_redacteur': version.selection_redacteur.first_name,
@@ -431,7 +433,7 @@ class DocumentExtDetailsAPIView(APIView):
                 'id': version.pk, 
                 'Designation': version.designation,
                 'type': version.type,
-                'fichier': version.fichier,
+                'fichier': version.fichier.url if version.fichier else None,
                 'lieu_classement': version.lieu_classement,
                 'duree_classement': version.duree_classement,
                 'liste_informee': [user.username for user in doc_int_instance.liste_informee.all()],

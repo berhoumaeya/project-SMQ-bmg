@@ -312,12 +312,14 @@ class CreateFicheEmployeAPIView(APIView):
 
     @transaction.atomic
     def post(self, request):
-        employes_sans_fiche = Employe.objects.exclude(id__in=FicheEmployee.objects.values_list('employe_concerne__id', flat=True))
-        serializer = FicheEmployeSerializer(data=request.data,employes=employes_sans_fiche)
+        serializer = FicheEmployeSerializer(data=request.data)
         if serializer.is_valid():
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
+            fiche_employe = serializer.save(created_by=request.user)
+            employe_concerne = fiche_employe.employe_concerne
+            employe_concerne.statut = 'Validé'
+            employe_concerne.save()
             fiche_employe_data = serializer.data
             fiche_employe_data['created_by'] = request.user.first_name
             fiche_employe_data['created_at'] = created_at

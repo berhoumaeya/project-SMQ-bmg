@@ -1,0 +1,60 @@
+.reclamations-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reclamations-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reclamations-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.reclamation-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.reclamation-card-body {
+    flex: 1;
+}
+
+.reclamation-card-text {
+    margin: 5px 0;
+}
+
+.reclamation-card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.dashboard-actions {
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    margin: 20px;
+}
+
+.additional-info {
+    display: none;
+}
+
+.show-additional-info .additional-info {
+    display: block;
+}

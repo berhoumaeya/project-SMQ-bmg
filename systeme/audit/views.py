@@ -7,11 +7,13 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from .serializers import AuditSerializer,PlanAuditSerializer
 from .models import*
+from user.serializers import NotificationSerializer
+from user.models import send_notification
+
 from django.contrib.auth.decorators import login_required
 
 
 # Afficher tous les audit
-
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class DashboardauditAPIView(APIView):
 
@@ -25,13 +27,66 @@ class DashboardauditAPIView(APIView):
             updated_at_str = audit.updated_at.strftime('%Y-%m-%d %H:%M:%S') if audit.updated_at else None
             audit_data = {
                 'id': audit.id,
+                'reference':audit.reference_audit,
+                'designation':audit.designation,
+                'statut':audit.statut,
+                'type_audit':audit.type_audit,
                 'created_by': created_by_name,
-                'updated_by': updated_by_name,
                 'created_at': created_at_str,
-                'updated_at': updated_at_str,
             }
             data.append(audit_data)
         return Response(data, status=status.HTTP_200_OK)
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class DashboardVerifauditAPIView(APIView):
+
+    def get(self, request):
+        risques = Audit.objects.filter(statut='En attente')
+        data = []
+        for audit in risques:
+            created_by_name = audit.demandeur.first_name if audit.demandeur else None
+            updated_by_name = audit.updated_by.first_name if audit.updated_by else None
+            created_at_str = audit.created_at.strftime('%Y-%m-%d %H:%M:%S') if audit.created_at else None
+            updated_at_str = audit.updated_at.strftime('%Y-%m-%d %H:%M:%S') if audit.updated_at else None
+            audit_data = {
+                'id': audit.id,
+                'reference':audit.reference_audit,
+                'designation':audit.designation,
+                'statut':audit.statut,
+                'type_audit':audit.type_audit,
+                'created_by': created_by_name,
+                'created_at': created_at_str,
+            }
+            data.append(audit_data)
+        return Response(data, status=status.HTTP_200_OK)
+    
+    def put(self, request, document_id):
+        statut = request.data.get('statut')
+
+        if statut is None:
+            return Response({"message": "Le nouveau statut est requis."}, status=status.HTTP_400_BAD_REQUEST)
+        document = get_object_or_404(Audit, pk=document_id)
+        recipient_pk = document.demandeur.pk 
+        message = f"demande numéro {document_id} validé" if statut =='Réalisé' else f"demande numéro {document_id} refusé"
+        serializer = NotificationSerializer(data={'recipient': recipient_pk, 'message': message})
+        if serializer.is_valid():
+            created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            serializer.validated_data['created_at'] = created_at
+            serializer.save(sender=request.user)
+            document.statut = statut
+            if document.statut =='Réalisé':
+                 document.save()
+            else:
+                document.delete()
+
+            send_notification(request.user, document.demandeur, message,created_at)
+
+            if statut == 'Réalisé' :
+                return Response({"message": f"La demande {document_id} a été Réalisé avec succès."}, status=status.HTTP_200_OK)
+            elif statut == 'Non Réalisé' :
+                return Response({"message": f"La demande {document_id} a été Non Réalisé."}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Ajouter un audit
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -78,7 +133,7 @@ class SingularauditAPIView(APIView):
         serializer = AuditSerializer(audit)
         serialized_data = serializer.data
         serialized_data['demandeur'] = audit.demandeur.first_name 
-        serialized_data['updated_by'] = audit.updated_by.first_name 
+        serialized_data['updated_by'] = audit.updated_by.first_name if audit.updated_by else None
         serialized_data['created_at'] = audit.created_at.strftime('%Y-%m-%d %H:%M:%S') if audit.created_at else None
         serialized_data['updated_at'] = audit.updated_at.strftime('%Y-%m-%d %H:%M:%S') if audit.updated_at else None
         return Response(serialized_data)

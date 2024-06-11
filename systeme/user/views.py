@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User , Group
 from rest_framework.views import APIView
 from rest_framework import permissions
+from django.core.mail import send_mail
+from django.http import HttpResponse
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from .models import *
@@ -13,6 +15,33 @@ from django.views.decorators.csrf import ensure_csrf_cookie,csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 import re
+import requests
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+def send_email(sender_email, receiver_email, subject, message):
+    smtp_server = 'smtp.gmail.com'
+    port = 587
+    login = 'ferchichizakaria@gmail.com'
+    password = 'rfwi apfj kepa fgez'
+
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(message, 'plain'))
+
+    server = smtplib.SMTP(smtp_server, port)
+    server.starttls()
+    server.login(login, password)
+
+    # Envoi de l'e-mail
+    server.sendmail(sender_email, receiver_email, msg.as_string())
+
+    server.quit()
+
 
 @method_decorator(csrf_protect,name='dispatch')
 class CheckAuthenticatedView(APIView):
@@ -29,8 +58,18 @@ class CheckAuthenticatedView(APIView):
         except:
             return Response({'error': 'Something went wrong'})
 
-@method_decorator(csrf_protect,name='dispatch')
 
+
+#
+
+def verify_email_with_hunter(request,email):
+    api_key = '7831fb24152250dd7834859e17aea2a3ee24a7ed'
+    response = requests.get(
+        f'https://api.hunter.io/v2/email-verifier?email={email}&api_key={api_key}'
+    )
+    data = response.json()
+    return data['data']['result'] == 'deliverable'
+@method_decorator(csrf_protect,name='dispatch')
 
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -45,6 +84,9 @@ class SignupView(APIView):
 
         if not re.match(r'^[\w\.-]+@[\w\.-]+$', username):
             return Response({'error': 'Saisir adresse e-mail valide'})
+        
+        # if not verify_email_with_hunter(self.request,username):
+        #     return Response({'error': 'Adresse e-mail non valide ou inexistante'})
 
         if password == re_password:
             if User.objects.filter(username=username).exists():
@@ -57,6 +99,12 @@ class SignupView(APIView):
                     user.first_name = prenom
                     user.last_name = nom  
                     user.save()
+                    send_email(
+                    username,
+                    'ferchichizakaria@gmail.com',
+                    'Demande Role',
+                    'Cet email est pour ajouter cet utilisateur à un role specific.',
+                )
                     return Response({'success': 'Utilisateur créé avec succès'})
 
         else:
@@ -127,9 +175,22 @@ class SendNotificationAPIView(APIView):
         
 class NotificationListAPIView(APIView):
     def get(self, request):
-        notifications = get_unread_notifications(request.user)  
-        serializer = NotificationSerializer(notifications, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        notifs = Notification.objects.all()
+        data = []
+        for notif in notifs : 
+            notif_data = {
+                'id':notif.id,
+
+            }
+        return Response(notif_data, status=status.HTTP_200_OK)
+    
+class DeleteNotificationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        notif = get_object_or_404(Notification, pk=pk)
+        notif.delete()
+        return Response({"message": "La notification a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
     
 class CheckNotificationAPIView(APIView):
     def get(self, request, notification_id):
@@ -162,7 +223,6 @@ class UserProfileAPIView(APIView):
                 'id':demande.id,
                 'Type': demande.type,
                 'document_object': demande.document_object,
-                'attached_file': demande.attached_file if demande.attached_file else None,
                 'statut': demande.statut,
                 'created_at': demande.created_at.strftime('%Y-%m-%d %H:%M:%S') 
             }
@@ -177,6 +237,40 @@ class UserProfileAPIView(APIView):
         }
         
         return Response(user_data)
+    def put(self, request):
+        user = request.user
+        data = request.data
+
+        # Mettre à jour les champs du profil
+        user.first_name = data.get('Prenom', user.first_name)
+        user.last_name = data.get('nom', user.last_name)
+        user.username = data.get('username', user.username)
+
+        # Enregistrer les modifications
+        user.save()
+        return Response({'success': 'Profil mis à jour avec succès'}, status=status.HTTP_200_OK)
+
+    def patch(self, request):
+        user = request.user
+        data = request.data
+
+        # Vérifier si les champs du mot de passe sont fournis
+        old_password = data.get('old_password')
+        new_password = data.get('new_password')
+
+        if not old_password or not new_password:
+            return Response({'error': 'Veuillez fournir l\'ancien et le nouveau mot de passe'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Vérifier si l'ancien mot de passe est correct
+        if not user.check_password(old_password):
+            return Response({'error': 'Ancien mot de passe incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Mettre à jour le mot de passe
+        user.set_password(new_password)
+        user.save()
+
+        return Response({'success': 'Mot de passe mis à jour avec succès'}, status=status.HTTP_200_OK)
+    
     
 class UserListAPIView(APIView):
     def get(self, request):
@@ -245,3 +339,16 @@ class ResponsableTraitementDetailView(APIView):
         user = get_object_or_404(User, id=user_id, groups=responsable_traitement_group)
         user_data = {'id': user.id, 'username': user.first_name}
         return Response(user_data)
+
+def send_test_email(request):
+    try:
+        send_mail(
+            'Test Email',
+            'This is a test email.',
+            'ferchichizakaria@gmail.com',
+            ['ferchichizakaria@gmail.com'],
+            fail_silently=False,
+        )
+        return HttpResponse('Email sent successfully')
+    except Exception as e:
+        return HttpResponse(f'Failed to send email: {e}')

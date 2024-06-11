@@ -4,9 +4,7 @@ from .models import Audit,PlanAudit
 class AuditSerializer(serializers.ModelSerializer):
      class Meta:
         model = Audit
-        fields = ['id', 'reference_audit','designation', 'champ_audit', 'type_audit',
-                  'auditeurs', 'date_debut_audit', 'date_fin_audit', 'document_reference', 'audités',
-                  'responsable_validation']
+        fields = ['id', 'reference_audit','designation', 'type_audit', 'date_debut_audit', 'date_fin_audit', 'document_reference','statut']
         
 class PlanAuditSerializer(serializers.ModelSerializer):
      class Meta:

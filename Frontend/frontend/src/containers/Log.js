@@ -28,7 +28,7 @@ const Login = ({ login, isAuthenticated }) => {
 
         // If login is not successful, set an error message
         if (!loginSuccess) {
-            setLoginError('Invalid credentials. Please try again.');
+            setLoginError('Données invalides. Réessayer.');
         }
     };
 
@@ -76,6 +76,9 @@ const Login = ({ login, isAuthenticated }) => {
                 <button className="btn btn-primary mt-3" type="submit">
                     Se connecter
                 </button>
+                <p>
+            Mot de passe oublié ?  <Link to="/ResetPassword">Réinitialiser mot de passe</Link>
+            </p>
             </form>
             <p>
             Vous n'avez pas de compte ?  <Link to="/register">Inscrivez-vous</Link>

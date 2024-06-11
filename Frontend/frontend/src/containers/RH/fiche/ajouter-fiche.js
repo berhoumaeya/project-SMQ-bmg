@@ -40,7 +40,7 @@ function FicheForm() {
     const [ajoutReussi, setAjoutReussi] = useState(false);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_employe/`)
+        axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_employe_fiche/`)
             .then(response => {
                 setEmployes(response.data);
                 setManagers(response.data);

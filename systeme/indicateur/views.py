@@ -8,6 +8,18 @@ from rest_framework import status
 from .serializers import *
 from .models import*
 from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
+
+
+def get_piece_jointe_indicateur(request, fiche_id):
+    fiche = get_object_or_404(Indicateur, id=fiche_id)
+    piece_jointe_path = fiche.piece_jointe.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
+
+def get_piece_jointe_suivi(request, fiche_id):
+    fiche = get_object_or_404(SuiviIndicateur, id=fiche_id)
+    piece_jointe_path = fiche.piece_jointe.path
+    return FileResponse(open(piece_jointe_path, 'rb'), content_type='application/pdf')
 
 
 # Afficher tous les Indicateur
@@ -20,17 +32,14 @@ class DashboardIndicateurAPIView(APIView):
         indicateurs = Indicateur.objects.all()
         data = []
         for indicateur in indicateurs:
-            created_by_name = indicateur.created_by.first_name if indicateur.created_by else None
-            updated_by_name = indicateur.updated_by.first_name if indicateur.updated_by else None
-            created_at_str = indicateur.created_at.strftime('%Y-%m-%d %H:%M:%S') if indicateur.created_at else None
-            updated_at_str = indicateur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if indicateur.updated_at else None
             indicateur_data = {
                 'id': indicateur.id,
                 'Libelle': indicateur.libelle,
-                'created_by': created_by_name,
-                'updated_by': updated_by_name,
-                'created_at': created_at_str,
-                'updated_at': updated_at_str,
+                'type_indicateur': indicateur.type_indicateur,
+                'processus_lie': indicateur.processus_lie,
+                'axe_politique_qualite': indicateur.axe_politique_qualite,
+                'type_resultat_attendu': indicateur.type_resultat_attendu,
+                'piece_jointe': indicateur.piece_jointe.url if indicateur.piece_jointe else None,
             }
             data.append(indicateur_data)
         return Response(data, status=status.HTTP_200_OK)
@@ -51,6 +60,7 @@ class CreateIndicateurAPIView(APIView):
             indicateur_data['created_at'] = created_at
             indicateur_data['id'] = serializer.instance.id 
             return Response(indicateur_data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Modifier un Indicateur
@@ -79,13 +89,35 @@ class SingularIndicateurAPIView(APIView):
 
     def get(self, request, pk):
         indicateur = get_object_or_404(Indicateur, pk=pk)
+        created_by_name = indicateur.created_by.first_name if indicateur.created_by else None
+        updated_by_name = indicateur.updated_by.first_name if indicateur.updated_by else None
+        created_at_str = indicateur.created_at.strftime('%Y-%m-%d %H:%M:%S') if indicateur.created_at else None
+        updated_at_str = indicateur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if indicateur.updated_at else None
+        indicateur_data={
+                'id': indicateur.id,
+                'Libelle': indicateur.libelle,
+                'type_indicateur': indicateur.type_indicateur,
+                'processus_lie': indicateur.processus_lie,
+                'axe_politique_qualite': indicateur.axe_politique_qualite,
+                'type_resultat_attendu': indicateur.type_resultat_attendu,
+                'date_debut': indicateur.date_debut,
+                'periodicite_indicateur': indicateur.periodicite_indicateur,
+                'type_suivi': indicateur.type_suivi,
+                'valeur_cible': indicateur.valeur_cible,
+                'limite_critique': indicateur.limite_critique,
+                'piece_jointe': indicateur.piece_jointe.url if indicateur.piece_jointe else None,
+                'created_by': created_by_name,
+                'updated_by': updated_by_name,
+                'created_at': created_at_str,
+                'updated_at': updated_at_str,
+            }
         serializer = IndicateurSerializer(indicateur)
         serialized_data = serializer.data
         serialized_data['created_by'] = indicateur.created_by.first_name 
-        serialized_data['updated_by'] = indicateur.updated_by.first_name 
-        serialized_data['created_at'] = indicateur.created_at.strftime('%Y-%m-%d %H:%M:%S') if indicateur.created_at else None
+        serialized_data['updated_by'] = indicateur.updated_by.first_name if indicateur.updated_by else None
+        serialized_data['created_at'] = indicateur.created_at.strftime('%Y-%m-%d %H:%M:%S') 
         serialized_data['updated_at'] = indicateur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if indicateur.updated_at else None
-        return Response(serialized_data)
+        return Response(indicateur_data)
 
 # Supprimer un Indicateur
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -105,8 +137,9 @@ class DeleteIndicateurAPIView(APIView):
 class DashboardSuiviIndicateurAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        SuiviIndicateurs = SuiviIndicateur.objects.all()
+    def get(self, request,pk):
+        indi = get_object_or_404(Indicateur, pk=pk)
+        SuiviIndicateurs = SuiviIndicateur.objects.filter(indicateur=indi)
         data = []
         for suiviIndicateur in SuiviIndicateurs:
             created_by_name = suiviIndicateur.created_by.first_name if suiviIndicateur.created_by else None
@@ -115,11 +148,16 @@ class DashboardSuiviIndicateurAPIView(APIView):
             updated_at_str = suiviIndicateur.updated_at.strftime('%Y-%m-%d %H:%M:%S') if suiviIndicateur.updated_at else None
             suiviIndicateur_data = {
                 'id': suiviIndicateur.id,
-                'Libelle': suiviIndicateur.libelle,
+                'frequence': suiviIndicateur.frequence,
+                'objectif': suiviIndicateur.objectif,
+                'limite_critique': suiviIndicateur.limite_critique,
+                'resultat': suiviIndicateur.resultat,
+                'commentaire': suiviIndicateur.commentaire,
+                'piece_jointe': suiviIndicateur.piece_jointe.url if suiviIndicateur.piece_jointe else 'pas de fichier',
                 'created_by': created_by_name,
-                'updated_by': updated_by_name,
                 'created_at': created_at_str,
-                'updated_at': updated_at_str,
+
+
             }
             data.append(suiviIndicateur_data)
         return Response(data, status=status.HTTP_200_OK)
@@ -129,17 +167,25 @@ class DashboardSuiviIndicateurAPIView(APIView):
 class CreateSuiviIndicateurAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, pk):
+        indi = get_object_or_404(Indicateur, pk=pk)
+        
+        if indi.type_suivi != 'manuel':
+            return Response(
+                {"detail": "Cette operation concerne les indicateurs de tpe suivi : manuel ."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         serializer = SuiviIndicateurSerializer(data=request.data)
         if serializer.is_valid():
             created_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['created_at'] = created_at
-            serializer.save(created_by=request.user)
+            serializer.save(created_by=request.user, indicateur=indi)
             suivi_data = serializer.data
             suivi_data['created_by'] = request.user.first_name
             suivi_data['created_at'] = created_at
-            suivi_data['id'] = serializer.instance.id 
             return Response(suivi_data, status=status.HTTP_201_CREATED)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Modifier un SuiviIndicateur
@@ -154,7 +200,7 @@ class UpdateSuiviIndicateurAPIView(APIView):
             updated_at = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
             serializer.validated_data['updated_at'] = updated_at
             serializer.save(updated_by=request.user)
-            SuiviIndicateur.save()
+            suiviIndicateur.save()
             suiviIndicateur_data = serializer.data
             suiviIndicateur_data['updated_by'] = request.user.first_name
             suiviIndicateur_data['updated_at'] = updated_at
@@ -185,3 +231,4 @@ class DeleteSuiviIndicateurAPIView(APIView):
         suiviIndicateur = get_object_or_404(SuiviIndicateur, pk=pk)
         suiviIndicateur.delete()
         return Response({"message": "L SuiviIndicateur a été supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    

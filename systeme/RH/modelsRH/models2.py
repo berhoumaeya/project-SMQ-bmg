@@ -29,6 +29,13 @@ class Employe(models.Model):
     prenom=models.CharField(max_length=255)
     username=models.CharField(max_length=255,unique=True)
     email=models.EmailField(unique=True)
+    STATUT_CHOICES = [
+        ('En attente', 'En attente'),
+        ('Validé', 'Validé'),
+        ('Refusé', 'Refusé'),
+        ('terminé','terminé'),
+    ]
+    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='En attente')
     password = models.CharField(max_length=128,null=True, default=None)
     created_at = models.DateTimeField(null=True, default=None)
     updated_at = models.DateTimeField(null=True, default=None)

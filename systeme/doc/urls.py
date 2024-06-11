@@ -28,7 +28,7 @@ urlpatterns = [
     path('detailsExt/<int:pk>/', DocExtDetailView.as_view(), name='docExt-detail'),
 
     
-    path('historique/<int:pk>/', DocumentDetailsAPIView.as_view(), name='document-download'),
+    path('historique/<int:pk>', DocumentDetailsAPIView.as_view(), name='document-download'),
 
     path('create-document-Externe/', CreateDocumentExterneAPIView.as_view(), name='create_document_Externe'),
     path('documentsExt/Update/<int:pk>/', UpdateExtDocAPIView.as_view(), name='document_Update'),
