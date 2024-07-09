@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # #mot de passe : rfwi apfj kepa fgez
 
