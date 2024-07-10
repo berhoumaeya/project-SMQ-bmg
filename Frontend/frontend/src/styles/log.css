@@ -1,57 +1,80 @@
-.container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
+.color {
+    background-color: #5585b5 !important;
 }
 
-h1 {
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    max-width: 500px;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-title {
+
     text-align: center;
-    margin-bottom: 30px;
 }
 
-.form-group {
-    margin-bottom: 20px;
+.error-message {
+    color: #dc3545;
 }
 
-.form-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
+.login-form {
+    margin-top: 1.5rem;
 }
 
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.forgot-password-link {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.register-link {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.button {
+    background-color: #5585B5;
+    color: white;
+    text-align: center;
     font-size: 16px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
     border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
+    padding: 10px 20px;
     cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-p {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.link {
-    color: #007bff;
+    display: inline-block;
     text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
-.link:hover {
-    text-decoration: underline;
+
+.button:hover {
+    background-color: #79c2d0;
+}
+
+.button:active {
+    background-color: #79c2d0;
+}
+.section-container {
+    background-color: white; 
+    padding: 20px;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+.centered-text {
+    text-align: center;
+    font-weight: bold; 
+    font-size: 60px;
+    color: #333; 
+}
+/* log.css */
+.content-with-navbar-margin {
+    margin-top: 38px; 
+    margin-bottom: 38px;
 }
