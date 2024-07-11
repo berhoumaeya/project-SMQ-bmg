@@ -56,7 +56,7 @@ const Register = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#fafafa', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <ToastContainer />
 
             <section className="vh-xxl-100 section-container content-with-navbar-margin">
@@ -69,7 +69,7 @@ const Register = () => {
                     </div>
                     <div className="col-lg-6 order-1">
                         <div className="p-5 p-sm-7">
-                            <h1 className="mb-2 h3 centered-text">La meilleure offre
+                            <h1 className="mb-2 centered-text">La meilleure offre
                             pour vous </h1>
                             <form className="mt-4 text-start" onSubmit={handleSubmit}>
                                 <div className="mb-3">
@@ -101,8 +101,8 @@ const Register = () => {
                                     S'inscrire
                                 </button>
                             </form>
-                            <p>
-                                Vous avez déjà un compte ? <Link to='/login'>Se connecter</Link>
+                            <p className='link'>
+                                Vous avez déjà un compte ? <Link className='link-page' to='/login'>Se connecter</Link>
                             </p>
                         </div>
                     </div>

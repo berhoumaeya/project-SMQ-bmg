@@ -11,6 +11,7 @@ const Layout = ({ children, checkAuthenticated }) => {
     return (
         <Fragment>
             <Navbar />
+
             {children}
         </Fragment>
     );

@@ -34,7 +34,7 @@ const Login = ({ login, isAuthenticated }) => {
     }
 
     return (
-        <main style={{ backgroundColor: '#fafafa', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <section className="vh-xxl-100 section-container content-with-navbar-margin">
                 <div className="row g-0">
                     <div className="col-lg-6 d-flex align-items-center order-2 order-lg-1 ">
@@ -45,11 +45,11 @@ const Login = ({ login, isAuthenticated }) => {
                     </div>
                     <div className="col-lg-6 order-1">
                         <div className="p-5 p-sm-7">
-                            <h1 className="mb-2 h3 centered-text">Connectez-vous à votre compte</h1>
+                            <h1 className="mb-2 centered-text">Connectez-vous à votre compte</h1>
                             <br></br>
-                            <p className="mb-0">
+                            <p className="mb-0 link">
                                 Vous n'avez pas de compte ?
-                                <Link to="/register"> Inscrivez-vous</Link>
+                                <Link className='link-page' to="/register"> Inscrivez-vous</Link>
                             </p>
                             {loginError && <p className="error-message">{loginError}</p>}
                             <form className="mt-4 text-start" onSubmit={e => onSubmit(e)}>
@@ -77,8 +77,8 @@ const Login = ({ login, isAuthenticated }) => {
                                         minLength="8"
                                     />
                                 </div>
-                                <p>
-                                    Mot de passe oublié ?  <Link to="/ResetPassword">Réinitialiser mot de passe</Link>
+                                <p className='link'>
+                                    Mot de passe oublié ?  <Link  className='link-page' to="/ResetPassword">Réinitialiser mot de passe</Link>
                                 </p>
                                 <div>
                                     <button type="submit" className="button w-100 mb-0">
@@ -91,7 +91,7 @@ const Login = ({ login, isAuthenticated }) => {
                                     <p className="small bg-mode position-absolute top-50 start-50 translate-middle px-2"></p>
                                 </div>
                                 <div className="text-primary-hover text-body mt-3 text-center">
-                                    Copyrights ©2024 SMQ. Build by{" "}
+                                    Copyrights ©2024. Build by BMG
                                 </div>
 
                             </form>

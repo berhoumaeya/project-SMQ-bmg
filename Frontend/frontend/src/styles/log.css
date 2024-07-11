@@ -55,26 +55,35 @@
 
 
 .button:hover {
-    background-color: #79c2d0;
+    background-color: #4495d1;
 }
 
 .button:active {
-    background-color: #79c2d0;
+    background-color: #4495d1;
 }
 .section-container {
     background-color: white; 
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 .centered-text {
     text-align: center;
-    font-weight: bold; 
-    font-size: 60px;
-    color: #333; 
+    font-family: Roboto;
+    font-weight:  800 ;
+    color: #4495d1; 
+    font-size: 33px; /* or any size you prefer */
 }
-/* log.css */
+
 .content-with-navbar-margin {
     margin-top: 38px; 
     margin-bottom: 38px;
+}
+.link {
+    font-family: Lato;
+    font-size: 15px;
+}
+.link-page
+{
+color: #4495d1;
 }
