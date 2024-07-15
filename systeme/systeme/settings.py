@@ -101,6 +101,10 @@ DATABASES = {
         'NAME':'pfepfe',
         'USER':'postgres',
         'PASSWORD':'eya',
+          'OPTIONS': {
+            'options': '-c search_path=public',
+            'client_encoding': 'UTF8',
+        },
     },
 }
 
