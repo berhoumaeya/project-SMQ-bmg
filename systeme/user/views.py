@@ -17,30 +17,7 @@ from django.contrib import auth
 import re
 import requests
 
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
-def send_email(sender_email, receiver_email, subject, message):
-    smtp_server = 'smtp.gmail.com'
-    port = 587
-    login = 'ferchichizakaria@gmail.com'
-    password = 'rfwi apfj kepa fgez'
-
-    msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = receiver_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(message, 'plain'))
-
-    server = smtplib.SMTP(smtp_server, port)
-    server.starttls()
-    server.login(login, password)
-
-    # Envoi de l'e-mail
-    server.sendmail(sender_email, receiver_email, msg.as_string())
-
-    server.quit()
 
 
 @method_decorator(csrf_protect,name='dispatch')
@@ -59,16 +36,6 @@ class CheckAuthenticatedView(APIView):
             return Response({'error': 'Something went wrong'})
 
 
-
-#
-
-def verify_email_with_hunter(request,email):
-    api_key = '7831fb24152250dd7834859e17aea2a3ee24a7ed'
-    response = requests.get(
-        f'https://api.hunter.io/v2/email-verifier?email={email}&api_key={api_key}'
-    )
-    data = response.json()
-    return data['data']['result'] == 'deliverable'
 @method_decorator(csrf_protect,name='dispatch')
 
 class SignupView(APIView):
@@ -99,12 +66,6 @@ class SignupView(APIView):
                     user.first_name = prenom
                     user.last_name = nom  
                     user.save()
-                    send_email(
-                    username,
-                    'ferchichizakaria@gmail.com',
-                    'Demande Role',
-                    'Cet email est pour ajouter cet utilisateur à un role specific.',
-                )
                     return Response({'success': 'Utilisateur créé avec succès'})
 
         else:
