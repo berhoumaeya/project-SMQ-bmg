@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { FaUser, FaBook, FaUserFriends, FaBuilding, FaChartBar, FaClipboardList, FaExclamationTriangle, FaHandshake, FaGavel, FaTasks, FaBalanceScale } from 'react-icons/fa';
 import '../styles/dashboard.css';
+
 function ModuleTile({ title, description, url, icon, className }) {
     return (
-        <div className={`module-card p-5  ${className}`}>
-            <h4 style={{textAlign : 'center'}}> {icon} {title}</h4>
+        <div className={`module-card p-5 ${className}`}>
+            <h4 className="icon-wrapper" style={{ textAlign: 'center', color: '#6c476e' }}>
+                {icon} {title}
+            </h4>
             <p>{description}</p>
-            <div class="cta">
-                <a href={url} class="cta-link hover-underline-animation" style={{ textDecoration: 'none' }}>Accéder </a>
+            <div className="cta">
+                <a href={url} className="cta-link hover-underline-animation" style={{ textDecoration: 'none', color: '#4d3664' }}>Accéder</a>
                 <svg
                     id="arrow-horizontal"
                     xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +26,6 @@ function ModuleTile({ title, description, url, icon, className }) {
                     ></path>
                 </svg>
             </div>
-
-
-
         </div>
     );
 }
@@ -36,16 +36,13 @@ function SearchBar({ onSearch }) {
     };
 
     return (
-        <div className="input-group mb-4">
+        <div className="search-bar-wrapper mb-4">
             <input
                 type="text"
-                className="form-control"
+                className="search-bar-input"
                 placeholder="Rechercher un module..."
                 onChange={handleSearchChange}
             />
-            <div className="input-group-append">
-                <span className="input-group-text">🔍</span>
-            </div>
         </div>
     );
 }
@@ -141,14 +138,13 @@ function Dashboard() {
     };
 
     return (
-        <div className="dashboard">
-            <hr />
-            <div className="container">
-                <SearchBar onSearch={handleSearch} />
-                <div className="row mb-4">
-                    {filteredModules.map(module => (
-                        <div className="col-md-4 mb-4 d-flex" key={module.title}>
-                            <div className="h-100 w-100">
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="dashboard-container" style={{ width: '100%', maxWidth: '1200px', padding: '20px' }}>
+                <div className="container">
+                    <SearchBar onSearch={handleSearch} />
+                    <div className="row mb-4">
+                        {filteredModules.map(module => (
+                            <div className="col-md-4 mb-4" key={module.title}>
                                 <ModuleTile
                                     title={module.title}
                                     description={module.description}
@@ -157,11 +153,11 @@ function Dashboard() {
                                     className={module.className}
                                 />
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
 

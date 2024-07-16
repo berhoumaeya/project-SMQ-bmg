@@ -40,7 +40,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rimraf C:\\Users\\eyabe\\OneDrive\\Desktop\\stage\\project-SMQ\\systeme\\build && react-scripts build && xcopy /s /e /q build C:\\Users\\Zikoo\\project-SMQ\\systeme\\build",
+    "build": "rimraf C:\\Users\\eyabe\\OneDrive\\Desktop\\stage\\project-SMQ\\systeme\\build && react-scripts build && xcopy /s /e /q build C:\\Users\\eyabe\\OneDrive\\Desktop\\stage\\project-SMQ\\systeme\\build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
