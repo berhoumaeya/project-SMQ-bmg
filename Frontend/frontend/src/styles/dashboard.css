@@ -1,0 +1,122 @@
+.module-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.module-card h4 {
+    margin-bottom: 15px;
+}
+
+.module-card p {
+    margin-bottom: 20px;
+}
+
+.module-card .btn {
+    margin-top: auto;
+}
+
+.bg-color-1 {
+    background-color: #FFCDD2;
+}
+
+.bg-color-2 {
+    background-color: #C8E6C9;
+}
+
+.bg-color-3 {
+    background-color: #BBDEFB;
+}
+
+.bg-color-4 {
+    background-color: #FFECB3;
+}
+
+.bg-color-5 {
+    background-color: #D1C4E9;
+}
+
+.bg-color-6 {
+    background-color: #B2EBF2;
+}
+
+.bg-color-7 {
+    background-color: #FFE0B2;
+}
+
+.bg-color-8 {
+    background-color: #C5CAE9;
+}
+
+.bg-color-9 {
+    background-color: #DCEDC8;
+}
+
+.bg-color-10 {
+    background-color: #F8BBD0;
+}
+
+.bg-color-11 {
+    background-color: #E1BEE7;
+}
+
+.cta {
+    text-align: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.cta span {
+    padding-bottom: 7px;
+    letter-spacing: 4px;
+    font-size: 14px;
+    padding-right: 15px;
+    text-transform: uppercase;
+}
+
+.cta svg {
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+}
+
+.cta:hover svg {
+    transform: translateX(0);
+}
+
+.cta:active svg {
+    transform: scale(0.9);
+}
+
+.hover-underline-animation {
+    position: relative;
+    color: black;
+    padding-bottom: 10px;
+}
+
+.hover-underline-animation:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #000000;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.cta:hover .hover-underline-animation:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}

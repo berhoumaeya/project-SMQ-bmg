@@ -40,7 +40,7 @@
     text-align: center;
 }
 
-.button {
+.button-log {
     background-color: #5585B5;
     color: white;
     text-align: center;
@@ -54,11 +54,11 @@
 }
 
 
-.button:hover {
+.button-log:hover {
     background-color: #4495d1;
 }
 
-.button:active {
+.button-log:active {
     background-color: #4495d1;
 }
 .section-container {

@@ -81,7 +81,7 @@ const Login = ({ login, isAuthenticated }) => {
                                     Mot de passe oublié ?  <Link  className='link-page' to="/ResetPassword">Réinitialiser mot de passe</Link>
                                 </p>
                                 <div>
-                                    <button type="submit" className="button w-100 mb-0">
+                                    <button type="submit" className="button-log w-100 mb-0">
                                         Se connecter
 
                                     </button>
