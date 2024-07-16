@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../formation/FormationForm.css';
 import { Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -56,48 +55,50 @@ function ResponsableForm() {
   }
 
   return (
-    <div className="form-container">
-      <div className="form-card">
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-group">
-            <label>
-              Nom :
-              <input type="text" name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
-            </label>
+    <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div class="container ajout-form">
+        <div class="contact-image">
+          <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" />
+        </div>
+        <form onSubmit={handleSubmit} className="row">
+          <h3>Ajouter un responsable</h3>
+
+          <div class="col-md-6">
+            <div className="form-label">
+              <label className="form-label">Nom :</label>
+              <input type="text" className="form-control" name="nom" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Prénom :</label>
+              <input type="text" className="form-control" name="prenom" placeholder='Prenom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Email :</label>
+              <input type="email" className="form-control" name="email" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
           </div>
-          <div className="form-group">
-            <label>
-              Prénom :
-              <input type="text" name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-            </label>
+          <div class="col-md-6">
+
+            <div className="form-label">
+              <label className="form-label">Nom d'utilisateur :</label>
+              <input type="text" className="form-control" name="username" placeholder='Username*' value={username} onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Est un utilisateur :</label>
+              <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Pièces jointes :</label>
+              <input type="file" className="form-control" onChange={handleFileChange} />
+            </div>
           </div>
-          <div className="form-group">
-            <label>
-              Email :
-              <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Nom d'utilisateur :
-              <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>Est un utilisateur :</label>
-            <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
-          </div>
-          <div className="form-group">
-            <label>Pièces jointes :</label>
-            <input type="file" onChange={handleFileChange} />
-          </div>
-          <button className="btn btn-success mt-3" type="submit">Ajouter Participant</button>
+          <button className="button-add " type="submit">Ajouter Participant</button>
           <Link to="/Dashboardparticipant">
-            <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
+            <button className="btn btn-gray">Retour au tableau de bord</button>
           </Link>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
 

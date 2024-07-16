@@ -1,43 +1,176 @@
-.employes-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .employes-header h3 {
-    font-size: 24px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-  
-  tr:hover {
-    background-color: #f2f2f2;
-  }
-  
-  button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+.module-card {
+  margin-top: 40px;
+}
+
+.bg-color1 {
+  background-color: #bbe4e9;
+  color: #27296d;
+}
+
+.bg-color2 {
+  background-color: #acdcee;
+  color: #27296d;
+}
+
+.bg-color3 {
+  background-color: #BBDEFB;
+  color: #27296d;
+}
+
+.bg-color4 {
+  background-color: #acdcee;
+  color: #27296d;
+}
+
+.bg-color5 {
+  background-color: #bbe4e9;
+  color: #27296d;
+}
+
+.bg-color6 {
+  background-color: #B2EBF2;
+  color: #27296d;
+}
+
+.bg-color7 {
+  background-color: #bef2ff;
+  color: #27296d;
+}
+
+.bg-color8 {
+  background-color: #bde4f4;
+  color: #27296d;
+}
+
+/*ajout responsable*/
+
+.form-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  transition: border-bottom-color 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="file"]:focus {
+  border-bottom-color: #333;
+}
+
+.form-group input[type="checkbox"] {
+  margin-left: 10px;
+}
+
+
+
+button.btn-success {
+  background-color: #28a745;
+  color: #fff;
+  margin-right: 10px;
+}
+
+button.btn-gray {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+button.btn-gray:hover {
+  background-color: #5a6268;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:focus {
+  outline: none;
+}
+
+.ajout-form {
+  background: #fff;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 10%;
+  border-radius: 8px;
+}
+
+.ajout-form .form-control {
+  border-radius: 1rem;
+}
+
+.ajout-form form {
+  padding: 4%;
+}
+
+.ajout-form form .row {
+  margin-bottom: -7%;
+}
+
+.contact-image {
+  text-align: center;
+
+}
+
+.contact-image img {
+  border-radius: 6rem;
+  width: 10%;
+  margin-top: -3%;
+  transform: rotate(29deg);
+}
+
+.ajout-form h3 {
+  margin-bottom: 4%;
+  text-align: center;
+  color: #0062cc;
+}
+
+.ajout-form .btnajout {
+  width: 50%;
+  border: none;
+  border-radius: 10px;
+  padding: 1.5%;
+  background: #dc3545;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button-add {
+  border-radius: 1rem;
+  color: #fff;
+  background-color: #0062cc;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-top: 50px;
+}

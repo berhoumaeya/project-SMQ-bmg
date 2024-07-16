@@ -58,50 +58,52 @@ function AddEmploye() {
   }
 
   return (
-    <div className="form-container">
-      <div className="form-card">
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-group">
-            <label>
-              Nom :
-              <input type="text" name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Prénom :
-              <input type="text" name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Email :
-              <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Nom d'utilisateur :
-              <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>Est un utilisateur :</label>
-            <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
-          </div>
-          <div className="form-group">
-            <label>Pièces jointes :</label>
-            <input type="file" onChange={handleFileChange} />
-          </div>
-          <div className="dashboard-buttons">
-          <button className="btn btn-success mt-3" type="submit">Ajouter Employe</button>
-          <Link to="/Dashboardemploye">
-            <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
-          </Link>
-          </div>
-        </form>
+    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="form-container">
+        <div className="form-card">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="form-group">
+              <label>
+                Nom :
+                <input type="text" name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
+              </label>
+            </div>
+            <div className="form-group">
+              <label>
+                Prénom :
+                <input type="text" name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+              </label>
+            </div>
+            <div className="form-group">
+              <label>
+                Email :
+                <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </label>
+            </div>
+            <div className="form-group">
+              <label>
+                Nom d'utilisateur :
+                <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+              </label>
+            </div>
+            <div className="form-group">
+              <label>Est un utilisateur :</label>
+              <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+            </div>
+            <div className="form-group">
+              <label>Pièces jointes :</label>
+              <input type="file" onChange={handleFileChange} />
+            </div>
+            <div className="dashboard-buttons">
+              <button className="btn btn-success mt-3" type="submit">Ajouter Employe</button>
+              <Link to="/Dashboardemploye">
+                <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
 
