@@ -34,7 +34,7 @@ const Login = ({ login, isAuthenticated }) => {
     }
 
     return (
-        <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <section className="vh-xxl-100 section-container content-with-navbar-margin">
                 <div className="row g-0">
                     <div className="col-lg-6 d-flex align-items-center order-2 order-lg-1 ">
@@ -81,7 +81,7 @@ const Login = ({ login, isAuthenticated }) => {
                                     Mot de passe oublié ?  <Link  className='link-page' to="/ResetPassword">Réinitialiser mot de passe</Link>
                                 </p>
                                 <div>
-                                    <button type="submit" className="button w-100 mb-0">
+                                    <button type="submit" className="button-log w-100 mb-0">
                                         Se connecter
 
                                     </button>

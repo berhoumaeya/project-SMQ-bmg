@@ -56,7 +56,7 @@ const Register = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <ToastContainer />
 
             <section className="vh-xxl-100 section-container content-with-navbar-margin">
@@ -97,7 +97,7 @@ const Register = () => {
                                     {errors.re_password && <p className="error-text">{errors.re_password}</p>}
                                     <input className='form-control' type="password" name="re_password" value={formData.re_password} onChange={handleChange} required placeholder='confirmer mot de passe*' />
                                 </div>
-                                <button className="button w-100 mb-0" type='submit'>
+                                <button className="button-log w-100 mb-0" type='submit'>
                                     S'inscrire
                                 </button>
                             </form>
