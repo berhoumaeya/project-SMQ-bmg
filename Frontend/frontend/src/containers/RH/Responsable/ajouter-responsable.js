@@ -57,9 +57,16 @@ function ResponsableForm() {
   return (
     <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div class="container ajout-form">
-        <div class="contact-image">
-          <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" />
+        <div class="contact-image ">
+          <img src="/images/add.png" alt="rocket_contact" />
+          <div class="button-container">
+          <Link to="/Dashboardresponsable">
+              <button className="retour">Retour au tableau de bord</button>
+            </Link>   <button className="button-add" type="submit">Ajouter Participant</button>
+            
+          </div>
         </div>
+
         <form onSubmit={handleSubmit} className="row">
           <h3>Ajouter un responsable</h3>
 
@@ -92,10 +99,6 @@ function ResponsableForm() {
               <input type="file" className="form-control" onChange={handleFileChange} />
             </div>
           </div>
-          <button className="button-add " type="submit">Ajouter Participant</button>
-          <Link to="/Dashboardparticipant">
-            <button className="btn btn-gray">Retour au tableau de bord</button>
-          </Link>
         </form>
       </div>
     </main>

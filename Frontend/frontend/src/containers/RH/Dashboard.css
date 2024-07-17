@@ -144,8 +144,7 @@ button:focus {
 .contact-image img {
   border-radius: 6rem;
   width: 10%;
-  margin-top: -3%;
-  transform: rotate(29deg);
+  margin-top: -4%;
 }
 
 .ajout-form h3 {
@@ -154,23 +153,33 @@ button:focus {
   color: #0062cc;
 }
 
-.ajout-form .btnajout {
-  width: 50%;
-  border: none;
-  border-radius: 10px;
-  padding: 1.5%;
-  background: #dc3545;
-  font-weight: 600;
-  color: #fff;
-  cursor: pointer;
+
+
+.button-container {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .button-add {
   border-radius: 1rem;
-  color: #fff;
-  background-color: #0062cc;
-  border: none;
+  color: #0062cc;
+  background-color: transparent;
+  border: 2px solid #0062cc;
   cursor: pointer;
   padding: 10px 20px;
-  margin-top: 50px;
+  margin-top: none;
+  justify-items: center;
+}
+
+.retour {
+  border-radius: 1rem;
+  color: #717078;
+  background-color: transparent;
+  border: 2px solid #717078;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-top: none;
+  justify-items: center;
+  margin-left: 10px;
+
 }
