@@ -98,13 +98,12 @@ WSGI_APPLICATION = 'systeme.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql',
-        'NAME':'pfepfe',
+        'NAME':'bmg',
         'USER':'postgres',
-        'PASSWORD':'eya',
-          'OPTIONS': {
-            'options': '-c search_path=public',
-            'client_encoding': 'UTF8',
-        },
+        'PASSWORD':'youta',
+       
+        
+          
     },
 }
 

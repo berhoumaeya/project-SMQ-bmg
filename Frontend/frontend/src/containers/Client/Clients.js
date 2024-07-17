@@ -6,6 +6,7 @@ import './client.css';
 const AllClients = () => {
     const [clients, setclients] = useState([]);
     const [error, setError] = useState(null);
+   
 
     useEffect(() => {
         const fetchclients = async () => {
@@ -33,6 +34,7 @@ const AllClients = () => {
         <div className="dashboard-client-int">
             <div className="header">
                 <h3>Liste des clients</h3>
+               
             </div>
             <div className="clients-container">
                 {clients.map(client => (
