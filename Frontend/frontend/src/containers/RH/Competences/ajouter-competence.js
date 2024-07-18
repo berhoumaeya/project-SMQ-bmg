@@ -78,23 +78,31 @@ function CompetenceForm() {
     }
 
     return (
-        <div className="form-container">
-            <div className="form-card">
-                <h3>Evaluer employé</h3>
-                <form onSubmit={handleSubmit} className="form">
-                    <div className="form-group">
-                        <label>Nom du evaluation:</label>
-                        {errors.name && <p className="error-text">{errors.name}</p>}
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div class="container ajout-form">
+                <div class="contact-image ">
+                    <img src="/images/add.png" alt="rocket_contact" />
+                    <div class="button-container">
+                        <Link to={`/Dashboardcompetence/${id}`}>
+                            <button className="retour">Retour au tableau de bord</button>
+                        </Link>   <button className="button-add" type="submit">Evaluer</button>
+
                     </div>
-                    <div className="form-group">
-                        <label>commentaires:</label>
+                </div>
+                <form onSubmit={handleSubmit} className="form">
+                    <div className="form-label">
+                        <label className="form-label">Nom du évaluation :</label>
+                        {errors.name && <p className="error-text">{errors.name}</p>}
+                        <input className="form-control" placeholder='Nom du évaluation*' type="text" name="name" value={formData.name} onChange={handleChange} required />
+                    </div>
+                    <div className="form-label">
+                        <label className="form-label">Commentaires :</label>
                         {errors.commentaires && <p className="error-text">{errors.commentaires}</p>}
-                        <input type="text" name="commentaires" value={formData.commentaires} onChange={handleChange} />
+                        <input type="text" className="form-control" placeholder='Commentaires*' name="commentaires" value={formData.commentaires} onChange={handleChange} />
                     </div>
                     {formData.criteres.map((critere, index) => (
-                        <div key={index}>
-                            <label>Critère {index + 1}:</label>
+                        <div className="criteria-row" key={index}>
+                            <label className="criteria-label">Critère {index + 1}:</label>
                             {errors.criteres && errors.criteres[index] && (
                                 <div className="error-text">
                                     {errors.criteres[index].skills_acquis && <p>{errors.criteres[index].skills_acquis}</p>}
@@ -105,6 +113,7 @@ function CompetenceForm() {
                             <input
                                 type="text"
                                 name="skills_acquis"
+                                className="form-control criteria-input"
                                 value={critere.skills_acquis}
                                 onChange={(e) => handleCritereChange(index, e)}
                                 required
@@ -112,6 +121,7 @@ function CompetenceForm() {
                             <input
                                 type="number"
                                 name="note_acquis"
+                                className="form-control criteria-input"
                                 value={critere.note_acquis}
                                 onChange={(e) => handleCritereChange(index, e)}
                                 min="1"
@@ -121,6 +131,7 @@ function CompetenceForm() {
                             <input
                                 type="number"
                                 name="note_requis"
+                                className="form-control criteria-input"
                                 value={critere.note_requis}
                                 onChange={(e) => handleCritereChange(index, e)}
                                 min="1"
@@ -128,18 +139,20 @@ function CompetenceForm() {
                                 required
                             />
                             {index > 0 && (
-                                <FontAwesomeIcon icon={faMinus} onClick={() => removeCritere(index)} style={{ cursor: 'pointer', marginLeft: '10px' }} />
+                                <FontAwesomeIcon
+                                    icon={faMinus}
+                                    onClick={() => removeCritere(index)}
+                                    className="remove-icon"
+                                />
                             )}
                         </div>
                     ))}
+
                     <FontAwesomeIcon icon={faPlus} onClick={addCritere} style={{ cursor: 'pointer', marginTop: '10px' }} />
-                    <div className="button-group">
-                        <button className="btn btn-primary" type="submit">Evaluer</button>
-                        <Link to={`/Dashboardcompetence/${id}`} className="btn btn-secondary">Retour au tableau de bord</Link>
-                    </div>
+
                 </form>
             </div>
-        </div>
+        </main>
     );
 }
 

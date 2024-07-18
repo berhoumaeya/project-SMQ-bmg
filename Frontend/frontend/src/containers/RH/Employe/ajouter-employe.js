@@ -58,50 +58,53 @@ function AddEmploye() {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="form-container">
-        <div className="form-card">
-          <form onSubmit={handleSubmit} className="form">
-            <div className="form-group">
-              <label>
-                Nom :
-                <input type="text" name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
-              </label>
+    <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div class="container ajout-form">
+        <div class="contact-image ">
+          <img src="/images/add.png" alt="rocket_contact" />
+          <div class="button-container">
+            <Link to="/Dashboardemploye">
+              <button className="retour">Retour au tableau de bord</button>
+            </Link> 
+            <button className="button-add" type="submit">Ajouter employe</button>
             </div>
-            <div className="form-group">
-              <label>
-                Prénom :
-                <input type="text" name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-              </label>
-            </div>
-            <div className="form-group">
-              <label>
-                Email :
-                <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              </label>
-            </div>
-            <div className="form-group">
-              <label>
-                Nom d'utilisateur :
-                <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-              </label>
-            </div>
-            <div className="form-group">
-              <label>Est un utilisateur :</label>
-              <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
-            </div>
-            <div className="form-group">
-              <label>Pièces jointes :</label>
-              <input type="file" onChange={handleFileChange} />
-            </div>
-            <div className="dashboard-buttons">
-              <button className="btn btn-success mt-3" type="submit">Ajouter Employe</button>
-              <Link to="/Dashboardemploye">
-                <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
-              </Link>
-            </div>
-          </form>
         </div>
+        <form onSubmit={handleSubmit} className="row">
+        <div class="col-md-6">
+            <div className="form-label">
+              <label className="form-label">
+                Nom :
+              </label>
+              <input type="text" className="form-control" placeholder='Nom*' name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Prénom :</label>
+              <input type="text" className="form-control" placeholder='Prénom*' name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Email :</label>
+              <input type="email" className="form-control" placeholder='Email*' name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div className="form-label">
+              <label className="form-label">Nom d'utilisateur :</label>
+              <input type="text" className="form-control" name="username" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Pièces jointes :</label>
+              <input type="file" className="form-control" onChange={handleFileChange} />
+            </div>
+            <br />
+            <div className="form-label">
+              <div className="checkbox-container">
+                <label className="form-label">Est un utilisateur : </label>
+                <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+              </div>
+            </div>
+          </div>
+
+        </form>
       </div>
     </main>
   );

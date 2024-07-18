@@ -143,8 +143,8 @@ button:focus {
 
 .contact-image img {
   border-radius: 6rem;
-  width: 10%;
-  margin-top: -4%;
+  width: 8%;
+  margin-top: -3%;
 }
 
 .ajout-form h3 {
@@ -153,6 +153,10 @@ button:focus {
   color: #0062cc;
 }
 
+.ajout-form h4 {
+  margin-top: 1%;
+  color: #0062cc;
+}
 
 
 .button-container {
@@ -182,4 +186,48 @@ button:focus {
   justify-items: center;
   margin-left: 10px;
 
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.checkbox-container label {
+  margin-left: 0.5em;
+  font-size: 1rem;
+  color: #333;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.criteria-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.criteria-label {
+  flex: 1;
+  margin-right: 1em;
+}
+
+.criteria-input {
+  flex: 2;
+  margin-right: 1em;
+}
+
+.error-text {
+  color: red;
+  margin-bottom: 1em;
+}
+
+.remove-icon {
+  cursor: pointer;
+  margin-left: 10px;
 }
