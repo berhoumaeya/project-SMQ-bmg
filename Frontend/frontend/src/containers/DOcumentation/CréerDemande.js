@@ -50,39 +50,46 @@ const CreateDemande = () => {
     };
 
     return (
-        <div className="form-container">
-            <div className="form-card">
-                <h3>Ajouter document</h3>
-                <form onSubmit={handleSubmit} className="form">
-                    <div className="form-group">
-                        <label>document_object:</label>
-                        {errors.document_object && <p className="error-text">{errors.document_object}</p>}
-                        <input type="text" name="document_object" value={document_object} onChange={(e) => setdocument_object(e.target.value)} />
+        <main style={{ backgroundColor: '#c8e6c9', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="container ajout-form">
+                <div className="contact-image ">
+                    <img src="/images/plus-1.png" alt="rocket_contact" />
+                    <div className="button-container">
+                        <Link to="/DashboardDoc">
+                            <button className="retour">Retour au tableau de bord</button>
+                        </Link>   <button className="button-add-" type="submit">Envoyer demande</button>
                     </div>
-                    <div className="form-group">
-                        <label>Type:</label>
-                        {errors.type && <p className="error-text">{errors.type}</p>}
-                        <select value={type} onChange={(e) => setType(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Manuel">Manuel</option>
-                            <option value="Procédure">Procédure</option>
-                            <option value="Politique">Politique</option>
-                            <option value="Rapport">Rapport</option>
-                            <option value="Mémoire">Mémoire</option>
-                        </select>
-                        
+                </div>
+                <form onSubmit={handleSubmit} className="row">
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Document object :</label>
+                            {errors.document_object && <p className="error-text">{errors.document_object}</p>}
+                            <input type="text" className="form-control" placeholder='Document object*' name="document_object" value={document_object} onChange={(e) => setdocument_object(e.target.value)} />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Pièces jointes :</label>
-                        <input type="file" onChange={handleFileChange} />
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Type :</label>
+                            {errors.type && <p className="error-text">{errors.type}</p>}
+                            <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
+                                <option value="">Sélectionner...</option>
+                                <option value="Manuel">Manuel</option>
+                                <option value="Procédure">Procédure</option>
+                                <option value="Politique">Politique</option>
+                                <option value="Rapport">Rapport</option>
+                                <option value="Mémoire">Mémoire</option>
+                            </select>
+
+                        </div>
                     </div>
-                    <div className="button-group">
-                        <button className="btn btn-success mt-3" type="submit">Envoyer demande</button>
-                        <Link to="/DashboardDoc" className="btn btn-gray mt-3">Retour au tableau de bord</Link>
+                    <div className="form-label">
+                        <label className="form-label">Pièces jointes :</label>
+                        <input type="file" className="form-control" onChange={handleFileChange} />
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
     );
 };
 

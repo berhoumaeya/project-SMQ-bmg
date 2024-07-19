@@ -57,6 +57,13 @@ INSTALLED_APPS = [
     'produit',
     'conformitereglementaire'
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4' 
 

@@ -1,0 +1,30 @@
+.bg-color{
+    background-color: #C8E6CA;  
+}
+.bg-color--1{
+    background-color: #cce6c8;  
+}
+.bg-color--2{
+    background-color: #c8e6c9;  
+}
+.bg-color--3{
+    background-color: #c8e6cc;  
+}
+.bg-color--4{
+    background-color: #c8e6d1;  
+}
+.bg-color--5{
+    background-color: #bcdfbef3;  
+}
+
+.button-add- {
+    border-radius: 1rem;
+    color: #77c17a;
+    background-color: transparent;
+    border: 2px solid #77c17a;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: none;
+    justify-items: center;
+  }
+  
