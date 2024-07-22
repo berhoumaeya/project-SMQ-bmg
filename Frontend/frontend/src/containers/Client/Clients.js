@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './client.css';
@@ -13,8 +13,8 @@ const AllClients = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/CRM/client/`, {
                     headers: {
-                        'Accept': '*/*',
-                    }
+                        /*'Accept': '*/
+          /*   }
                 });
                 setclients(response.data);
             } catch (error) {
@@ -53,6 +53,95 @@ const AllClients = () => {
                 <Link to={`/CréerClient/`} className="btn btn-primary">Ajouter Client</Link>
             </div>
             <div className="dashboard-buttons">
+                <Link to={`/DashboardClient/`} className="btn btn-secondary">Retour</Link>
+            </div>
+        </div>
+    );
+};
+
+export default AllClients;*/
+
+
+
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './client.css';
+
+const AllClients = () => {
+    const [view, setView] = useState('list');
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const clients = [
+        { nom: 'ay', code: '01', image: 'image_1' },
+        { nom: 'by', code: '02', image: 'path_to_image_2' },
+       
+    ];
+
+    const filteredClients = clients.filter(client =>
+        client.nom.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        client.code.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return (
+        <div className="dashboard-client-int">
+            <div className="header">
+                <div className="dashboard-buttons">
+                    <Link to={`/CréerClient/`} className="btn btn-primary">Ajouter</Link>
+                </div>
+                <div className="header-right">
+                    <button onClick={() => setView('list')} className={`btn ${view === 'list' ? 'active' : ''}`}>
+                        <img src="path_to_list_icon" alt="List View" />
+                    </button>
+                    <button onClick={() => setView('grid')} className={`btn ${view === 'grid' ? 'active' : ''}`}>
+                        <img src="path_to_grid_icon" alt="Grid View" />
+                    </button>
+                    <input
+                        type="text"
+                        placeholder="Rechercher..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="search-bar"
+                    />
+                </div>
+            </div>
+
+            <div className="table-container">
+                {view === 'list' ? (
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Code client</th>
+                                <th scope="col">Nom client</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredClients.map((client, index) => (
+                                <tr key={index}>
+                                    <td>{client.code}</td>
+                                    <td>{client.nom}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="grid-container">
+                        {filteredClients.map((client, index) => (
+                            <div key={index} className="grid-item">
+                                <div className="card">
+                                    <img src={client.image} alt={`Image de ${client.nom}`} className="card-image" />
+                                    <div className="card-body">
+                                        <p className="card-text"> {client.code}</p>
+                                        <p className="card-text"> {client.nom}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            <div className="dashboard-buttons return-button">
                 <Link to={`/DashboardClient/`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>

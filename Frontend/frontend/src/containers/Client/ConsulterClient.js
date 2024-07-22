@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useParams ,Link , Navigate} from 'react-router-dom';
@@ -17,8 +17,8 @@ const Client = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/CRM/dashboard_client/${id}/`, {
                     headers: {
-                        'Accept': '*/*',
-                    }
+                        'Accept': '*///*',
+                   /* }
                 });
                 setclients(response.data);
             } catch (error) {
@@ -32,8 +32,8 @@ const Client = () => {
 
     const handleDelete = async (id) => {
         const headers = {
-            'Accept': '*/*',
-            'Content-Type': 'application/json',
+            'Accept': '*///*',
+            /*'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
         };
         try {
@@ -88,6 +88,52 @@ const Client = () => {
                 <Link to={`/AllSuggestion/${id}/`} className="btn btn-primary">Consulter Suggestion</Link>
             </div>
             <div className="dashboard-buttons">
+                <Link to={`/Clients/`} className="btn btn-secondary">Retour</Link>
+            </div>
+        </div>
+    );
+};
+
+export default Client;*/
+
+
+
+
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
+import './client.css';
+
+const Client = () => {
+    const { id } = useParams();
+
+    
+
+    return (
+        <div className="dashboard-doc-int">
+            <div className="clients-container">
+                <div className="document-card">
+                    <div className="document-card-body">
+                        <p className="document-card-text"><strong>Nom client:</strong> Exemple Nom</p>
+                        <p className="document-card-text"><strong>Code client:</strong> Exemple Code</p>
+                        <p className="document-card-text"><strong>Raison sociale:</strong> Exemple Raison Sociale</p>
+                        <p className="document-card-text"><strong>Activité:</strong> Exemple Activité</p>
+                        <p className="document-card-text"><strong>Type client:</strong> Exemple Type</p>
+                        <p className="document-card-text"><strong>Catégorie client:</strong> Exemple Catégorie</p>
+                        <p className="document-card-text"><strong>Modifié par:</strong> Exemple Modificateur</p>
+                        <p className="document-card-text"><strong>Modifié le :</strong> Exemple Date Modification</p>
+                        <p className="document-card-text"><strong>Créé par:</strong> Exemple Créateur</p>
+                        <p className="document-card-text"><strong>Créé à:</strong> Exemple Date Création</p>
+                        <p><strong>Pièces jointes :</strong> <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a></p>
+                        <div className="document-card-buttons">
+                            <Link to={`/modifierclient/${id}`} className="btn btn-primary">Modifier</Link>
+                            <button className="btn btn-danger">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="dashboard-buttons">
+                <Link to={`/AllReclamations/${id}/`} className="btn btn-primary">Consulter réclamation</Link>
+                <Link to={`/AllSuggestion/${id}/`} className="btn btn-primary">Consulter Suggestion</Link>
                 <Link to={`/Clients/`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>

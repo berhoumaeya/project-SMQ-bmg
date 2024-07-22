@@ -1,0 +1,84 @@
+
+#module-card {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: center;
+  }
+  
+  
+  .col-md-4 {
+    margin-bottom: 20px;
+   
+
+    
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+ 
+    
+  }
+  .card {
+    background-color: #bbe4e9;
+    border: 1px solid #bbe4e9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  .card-body {
+    background-color: #bbe4e9;
+    padding: 20px;
+    text-align: center;
+   
+  }
+  
+  .card-body h4 {
+  
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #27296d;
+  }
+  
+  .card-body .btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    
+  }
+  
+ 
+  
+  .dashboard-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .dashboard-buttons .btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .dashboard-buttons .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+  }
+  
+  .dashboard-buttons .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  

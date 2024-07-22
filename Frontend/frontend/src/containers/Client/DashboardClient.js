@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link } from 'react-router-dom';
-
+import './dasbordclient.css';
 
 function DashboardClient({ user }) {
   const gestionSections = [
@@ -14,7 +14,8 @@ function DashboardClient({ user }) {
   }
 
   return (
-    <div className="mt-5 pb-5">
+ 
+    <div className="mt-5 pb-5" id="module-card">
       <div className="container">
         {sectionGroups.map((group, index) => (
           <div className="row mb-4" key={index}>
@@ -26,9 +27,13 @@ function DashboardClient({ user }) {
                     <a href={section.link} className="btn btn-primary btn-lg">Accéder</a>
                   </div>
                 </div>
+               
               </div>
+              
             ))}
+             
           </div>
+         
         ))}
       </div>
       <div className="dashboard-buttons">
