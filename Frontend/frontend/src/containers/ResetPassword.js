@@ -28,9 +28,8 @@ const PasswordResetRequest = () => {
     };
 
     return (
-        <div className="background">
-            <main style={{ backgroundColor: '#5585b5', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+               <div>
                     <ToastContainer />
                     <div className="vh-xxl-100 section-container content-with-navbar-margin">
 
@@ -45,13 +44,12 @@ const PasswordResetRequest = () => {
                                             type="email" name="email" value={email} onChange={handleChange} required />
                                     </div>
                                     <div className="button-group">
-                                        <button className="btn btn-primary" type="submit">Envoyer</button>
+                                        <button className="button-log ">Envoyer</button>
                                     </div>
                                 </form>
                             </div></div>
                     </div></div>
             </main>
-        </div>
     );
 };
 
