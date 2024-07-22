@@ -60,20 +60,19 @@ function ResponsableForm() {
         <div class="contact-image ">
           <img src="/images/add.png" alt="rocket_contact" />
           <div class="button-container">
-          <Link to="/Dashboardresponsable">
+            <Link to="/Dashboardresponsable">
               <button className="retour">Retour au tableau de bord</button>
-            </Link>   <button className="button-add" type="submit">Ajouter Participant</button>
-            
+            </Link>   <button className="button-add" type="submit">Ajouter un responsable</button>
+
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="row">
-          <h3>Ajouter un responsable</h3>
 
           <div class="col-md-6">
             <div className="form-label">
               <label className="form-label">Nom :</label>
-              <input type="text" className="form-control" name="nom" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
+              <input type="text" className="form-control" placeholder='Nom*' name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
             </div>
             <div className="form-label">
               <label className="form-label">Prénom :</label>
@@ -85,18 +84,20 @@ function ResponsableForm() {
             </div>
           </div>
           <div class="col-md-6">
-
             <div className="form-label">
               <label className="form-label">Nom d'utilisateur :</label>
-              <input type="text" className="form-control" name="username" placeholder='Username*' value={username} onChange={(e) => setUsername(e.target.value)} />
-            </div>
-            <div className="form-label">
-              <label className="form-label">Est un utilisateur :</label>
-              <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+              <input type="text" className="form-control" name="username" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div className="form-label">
               <label className="form-label">Pièces jointes :</label>
               <input type="file" className="form-control" onChange={handleFileChange} />
+            </div>
+            <br />
+            <div className="form-label">
+              <div className="checkbox-container">
+                <label className="form-label">Est un utilisateur : </label>
+                <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+              </div>
             </div>
           </div>
         </form>

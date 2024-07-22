@@ -68,60 +68,68 @@ const DocExtForm = () => {
 
 
     return (
-        <div className="form-container">
-            <div className="form-card">
-                <h3>Ajouter document</h3>
-                <form onSubmit={handleSubmit} className="form">
-                    <div className="form-group">
-                        <label>designation:</label>
-                        {errors.designation && <p className="error-text">{errors.designation}</p>}
-                        <input type="text" name="designation" value={designation} onChange={(e) => setdesignation(e.target.value)} />
+        <main style={{ backgroundColor: '#c8e6c9', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="container ajout-form">
+                <div className="contact-image ">
+                    <img src="/images/plus-1.png" alt="rocket_contact" />
+                    <div className="button-container">
+                        <Link to="/DashboardDoc">
+                            <button className="retour">Retour au tableau de bord</button>
+                        </Link>
+                        <button className="button-add-" type="submit">Rédiger un document</button>
                     </div>
-                    <div className="form-group">
-                        <label>Type:</label>
-                        {errors.type && <p className="error-text">{errors.type}</p>}
-                        <select value={type} onChange={(e) => setType(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="numerique">numerique</option>
-                            <option value="papier">papier</option>
-                        </select>
+                </div>
+                <form onSubmit={handleSubmit} className="row">
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Désignation :</label>
+                            {errors.designation && <p className="error-text">{errors.designation}</p>}
+                            <input type="text" className="form-control" placeholder='Désignation*' name="designation" value={designation} onChange={(e) => setdesignation(e.target.value)} />
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Type :</label>
+                            {errors.type && <p className="error-text">{errors.type}</p>}
+                            <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
+                                <option value="">Sélectionner...</option>
+                                <option value="numerique">Numerique</option>
+                                <option value="papier">Papier</option>
+                            </select>
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Lieu classement:</label>
+                            {errors.lieu_classement && <p className="error-text">{errors.lieu_classement}</p>}
+                            <select className="form-control" value={lieu_classement} onChange={(e) => setlieu_classement(e.target.value)}>
+                                <option value="">Sélectionner...</option>
+                                <option value="Archives">Archives</option>
+                                <option value="Bureau">Bureau</option>
+                                <option value="Entrepôt">Entrepôt</option>
+                                <option value="Cloud">Cloud</option>
+                            </select>
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Durée :</label>
+                            {errors.duree_classement && <p className="error-text">{errors.duree_classement}</p>}
+                            <input className="form-control" placeholder='Durée*' type="text" name="duree_classement" value={duree_classement} onChange={(e) => setduree_classement(e.target.value)} />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Lieu classement:</label>
-                        {errors.lieu_classement && <p className="error-text">{errors.lieu_classement}</p>}
-                        <select value={lieu_classement} onChange={(e) => setlieu_classement(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Archives">Archives</option>
-                            <option value="Bureau">Bureau</option>
-                            <option value="Entrepôt">Entrepôt</option>
-                            <option value="Cloud">Cloud</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Durée:</label>
-                        {errors.duree_classement && <p className="error-text">{errors.duree_classement}</p>}
-                        <input type="text" name="duree_classement" value={duree_classement} onChange={(e) => setduree_classement(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Liste informée :</label>
-                        {errors.liste_informee && <p className="error-text">{errors.liste_informee}</p>}
-                        <select multiple value={liste_informeeID} onChange={(e) => setListeInformee(Array.from(e.target.selectedOptions, option => option.value))}>
-                            {liste_informees.map(liste_informee => (
-                                <option key={liste_informee.id} value={liste_informee.id}>{liste_informee.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Pièces jointes :</label>
-                        <input type="file" onChange={handleFileChange} />
-                    </div>
-                    <div className="button-group">
-                        <button className="btn btn-success mt-3" type="submit">Rédiger document</button>
-                        <Link to="/DashboardDoc" className="btn btn-gray mt-3">Retour au tableau de bord</Link>
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Liste informée :</label>
+                            {errors.liste_informee && <p className="error-text">{errors.liste_informee}</p>}
+                            <select className="form-control" multiple value={liste_informeeID} onChange={(e) => setListeInformee(Array.from(e.target.selectedOptions, option => option.value))}>
+                                {liste_informees.map(liste_informee => (
+                                    <option key={liste_informee.id} value={liste_informee.id}>{liste_informee.username}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Pièces jointes :</label>
+                            <input className="form-control" type="file" onChange={handleFileChange} />
+                        </div>
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
     );
 };
 

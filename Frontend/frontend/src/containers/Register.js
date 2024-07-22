@@ -15,19 +15,78 @@ const Register = () => {
         prenom: '',
         nom: ''
     });
-    const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const validatePassword = (password) => {
+        return password.length >= 8;
+    };
+
+    const validateFields = (name, value) => {
+        let error = '';
+        switch (name) {
+            case 'username':
+                if (!validateEmail(value)) {
+                    error = 'Adresse email invalide.';
+                }
+                break;
+            case 'password':
+                if (!validatePassword(value)) {
+                    error = 'Le mot de passe doit contenir au moins 8 caractères.';
+                }
+                break;
+            case 're_password':
+                if (value !== formData.password) {
+                    error = 'Les mots de passe ne correspondent pas.';
+                }
+                break;
+            case 'prenom':
+            case 'nom':
+                if (!value.trim()) {
+                    error = `Le champ ${name} ne peut pas être vide.`;
+                }
+                break;
+            default:
+                break;
+        }
+        return error;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const error = validateFields(name, value);
         setFormData({
             ...formData,
             [name]: value
+        });
+        setErrors({
+            ...errors,
+            [name]: error
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let valid = true;
+        const newErrors = {};
+        Object.keys(formData).forEach((key) => {
+            const error = validateFields(key, formData[key]);
+            if (error) {
+                valid = false;
+                newErrors[key] = error;
+            }
+        });
+
+        if (!valid) {
+            setErrors(newErrors);
+            return;
+        }
+
         axios.post(`${process.env.REACT_APP_API_URL}/user/register`, formData, {
             headers: {
                 'Content-Type': 'application/json',
@@ -69,33 +128,32 @@ const Register = () => {
                     </div>
                     <div className="col-lg-6 order-1">
                         <div className="p-5 p-sm-7">
-                            <h1 className="mb-2 centered-text">La meilleure offre
-                            pour vous </h1>
+                            <h1 className="mb-2 centered-text">La meilleure offre pour vous</h1>
                             <form className="mt-4 text-start" onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label >Email:</label>
+                                    <label>Email:</label>
                                     {errors.username && <p className="error-text">{errors.username}</p>}
                                     <input className='form-control' type="email" name="username" value={formData.username} onChange={handleChange} required placeholder='Email*' />
                                 </div>
                                 <div className="mb-3">
-                                    <label >Prénom:</label>
+                                    <label>Prénom:</label>
                                     {errors.prenom && <p className="error-text">{errors.prenom}</p>}
                                     <input className='form-control' type="text" name="prenom" value={formData.prenom} onChange={handleChange} required placeholder='Prénom*' />
                                 </div>
                                 <div className="mb-3">
-                                    <label >Nom:</label>
+                                    <label>Nom:</label>
                                     {errors.nom && <p className="error-text">{errors.nom}</p>}
                                     <input className='form-control' type="text" name="nom" value={formData.nom} onChange={handleChange} required placeholder='Nom*' />
                                 </div>
                                 <div className="mb-3">
-                                    <label >Mot de passe:</label>
+                                    <label>Mot de passe:</label>
                                     {errors.password && <p className="error-text">{errors.password}</p>}
-                                    <input className='form-control' type="password" name="password" value={formData.password} onChange={handleChange} required placeholder='mot de passe*' minLength='8' />
+                                    <input className='form-control' type="password" name="password" value={formData.password} onChange={handleChange} required placeholder='Mot de passe*' minLength='8' />
                                 </div>
-                                <div className="mb-3 ">
-                                    <label >Confirmer le mot de passe:</label>
+                                <div className="mb-3">
+                                    <label>Confirmer le mot de passe:</label>
                                     {errors.re_password && <p className="error-text">{errors.re_password}</p>}
-                                    <input className='form-control' type="password" name="re_password" value={formData.re_password} onChange={handleChange} required placeholder='confirmer mot de passe*' />
+                                    <input className='form-control' type="password" name="re_password" value={formData.re_password} onChange={handleChange} required placeholder='Confirmer mot de passe*' />
                                 </div>
                                 <button className="button-log w-100 mb-0" type='submit'>
                                     S'inscrire

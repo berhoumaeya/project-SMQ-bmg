@@ -59,50 +59,57 @@ function AddPost() {
   }
 
   return (
-    <div className="form-container">
-      <div className="form-card">
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-group">
-            <label>
-              title :
-              <input type="text" name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </label>
+    <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div class="container ajout-form">
+        <div class="contact-image ">
+          <img src="/images/add.png" alt="rocket_contact" />
+          <div class="button-container">
+            <Link to="/Dashboardposition">
+              <button className="retour">Retour au tableau de bord</button>
+            </Link>   <button className="button-add" type="submit">Ajouter position</button>
+
           </div>
-          <div className="form-group">
-            <label>
-              Position :
-              <input type="text" name="position" value={position} onChange={(e) => setPosition(e.target.value)} />
-            </label>
+        </div>
+
+        <form onSubmit={handleSubmit} className="row">
+
+          <div class="col-md-6">
+            <div className="form-label">
+              <label className="form-label">
+                Titre :</label>
+              <input type="text" className="form-control" placeholder='Titre*' name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">
+                Position :</label>
+              <input type="text" className="form-control" placeholder='Position*' name="position" value={position} onChange={(e) => setPosition(e.target.value)} />
+
+            </div>
+            <div className="form-label">
+              <label className="form-label">
+                Mission principale :</label>
+              <input type="text" className="form-control" placeholder='Mission principale*' name="main_mission" value={main_mission} onChange={(e) => setMain_mission(e.target.value)} />
+            </div>
           </div>
-          <div className="form-group">
-            <label>
-              Mission principale :
-              <input type="text" name="main_mission" value={main_mission} onChange={(e) => setMain_mission(e.target.value)} />
-            </label>
+          <div class="col-md-6">
+            <div className="form-label">
+              <label className="form-label">
+                Compétences requis :</label>
+              <input type="text" className="form-control" placeholder='Compétences requis*' name="required_skills" value={required_skills} onChange={(e) => setRequired_skills(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">
+                Activité principale :</label>
+              <input type="text" className="form-control" placeholder='Activité principale*' name="main_activity" value={main_activity} onChange={(e) => setMain_activity(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Pièces jointes :</label>
+              <input type="file" className="form-control" onChange={handleFileChange} />
+            </div>
           </div>
-          <div className="form-group">
-            <label>
-              Competences requis :
-              <input type="text" name="required_skills" value={required_skills} onChange={(e) => setRequired_skills(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              Activité principale :
-              <input type="text" name="main_activity" value={main_activity} onChange={(e) => setMain_activity(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>Pièces jointes :</label>
-            <input type="file" onChange={handleFileChange} />
-          </div>
-          <button className="btn btn-success mt-3" type="submit">Ajouter position</button>
-          <Link to="/Dashboardposition">
-            <button className="btn btn-gray mt-3">Retour au tableau de bord</button>
-          </Link>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
 

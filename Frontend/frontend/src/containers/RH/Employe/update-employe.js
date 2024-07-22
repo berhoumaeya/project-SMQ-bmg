@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { Navigate , Link } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 
 
 
@@ -27,9 +27,9 @@ const UpdateEmploye = () => {
         setemail(data.email)
         setusername(data.username)
         setis_user(data.is_user)
-        if (data.pieces_jointes){
+        if (data.pieces_jointes) {
           setPiecesJointesUrl(`${data.pieces_jointes}`);
-         }
+        }
       } catch (error) {
         console.error('Erreur lors de la récupération des données de employe:', error);
       }
@@ -54,14 +54,14 @@ const UpdateEmploye = () => {
     formData.append('is_user', is_user ? 'True' : 'False');
     if (pieces_jointes) {
       formData.append('pieces_jointes', pieces_jointes);
-  }
+    }
 
     const headers = {
       'Accept': '*/*',
       'Content-Type': 'multipart/form-data',
       'X-CSRFToken': Cookies.get('csrftoken')
-  };
-       axios.put(`${process.env.REACT_APP_API_URL}/RH/update_employe/${id}/`, formData, {headers: headers })
+    };
+    axios.put(`${process.env.REACT_APP_API_URL}/RH/update_employe/${id}/`, formData, { headers: headers })
       .then(response => {
         console.log('employe modifié avec succès :', response.data);
         setnom('');
@@ -73,64 +73,78 @@ const UpdateEmploye = () => {
 
         setupdateReussi(true)
       })
-    .catch (error =>  {
-      console.error('Erreur lors de la mise à jour de employe:', error);
-    })
+      .catch(error => {
+        console.error('Erreur lors de la mise à jour de employe:', error);
+      })
   };
-  if(updateReussi){
+  if (updateReussi) {
     return <Navigate to={`/employe/${id}`} />;
   }
 
   return (
-    <div className="form-container">
-      <div className="form-card">
-        <h3>Modifier un employe</h3>
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-group">
-            <label>Nom employe :</label>
-            <input type="text" name="nom" value={nom} onChange={(e) => setnom(e.target.value)} />
+    <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div class="container ajout-form">
+        <div class="contact-image ">
+          <img src="/images/change.png" alt="rocket_contact" />
+          <div class="button-container">
+            <Link to={`/employe/${id}`}>
+              <button className="retour">Retour au tableau de bord</button>
+            </Link>
+            <button className="button-add" type="submit">Modifier employe</button>
           </div>
-          <div className="form-group">
-            <label>Prénom de employe :</label>
-            <input type="text" name="prenom" value={prenom} onChange={(e) => setprenom(e.target.value)}/>
-          </div>
-          <div className="form-group">
-            <label>Nom d'utilisateur employe :</label>
-            <input type="text" name="username" value={username} onChange={(e) => setusername(e.target.value)}/>
-          </div>
-          <div className="form-group">
-            <label>Email de employe :</label>
-            <input type="email" name="email" value={email} onChange={(e) => setemail(e.target.value)} />
-          </div>
-          <div className="form-group">
-            <label>Est un utilisateur :</label>
-            <input type="checkbox" name="is_user" checked={is_user} onChange={e => setis_user(e.target.checked)}  />
-          </div>
-          <div className="form-group">
-    <label>Pièces jointes :</label>
-    {piecesJointesUrl ? (
-        <div>
-            <input 
-                type="text" 
-                value={piecesJointesUrl} 
-                onChange={(e) => setPiecesJointesUrl(e.target.value)} 
-            />
-            <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
         </div>
-    ) : (
-        <input 
-            type="file" 
-            onChange={handleFileChange} 
-        />
-    )}
-</div>
-          <button className="btn btn-primary" type="submit">Modifier employe</button>
-          <Link to={`/employe/${id}`}>
-      <button>Retour</button>
-    </Link>
+
+
+        <form onSubmit={handleSubmit} className="row">
+          <div class="col-md-6">
+            <div className="form-label">
+              <label className="form-label">Nom employe :</label>
+              <input type="text" className="form-control" placeholder='Nom du employe*' name="nom" value={nom} onChange={(e) => setnom(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Prénom de employe :</label>
+              <input type="text" className="form-control" placeholder='Prénom du employe*' name="prenom" value={prenom} onChange={(e) => setprenom(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <label className="form-label">Nom d'utilisateur employe :</label>
+              <input type="text" className="form-control" placeholder='Nom de utilisateur du employe*' name="username" value={username} onChange={(e) => setusername(e.target.value)} />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div className="form-label">
+              <label className="form-label">Email de employe :</label>
+              <input type="email" className="form-control" placeholder='Email de employe' name="email" value={email} onChange={(e) => setemail(e.target.value)} />
+            </div>
+            <div className="form-label">
+              <div className="checkbox-container">
+                <label className="form-label">Est un utilisateur : </label>
+                <input type="checkbox" name="is_user" checked={is_user} onChange={e => setis_user(e.target.checked)} />
+              </div>
+            </div>
+            <div className="form-label">
+              <label className="form-label">Pièces jointes :</label>
+              {piecesJointesUrl ? (
+                <div >
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={piecesJointesUrl}
+                    onChange={(e) => setPiecesJointesUrl(e.target.value)}
+                  />
+                  <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
+                </div>
+              ) : (
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                />
+              )}
+            </div>
+          </div>
+
         </form>
       </div>
-    </div>
+    </main>
   );
 };
 
