@@ -63,7 +63,6 @@ export default AllClients;*/
 
 
 
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './client.css';
@@ -75,7 +74,7 @@ const AllClients = () => {
     const clients = [
         { nom: 'ay', code: '01', image: 'image_1' },
         { nom: 'by', code: '02', image: 'path_to_image_2' },
-       
+        
     ];
 
     const filteredClients = clients.filter(client =>
@@ -87,7 +86,7 @@ const AllClients = () => {
         <div className="dashboard-client-int">
             <div className="header">
                 <div className="dashboard-buttons">
-                    <Link to={`/CréerClient/`} className="btn btn-primary">Ajouter</Link>
+                    <Link to="/CréerClient/" className="btn btn-primary">Ajouter</Link>
                 </div>
                 <div className="header-right">
                     <button onClick={() => setView('list')} className={`btn ${view === 'list' ? 'active' : ''}`}>
@@ -118,8 +117,12 @@ const AllClients = () => {
                         <tbody>
                             {filteredClients.map((client, index) => (
                                 <tr key={index}>
-                                    <td>{client.code}</td>
-                                    <td>{client.nom}</td>
+                                    <td>
+                                        <Link to={`/ConsulterClient/${client.code}`}>{client.code}</Link>
+                                    </td>
+                                    <td>
+                                        <Link to={`/client/${client.code}`}>{client.nom}</Link>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -127,22 +130,22 @@ const AllClients = () => {
                 ) : (
                     <div className="grid-container">
                         {filteredClients.map((client, index) => (
-                            <div key={index} className="grid-item">
+                            <Link key={index} to={`/client/${client.code}`} className="grid-item">
                                 <div className="card">
                                     <img src={client.image} alt={`Image de ${client.nom}`} className="card-image" />
                                     <div className="card-body">
-                                        <p className="card-text"> {client.code}</p>
-                                        <p className="card-text"> {client.nom}</p>
+                                    <Link to={`/ConsulterClient/${client.code}`}>{client.code}</Link>
+                                        <p className="card-text">{client.nom}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 )}
             </div>
 
             <div className="dashboard-buttons return-button">
-                <Link to={`/DashboardClient/`} className="btn btn-secondary">Retour</Link>
+                <Link to="/DashboardClient/" className="btn btn-secondary">Retour</Link>
             </div>
         </div>
     );
