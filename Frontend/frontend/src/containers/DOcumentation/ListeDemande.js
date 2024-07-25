@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './demande.css'
 import { Link } from 'react-router-dom';
@@ -20,7 +20,7 @@ function DemandList() {
     const handleStatusChange = (demandId, newStatus) => {
         
         const headers = {
-            'Accept': '*/*',
+            'Accept': '*//*',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken') 
         };
@@ -83,6 +83,145 @@ function DemandList() {
     </div>
     
 );
+};
+
+export default DemandList;
+*/
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { GrView } from 'react-icons/gr';
+import './listDoc.css'; 
+import { FcApproval } from 'react-icons/fc';
+import { RxCross2 } from 'react-icons/rx';
+const sampleDemands = [
+    {
+        id: 1,
+        type: 'Demande A',
+        document_object: 'Document 1',
+        created_by: 'Jean Dupont',
+        created_at: '2024-07-25T08:00:00Z',
+        attached_file: true,
+        statut: 'En attente'
+    },
+    {
+        id: 2,
+        type: 'Demande B',
+        document_object: 'Document 2',
+        created_by: 'Marie Martin',
+        created_at: '2024-07-25T09:00:00Z',
+        attached_file: false,
+        statut: 'En attente'
+    },
+    {
+        id: 3,
+        type: 'Demande C',
+        document_object: 'Document 3',
+        created_by: 'Paul Durand',
+        created_at: '2024-07-25T10:00:00Z',
+        attached_file: true,
+        statut: 'En attente'
+    }
+];
+
+const DemandList = () => {
+    const [demands, setDemands] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        // Simulating data fetch
+        setDemands(sampleDemands);
+    }, []);
+
+    const handleStatusChange = (demandId, newStatus) => {
+        const updatedDemands = demands.map(demand => {
+            if (demand.id === demandId) {
+                return { ...demand, statut: newStatus };
+            }
+            return demand;
+        });
+        setDemands(updatedDemands);
+    };
+
+    const filteredDemands = demands.filter(demand =>
+        demand.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        demand.document_object.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        demand.created_by.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <div className="container dashboard">
+                <div className="row">
+                    <div>
+                        <br />
+                        <br />
+                        <div className="table-container">
+                            <h3 className='doc-title'>Liste des Demandes</h3>
+                            <div className="button-container">
+                                <Link to="/DashboardDoc/">
+                                    <button className="retour">Retour</button>
+                                </Link>
+                            </div>
+                            <br />
+                            <div className="search-container">
+                                <input
+                                    type="text"
+                                    placeholder="Rechercher..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="search-input-doc"
+                                />
+                            </div>
+                            <br />
+                            <div>
+                                <table>
+                                    <thead className="table-header">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Type de demande</th>
+                                            <th scope="col">Objet de demande</th>
+                                            <th scope="col">Créé par</th>
+                                            <th scope="col">Créé à</th>
+                                            <th scope="col">Pièces jointes</th>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {filteredDemands.length > 0 ? (
+                                            filteredDemands.map(demand => (
+                                                <tr key={demand.id}>
+                                                    <td>{demand.id}</td>
+                                                    <td>{demand.type}</td>
+                                                    <td>{demand.document_object}</td>
+                                                    <td>{demand.created_by}</td>
+                                                    <td>{new Date(demand.created_at).toLocaleString()}</td>
+                                                    <td>
+                                                        {demand.attached_file ? 
+                                                            <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> : 
+                                                            'Aucun'}
+                                                    </td>
+                                                    <td>{demand.statut}</td>
+                                                    <td>
+                                                        <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-info btn-sm"> <FcApproval /> </button>
+                                                        <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-info btn-sm"> <RxCross2 /></button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="8" className="text-center">Aucune demande disponible</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    );
 };
 
 export default DemandList;
