@@ -64,8 +64,8 @@ export default AllClients;*/
 
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './client.css';
+import { Link } from 'react-router-dom';
 
 const AllClients = () => {
     const [view, setView] = useState('list');

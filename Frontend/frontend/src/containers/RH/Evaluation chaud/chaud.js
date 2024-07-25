@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom'; 
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -27,42 +27,128 @@ const ChaudDetail = () => {
   }, [id]);
   const handleDelete = async () => {
     const headers = {
-      'Accept': '*/*',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrftoken'),
-    };
-    try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_evaluation_chaud/${id}/`,{headers:headers});
-        setdeleteReussi(true)
-    } catch (error) {
-        console.error('Erreur lors de la suppression de la evaluation:', error);
-    }
+      'Accept': '*//*',
+'Content-Type': 'application/json',
+'X-CSRFToken': Cookies.get('csrftoken'),
+};
+try {
+  await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_evaluation_chaud/${id}/`,{headers:headers});
+  setdeleteReussi(true)
+} catch (error) {
+  console.error('Erreur lors de la suppression de la evaluation:', error);
+}
 };
 if (deleteReussi){
-  return <Navigate to="/Dashboardfiche"/>
+return <Navigate to="/Dashboardfiche"/>
 }
-    return (    
+return (    
+  <div>
+      {chaud ? (
+          <div className="card" >
+              <div className="card-body">
+                  <p><strong>ID :</strong> {chaud.id}</p>
+                  <p><strong>name evaluation :</strong> {chaud.name}</p>
+                  <p><strong>Formation :</strong> {formation}</p>
+                  <p><strong>Date de réalisation :</strong> {chaud.date_realisation}</p>
+                  <p><strong>criteres   :</strong> {chaud.criteres}</p>
+                  <p><strong>coefficients  :</strong> {chaud.coefficients}</p>
+                  <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_chaud/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+                  <p><strong>crée par  :</strong> {chaud.created_by}</p>
+                  <p><strong>crée à :</strong> {chaud.created_at}</p>
+
+              </div>
+              <br />
+              <a href="/DashboardEvaluationChaud"><button className="btn-gray">Retour</button></a>&nbsp;
+              <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+          </div>
+      ):(
+          <p>chargement ... </p>
+      )}
+  </div>
+);
+};
+
+export default ChaudDetail;
+*/
+import React, { useState, useEffect } from 'react';
+import { useParams, Navigate } from 'react-router-dom';
+import "../Detail.css";
+
+// Static data for chaud evaluations
+const sampleChaudDetails = {
+    1: {
+        id: 1,
+        name: 'Evaluation A',
+        formation: 1,
+        date_realisation: '2024-01-15',
+        criteres: 'Critère 1, Critère 2',
+        coefficients: '0.5, 1.0',
+        pieces_jointes: true,
+        created_by: 'Admin',
+        created_at: '2024-01-01'
+    },
+    2: {
+        id: 2,
+        name: 'Evaluation B',
+        formation: 2,
+        date_realisation: '2024-02-15',
+        criteres: 'Critère 3, Critère 4',
+        coefficients: '0.7, 1.2',
+        pieces_jointes: false,
+        created_by: 'Admin',
+        created_at: '2024-02-15'
+    }
+};
+
+const sampleFormations = [
+    { id: 1, intitule_formation: 'Formation React' },
+    { id: 2, intitule_formation: 'Formation Node.js' }
+];
+
+const ChaudDetail = () => {
+    const { id } = useParams();
+    const [chaud, setChaud] = useState(null);
+    const [formation, setFormation] = useState('');
+    const [deleteReussi, setDeleteReussi] = useState(false);
+
+    useEffect(() => {
+        // Simulating data fetch
+        const chaudDetail = sampleChaudDetails[id];
+        setChaud(chaudDetail);
+        const formationData = sampleFormations.find(form => form.id === chaudDetail.formation);
+        setFormation(formationData ? formationData.intitule_formation : 'N/A');
+    }, [id]);
+
+    const handleDelete = () => {
+        // Simulate delete operation
+        setDeleteReussi(true);
+    };
+
+    if (deleteReussi) {
+        return <Navigate to="/DashboardChaud" />;
+    }
+
+    return (
         <div>
             {chaud ? (
-                <div className="card" >
+                <div className="card">
                     <div className="card-body">
                         <p><strong>ID :</strong> {chaud.id}</p>
-                        <p><strong>name evaluation :</strong> {chaud.name}</p>
+                        <p><strong>Nom évaluation :</strong> {chaud.name}</p>
                         <p><strong>Formation :</strong> {formation}</p>
                         <p><strong>Date de réalisation :</strong> {chaud.date_realisation}</p>
-                        <p><strong>criteres   :</strong> {chaud.criteres}</p>
-                        <p><strong>coefficients  :</strong> {chaud.coefficients}</p>
-                        <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_chaud/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                        <p><strong>crée par  :</strong> {chaud.created_by}</p>
-                        <p><strong>crée à :</strong> {chaud.created_at}</p>
-
+                        <p><strong>Critères :</strong> {chaud.criteres}</p>
+                        <p><strong>Coefficients :</strong> {chaud.coefficients}</p>
+                        <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+                        <p><strong>Créé par :</strong> {chaud.created_by}</p>
+                        <p><strong>Créé à :</strong> {chaud.created_at}</p>
                     </div>
                     <br />
                     <a href="/DashboardEvaluationChaud"><button className="btn-gray">Retour</button></a>&nbsp;
                     <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
                 </div>
-            ):(
-                <p>chargement ... </p>
+            ) : (
+                <p>Chargement ...</p>
             )}
         </div>
     );

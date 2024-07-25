@@ -2,16 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
 const Home = () => (
-  <div >
-    <div className=" mt-2">
+<div >
+    <div className="">
       <header
-        className="row align-items-center mb-4"
+        className="row align-items-center mb-5"
         style={{
           backgroundImage: 'url(/images/a.png)',
           backgroundSize: 'cover',
           opacity: '0.9',
-          backgroundPosition: 'center',
-          height: '680px'
+        
         }}
       >
         <div className="col-lg-12 text-center text-white" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '150px' }}>

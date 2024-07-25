@@ -55,7 +55,7 @@ function ResponsableForm() {
   }
 
   return (
-    <main style={{ backgroundColor: '#5585b5', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div class="container ajout-form">
         <div class="contact-image ">
           <img src="/images/add.png" alt="rocket_contact" />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom'; 
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -27,7 +27,7 @@ const FroidDetail = () => {
   }, [id]);
   const handleDelete = async () => {
     const headers = {
-      'Accept': '*/*',
+      'Accept': '*//*',
       'Content-Type': 'application/json',
       'X-CSRFToken': Cookies.get('csrftoken'),
     };
@@ -63,6 +63,101 @@ if (deleteReussi){
                 </div>
             ):(
                 <p>chargement ... </p>
+            )}
+        </div>
+    );
+};
+
+export default FroidDetail;
+*/
+import React, { useState, useEffect } from 'react';
+import { useParams, Navigate } from 'react-router-dom'; 
+import '../Detail.css';
+
+// Static data
+const staticFroids = [
+    {
+        id: 1,
+        name: 'Évaluation Froid 1',
+        formation: 'Formation A',
+        date_realisation: '2024-01-01',
+        criteres: 'Critères A',
+        coefficients: 'Coefficients A',
+        pieces_jointes: true,
+        created_by: 'Admin',
+        created_at: '2024-01-01'
+    },
+    {
+        id: 2,
+        name: 'Évaluation Froid 2',
+        formation: 'Formation B',
+        date_realisation: '2024-02-01',
+        criteres: 'Critères B',
+        coefficients: 'Coefficients B',
+        pieces_jointes: false,
+        created_by: 'Admin',
+        created_at: '2024-02-01'
+    },
+    {
+        id: 3,
+        name: 'Évaluation Froid 3',
+        formation: 'Formation C',
+        date_realisation: '2024-03-01',
+        criteres: 'Critères C',
+        coefficients: 'Coefficients C',
+        pieces_jointes: true,
+        created_by: 'Admin',
+        created_at: '2024-03-01'
+    }
+];
+
+const FroidDetail = () => {
+    const { id } = useParams();
+    const [froid, setFroid] = useState(null);
+    const [formation, setFormation] = useState('');
+    const [deleteReussi, setDeleteReussi] = useState(false);
+
+    useEffect(() => {
+        // Simulating data fetch
+        const fetchFroid = staticFroids.find(f => f.id === parseInt(id, 10));
+        if (fetchFroid) {
+            setFroid(fetchFroid);
+            setFormation(fetchFroid.formation);
+        }
+    }, [id]);
+
+    const handleDelete = () => {
+        // Simulating delete
+        setDeleteReussi(true);
+    };
+
+    if (deleteReussi) {
+        return <Navigate to="/DashboardFroid" />;
+    }
+
+    return (
+        <div>
+            {froid ? (
+                <div className="card">
+                    <div className="card-body">
+                        <p><strong>ID :</strong> {froid.id}</p>
+                        <p><strong>Nom Évaluation :</strong> {froid.name}</p>
+                        <p><strong>Formation :</strong> {formation}</p>
+                        <p><strong>Date de réalisation :</strong> {froid.date_realisation}</p>
+                        <p><strong>Critères :</strong> {froid.criteres}</p>
+                        <p><strong>Coefficients :</strong> {froid.coefficients}</p>
+                        <p><strong>Pièces jointes :</strong> {froid.pieces_jointes ? <a href={`/pieces_jointes/${id}`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}</p>
+                        <p><strong>Créé par :</strong> {froid.created_by}</p>
+                        <p><strong>Créé à :</strong> {froid.created_at}</p>
+                    </div>
+                    <br />
+                    <a href="/DashboardFroid">
+                        <button className="btn-gray">Retour</button>
+                    </a>&nbsp;
+                    <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+                </div>
+            ) : (
+                <p>Chargement...</p>
             )}
         </div>
     );
