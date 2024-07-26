@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import './details.css';
+import { GrEdit, GrTrash } from 'react-icons/gr';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import '../Detail.css';
 
 // Sample static data
 const sampleFormations = [
@@ -107,73 +109,74 @@ const FormationDetail = () => {
   }
 
   return (
-    <div>
-      {formation ? (
-        <div className="card">
-          <div className="card-body">
-            <h3>Détails de la Formation</h3>
-            <div className="detail">
-              <strong>ID :</strong> {formation.id}
+    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="formation-detail">
+        {formation ? (
+          <div className="card">
+            <div className="card-body">
+              <div className="detail">
+                <strong>ID :</strong> {formation.id}
+              </div>
+              <div className="detail">
+                <strong>Intitulé de la formation :</strong> {formation.intitule_formation}
+              </div>
+              <div className="detail">
+                <strong>Type de formation :</strong> {formation.type_formation}
+              </div>
+              <div className="detail">
+                <strong>Organisme de formation :</strong> {formation.organisme_formation}
+              </div>
+              <div className="detail">
+                <strong>Thème de formation :</strong> {formation.theme_formation}
+              </div>
+              <div className="detail">
+                <strong>Date de début de la formation :</strong> {formation.date_debut_formation}
+              </div>
+              <div className="detail">
+                <strong>Date de fin de la formation :</strong> {formation.date_fin_formation}
+              </div>
+              <div className="detail">
+                <strong>Responsable de la validation :</strong> {responsableValidationName}
+              </div>
+              <div className="detail">
+                <strong>Responsable de la Formation :</strong> {responsableFormationName.join(', ')}
+              </div>
+              <div className="detail">
+                <strong>Date de création :</strong> {formation.created_at}
+              </div>
+              <div className="detail">
+                <strong>Créé par :</strong> {formation.created_by}
+              </div>
+              <div className="detail">
+                <strong>Modifié par :</strong> {formation.updated_by}
+              </div>
+              <div className="detail">
+                <strong>Date de modification :</strong> {formation.updated_at}
+              </div>
+              <div className="detail">
+                <strong>Participants :</strong> {participantsNames.join(', ')}
+              </div>
+              <div className="detail">
+                <strong>Paramètre de validation :</strong> {formation.parametre_validation}
+              </div>
+              <div className="detail">
+                <strong>Date de clôture de la formation :</strong> {formation.date_cloture}
+              </div>
+              <div className="detail">
+                <strong>Pièces jointes :</strong> {formation.pieces_jointes ? <a href={`/pieces_jointes/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}
+              </div>
             </div>
-            <div className="detail">
-              <strong>Intitulé de la formation :</strong> {formation.intitule_formation}
-            </div>
-            <div className="detail">
-              <strong>Type de formation :</strong> {formation.type_formation}
-            </div>
-            <div className="detail">
-              <strong>Organisme de formation :</strong> {formation.organisme_formation}
-            </div>
-            <div className="detail">
-              <strong>Thème de formation :</strong> {formation.theme_formation}
-            </div>
-            <div className="detail">
-              <strong>Date de début de la formation :</strong> {formation.date_debut_formation}
-            </div>
-            <div className="detail">
-              <strong>Date de fin de la formation :</strong> {formation.date_fin_formation}
-            </div>
-            <div className="detail">
-              <strong>Responsable de la validation :</strong> {responsableValidationName}
-            </div>
-            <div className="detail">
-              <strong>Responsable de la Formation :</strong> {responsableFormationName.join(', ')}
-            </div>
-            <div className="detail">
-              <strong>Date de création :</strong> {formation.created_at}
-            </div>
-            <div className="detail">
-              <strong>Créé par :</strong> {formation.created_by}
-            </div>
-            <div className="detail">
-              <strong>Modifié par :</strong> {formation.updated_by}
-            </div>
-            <div className="detail">
-              <strong>Date de modification :</strong> {formation.updated_at}
-            </div>
-            <div className="detail">
-              <strong>Participants :</strong> {participantsNames.join(', ')}
-            </div>
-            <div className="detail">
-              <strong>Paramètre de validation :</strong> {formation.parametre_validation}
-            </div>
-            <div className="detail">
-              <strong>Date de clôture de la formation :</strong> {formation.date_cloture}
-            </div>
-            <div className="detail">
-              <strong>Pièces jointes :</strong> {formation.pieces_jointes ? <a href={`/pieces_jointes/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}
+            <div className="button-group" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <Link to="/Dashboardformation" > <button className="btn-gray"><IoMdArrowRoundBack /></button></Link>
+              <Link to={`/update-formation/${formation.id}`}>  <button className="btn-blue">  <GrEdit /> </button></Link>
+              <button className="btn btn-danger" onClick={handleDelete}><GrTrash /></button>
             </div>
           </div>
-          <div className="button-group">
-            <a href="/Dashboardformation" className="btn btn-secondary">Retour</a>
-            <Link to={`/update-formation/${formation.id}`} className="btn btn-primary">Modifier</Link>
-            <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-          </div>
-        </div>
-      ) : (
-        <p>Chargement...</p>
-      )}
-    </div>
+        ) : (
+          <p>Chargement...</p>
+        )}
+      </div>
+    </main>
   );
 };
 

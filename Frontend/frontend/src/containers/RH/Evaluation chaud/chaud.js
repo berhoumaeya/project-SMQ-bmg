@@ -71,8 +71,10 @@ return (
 export default ChaudDetail;
 */
 import React, { useState, useEffect } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import "../Detail.css";
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { GrEdit, GrTrash } from 'react-icons/gr';
 
 // Static data for chaud evaluations
 const sampleChaudDetails = {
@@ -129,28 +131,42 @@ const ChaudDetail = () => {
     }
 
     return (
-        <div>
-            {chaud ? (
-                <div className="card">
-                    <div className="card-body">
-                        <p><strong>ID :</strong> {chaud.id}</p>
-                        <p><strong>Nom évaluation :</strong> {chaud.name}</p>
-                        <p><strong>Formation :</strong> {formation}</p>
-                        <p><strong>Date de réalisation :</strong> {chaud.date_realisation}</p>
-                        <p><strong>Critères :</strong> {chaud.criteres}</p>
-                        <p><strong>Coefficients :</strong> {chaud.coefficients}</p>
-                        <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                        <p><strong>Créé par :</strong> {chaud.created_by}</p>
-                        <p><strong>Créé à :</strong> {chaud.created_at}</p>
-                    </div>
-                    <br />
-                    <a href="/DashboardEvaluationChaud"><button className="btn-gray">Retour</button></a>&nbsp;
-                    <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="card" style={{ width: '80%', maxWidth: '800px' }}>
+                <div className="card-body">
+                    {chaud ? (
+                        <>
+                            <p><strong>ID :</strong> {chaud.id}</p>
+                            <p><strong>Nom évaluation :</strong> {chaud.name}</p>
+                            <p><strong>Formation :</strong> {formation}</p>
+                            <p><strong>Date de réalisation :</strong> {chaud.date_realisation}</p>
+                            <p><strong>Critères :</strong> {chaud.criteres}</p>
+                            <p><strong>Coefficients :</strong> {chaud.coefficients}</p>
+                            <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+                            <p><strong>Créé par :</strong> {chaud.created_by}</p>
+                            <p><strong>Créé à :</strong> {chaud.created_at}</p>
+                        </>
+                    ) : (
+                        <p>Chargement ...</p>
+                    )}
                 </div>
-            ) : (
-                <p>Chargement ...</p>
-            )}
-        </div>
+                <div className="buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center', padding: '10px' }}>
+                    <Link to="/DashboardChaud">
+                        <button className="btn-gray">
+                            <IoMdArrowRoundBack />
+                        </button>
+                    </Link>
+                    <Link to={`/update-chaud/${chaud?.id}`}>
+                        <button className="btn-blue">
+                            <GrEdit />
+                        </button>
+                    </Link>
+                    <button className="btn btn-danger" onClick={handleDelete}>
+                        <GrTrash />
+                    </button>
+                </div>
+            </div>
+        </main>
     );
 };
 

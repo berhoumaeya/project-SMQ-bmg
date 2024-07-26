@@ -84,7 +84,8 @@ export default ParticipantDetail;
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom'; 
 import '../Detail.css';
-
+import { GrEdit, GrTrash } from 'react-icons/gr';
+import { IoMdArrowRoundBack } from "react-icons/io";
 // Static data for participants
 const sampleParticipants = [
     {
@@ -167,32 +168,42 @@ const ParticipantDetail = () => {
     }
 
     return (
-        <div>
-            {participant ? (
-                <div className="card">
-                    <div className="card-body">
-                        <p><strong>ID :</strong> {participant.id}</p>
-                        <p><strong>Nom participant :</strong> {participant.nom}</p>
-                        <p><strong>Prénom participant :</strong> {participant.prenom}</p>
-                        <p><strong>Nom d'utilisateur participant :</strong> {participant.username}</p>
-                        <p><strong>Formations concernées :</strong> {formationsnames.join(', ')}</p>
-                        <p><strong>Email de participant :</strong> {participant.email}</p>
-                        <p><strong>Est un utilisateur :</strong> {participant.is_user ? 'Oui' : 'Non'}</p>
-                        <p><strong>Date de création :</strong> {participant.created_at}</p>
-                        <p><strong>Créé par :</strong> {participant.created_by}</p>
-                        <p><strong>Pièces jointes :</strong> {participant.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                        <p><strong>Modifié par :</strong> {participant.updated_by}</p>
-                        <p><strong>Date de modification :</strong> {participant.updated_at}</p>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="participant-detail">
+                {participant ? (
+                    <div className="card">
+                        <div className="card-body">
+                            <p><strong>ID :</strong> {participant.id}</p>
+                            <p><strong>Nom participant :</strong> {participant.nom}</p>
+                            <p><strong>Prénom participant :</strong> {participant.prenom}</p>
+                            <p><strong>Nom d'utilisateur participant :</strong> {participant.username}</p>
+                            <p><strong>Formations concernées :</strong> {formationsnames.join(', ')}</p>
+                            <p><strong>Email de participant :</strong> {participant.email}</p>
+                            <p><strong>Est un utilisateur :</strong> {participant.is_user ? 'Oui' : 'Non'}</p>
+                            <p><strong>Date de création :</strong> {participant.created_at}</p>
+                            <p><strong>Créé par :</strong> {participant.created_by}</p>
+                            <p><strong>Pièces jointes :</strong> {participant.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+                            <p><strong>Modifié par :</strong> {participant.updated_by}</p>
+                            <p><strong>Date de modification :</strong> {participant.updated_at}</p>
+                        </div>
+                        <div className="buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <Link to="/Dashboardparticipant">
+                                <button className="btn-gray">                  <IoMdArrowRoundBack />
+                                </button>
+                            </Link>
+                            <Link to={`/update-participant/${participant.id}`}>
+                                <button className="btn-blue">                  <GrEdit />
+                                </button>
+                            </Link>
+                            <button className="btn btn-danger" onClick={handleDelete}>                <GrTrash />
+                            </button>
+                        </div>
                     </div>
-                    <br />
-                    <a href="/Dashboardparticipant"><button className="btn-gray">Retour</button></a>&nbsp;
-                    <Link to={`/update-participant/${participant.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
-                    <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-                </div>
-            ) : (
-                <p>Chargement ...</p>
-            )}
-        </div>
+                ) : (
+                    <p>Chargement ...</p>
+                )}
+            </div>
+        </main>
     );
 };
 

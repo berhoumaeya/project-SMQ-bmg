@@ -76,14 +76,15 @@ return (
 
 export default ResponsableDetail;
 */
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import '../Detail.css'; // Ensure you have corresponding styles in this file
+import {  GrEdit, GrTrash } from 'react-icons/gr';
+import { IoMdArrowRoundBack } from "react-icons/io";
 
-const sampleResponsables =
-  [{
+import '../Detail.css';
+
+const sampleResponsables = [
+  {
     id: 1,
     nom: 'Dupont',
     prenom: 'Jean',
@@ -96,7 +97,8 @@ const sampleResponsables =
     updated_at: '2024-01-10',
     formations_concernees: [1, 2],
     pieces_jointes: true
-  }, {
+  },
+  {
     id: 2,
     nom: 'Martin',
     prenom: 'Marie',
@@ -122,7 +124,7 @@ const sampleResponsables =
     updated_at: '2024-02-10',
     pieces_jointes: false
   }
-  ];
+];
 
 const sampleFormations = [
   {
@@ -146,7 +148,6 @@ const ResponsableDetail = () => {
   const [deleteReussi, setDeleteReussi] = useState(false);
 
   useEffect(() => {
-    // Simulate fetching responsable data
     const fetchedResponsable = sampleResponsables.find(r => r.id === parseInt(id));
     setResponsable(fetchedResponsable);
 
@@ -157,7 +158,6 @@ const ResponsableDetail = () => {
   }, [id]);
 
   const handleDelete = () => {
-    // Simulate delete operation
     setDeleteReussi(true);
   };
 
@@ -166,7 +166,8 @@ const ResponsableDetail = () => {
   }
 
   return (
-    <div className="responsable-detail">
+    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <div className="responsable-detail">
       {responsable ? (
         <div className="card">
           <div className="card-body">
@@ -182,15 +183,27 @@ const ResponsableDetail = () => {
             <p><strong>Modifié par :</strong> {responsable.updated_by}</p>
             <p><strong>Date de modification :</strong> {responsable.updated_at}</p>
           </div>
-          <br />
-          <Link to="/DashboardResponsable"><button className="btn-gray">Retour</button></Link>&nbsp;
-          <Link to={`/update-responsable/${responsable.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
-          <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+          <div className="buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+            <Link to="/DashboardResponsable">
+              <button className="btn-gray">
+                <IoMdArrowRoundBack />
+              </button>
+            </Link>
+            <Link to={`/update-responsable/${responsable.id}`}>
+              <button className="btn-blue">
+                <GrEdit />
+              </button>
+            </Link>
+            <button className="btn btn-danger" onClick={handleDelete}>
+              <GrTrash />
+            </button>
+          </div>
         </div>
       ) : (
         <p>Chargement ...</p>
       )}
     </div>
+    </main>
   );
 };
 

@@ -73,8 +73,10 @@ export default EmployeDetail;
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { FaFileAlt } from 'react-icons/fa';
-import '../Detail.css'; // Ensure you have corresponding styles in this file
-
+import '../Detail.css'; 
+import { GrTrash } from 'react-icons/gr';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { GrEdit } from 'react-icons/gr';
 const sampleEmployes = [
     {
         id: 1,
@@ -89,32 +91,7 @@ const sampleEmployes = [
         updated_at: '2024-01-10',
         pieces_jointes: true
     },
-    {
-        id: 2,
-        nom: 'Smith',
-        prenom: 'Jane',
-        username: 'jsmith',
-        email: 'jane.smith@example.com',
-        is_user: false,
-        created_at: '2024-02-01',
-        created_by: 'Admin',
-        updated_by: 'Admin',
-        updated_at: '2024-02-10',
-        pieces_jointes: false
-    },
-    {
-        id: 3,
-        nom: 'Johnson',
-        prenom: 'Emily',
-        username: 'ejohnson',
-        email: 'emily.johnson@example.com',
-        is_user: true,
-        created_at: '2024-03-01',
-        created_by: 'Admin',
-        updated_by: 'Admin',
-        updated_at: '2024-03-10',
-        pieces_jointes: true
-    }
+    // Add more sample data if needed
 ];
 
 const EmployeDetail = () => {
@@ -140,39 +117,38 @@ const EmployeDetail = () => {
     }
 
     return (
-        <div>
-            {employe ? (
-                <div className="card">
-                    <div className="card-body">
-                        <p><strong>ID :</strong> {employe.id}</p>
-                        <p><strong>Nom employé :</strong> {employe.nom}</p>
-                        <p><strong>Prénom employé :</strong> {employe.prenom}</p>
-                        <p><strong>Nom d'utilisateur employé :</strong> {employe.username}</p>
-                        <p><strong>Email employé :</strong> {employe.email}</p>
-                        <p><strong>Est un utilisateur :</strong> {employe.is_user ? 'Oui' : 'Non'}</p>
-                        <p><strong>Date de création :</strong> {employe.created_at}</p>
-                        <p><strong>Créé par :</strong> {employe.created_by}</p>
-                        <p><strong>Pièces jointes :</strong> {employe.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_employe/${employe.id}/`} target="_blank" rel="noopener noreferrer"><FaFileAlt /> Consulter</a> : 'null'}</p>
-                        <p><strong>Modifié par :</strong> {employe.updated_by}</p>
-                        <p><strong>Date de modification :</strong> {employe.updated_at}</p>
-                    </div>
-                    <div className="dashboard-buttons">
-                        <Link to="/Dashboardemploye">
-                            <button className="btn btn-secondary">Retour</button>
-                        </Link>
-                        <Link to={`/update-employe/${employe.id}`}>
-                            <button className="btn btn-success mt-3">Modifier</button>
-                        </Link>
-                        <Link to={`/Dashboardcompetence/${employe.id}`}>
-                            <button className="btn btn-primary">Consulter évaluations</button>
-                        </Link>
-                        <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-                    </div>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="card">
+                <div className="card-body">
+                    {employe ? (
+                        <>
+                            <p><strong>ID :</strong> {employe.id}</p>
+                            <p><strong>Nom employé :</strong> {employe.nom}</p>
+                            <p><strong>Prénom employé :</strong> {employe.prenom}</p>
+                            <p><strong>Nom d'utilisateur :</strong> {employe.username}</p>
+                            <p><strong>Email :</strong> {employe.email}</p>
+                            <p><strong>Est un utilisateur :</strong> {employe.is_user ? 'Oui' : 'Non'}</p>
+                            <p><strong>Date de création :</strong> {employe.created_at}</p>
+                            <p><strong>Créé par :</strong> {employe.created_by}</p>
+                            <p><strong>Pièces jointes :</strong> {employe.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_employe/${employe.id}/`} target="_blank" rel="noopener noreferrer"><FaFileAlt /> Consulter</a> : 'Aucune'}</p>
+                            <p><strong>Modifié par :</strong> {employe.updated_by}</p>
+                            <p><strong>Date de modification :</strong> {employe.updated_at}</p>
+                        </>
+                    ) : (
+                        <p>Chargement...</p>
+                    )}
                 </div>
-            ) : (
-                <p>Chargement...</p>
-            )}
-        </div>
+                <div className="buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center', padding: '10px' }}>
+                    <Link to="/Dashboardemploye">
+                    <button className="btn-gray"><IoMdArrowRoundBack /></button></Link>
+                    <Link to={`/update-employe/${employe ? employe.id : ''}`}>
+                    <button className="btn-blue">  <GrEdit /> </button>                    </Link>
+                    <button className="btn btn-danger" onClick={handleDelete}><GrTrash /></button>
+                </div>
+            
+
+            </div>
+        </main>
     );
 };
 

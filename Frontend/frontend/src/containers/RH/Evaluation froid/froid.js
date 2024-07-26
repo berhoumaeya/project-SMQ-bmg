@@ -71,8 +71,11 @@ if (deleteReussi){
 export default FroidDetail;
 */
 import React, { useState, useEffect } from 'react';
-import { useParams, Navigate } from 'react-router-dom'; 
+import { useParams, Navigate, Link } from 'react-router-dom'; 
 import '../Detail.css';
+import { FaFileAlt } from 'react-icons/fa';
+import { GrEdit, GrTrash } from 'react-icons/gr';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 // Static data
 const staticFroids = [
@@ -114,7 +117,6 @@ const staticFroids = [
 const FroidDetail = () => {
     const { id } = useParams();
     const [froid, setFroid] = useState(null);
-    const [formation, setFormation] = useState('');
     const [deleteReussi, setDeleteReussi] = useState(false);
 
     useEffect(() => {
@@ -122,7 +124,6 @@ const FroidDetail = () => {
         const fetchFroid = staticFroids.find(f => f.id === parseInt(id, 10));
         if (fetchFroid) {
             setFroid(fetchFroid);
-            setFormation(fetchFroid.formation);
         }
     }, [id]);
 
@@ -136,30 +137,35 @@ const FroidDetail = () => {
     }
 
     return (
-        <div>
-            {froid ? (
-                <div className="card">
-                    <div className="card-body">
-                        <p><strong>ID :</strong> {froid.id}</p>
-                        <p><strong>Nom Évaluation :</strong> {froid.name}</p>
-                        <p><strong>Formation :</strong> {formation}</p>
-                        <p><strong>Date de réalisation :</strong> {froid.date_realisation}</p>
-                        <p><strong>Critères :</strong> {froid.criteres}</p>
-                        <p><strong>Coefficients :</strong> {froid.coefficients}</p>
-                        <p><strong>Pièces jointes :</strong> {froid.pieces_jointes ? <a href={`/pieces_jointes/${id}`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}</p>
-                        <p><strong>Créé par :</strong> {froid.created_by}</p>
-                        <p><strong>Créé à :</strong> {froid.created_at}</p>
-                    </div>
-                    <br />
-                    <a href="/DashboardFroid">
-                        <button className="btn-gray">Retour</button>
-                    </a>&nbsp;
-                    <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="card">
+                <div className="card-body">
+                    {froid ? (
+                        <>
+                            <p><strong>ID :</strong> {froid.id}</p>
+                            <p><strong>Nom froid :</strong> {froid.nom}</p>
+                            <p><strong>Description :</strong> {froid.description}</p>
+                            <p><strong>Date de création :</strong> {froid.created_at}</p>
+                            <p><strong>Créé par :</strong> {froid.created_by}</p>
+                            <p><strong>Pièces jointes :</strong> {froid.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_froid/${froid.id}/`} target="_blank" rel="noopener noreferrer"><FaFileAlt /> Consulter</a> : 'Aucune'}</p>
+                            <p><strong>Modifié par :</strong> {froid.updated_by}</p>
+                            <p><strong>Date de modification :</strong> {froid.updated_at}</p>
+                        </>
+                    ) : (
+                        <p>Chargement...</p>
+                    )}
                 </div>
-            ) : (
-                <p>Chargement...</p>
-            )}
-        </div>
+                <div className="buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center', padding: '10px' }}>
+                    <Link to="/DashboardFroid">
+                    <button className="btn-gray"><IoMdArrowRoundBack /></button></Link>                
+                    <Link to={`/update-froid/${froid ? froid.id : ''}`}>
+                    <button className="btn-blue">  <GrEdit /></button>
+                    </Link>
+                    <button className="btn btn-danger" onClick={handleDelete}><GrTrash /></button>
+                </div>
+                
+            </div>
+        </main>
     );
 };
 

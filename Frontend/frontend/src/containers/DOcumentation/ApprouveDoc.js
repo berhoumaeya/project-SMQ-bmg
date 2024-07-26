@@ -180,19 +180,19 @@ function ApprouveList() {
                                 <table>
                                     <thead className="table-header">
                                         <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Libelle</th>
-                                            <th scope="col">Type de document</th>
-                                            <th scope="col">Site</th>
-                                            <th scope="col">Activité</th>
-                                            <th scope="col">Créé par</th>
-                                            <th scope="col">Vérificateur</th>
-                                            <th scope="col">Approbateur</th>
-                                            <th scope="col">Liste informée</th>
-                                            <th scope="col">Créé à</th>
-                                            <th scope="col">Statut</th>
-                                            <th scope="col">Pièce jointe</th>
-                                            <th scope="col">Actions</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">ID</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Libelle</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Type de document</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Site</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Activité</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé par</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Vérificateur</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Approbateur</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Liste informée</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé à</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Statut</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Pièce jointe</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>

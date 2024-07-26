@@ -119,7 +119,6 @@ const FicheDetail = () => {
 export default FicheDetail;*/
 import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import '../formation/details.css';
 
 const FicheDetail = () => {
   const { id } = useParams();
@@ -233,7 +232,7 @@ const FicheDetail = () => {
             <p><strong>address :</strong> {ficheEmploye.address}</p>
             <p><strong>crée par :</strong> {ficheEmploye.created_by}</p>
           </div>
-          <a href="/Dashboardfiche"><button className="btn-gray">Retour</button></a>&nbsp;
+          <button href="/Dashboardfiche"><button className="btn-gray">Retour</button></button>&nbsp;
           <Link to={`/update-fiche/${ficheEmploye.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
           <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
         </div>

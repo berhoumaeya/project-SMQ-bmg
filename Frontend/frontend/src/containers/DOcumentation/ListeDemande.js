@@ -173,18 +173,18 @@ const DemandList = () => {
                                 />
                             </div>
                             <br />
-                            <div>
-                                <table>
-                                    <thead className="table-header">
+                            <div >
+                                <table >
+                                    <thead className="table-header" >
                                         <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Type de demande</th>
-                                            <th scope="col">Objet de demande</th>
-                                            <th scope="col">Créé par</th>
-                                            <th scope="col">Créé à</th>
-                                            <th scope="col">Pièces jointes</th>
-                                            <th scope="col">Statut</th>
-                                            <th scope="col">Actions</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">ID</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Type de demande</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Objet de demande</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé par</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé à</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Pièces jointes</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Statut</th>
+                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>

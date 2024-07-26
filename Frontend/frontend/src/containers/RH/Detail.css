@@ -1,73 +1,62 @@
-.card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    max-width: 600px;
+.responsable-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
     padding: 20px;
   }
   
   .card-body {
-    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
   }
   
   .card-body p {
-    margin-bottom: 5px;
+    margin: 5px 0;
   }
   
-  .document-card-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-}
-
-.document-card-buttons .btn {
-    margin: 0 5px;
-}
-
-.btn {
-    padding: 10px 15px;
+  .btn-gray,
+  .btn-blue,
+  .btn-danger {
     border: none;
     border-radius: 5px;
+    padding: 10px 15px;
+    color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-
-
-.pdf-button {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.pdf-button:hover {
-    background-color: #0056b3;
-}
-
-.dashboard-buttons {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.dashboard-buttons .btn {
-    margin: 0 10px;
-}
-
-.error-message {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-}
-
+    align-items: center;
+  }
+  
+  .btn-gray {
+    background-color: #6c757d;
+    margin-right: 5px;
+  }
+  
+  .btn-blue {
+    background-color: #007bff;
+    margin-right: 5px;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+  }
+  
+  .btn-gray:hover,
+  .btn-blue:hover,
+  .btn-danger:hover {
+    opacity: 0.8;
+  }
+  
+  .btn-gray svg,
+  .btn-blue svg,
+  .btn-danger svg {
+    margin-right: 5px;
+  }
   
