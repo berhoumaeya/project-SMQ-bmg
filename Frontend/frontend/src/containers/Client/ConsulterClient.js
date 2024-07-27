@@ -99,8 +99,7 @@ export default Client;*/
 import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import './consulterclient.css';
-import { FaAsterisk } from "react-icons/fa";
-import { FaRegUser } from "react-icons/fa";
+
 
 const Client = () => {
     const { id } = useParams();
