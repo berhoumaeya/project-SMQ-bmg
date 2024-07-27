@@ -60,11 +60,12 @@ const AllClients = () => {
 };
 
 export default AllClients;*/
-
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { TiDelete } from "react-icons/ti";
+import { FaPencilAlt } from "react-icons/fa";
+import { IoMdList } from "react-icons/io";
+import { CiGrid32 } from "react-icons/ci";
 import './client.css';
 
 const AllClients = () => {
@@ -72,11 +73,10 @@ const AllClients = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const clients = [
-        { nom: 'ay', code: '01', image: 'image_1' },
-        { nom: 'by', code: '02', image: 'path_to_image_2' },
-        
+        { firstName: 'aya', nom: 'majerdi', code: '01', image: 'image_1', email: 'majerdiaya@gmail.com' },
+        { firstName: 'ba', nom: 'By', code: '02', image: 'image_2', email: 'ba.by@example.com' },
     ];
-
+    
     const filteredClients = clients.filter(client =>
         client.nom.toLowerCase().includes(searchTerm.toLowerCase()) || 
         client.code.toLowerCase().includes(searchTerm.toLowerCase())
@@ -86,61 +86,87 @@ const AllClients = () => {
         <div className="dashboard-client-int">
             <div className="header">
                 <div className="dashboard-buttons">
-                    <Link to="/CréerClient/" className="btn btn-primary">Ajouter</Link>
+                    <Link to="/CréerClient/" className="btn btn">Ajouter</Link>
                 </div>
                 <div className="header-right">
-                    <button onClick={() => setView('list')} className={`btn ${view === 'list' ? 'active' : ''}`}>
-                        <img src="path_to_list_icon" alt="List View" />
+                    <button onClick={() => setView('list')} className={`btn ${view === 'list' ? 'btn' : ''}`}>
+                    <IoMdList />
                     </button>
-                    <button onClick={() => setView('grid')} className={`btn ${view === 'grid' ? 'active' : ''}`}>
-                        <img src="path_to_grid_icon" alt="Grid View" />
+                    <button onClick={() => setView('grid')} className={`btn ${view === 'grid' ? 'btn' : ''}`}>
+                    <CiGrid32 />
                     </button>
-                    <input
-                        type="text"
-                        placeholder="Rechercher..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="search-bar"
-                    />
                 </div>
             </div>
+            
+            <input
+                type="text"
+                placeholder="Rechercher..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-bar"
+            />
 
             <div className="table-container">
                 {view === 'list' ? (
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Code client</th>
-                                <th scope="col">Nom client</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredClients.map((client, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        <Link to={`/ConsulterClient/${client.code}`}>{client.code}</Link>
-                                    </td>
-                                    <td>
-                                        <Link to={`/client/${client.code}`}>{client.nom}</Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                 <table className="table table-striped table-bordered">
+                 <thead>
+                     <tr>
+                         <th>Code client</th>
+                         <th>Nom client</th>
+                         <th>Prénom client</th>
+                         <th>Email client</th>
+                         <th style={{ textAlign: 'center', width: '100px' }}>Action</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     {filteredClients.map((client, index) => (
+                         <tr key={index}>
+                             <td>
+                                 <Link to={`/ConsulterClient/${client.code}`}>{client.code}</Link>
+                             </td>
+                             <td>
+                                 <Link to={`/client/${client.code}`}>{client.nom}</Link>
+                             </td>
+                             <td>{client.firstName}</td>
+                             <td>{client.email}</td>
+                             <td style={{ textAlign: 'center' }}>
+                                 <button type="button" className="btn btn-primary btn-xs dt-edit" style={{ marginRight: '16px' }}>
+                                 <FaPencilAlt />
+                                 </button>
+                                 <button type="button" className="btn btn-danger btn-xs dt-delete">
+                                 <TiDelete />
+                                 </button>
+                             </td>
+                         </tr>
+                     ))}
+                 </tbody>
+             </table>
+             
                 ) : (
                     <div className="grid-container">
-                        {filteredClients.map((client, index) => (
-                            <Link key={index} to={`/client/${client.code}`} className="grid-item">
-                                <div className="card">
-                                    <img src={client.image} alt={`Image de ${client.nom}`} className="card-image" />
-                                    <div className="card-body">
-                                    <Link to={`/ConsulterClient/${client.code}`}>{client.code}</Link>
-                                        <p className="card-text">{client.nom}</p>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
+    {filteredClients.map((client, index) => (
+        <Link key={index} to={`/client/${client.code}`} className="grid-item">
+            <div className="card">
+                <div className="card-content">
+                    <img src={client.image} alt={`Image de ${client.nom}`} className="card-image" />
+                    <div className="card-body">
+                        <p>{client.code}</p>
+                        <p> {client.nom}</p>
+                        <p> {client.firstName}</p>
+                        <p>{client.email}</p>
+                        <div className="card-actions">
+                            <button type="button" className="btn btn-primary btn-xs dt-edit">
+                            <FaPencilAlt />
+                            </button>
+                            <button type="button" className="btn btn-danger btn-xs dt-delete">
+                            <TiDelete />                            </button>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </Link>
+    ))}
+</div>  
                 )}
             </div>
 
