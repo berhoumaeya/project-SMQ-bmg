@@ -6,11 +6,11 @@ import './dashboardDoc.css';
 function DashboardDoc({ user }) {
   const gestionSections = [
     { title: 'Gérer les Documents internes', link: '/DashboardDocInt' , className: "bg-color"},
-    { title: 'Gérer les Documents externes', link: '/DashboardDocExt' , className: "bg-color--1"},
-    { title: 'Créer demande', link: '/CréerDemande' , className: "bg-color--2"},
-    { title: 'Liste des demandes', link: '/ListeDemande' , className: "bg-color--3"},
-    { title: 'Liste des documents à vérifier', link: '/VerifDoc' , className: "bg-color--4"},
-    { title: 'Liste des documents à approuver', link: '/ApprouveDoc' , className: "bg-color--5"},
+    { title: 'Gérer les Documents externes', link: '/DashboardDocExt' , className: "bg-color"},
+    { title: 'Créer demande', link: '/CréerDemande' , className: "bg-color"},
+    { title: 'Liste des demandes', link: '/ListeDemande' , className: "bg-color"},
+    { title: 'Liste des documents à vérifier', link: '/VerifDoc' , className: "bg-color"},
+    { title: 'Liste des documents à approuver', link: '/ApprouveDoc' , className: "bg-color"},
 
 
   ];
@@ -58,7 +58,7 @@ function DashboardDoc({ user }) {
         ))}
       </div>
       <div className="dashboard-buttons" style={{ marginTop: '50px' }}>
-        <Link to={`/Dashboard/`} className="btn btn-secondary">
+        <Link to={`/Dashboard/`} className="btn btn-success">
           <FaArrowLeft style={{ marginRight: '10px' }} /> Retour
         </Link>
       </div>

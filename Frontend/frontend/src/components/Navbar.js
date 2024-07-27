@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
-import '../styles/nav.css';
 const Navbar = ({ isAuthenticated, user, logout }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

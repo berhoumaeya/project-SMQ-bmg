@@ -1,0 +1,21 @@
+.doc-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: Apple Chancery, cursive, sans sherif;
+    margin-top: 1rem;
+    color: #054808;
+}
+.search-input-doc {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    margin-top: 20px;
+}
+.search-input-doc:focus {
+    border-color: #054808;
+    outline: none;
+}

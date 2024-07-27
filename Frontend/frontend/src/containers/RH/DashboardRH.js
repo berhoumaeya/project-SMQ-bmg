@@ -7,25 +7,25 @@ function DashboardRH({ user }) {
       title: 'Gérer les responsables formation', link: '/Dashboardresponsable', className: "bg-color1"
     },
     {
-      title: 'Gérer JobPost', link: '/Dashboardposition', className: "bg-color2"
+      title: 'Gérer JobPost', link: '/Dashboardposition', className: "bg-color1"
     },
     {
-      title: 'Gérer les participants', link: '/Dashboardparticipant', className: "bg-color3"
+      title: 'Gérer les participants', link: '/Dashboardparticipant', className: "bg-color1"
     },
     {
-      title: 'Gérer Employe', link: '/Dashboardemploye', className: "bg-color4"
+      title: 'Gérer Employe', link: '/Dashboardemploye', className: "bg-color1"
     },
     {
-      title: 'Gérer Fiche Employe', link: '/Dashboardfiche', className: "bg-color5"
+      title: 'Gérer Fiche Employe', link: '/Dashboardfiche', className: "bg-color1"
     },
     {
-      title: 'Gérer Formation', link: '/Dashboardformation', className: "bg-color6"
+      title: 'Gérer Formation', link: '/Dashboardformation', className: "bg-color1"
     },
     {
-      title: 'Gérer Evaluation Chaud', link: '/DashboardEvaluationChaud', className: "bg-color7"
+      title: 'Gérer Evaluation Chaud', link: '/DashboardEvaluationChaud', className: "bg-color1"
     },
     {
-      title: 'Gérer Evaluation Froid', link: '/DashboardEvaluationFroid', className: "bg-color8"
+      title: 'Gérer Evaluation Froid', link: '/DashboardEvaluationFroid', className: "bg-color1"
     },
   ];
 

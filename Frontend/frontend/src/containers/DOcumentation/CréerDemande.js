@@ -50,7 +50,7 @@ const CreateDemande = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#c8e6c9', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <div className="container ajout-form">
                 <div className="contact-image ">
                     <img src="/images/plus-1.png" alt="rocket_contact" />
