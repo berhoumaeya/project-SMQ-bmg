@@ -72,11 +72,10 @@ const AllClients = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const clients = [
-        { nom: 'ay', code: '01', image: 'image_1' },
-        { nom: 'by', code: '02', image: 'path_to_image_2' },
-        
+        { firstName: 'aya', nom: 'majerdi', code: '01', image: 'image_1', email: 'majerdiaya@gmail.com' },
+        { firstName: 'ba', nom: 'By', code: '02', image: 'image_2', email: 'ba.by@example.com' },
     ];
-
+    
     const filteredClients = clients.filter(client =>
         client.nom.toLowerCase().includes(searchTerm.toLowerCase()) || 
         client.code.toLowerCase().includes(searchTerm.toLowerCase())
@@ -86,7 +85,7 @@ const AllClients = () => {
         <div className="dashboard-client-int">
             <div className="header">
                 <div className="dashboard-buttons">
-                    <Link to="/CréerClient/" className="btn btn-primary">Ajouter</Link>
+                    <Link to="/CréerClient/" className="btn btn">Ajouter</Link>
                 </div>
                 <div className="header-right">
                     <button onClick={() => setView('list')} className={`btn ${view === 'list' ? 'active' : ''}`}>
@@ -95,15 +94,16 @@ const AllClients = () => {
                     <button onClick={() => setView('grid')} className={`btn ${view === 'grid' ? 'active' : ''}`}>
                         <img src="path_to_grid_icon" alt="Grid View" />
                     </button>
-                    <input
-                        type="text"
-                        placeholder="Rechercher..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="search-bar"
-                    />
                 </div>
             </div>
+            
+            <input
+                type="text"
+                placeholder="Rechercher..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-bar"
+            />
 
             <div className="table-container">
                 {view === 'list' ? (
