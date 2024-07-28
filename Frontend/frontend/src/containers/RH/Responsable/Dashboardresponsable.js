@@ -73,6 +73,7 @@ export default DashboardResponsable;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GrView } from 'react-icons/gr';
+import { FaList, FaTh } from 'react-icons/fa';
 import '../list.css'; 
 
 const sampleResponsables = [
@@ -103,6 +104,7 @@ const DashboardResponsable = () => {
     const [responsables, setResponsables] = useState([]);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list'); 
 
     useEffect(() => {
         // Simulating data fetch
@@ -128,15 +130,25 @@ const DashboardResponsable = () => {
                         <br />
                         <br />
                         <div className="table-container">
-                            <h3 className='formation-title'>Liste des Responsables</h3>
+                        <div className="view-toggle">
+                                    <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                        <FaList /> 
+                                    </button>
+                                    <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                        <FaTh /> 
+                                    </button>
+                                </div>
+                            <h3 className="formation-title">Liste des Responsables</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
                                 </Link>
                                 <Link to={`/ajouter-responsable/`}>
-                                    <button className="button-add">Ajouter Responsable</button>
+                                    <button className="button-add" >Ajouter Responsable</button>
                                 </Link>
+                                
                             </div>
+                           
                             <br />
                             <div className="search-container">
                                 <input
@@ -149,40 +161,62 @@ const DashboardResponsable = () => {
                             </div>
                             <br />
                             <div>
-                                <table>
-                                    <thead className="table-header">
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Nom Responsable</th>
-                                            <th scope="col">Prénom Responsable</th>
-                                            <th scope="col">Nom d'utilisateur</th>
-                                            <th scope="col">Email Responsable</th>
-                                            <th scope="col">Détails</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredResponsables.length > 0 ? (
-                                            filteredResponsables.map(responsable => (
-                                                <tr key={responsable.id}>
-                                                    <td>{responsable.id}</td>
-                                                    <td>{responsable.nom}</td>
-                                                    <td>{responsable.prenom}</td>
-                                                    <td>{responsable.username}</td>
-                                                    <td>{responsable.email}</td>
-                                                    <td>
-                                                        <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
-                                                        </Link>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        ) : (
+                                {viewMode === 'list' ? (
+                                    <table>
+                                        <thead className="table-header">
                                             <tr>
-                                                <td colSpan="6" className="text-center">Aucun responsable disponible</td>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nom Responsable</th>
+                                                <th scope="col">Prénom Responsable</th>
+                                                <th scope="col">Nom d'utilisateur</th>
+                                                <th scope="col">Email Responsable</th>
+                                                <th scope="col">Détails</th>
                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredResponsables.length > 0 ? (
+                                                filteredResponsables.map(responsable => (
+                                                    <tr key={responsable.id}>
+                                                        <td>{responsable.id}</td>
+                                                        <td>{responsable.nom}</td>
+                                                        <td>{responsable.prenom}</td>
+                                                        <td>{responsable.username}</td>
+                                                        <td>{responsable.email}</td>
+                                                        <td>
+                                                            <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrView />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="6" className="text-center">Aucun responsable disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
+                                    {filteredResponsables.length > 0 ? (
+                                        filteredResponsables.map(responsable => (
+                                            <div key={responsable.id} className="responsable-item">
+                                                <img src="https://via.placeholder.com/100" alt={`${responsable.nom} ${responsable.prenom}`} className="responsable-img" />
+                                                <div className="responsable-info">
+                                                    <h5 className="responsable-title">{responsable.nom} {responsable.prenom}</h5>
+                                                    <p><strong className="responsable-text">Nom d'utilisateur :</strong> {responsable.username}</p>
+                                                    <p><strong className="responsable-text">Email :</strong> {responsable.email}</p>
+                                                    <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm" >
+                                                        <GrView />
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )  : (
+                                            <p className="text-center">Aucun responsable disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
