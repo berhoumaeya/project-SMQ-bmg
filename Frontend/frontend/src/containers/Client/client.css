@@ -1,17 +1,6 @@
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
 .dashboard-client-int {
-    max-width: 1200px;
-    margin: auto;
     padding: 20px;
-    background: #5585b5;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .header {
@@ -21,147 +10,98 @@ body {
     margin-bottom: 20px;
 }
 
-.header-right {
+.header .dashboard-buttons {
     display: flex;
     align-items: center;
-}
-
-.header .btn {
-    margin: 0 5px;
-    padding: 10px;
-    border: none;
-    border-radius: 50%;
-    
-    color: white;
-    cursor: pointer;
-    
-}
-
-.header .btn img {
-    width: 20px;
-    height: 20px;
-}
-
-
-.header .btn:hover {
     background-color: #5585b5;
-    transform: scale(1.1);
+    border-radius:5px ;
+
+}
+
+.header .header-right {
+    display: flex;
+    align-items: center;
+   
+}
+
+.header .header-right button {
+    margin-left: 10px;
 }
 
 .search-bar {
-    margin-left: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-}
-
-.search-bar:focus {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    outline: none;
+    margin-top: 10px; 
+    width: 200px;  
+   
 }
 
 .table-container {
     margin-top: 20px;
 }
-
-.table-container table {
+.table {
     width: 100%;
+    margin-bottom: 20px;
     border-collapse: collapse;
+    text-align: center; 
 }
 
-.table-container th, .table-container td {
-    padding: 15px;
+.table th, .table td {
     text-align: center;
 }
-
-.table-container th {
-    background-color: #5585b5;
-    color: #fff;
-}
-
-.table-container tr:nth-child(even) {
-    background-color: #f4f6f8;
-}
-
-.table-container tr:hover {
-    background-color: #e0e0e0;
-}
-
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .grid-item {
-    display: flex;
-    justify-content: center;
+    width: calc(33.333% - 20px); /* Ajustez la largeur selon vos besoins */
+    text-decoration: none;
+    color: inherit;
 }
 
 .card {
-    background-color: #fff;
-    border-radius: 10px;
+    display: flex;
+    flex-direction: column; /* Change this to column to make sure card-actions stays at the bottom */
+    border: 1px solid #ddd;
+    border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    background: #fff;
+    height: 100%;
+    justify-content: space-between;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+.card-content {
+    display: flex;
+    padding: 10px;
 }
 
 .card-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
+    width: 150px; 
+    height: 200px; 
+    object-fit: cover; 
+    margin-right: 10px; 
 }
 
 .card-body {
-    padding: 15px;
-    text-align: center;
-}
-
-.card-text {
-    margin: 10px 0;
-}
-
-.dashboard-buttons {
+    flex: 1;
     display: flex;
-    align-items: center;
-    margin-top: 20px;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.dashboard-buttons .btn {
-    margin-right: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+.card-body p {
+    margin: 5px 0;
 }
 
-.dashboard-buttons .btn-primary {
-    background-color: #5585b5;
-}
-
-.dashboard-buttons .btn-primary:hover {
-    background-color: #5585b5;
-    transform: scale(1.05);
-}
-
-.dashboard-buttons .btn-secondary {
-    background-color: #5585b5;
-}
-
-.dashboard-buttons .btn-secondary:hover {
-    background-color: #5585b5;
-    transform: scale(1.05);
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
 }
 
 .return-button {
-    justify-content: flex-start;
+    position: absolute; 
+ 
+    left: 20px; 
 }

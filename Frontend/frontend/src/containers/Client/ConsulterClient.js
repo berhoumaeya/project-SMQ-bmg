@@ -96,10 +96,11 @@ const Client = () => {
 
 export default Client;*/
 
-
 import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import './consulterclient.css';
+import { FaAsterisk } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 
 const Client = () => {
     const { id } = useParams();
@@ -117,7 +118,7 @@ const Client = () => {
         created_by: 'ar',
         created_at: '2022-01-15',
         pieces_jointes: true,
-        image_url: "C:\Users\aya\Desktop\project-SMQ\Frontend\frontend\src\containers\Client\IMG_20230514_164706_267.jpg" 
+        image_url: "", 
     });
     const [error, setError] = useState(null);
     const [deleteReussi, setDeleteReussi] = useState(false);
@@ -135,35 +136,69 @@ const Client = () => {
     }
 
     return (
-        <div className="dashboard-doc-int">
-            <div className="dashboard-top-buttons">
-                <Link to={`/AllReclamations/${id}/`} className="btn btn">Consulter réclamation</Link>
-                <Link to={`/AllSuggestion/${id}/`} className="btn btn">Consulter Suggestion</Link>
-            </div>
-            <div className="clients-container">
-                <div className="document-card">
-                    <div className="document-card-body">
-                        <img src={clients.image_url} alt="Client" className="client-image" />
-                        <p className="document-card-text"><strong>Nom client:</strong> {clients.nom}</p>
-                        <p className="document-card-text"><strong>Code client:</strong> {clients.code_client}</p>
-                        <p className="document-card-text"><strong>Raison sociale:</strong> {clients.raison_sociale}</p>
-                        <p className="document-card-text"><strong>Activité:</strong> {clients.activite}</p>
-                        <p className="document-card-text"><strong>Type client:</strong> {clients.type_client}</p>
-                        <p className="document-card-text"><strong>Categorie client:</strong> {clients.categorie}</p>
-                        <p className="document-card-text"><strong>Modifié par:</strong> {clients.updated_by ? clients.updated_by : 'Pas de modification'}</p>
-                        <p className="document-card-text"><strong>Modifié le :</strong> {clients.updated_at ? clients.updated_at : 'Pas de modification'}</p>
-                        <p className="document-card-text"><strong>Créé par:</strong> {clients.created_by}</p>
-                        <p className="document-card-text"><strong>Créé à:</strong> {clients.created_at}</p>
-                        <p><strong>Pièces jointes :</strong> {clients.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+        <div className="container bootstrap snippets bootdey">
+            <div className="panel-body inf-content">
+                <div className="row">
+                    <div className="col-md-4">
+                        <img alt="" style={{ width: '100%' }} title="" className="img-circle img-thumbnail isTooltip" src={clients.image_url} data-original-title="Client" /> 
+                        <ul title="Ratings" className="list-inline ratings text-center">
+                            <li><span className="glyphicon glyphicon-star"></span></li>
+                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
+                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
+                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
+                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
+                        </ul>
+                    </div>
+                    <div className="col-md-8">
+                        <strong>Information</strong><br />
+                        <div className="table-responsive">
+                            <table className="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td><strong> Identificacion</strong></td>
+                                        <td className="text-primary">{clients.code_client}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong> Nom</strong></td>
+                                        <td className="text-primary">{clients.nom}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><span className="glyphicon glyphicon-cloud text-primary"></span> Raison Sociale</strong></td>
+                                        <td className="text-primary">{clients.raison_sociale}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><span className="glyphicon glyphicon-bookmark text-primary"></span> Activité</strong></td>
+                                        <td className="text-primary">{clients.activite}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><span className="glyphicon glyphicon-eye-open text-primary"></span> Type Client</strong></td>
+                                        <td className="text-primary">{clients.type_client}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><span className="glyphicon glyphicon-calendar text-primary"></span> Modifié le</strong></td>
+                                        <td className="text-primary">{clients.updated_at}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><span className="glyphicon glyphicon-calendar text-primary"></span> Créé à</strong></td>
+                                        <td className="text-primary">{clients.created_at}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><span className="glyphicon glyphicon-envelope text-primary"></span> Email</strong></td>
+                                        <td className="text-primary">{clients.created_by}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong><span className="glyphicon glyphicon-paperclip text-primary"></span> Pièces jointes</strong></td>
+                                        <td className="text-primary">{clients.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div className="document-card-buttons">
-                            <Link to={`/modifierclient/${clients.id}`} className="btn btn">Modifier</Link>
-                            <button onClick={handleDelete} className="btn btn">Supprimer</button>
+                            <Link to={`/modifierclient/${clients.id}`} className="btn btn-primary">Modifier</Link>
+                            <button onClick={handleDelete} className="btn btn-danger">Supprimer</button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="dashboard-bottom-button">
-                <Link to="/Clients/" className="btn btn-secondary">Retour</Link>
             </div>
         </div>
     );
