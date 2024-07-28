@@ -60,20 +60,19 @@ const AllClients = () => {
 };
 
 export default AllClients;*/
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaList, FaTh } from 'react-icons/fa';
+import { GrView } from 'react-icons/gr';
 import './client.css';
-import { TbWorld } from "react-icons/tb";
 
 const AllClients = () => {
     const [view, setView] = useState('list');
     const [searchTerm, setSearchTerm] = useState('');
 
     const clients = [
-        { firstName: 'aya', nom: 'majerdi', code: '01', image: 'image_1.jpg', email: 'majerdiaya@gmail.com' },
-        { firstName: 'ba', nom: 'By', code: '02', image: 'image_2.jpg', email: 'ba.by@example.com' },
+        { firstName: 'Aya', nom: 'Majerdi', code: '01', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'majerdiaya@gmail.com' },
+        { firstName: 'Ba', nom: 'By', code: '02', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'ba.by@example.com' },
     ];
 
     const filteredClients = clients.filter(client =>
@@ -91,6 +90,14 @@ const AllClients = () => {
                         <br />
                         <br />
                         <div className="table-container">
+                            <div className="view-toggle">
+                                <button className={`view-btn ${view === 'list' ? 'active' : ''}`} onClick={() => setView('list')}>
+                                    <FaList /> 
+                                </button>
+                                <button className={`view-btn ${view === 'grid' ? 'active' : ''}`} onClick={() => setView('grid')}>
+                                    <FaTh /> 
+                                </button>
+                            </div>
                             <h3 className='formation-title'>Liste des Clients</h3>
                             <div className="button-container">
                                 <Link to="/DashboardClient/">
@@ -133,8 +140,7 @@ const AllClients = () => {
                                                         <td>{client.email}</td>
                                                         <td>
                                                             <Link to={`/consulterclient/${client.code}`} className="btn btn-outline-info btn-sm">
-                                                            <TbWorld />
-
+                                                            <GrView />
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -147,20 +153,24 @@ const AllClients = () => {
                                         </tbody>
                                     </table>
                                 ) : (
-                                    <div className="grid-container">
-                                        {filteredClients.map((client, index) => (
-                                            <div key={index} className="grid-item">
-                                                <Link to={`/client/${client.code}`} className="card">
-                                                    <img src={client.image} alt={`Image de ${client.nom}`} className="card-image" />
-                                                    <div className="card-content">
-                                                        <p>{client.code}</p>
-                                                        <p>{client.nom}</p>
-                                                        <p>{client.firstName}</p>
-                                                        <p>{client.email}</p>
+                                    <div className="grid">
+                                        {filteredClients.length > 0 ? (
+                                            filteredClients.map((client, index) => (
+                                                <div key={index} className="responsable-item">
+                                                    <img src={client.image} alt={`Image de ${client.nom}`} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{client.nom} {client.firstName}</h5>
+                                                        <p><strong className="responsable-text">Code :</strong> {client.code}</p>
+                                                        <p><strong className="responsable-text">Email :</strong> {client.email}</p>
+                                                        <Link to={`/client/${client.code}`} className="btn btn-outline-info btn-sm">
+                                                        <GrView />
+                                                        </Link>
                                                     </div>
-                                                </Link>
-                                            </div>
-                                        ))}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className="text-center">Aucun client disponible</p>
+                                        )}
                                     </div>
                                 )}
                             </div>
