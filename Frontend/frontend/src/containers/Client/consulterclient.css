@@ -581,3 +581,7 @@ body{
         display: inline-block
     }
     }
+    .bg-color-4 {
+        background-color: #FFECB3;
+        color: #2f1b41;
+    }

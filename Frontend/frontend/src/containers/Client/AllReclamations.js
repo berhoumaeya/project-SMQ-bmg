@@ -116,7 +116,7 @@ export default Allreclamations;*/
 
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './client.css';
+import '../RH/list.css';
 import { TbWorld } from "react-icons/tb";
 
 const Allreclamations = () => {

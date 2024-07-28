@@ -69,13 +69,12 @@ const DashboardResponsable = () => {
 export default DashboardResponsable;
 */
 
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GrView } from 'react-icons/gr';
 import { FaList, FaTh } from 'react-icons/fa';
-import '../list.css'; 
-
+import '../list.css';
+ 
 const sampleResponsables = [
     {
         id: 1,
@@ -99,28 +98,28 @@ const sampleResponsables = [
         email: 'paul.durand@example.com'
     }
 ];
-
+ 
 const DashboardResponsable = () => {
     const [responsables, setResponsables] = useState([]);
     const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list'); 
-
+    const [viewMode, setViewMode] = useState('list');
+ 
     useEffect(() => {
         setResponsables(sampleResponsables);
     }, []);
-
+ 
     if (error) {
         return <div>Erreur : {error}</div>;
     }
-
+ 
     const filteredResponsables = responsables.filter(responsable =>
         responsable.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
         responsable.prenom.toLowerCase().includes(searchQuery.toLowerCase()) ||
         responsable.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
         responsable.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
+ 
     return (
         <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
@@ -131,10 +130,10 @@ const DashboardResponsable = () => {
                         <div className="table-container">
                         <div className="view-toggle">
                                     <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                        <FaList /> 
+                                        <FaList />
                                     </button>
                                     <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                        <FaTh /> 
+                                        <FaTh />
                                     </button>
                                 </div>
                             <h3 className="formation-title">Liste des Responsables</h3>
@@ -145,7 +144,7 @@ const DashboardResponsable = () => {
                                 <Link to={`/ajouter-responsable/`}>
                                     <button className="button-add" >Ajouter Responsable</button>
                                 </Link>
-                                
+                               
                             </div>
                            
                             <br />
@@ -224,5 +223,5 @@ const DashboardResponsable = () => {
         </main>
     );
 };
-
+ 
 export default DashboardResponsable;

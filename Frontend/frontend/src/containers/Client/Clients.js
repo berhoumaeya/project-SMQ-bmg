@@ -61,19 +61,22 @@ const AllClients = () => {
 
 export default AllClients;*/
 
+
+
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaList, FaTh } from 'react-icons/fa';
 import { GrView } from 'react-icons/gr';
-import './client.css';
+import '../RH/list.css';
 
 const AllClients = () => {
     const [view, setView] = useState('list');
     const [searchTerm, setSearchTerm] = useState('');
 
     const clients = [
-        { firstName: 'Majerdi', nom: 'Aya', code: '01', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'majerdiaya@gmail.com' },
-        { firstName: 'By', nom: 'Ba', code: '02', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'ba.by@example.com' },
+        { firstName: 'Aya', nom: 'Majerdi', code: '01', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'majerdiaya@gmail.com' },
+        { firstName: 'Ba', nom: 'By', code: '02', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'ba.by@example.com' },
     ];
 
     const filteredClients = clients.filter(client =>
@@ -84,13 +87,13 @@ const AllClients = () => {
     );
 
     return (
-        <main className="client-main">
-            <div className="client-dashboard">
-                <div className="client-dashboard-content">
+        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <div className="container dashboard">
+                <div className="row">
                     <div>
                         <br />
                         <br />
-                        <div className="client-container">
+                        <div className="table-container">
                             <div className="view-toggle">
                                 <button className={`view-btn ${view === 'list' ? 'active' : ''}`} onClick={() => setView('list')}>
                                     <FaList /> 
@@ -99,30 +102,30 @@ const AllClients = () => {
                                     <FaTh /> 
                                 </button>
                             </div>
-                            <h3 className='client-list-title'>Liste des Clients</h3>
-                            <div className="client-actions">
+                            <h3 className='formation-title'>Liste des Clients</h3>
+                            <div className="button-container">
                                 <Link to="/DashboardClient/">
-                                    <button className="btn-back">Retour</button>
+                                    <button className="retour">Retour</button>
                                 </Link>
                                 <Link to="/CréerClient/">
-                                    <button className="btn-add-client">Ajouter Client</button>
+                                    <button className="button-add">Ajouter Client</button>
                                 </Link>
                             </div>
                             <br />
-                            <div className="client-search">
+                            <div className="search-container">
                                 <input
                                     type="text"
                                     placeholder="Rechercher..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="input-search"
+                                    className="search-input"
                                 />
                             </div>
                             <br />
                             <div>
                                 {view === 'list' ? (
-                                    <table className="client-table">
-                                        <thead className="client-table-header">
+                                    <table>
+                                        <thead className="table-header">
                                             <tr>
                                                 <th scope="col">Code client</th>
                                                 <th scope="col">Nom client</th>
@@ -140,7 +143,7 @@ const AllClients = () => {
                                                         <td>{client.firstName}</td>
                                                         <td>{client.email}</td>
                                                         <td>
-                                                            <Link to={`/consulterclient/${client.code}`} className="btn-view-details">
+                                                            <Link to={`/consulterclient/${client.code}`} className="btn btn-outline-info btn-sm">
                                                             <GrView />
                                                             </Link>
                                                         </td>
@@ -148,29 +151,29 @@ const AllClients = () => {
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="5" className="client-no-data">Aucun client disponible</td>
+                                                    <td colSpan="5" className="text-center">Aucun client disponible</td>
                                                 </tr>
                                             )}
                                         </tbody>
                                     </table>
                                 ) : (
-                                    <div className="client-grid">
+                                    <div className="grid">
                                         {filteredClients.length > 0 ? (
                                             filteredClients.map((client, index) => (
-                                                <div key={index} className="client-card">
-                                                    <img src={client.image} alt={`Image de ${client.nom}`} className="client-card-img" />
-                                                    <div className="client-card-info">
-                                                        <h5 className="client-card-name">{client.nom} {client.firstName}</h5>
-                                                        <p><strong className="client-card-label">Code :</strong> {client.code}</p>
-                                                        <p><strong className="client-card-label">Email :</strong> {client.email}</p>
-                                                        <Link to={`/client/${client.code}`} className="btn-view-details">
+                                                <div key={index} className="responsable-item">
+                                                    <img src={client.image} alt={`Image de ${client.nom}`} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{client.nom} {client.firstName}</h5>
+                                                        <p><strong className="responsable-text">Code :</strong> {client.code}</p>
+                                                        <p><strong className="responsable-text">Email :</strong> {client.email}</p>
+                                                        <Link to={`/client/${client.code}`} className="btn btn-outline-info btn-sm">
                                                         <GrView />
                                                         </Link>
                                                     </div>
                                                 </div>
                                             ))
                                         ) : (
-                                            <p className="client-no-data">Aucun client disponible</p>
+                                            <p className="text-center">Aucun client disponible</p>
                                         )}
                                     </div>
                                 )}
