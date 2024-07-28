@@ -77,6 +77,7 @@ import '../Detail.css';
 import { GrTrash } from 'react-icons/gr';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { GrEdit } from 'react-icons/gr';
+
 const sampleEmployes = [
     {
         id: 1,
@@ -100,11 +101,9 @@ const EmployeDetail = () => {
     const [deleteReussi, setDeleteReussi] = useState(false);
 
     useEffect(() => {
-        // Simulating data fetch
+        // Simulate data fetch
         const foundEmploye = sampleEmployes.find(emp => emp.id === parseInt(id));
-        if (foundEmploye) {
-            setEmploye(foundEmploye);
-        }
+        setEmploye(foundEmploye || null);
     }, [id]);
 
     const handleDelete = () => {
@@ -140,13 +139,16 @@ const EmployeDetail = () => {
                 </div>
                 <div className="buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center', padding: '10px' }}>
                     <Link to="/Dashboardemploye">
-                    <button className="btn-gray"><IoMdArrowRoundBack /></button></Link>
+                        <button className="btn-gray"><IoMdArrowRoundBack /></button>
+                    </Link>
                     <Link to={`/update-employe/${employe ? employe.id : ''}`}>
-                    <button className="btn-blue">  <GrEdit /> </button>                    </Link>
+                        <button className="btn-blue"><GrEdit /></button>
+                    </Link>
+                    <Link to={`/Dashboardcompetence/${employe ? employe.id : ''}`}>
+                        <button className="btn btn-primary">Consulter évaluations</button>
+                    </Link>
                     <button className="btn btn-danger" onClick={handleDelete}><GrTrash /></button>
                 </div>
-            
-
             </div>
         </main>
     );

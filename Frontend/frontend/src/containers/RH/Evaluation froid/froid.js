@@ -133,7 +133,7 @@ const FroidDetail = () => {
     };
 
     if (deleteReussi) {
-        return <Navigate to="/DashboardFroid" />;
+        return <Navigate to="/DashboardEvaluationFroid" />;
     }
 
     return (

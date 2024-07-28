@@ -13,54 +13,54 @@ const DashboardFroid = () => {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_evaluation_froid/`, {
                     headers: {
                         'Accept': '*//*', 
-                    }
-                });
-                setFormations(response.data);
-            } catch (error) {
-                console.error('Error fetching formations:', error);
-                setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-            }
-        };
+}
+});
+setFormations(response.data);
+} catch (error) {
+console.error('Error fetching formations:', error);
+setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
+}
+};
 
-        fetchFormations();
-    }, []);
+fetchFormations();
+}, []);
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+if (error) {
+return <div>Erreur : {error}</div>;
+}
 
-    return (
-        <div>
-             <div className="employes-header">
-                <h3>Liste des Evaluation Froid</h3>
-            </div>
-            <table className="table table-bordered" id="dataTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom evaluation</th>
-                        <th>crée par</th>
-                        <th>crée à</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {froids.map(froid => (
-                        <tr key={froid.id}>
-                            <td>{froid.id}</td>
-                            <td>{froid.name}</td>
-                            <td>{froid.created_by}</td>
-                            <td>{froid.created_at}</td>
-                            <Link to={`/froid/${froid.id}`}>Détails</Link>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="button-group">
-             <Link to={`/ajouter-froid/`} className="btn btn-primary">Evaluer en froid</Link>
-             <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
-           </div>
-        </div>
-    );
+return (
+<div>
+<div className="employes-header">
+<h3>Liste des Evaluation Froid</h3>
+</div>
+<table className="table table-bordered" id="dataTable">
+<thead>
+<tr>
+<th>ID</th>
+<th>Nom evaluation</th>
+<th>crée par</th>
+<th>crée à</th>
+</tr>
+</thead>
+<tbody>
+{froids.map(froid => (
+<tr key={froid.id}>
+    <td>{froid.id}</td>
+    <td>{froid.name}</td>
+    <td>{froid.created_by}</td>
+    <td>{froid.created_at}</td>
+    <Link to={`/froid/${froid.id}`}>Détails</Link>
+</tr>
+))}
+</tbody>
+</table>
+<div className="button-group">
+<Link to={`/ajouter-froid/`} className="btn btn-primary">Evaluer en froid</Link>
+<Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+</div>
+</div>
+);
 };
 
 export default DashboardFroid;
@@ -68,7 +68,8 @@ export default DashboardFroid;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GrView } from 'react-icons/gr';
-import '../list.css'; // Ensure you have corresponding styles in this file
+import { FaList, FaTh } from 'react-icons/fa';
+import '../list.css';
 
 const sampleFroids = [
     {
@@ -93,11 +94,11 @@ const sampleFroids = [
 
 const DashboardFroid = () => {
     const [froids, setFroids] = useState([]);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
-        // Simulating data fetch
         setFroids(sampleFroids);
     }, []);
 
@@ -119,6 +120,14 @@ const DashboardFroid = () => {
                         <br />
                         <br />
                         <div className="table-container">
+                            <div className="view-toggle">
+                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList />
+                                </button>
+                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh />
+                                </button>
+                            </div>
                             <h3 className='formation-title'>Liste des Évaluations Froid</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
@@ -140,44 +149,61 @@ const DashboardFroid = () => {
                             </div>
                             <br />
                             <div>
-                                <table>
-                                    <thead className="table-header">
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Nom Évaluation</th>
-                                            <th scope="col">Créé par</th>
-                                            <th scope="col">Créé à</th>
-                                            <th scope="col">Détails</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                {viewMode === 'list' ? (
+                                    <table>
+                                        <thead className="table-header">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nom Évaluation</th>
+                                                <th scope="col">Créé par</th>
+                                                <th scope="col">Créé à</th>
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredFroids.length > 0 ? (
+                                                filteredFroids.map(froid => (
+                                                    <tr key={froid.id}>
+                                                        <td>{froid.id}</td>
+                                                        <td>{froid.name}</td>
+                                                        <td>{froid.created_by}</td>
+                                                        <td>{froid.created_at}</td>
+                                                        <td>
+                                                            <Link to={`/froid/${froid.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrView />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="5" className="text-center">Aucune évaluation disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
                                         {filteredFroids.length > 0 ? (
                                             filteredFroids.map(froid => (
-                                                <tr key={froid.id}>
-                                                    <td>{froid.id}</td>
-                                                    <td>
-                                                        <span className="text-muted">{froid.name}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{froid.created_by}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{froid.created_at}</span>
-                                                    </td>
-                                                    <td>
+                                                <div key={froid.id} className="responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={froid.name} className="responsable-img" />
+
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{froid.name}</h5>
+                                                        <p><strong className="responsable-text">Créé par :</strong> {froid.created_by}</p>
+                                                        <p><strong className="responsable-text">Créé à :</strong> {froid.created_at}</p>
                                                         <Link to={`/froid/${froid.id}`} className="btn btn-outline-info btn-sm">
                                                             <GrView />
                                                         </Link>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="5" className="text-center">Aucune évaluation disponible</td>
-                                            </tr>
+                                            <p className="text-center">Aucune évaluation disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

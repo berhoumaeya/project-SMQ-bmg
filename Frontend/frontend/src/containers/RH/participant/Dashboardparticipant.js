@@ -71,9 +71,9 @@ export default DashboardParticipant;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GrView } from 'react-icons/gr';
+import { FaList, FaTh } from 'react-icons/fa';
 import '../list.css'; 
 
-// Sample data for participants
 const sampleParticipants = [
     {
         id: 1,
@@ -100,11 +100,11 @@ const sampleParticipants = [
 
 const DashboardParticipant = () => {
     const [participants, setParticipants] = useState([]);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list'); 
 
     useEffect(() => {
-        // Simulating data fetch
         setParticipants(sampleParticipants);
     }, []);
 
@@ -127,7 +127,15 @@ const DashboardParticipant = () => {
                         <br />
                         <br />
                         <div className="table-container">
-                            <h3 className='formation-title'>Liste des Participants</h3>
+                            <div className="view-toggle">
+                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList /> 
+                                </button>
+                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh /> 
+                                </button>
+                            </div>
+                            <h3 className="formation-title">Liste des Participants</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
@@ -148,40 +156,62 @@ const DashboardParticipant = () => {
                             </div>
                             <br />
                             <div>
-                                <table>
-                                    <thead className="table-header">
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Nom</th>
-                                            <th scope="col">Prénom</th>
-                                            <th scope="col">Nom d'utilisateur</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Détails</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                {viewMode === 'list' ? (
+                                    <table>
+                                        <thead className="table-header">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nom</th>
+                                                <th scope="col">Prénom</th>
+                                                <th scope="col">Nom d'utilisateur</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredParticipants.length > 0 ? (
+                                                filteredParticipants.map(participant => (
+                                                    <tr key={participant.id}>
+                                                        <td>{participant.id}</td>
+                                                        <td>{participant.nom}</td>
+                                                        <td>{participant.prenom}</td>
+                                                        <td>{participant.username}</td>
+                                                        <td>{participant.email}</td>
+                                                        <td>
+                                                            <Link to={`/participant/${participant.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrView />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="6" className="text-center">Aucun participant disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
                                         {filteredParticipants.length > 0 ? (
                                             filteredParticipants.map(participant => (
-                                                <tr key={participant.id}>
-                                                    <td>{participant.id}</td>
-                                                    <td>{participant.nom}</td>
-                                                    <td>{participant.prenom}</td>
-                                                    <td>{participant.username}</td>
-                                                    <td>{participant.email}</td>
-                                                    <td>
+                                                <div key={participant.id} className="responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={participant.nom} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{participant.nom} {participant.prenom}</h5>
+                                                        <p><strong className="responsable-text">Nom d'utilisateur :</strong> {participant.username}</p>
+                                                        <p><strong className="responsable-text">Email :</strong> {participant.email}</p>
                                                         <Link to={`/participant/${participant.id}`} className="btn btn-outline-info btn-sm">
                                                             <GrView />
                                                         </Link>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="6" className="text-center">Aucun participant disponible</td>
-                                            </tr>
+                                            <p className="text-center">Aucun participant disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

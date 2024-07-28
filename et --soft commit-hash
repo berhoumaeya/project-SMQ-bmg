@@ -1,0 +1,272 @@
+[33mcommit 8517fe5d72830fbb4be9fbadd21f51b5ccbd2581[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 92687df f9a056a
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Sun Jul 28 14:38:29 2024 +0100
+
+    Merge branch 'main' of https://github.com/E-Tech-Agency/project-SMQ
+
+[33mcommit 92687df815b596ca32206fbf9ec79e75ce302dff[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Sun Jul 28 14:38:19 2024 +0100
+
+    Update design
+
+[33mcommit f9a056adff521bd74c5e857544a70839954ce342[m
+Merge: d2fc0bf 9d4c967
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Sat Jul 27 11:02:33 2024 +0100
+
+    design fournisseur page
+
+[33mcommit d2fc0bfc385001d77074ce04ff11faebc3f072b0[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Sat Jul 27 10:39:37 2024 +0100
+
+    design liste destails client
+
+[33mcommit 9d4c967c427a198e176cbd842412cec317f78216[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Jul 26 01:14:21 2024 +0100
+
+    Design detail view for RH module + UPDATE list view for Doc module
+
+[33mcommit 6a724204160bf385bbe46f8282ea958691c5358f[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Thu Jul 25 14:26:21 2024 +0100
+
+    Design tables views + search bar for the DOC module
+
+[33mcommit e5bfe3b3d5414756d36e9fc799891c82a0f8020e[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Thu Jul 25 12:45:41 2024 +0100
+
+    Design tables views + search bar for the RH module
+
+[33mcommit bc33367f7cf6e9419187d7d1db3b30f3bc0965a1[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Tue Jul 23 10:02:25 2024 +0100
+
+    design view details
+
+[33mcommit 10bc211e40d22bd9cb519687e8a268aa6b6744d6[m
+Merge: 1e1b29a 2277a36
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Tue Jul 23 00:44:16 2024 +0100
+
+     design liste client view & deatils
+
+[33mcommit 1e1b29a84ccb775201217088f212fd8b50f62f7e[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Tue Jul 23 00:41:20 2024 +0100
+
+     design liste client view & deatils
+
+[33mcommit 2277a36f2767632ff21209b7cb670b03e67a6144[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Mon Jul 22 09:12:52 2024 +0100
+
+    update design resetpassword page
+
+[33mcommit d5c833c05ab2c7783dafe0e584c71cf958fa0a3f[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Sun Jul 21 23:07:59 2024 +0100
+
+    Implement frontend validation for register + navbar design
+
+[33mcommit 35f937aa271413c5caa35f96fc6bca2fe0b642b6[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Sun Jul 21 21:54:50 2024 +0100
+
+    Design UPDATE forms in RH
+
+[33mcommit 6ab7fbf0d0bb1ff12a66212e7ae25f0549884707[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Sun Jul 21 21:08:04 2024 +0100
+
+    design dashboard guest
+
+[33mcommit a33e9bde951132e08aac6fda6beef50df0db2813[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Jul 19 16:17:54 2024 +0100
+
+    Design Add forms for Documentaion + little add of csrftoken
+
+[33mcommit 378ee366f00a63eba7c38feed8379fc8bbeb3619[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Thu Jul 18 23:05:53 2024 +0100
+
+    Design Add forms for RH dashboard
+
+[33mcommit da2408dabd991b8511ce39dbb85593c73b2df03a[m
+Merge: d05a90d 4492a00
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Jul 17 09:44:47 2024 +0100
+
+    Merge branch 'main' of https://github.com/E-Tech-Agency/project-SMQ
+
+[33mcommit d05a90d6b5a216822825c08851fe3ae68fb9ac43[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Jul 17 09:44:24 2024 +0100
+
+    f
+
+[33mcommit 4492a001ab8443fbffe8db139a455fea9492b1fa[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Wed Jul 17 09:28:53 2024 +0100
+
+    Update design add responsable page
+
+[33mcommit 98fdc6121402fbbff07aa974fcf8d55f5d6b2e54[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Wed Jul 17 00:39:35 2024 +0100
+
+    design add responsable page
+
+[33mcommit 1eb23ce8f4565e0549951cc6e350934ae348f545[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Tue Jul 16 22:31:37 2024 +0100
+
+    Design the first page of the dashboard.
+
+[33mcommit 0ccfe63afb6c2ffc9e60035478f2a1719531d057[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Tue Jul 16 14:10:51 2024 +0100
+
+    design first dashboard
+
+[33mcommit b48755798b68055c185459aafa891e0b8d19c299[m
+Merge: 686742f cb1fd66
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Jul 15 15:34:43 2024 +0100
+
+    Merge branch 'main' of https://github.com/E-Tech-Agency/project-SMQ
+
+[33mcommit cb1fd66b17f0841d6f5cb29e3acbb317717a8798[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Mon Jul 15 13:19:54 2024 +0100
+
+    update register login
+
+[33mcommit 686742fc6b77c57954f8747f30a953697031bf43[m
+Merge: 44352e7 39bbb74
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Jul 15 10:45:18 2024 +0100
+
+    Merge branch 'main' of https://github.com/E-Tech-Agency/project-SMQ
+
+[33mcommit 44352e7b5f8d3d7bf0de1da5da6bbe9b6731fd27[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Jul 15 10:44:49 2024 +0100
+
+    take
+
+[33mcommit 39bbb7449c9677ae97a24ee8629d4f6524ccddf5[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Sun Jul 14 14:22:30 2024 +0100
+
+    update register login
+
+[33mcommit f85816f00d460680159c5552bbb9e061e81a54e6[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Thu Jul 11 23:08:40 2024 +0100
+
+    update design login and register page + home design + reset password design
+
+[33mcommit 0af5349acf026bc4ef56c3aef2eac52e0ad23fe9[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Wed Jul 10 21:42:33 2024 +0100
+
+    design login and register page
+
+[33mcommit c8d9d309ca7af966408170493809493681f2d5a7[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Tue Jul 9 10:32:55 2024 +0100
+
+     test pakages
+
+[33mcommit ccdca66e953a16872194b3fdb36f1e6f63c37da6[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Tue Jun 11 12:57:14 2024 +0100
+
+    Update
+
+[33mcommit 02163cb09483ed62c0824ab2057b26b138cf0a96[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Fri May 31 09:56:05 2024 +0100
+
+    Update
+
+[33mcommit 7a58b2c1076bfcc7d676d97520cb996d62437d6d[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Mon May 27 07:50:14 2024 +0100
+
+    Update
+
+[33mcommit 0c2da7fc6d746b4edfa278364596f3bd87101b7f[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Mon May 27 00:56:32 2024 +0100
+
+    Update
+
+[33mcommit 784e33d7c12de9fa03b513a0801dbe02e3a2e577[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 22 11:14:59 2024 +0100
+
+    Update
+
+[33mcommit 1b8dbccbea1721379f202fe49f509d4e940354ad[m
+Merge: ae90997 faaf006
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 22 08:22:39 2024 +0100
+
+    Update
+
+[33mcommit ae909974acdad2194654321485f78828fc54a200[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 22 08:20:51 2024 +0100
+
+    Update
+
+[33mcommit 166fd79252ae4af6b992a2b6fd1db5019e2c1786[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 15 21:38:59 2024 +0100
+
+    Update
+
+[33mcommit faaf00606f7cca3927d77923b28f3c6351ed5b28[m
+Author: zakariafer <159456425+zakariafer@users.noreply.github.com>
+Date:   Wed May 15 21:35:54 2024 +0100
+
+    Error
+
+[33mcommit 3e0af2dd2099286acc08d42b6a52388cee456a04[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 15 21:34:39 2024 +0100
+
+    Update
+
+[33mcommit 33cd92b296a2d50f258ce1b3827c0dcc62df7447[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 15 08:12:44 2024 +0100
+
+    Update
+
+[33mcommit 8ffd5a4426ff860229d7724ee091901b67d06632[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Thu May 9 15:14:51 2024 +0100
+
+    Update
+
+[33mcommit 1e900ba0efe8992cd47a8c7d22a998eb20fd694c[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 8 23:45:37 2024 +0100
+
+    Update
+
+[33mcommit 80833c0f9192aca0cbf552828ab0edab49c7f2e7[m
+Author: zakariafer <ferchichi.zakaria@etudiant-fst.utm.tn>
+Date:   Wed May 8 10:46:18 2024 +0100
+
+    Update
+
+[33mcommit df447f40335e640f4639fb070

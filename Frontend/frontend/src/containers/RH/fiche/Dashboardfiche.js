@@ -69,87 +69,49 @@ export default DashboardFiche;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GrView } from 'react-icons/gr';
+import { FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
 
-const sampleFormations = [
+const sampleFiches = [
     {
         id: 1,
-        intitule_formation: 'Formation React',
-        type_formation: 'Technique',
-        organisme_formation: 'Organisme A',
-        theme_formation: 'Développement Web',
-        date_debut_formation: '2024-01-01',
-        date_fin_formation: '2024-01-10',
-        responsable_validation: 2,
-        responsable_formation: [3, 4],
-        created_at: '2024-01-01',
-        created_by: 'Admin',
-        updated_by: 'Admin',
-        updated_at: '2024-01-10',
-        participants: [5, 6],
-        parametre_validation: 'Examen final',
-        date_cloture: '2024-01-11',
-        pieces_jointes: true
+        name: 'Fiche 1',
+        job_position: 'Position A',
+        employe_concerne: 'Employe 1',
     },
     {
         id: 2,
-        intitule_formation: 'Formation Node.js',
-        type_formation: 'Technique',
-        organisme_formation: 'Organisme B',
-        theme_formation: 'Backend',
-        date_debut_formation: '2024-02-01',
-        date_fin_formation: '2024-02-10',
-        responsable_validation: 3,
-        responsable_formation: [4, 5],
-        created_at: '2024-02-01',
-        created_by: 'Admin',
-        updated_by: 'Admin',
-        updated_at: '2024-02-10',
-        participants: [6, 7],
-        parametre_validation: 'Projet final',
-        date_cloture: '2024-02-11',
-        pieces_jointes: false
+        name: 'Fiche 2',
+        job_position: 'Position B',
+        employe_concerne: 'Employe 2',
     },
     {
         id: 3,
-        intitule_formation: 'Formation UX/UI',
-        type_formation: 'Design',
-        organisme_formation: 'Organisme C',
-        theme_formation: 'Frontend',
-        date_debut_formation: '2024-03-01',
-        date_fin_formation: '2024-03-10',
-        responsable_validation: 4,
-        responsable_formation: [5, 6],
-        created_at: '2024-03-01',
-        created_by: 'Admin',
-        updated_by: 'Admin',
-        updated_at: '2024-03-10',
-        participants: [7, 8],
-        parametre_validation: 'Portfolio final',
-        date_cloture: '2024-03-11',
-        pieces_jointes: true
+        name: 'Fiche 3',
+        job_position: 'Position C',
+        employe_concerne: 'Employe 3',
     }
 ];
 
-const DashboardFormation = () => {
-    const [formations, setFormations] = useState([]);
-    const [error, setError] = useState(null);
+const DashboardFiche = () => {
+    const [fiches, setFiches] = useState([]);
+    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
         // Simulating data fetch
-        setFormations(sampleFormations);
+        setFiches(sampleFiches);
     }, []);
 
     if (error) {
         return <div>Erreur : {error}</div>;
     }
 
-    const filteredFormations = formations.filter(formation =>
-        formation.intitule_formation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        formation.type_formation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        formation.theme_formation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        formation.responsable_validation.toString().includes(searchQuery)
+    const filteredFiches = fiches.filter(fiche =>
+        fiche.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        fiche.job_position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        fiche.employe_concerne.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -160,13 +122,21 @@ const DashboardFormation = () => {
                         <br />
                         <br />
                         <div className="table-container">
-                            <h3 className='formation-title'>Liste des Formations</h3>
+                            <div className="view-toggle">
+                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList />
+                                </button>
+                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh />
+                                </button>
+                            </div>
+                            <h3 className="fiche-title">Liste des Fiches Employés</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
                                 </Link>
-                                <Link to={`/ajouter-formation/`}>
-                                    <button className="button-add">Ajouter Formation</button>
+                                <Link to={`/ajouter-fiche/`}>
+                                    <button className="button-add">Ajouter Fiche</button>
                                 </Link>
                             </div>
                             <br />
@@ -181,49 +151,60 @@ const DashboardFormation = () => {
                             </div>
                             <br />
                             <div>
-                                <table>
-                                    <thead className="table-header">
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Intitulé Formation</th>
-                                            <th scope="col">Type Formation</th>
-                                            <th scope="col">Thème de formation</th>
-                                            <th scope="col">Responsable Validation</th>
-                                            <th scope="col">Détails</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredFormations.length > 0 ? (
-                                            filteredFormations.map(formation => (
-                                                <tr key={formation.id}>
-                                                    <td>{formation.id}</td>
-                                                    <td>
-                                                        <span className="text-muted">{formation.intitule_formation}</span>
-                                                        <span className="text-muted">{formation.theme_formation}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{formation.type_formation}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{formation.theme_formation}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{formation.responsable_validation}</span>
-                                                    </td>
-                                                    <td>
-                                                        <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
+                                {viewMode === 'list' ? (
+                                    <table>
+                                        <thead className="table-header">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nom Fiche</th>
+                                                <th scope="col">Poste Employé</th>
+                                                <th scope="col">Fiche de l'Employé</th>
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredFiches.length > 0 ? (
+                                                filteredFiches.map(fiche => (
+                                                    <tr key={fiche.id}>
+                                                        <td>{fiche.id}</td>
+                                                        <td>{fiche.name}</td>
+                                                        <td>{fiche.job_position}</td>
+                                                        <td>{fiche.employe_concerne}</td>
+                                                        <td>
+                                                            <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrView />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="5" className="text-center">Aucune fiche disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
+                                        {filteredFiches.length > 0 ? (
+                                            filteredFiches.map(fiche => (
+                                                <div key={fiche.id} className="responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={fiche.name} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{fiche.name}</h5>
+                                                        <p><strong className="responsable-text">Poste :</strong> {fiche.job_position}</p>
+                                                        <p><strong className="responsable-text">Employé Concerné :</strong> {fiche.employe_concerne}</p>
+                                                        <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
                                                             <GrView />
                                                         </Link>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="6" className="text-center">Aucune formation disponible</td>
-                                            </tr>
+                                            <p className="text-center">Aucune fiche disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -233,4 +214,4 @@ const DashboardFormation = () => {
     );
 };
 
-export default DashboardFormation;
+export default DashboardFiche;

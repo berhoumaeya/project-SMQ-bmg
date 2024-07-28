@@ -72,6 +72,7 @@ export default DashboardFormation;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GrView } from 'react-icons/gr';
+import { FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
 
 const sampleFormations = [
@@ -83,13 +84,11 @@ const sampleFormations = [
         theme_formation: 'Développement Web',
         date_debut_formation: '2024-01-01',
         date_fin_formation: '2024-01-10',
-        responsable_validation: 2,
-        responsable_formation: [3, 4],
+        responsable_validation: 'Jean Dupont',
         created_at: '2024-01-01',
         created_by: 'Admin',
         updated_by: 'Admin',
         updated_at: '2024-01-10',
-        participants: [5, 6],
         parametre_validation: 'Examen final',
         date_cloture: '2024-01-11',
         pieces_jointes: true
@@ -102,13 +101,11 @@ const sampleFormations = [
         theme_formation: 'Backend',
         date_debut_formation: '2024-02-01',
         date_fin_formation: '2024-02-10',
-        responsable_validation: 3,
-        responsable_formation: [4, 5],
+        responsable_validation: 'Marie Martin',
         created_at: '2024-02-01',
         created_by: 'Admin',
         updated_by: 'Admin',
         updated_at: '2024-02-10',
-        participants: [6, 7],
         parametre_validation: 'Projet final',
         date_cloture: '2024-02-11',
         pieces_jointes: false
@@ -121,13 +118,11 @@ const sampleFormations = [
         theme_formation: 'Frontend',
         date_debut_formation: '2024-03-01',
         date_fin_formation: '2024-03-10',
-        responsable_validation: 4,
-        responsable_formation: [5, 6],
+        responsable_validation: 'Paul Durand',
         created_at: '2024-03-01',
         created_by: 'Admin',
         updated_by: 'Admin',
         updated_at: '2024-03-10',
-        participants: [7, 8],
         parametre_validation: 'Portfolio final',
         date_cloture: '2024-03-11',
         pieces_jointes: true
@@ -136,8 +131,9 @@ const sampleFormations = [
 
 const DashboardFormation = () => {
     const [formations, setFormations] = useState([]);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
         // Simulating data fetch
@@ -162,7 +158,15 @@ const DashboardFormation = () => {
                         <br />
                         <br />
                         <div className="table-container">
-                            <h3 className='formation-title'>Liste des Formations</h3>
+                            <div className="view-toggle">
+                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList /> 
+                                </button>
+                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh /> 
+                                </button>
+                            </div>
+                            <h3 className="formation-title">Liste des Formations</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
@@ -183,49 +187,72 @@ const DashboardFormation = () => {
                             </div>
                             <br />
                             <div>
-                                <table>
-                                    <thead className="table-header">
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Intitulé Formation</th>
-                                            <th scope="col">Type Formation</th>
-                                            <th scope="col">Thème de formation</th>
-                                            <th scope="col">Responsable Validation</th>
-                                            <th scope="col">Détails</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                {viewMode === 'list' ? (
+                                    <table>
+                                        <thead className="table-header">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Intitulé Formation</th>
+                                                <th scope="col">Type Formation</th>
+                                                <th scope="col">Thème de formation</th>
+                                                <th scope="col">Responsable Validation</th>
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredFormations.length > 0 ? (
+                                                filteredFormations.map(formation => (
+                                                    <tr key={formation.id}>
+                                                        <td>{formation.id}</td>
+                                                        <td>
+                                                            <h6 className="font-weight-bold mb-0">{formation.intitule_formation}</h6>
+                                                            <span className="text-muted">{formation.theme_formation}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="text-muted">{formation.type_formation}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="text-muted">{formation.theme_formation}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="text-muted">{formation.responsable_validation}</span>
+                                                        </td>
+                                                        <td>
+                                                            <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrView />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="6" className="text-center">Aucune formation disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
                                         {filteredFormations.length > 0 ? (
                                             filteredFormations.map(formation => (
-                                                <tr key={formation.id}>
-                                                    <td>{formation.id}</td>
-                                                    <td>
-                                                        <h6 className="font-weight-bold mb-0">{formation.intitule_formation}</h6>
-                                                        <span className="text-muted">{formation.theme_formation}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{formation.type_formation}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{formation.theme_formation}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{formation.responsable_validation}</span>
-                                                    </td>
-                                                    <td>
+                                                <div key={formation.id} className="responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={formation.intitule_formation} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{formation.intitule_formation}</h5>
+                                                        <p><strong className="responsable-text">Type :</strong> {formation.type_formation}</p>
+                                                        <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
+                                                        <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
                                                         <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
                                                             <GrView />
                                                         </Link>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="6" className="text-center">Aucune formation disponible</td>
-                                            </tr>
+                                            <p className="text-center">Aucune formation disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
