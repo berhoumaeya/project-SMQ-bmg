@@ -1,53 +1,60 @@
-.container {
+.client-main {
+    background-color: #f3f4f6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.client-dashboard {
     margin: 2rem auto;
     max-width: 1200px;
 }
 
-.table-container {
+.client-dashboard-content {
     padding: 1.5rem;
     background-color: #ffffff;
     border-radius: 0.5rem;
 }
 
-.table-responsive {
-    overflow-x: auto;
-}
-
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: separate;
-    border-spacing: 0 0.5rem;
-}
-
-.table th,
-.table td {
-    vertical-align: top;
-    border: none;
-    padding: 0.75rem;
-    background-color: #f8f9fa;
-}
-
-.table th {
-    font-weight: 600;
-}
-
-.formation-title {
+.client-list-title {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    font-family: Apple Chancery, cursive, sans sherif;
+    font-family: Apple Chancery, cursive, sans-serif;
     margin-top: 1rem;
     color: rgb(70, 68, 169);
 }
 
-.search-container {
+.client-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.btn-back,
+.btn-add-client {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-back {
+    background-color: #f3f4f6;
+    color: #333;
+}
+
+.btn-add-client {
+    background-color: #5585b5;
+    color: white;
+}
+
+.client-search {
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
 }
 
-.search-input {
+.input-search {
     width: 100%;
     max-width: 1200px;
     padding: 0.5rem 1rem;
@@ -58,7 +65,7 @@
     margin-top: 20px;
 }
 
-.search-input:focus {
+.input-search:focus {
     border-color: #5585b5;
     outline: none;
 }
@@ -86,14 +93,14 @@
     border-color: #5585b5;
 }
 
-.grid {
+.client-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
 }
 
-.responsable-item {
+.client-card {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -103,25 +110,36 @@
     align-items: center;
 }
 
-.responsable-title {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    font-family: Apple Chancery, cursive, sans sherif;
-    margin-top: 1rem;
-    color: rgb(70, 68, 169);
-}
-
-.responsable-text {
-    margin-bottom: 10px;
-    font-size: 0.9em;
-    font-family: Apple Chancery, cursive, sans sherif;
-    margin-top: 1rem;
-    color: #011830;
-}
-
-.responsable-img {
+.client-card-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     margin-right: 15px;
+}
+
+.client-card-info {
+    flex: 1;
+}
+
+.client-card-name {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-family: Apple Chancery, cursive, sans-serif;
+    margin-top: 1rem;
+    color: rgb(70, 68, 169);
+}
+
+.client-card-label {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    font-family: Apple Chancery, cursive, sans-serif;
+    margin-top: 1rem;
+    color: #011830;
+}
+
+.btn-view-details {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #5585b5;
 }
