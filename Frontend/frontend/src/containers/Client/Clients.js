@@ -62,10 +62,8 @@ const AllClients = () => {
 export default AllClients;*/
 
 
-
-
 import React, { useState } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './client.css';
 
 const AllClients = () => {
@@ -89,10 +87,10 @@ const AllClients = () => {
                     <Link to="/CréerClient/" className="btn btn">Ajouter</Link>
                 </div>
                 <div className="header-right">
-                    <button onClick={() => setView('list')} className={`btn ${view === 'list' ? 'active' : ''}`}>
+                    <button onClick={() => setView('list')} className={`btn ${view === 'list' ? 'btn-primary' : ''}`}>
                         <img src="path_to_list_icon" alt="List View" />
                     </button>
-                    <button onClick={() => setView('grid')} className={`btn ${view === 'grid' ? 'active' : ''}`}>
+                    <button onClick={() => setView('grid')} className={`btn ${view === 'grid' ? 'btn-primary' : ''}`}>
                         <img src="path_to_grid_icon" alt="Grid View" />
                     </button>
                 </div>
@@ -108,11 +106,14 @@ const AllClients = () => {
 
             <div className="table-container">
                 {view === 'list' ? (
-                    <table className="table">
+                    <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">Code client</th>
-                                <th scope="col">Nom client</th>
+                                <th>Code client</th>
+                                <th>Nom client</th>
+                                <th>Prénom client</th>
+                                <th>Email client</th>
+                                <th style={{ textAlign: 'center', width: '100px' }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -124,6 +125,16 @@ const AllClients = () => {
                                     <td>
                                         <Link to={`/client/${client.code}`}>{client.nom}</Link>
                                     </td>
+                                    <td>{client.firstName}</td>
+                                    <td>{client.email}</td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <button type="button" className="btn btn-primary btn-xs dt-edit" style={{ marginRight: '16px' }}>
+                                            <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                        </button>
+                                        <button type="button" className="btn btn-danger btn-xs dt-delete">
+                                            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -133,10 +144,22 @@ const AllClients = () => {
                         {filteredClients.map((client, index) => (
                             <Link key={index} to={`/client/${client.code}`} className="grid-item">
                                 <div className="card">
-                                    <img src={client.image} alt={`Image de ${client.nom}`} className="card-image" />
-                                    <div className="card-body">
-                                    <Link to={`/ConsulterClient/${client.code}`}>{client.code}</Link>
-                                        <p className="card-text">{client.nom}</p>
+                                    <div className="card-content">
+                                        <img src={client.image} alt={`Image de ${client.nom}`} className="card-image" />
+                                        <div className="card-body">
+                                            <p>{client.code}</p>
+                                            <p>{client.nom}</p>
+                                            <p>{client.firstName}</p>
+                                            <p>{client.email}</p>
+                                            <div className="card-actions">
+                                                <button type="button" className="btn btn-primary btn-xs dt-edit">
+                                                    <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                </button>
+                                                <button type="button" className="btn btn-danger btn-xs dt-delete">
+                                                    <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </Link>

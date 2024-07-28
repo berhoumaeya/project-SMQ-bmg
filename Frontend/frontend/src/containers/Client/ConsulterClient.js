@@ -100,13 +100,13 @@ import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import './consulterclient.css';
 
-
 const Client = () => {
     const { id } = useParams();
-
-    const [clients] = useState({
+    const [clientData, setClientData] = useState({
         id: id,
         nom: 'aya',
+        prenom: 'Sample',
+        email: 'aya@example.com',
         code_client: '01',
         raison_sociale: 'de',
         activite: 'Commerce',
@@ -117,13 +117,27 @@ const Client = () => {
         created_by: 'ar',
         created_at: '2022-01-15',
         pieces_jointes: true,
-        image_url: "", 
+        image_url: "https://bootdey.com/img/Content/avatar/avatar1.png",
     });
     const [error, setError] = useState(null);
     const [deleteReussi, setDeleteReussi] = useState(false);
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setClientData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
     const handleDelete = () => {
         setDeleteReussi(true);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Logique pour soumettre les modifications
+        console.log('Client data updated:', clientData);
     };
 
     if (error) {
@@ -135,70 +149,94 @@ const Client = () => {
     }
 
     return (
-        <div className="container bootstrap snippets bootdey">
-            <div className="panel-body inf-content">
-                <div className="row">
-                    <div className="col-md-4">
-                        <img alt="" style={{ width: '100%' }} title="" className="img-circle img-thumbnail isTooltip" src={clients.image_url} data-original-title="Client" /> 
-                        <ul title="Ratings" className="list-inline ratings text-center">
-                            <li><span className="glyphicon glyphicon-star"></span></li>
-                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
-                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
-                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
-                            <li><a href="#"><span className="glyphicon glyphicon-star"></span></a></li>
-                        </ul>
+        <div className="container view-account">
+            <section className="module">
+                <div className="module-inner">
+                    <div className="side-bar">
+                        <div className="user-info">
+                            <img className="img-profile img-circle img-responsive center-block" src={clientData.image_url} alt="Client" />
+                            <ul className="meta list list-unstyled">
+                                <li className="name">{clientData.nom} {clientData.prenom}</li>
+                                <li className="email">{clientData.email}</li>
+                                <li className="activity">Last updated: {clientData.updated_at}</li>
+                            </ul>
+                        </div>
+                        <nav className="side-menu">
+                            <ul className="nav">
+                                <li className="active"><a href="#"><span className="fa fa-user"></span> Profile</a></li>
+                                <li><Link to={`/AllReclamations.js/${clientData.id}`}><span className="fa fa-cog"></span> Reclamations</Link></li>
+                                <li><Link to={`/AllSuggestion.js/${clientData.id}`}><span className="fa fa-cog"></span> Suggestion</Link></li>                            </ul>
+                        </nav>
                     </div>
-                    <div className="col-md-8">
-                        <strong>Information</strong><br />
-                        <div className="table-responsive">
-                            <table className="table table-user-information">
-                                <tbody>
-                                    <tr>
-                                        <td><strong> Identificacion</strong></td>
-                                        <td className="text-primary">{clients.code_client}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong> Nom</strong></td>
-                                        <td className="text-primary">{clients.nom}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong><span className="glyphicon glyphicon-cloud text-primary"></span> Raison Sociale</strong></td>
-                                        <td className="text-primary">{clients.raison_sociale}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong><span className="glyphicon glyphicon-bookmark text-primary"></span> Activité</strong></td>
-                                        <td className="text-primary">{clients.activite}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong><span className="glyphicon glyphicon-eye-open text-primary"></span> Type Client</strong></td>
-                                        <td className="text-primary">{clients.type_client}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong><span className="glyphicon glyphicon-calendar text-primary"></span> Modifié le</strong></td>
-                                        <td className="text-primary">{clients.updated_at}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong><span className="glyphicon glyphicon-calendar text-primary"></span> Créé à</strong></td>
-                                        <td className="text-primary">{clients.created_at}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong><span className="glyphicon glyphicon-envelope text-primary"></span> Email</strong></td>
-                                        <td className="text-primary">{clients.created_by}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong><span className="glyphicon glyphicon-paperclip text-primary"></span> Pièces jointes</strong></td>
-                                        <td className="text-primary">{clients.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="document-card-buttons">
-                            <Link to={`/modifierclient/${clients.id}`} className="btn btn-primary">Modifier</Link>
-                            <button onClick={handleDelete} className="btn btn-danger">Supprimer</button>
-                        </div>
+                    <div className="content-panel">
+                        <h2 className="title">Modifier le Profil</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="table-responsive">
+                                <table className="table table-user-information">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Nom Client</strong></td>
+                                            <td><input type="text" className="form-control" name="nom" value={clientData.nom} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Prénom Client</strong></td>
+                                            <td><input type="text" className="form-control" name="prenom" value={clientData.prenom} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email</strong></td>
+                                            <td><input type="email" className="form-control" name="email" value={clientData.email} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Code Client</strong></td>
+                                            <td><input type="text" className="form-control" name="code_client" value={clientData.code_client} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Raison Sociale</strong></td>
+                                            <td><input type="text" className="form-control" name="raison_sociale" value={clientData.raison_sociale} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Activité</strong></td>
+                                            <td><input type="text" className="form-control" name="activite" value={clientData.activite} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Type Client</strong></td>
+                                            <td><input type="text" className="form-control" name="type_client" value={clientData.type_client} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Catégorie</strong></td>
+                                            <td><input type="text" className="form-control" name="categorie" value={clientData.categorie} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Modifié le</strong></td>
+                                            <td><input type="date" className="form-control" name="updated_at" value={clientData.updated_at} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Modifié par</strong></td>
+                                            <td><input type="text" className="form-control" name="updated_by" value={clientData.updated_by} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Créé le</strong></td>
+                                            <td><input type="date" className="form-control" name="created_at" value={clientData.created_at} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Créé par</strong></td>
+                                            <td><input type="text" className="form-control" name="created_by" value={clientData.created_by} onChange={handleChange} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Pièces jointes</strong></td>
+                                            <td>{clientData.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="document-card-buttons">
+                                <button type="submit" className="btn btn-primary">Enregistrer</button>
+                                <button type="button" onClick={handleDelete} className="btn btn-danger">Supprimer</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     );
 };
