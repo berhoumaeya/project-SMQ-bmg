@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -17,7 +17,7 @@ const Allreclamations = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/CRM/dashboard_reclamation_client/${id}/`, {
                     headers: {
-                        'Accept': '*/*',
+                     'Accept': '*//*',
                     }
                 });
                 setReclamations(response.data);
@@ -34,7 +34,7 @@ const Allreclamations = () => {
 
     const handleDelete = async (reclamationId) => {
         const headers = {
-            'Accept': '*/*',
+            'Accept': '*//*',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
         };
@@ -109,6 +109,100 @@ const Allreclamations = () => {
                 <Link to={`/ConsulterClient/${id}`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>
+    );
+};
+
+export default Allreclamations;*/
+
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import './reclamations.css';
+import { TbWorld } from "react-icons/tb";
+
+const Allreclamations = () => {
+    const { id } = useParams();
+
+    const [reclamations, setReclamations] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        //  API call
+        const mockReclamations = [
+            {
+                id: 1,
+                code: 'REC001',
+                description: 'Description for reclamation 1',
+                type_reclamation: 'Type 1',
+            },
+      
+        ];
+
+        setReclamations(mockReclamations);
+        setLoading(false);
+    }, [id]);
+
+    const handleDelete = (reclamationId) => {
+        // Update state to simulate deletion
+        setReclamations(prevReclamations => prevReclamations.filter(client => client.id !== reclamationId));
+    };
+
+    if (loading) {
+        return <div>Chargement...</div>;
+    }
+
+    return (
+        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <div className="container dashboard">
+                <div className="row">
+                    <div>
+                        <br />
+                        <br />
+                        <div className="table-container">
+                            <h3 className='formation-title'>Liste des Réclamations</h3>
+                            <div className="button-container">
+                                <Link to={`/CréerReclamationClient/${id}/`}>
+                                    <button className="button-add">Ajouter Réclamation</button>
+                                </Link>
+                                <Link to={`/ConsulterClient/${id}`}>
+                                    <button className="retour">Retour</button>
+                                </Link>
+                            </div>
+                            <br />
+                            <table className="table">
+                                <thead className="table-header">
+                                    <tr>
+                                        <th scope="col">Code Réclamation</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Type Réclamation</th>
+                                        <th scope="col">Détails</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {reclamations.length > 0 ? (
+                                        reclamations.map((reclamation, index) => (
+                                            <tr key={index}>
+                                                <td>{reclamation.code}</td>
+                                                <td>{reclamation.description}</td>
+                                                <td>{reclamation.type_reclamation}</td>
+                                                <td>
+                                                    <Link to={`/detailsreclamtion.js/${reclamation.code}`} className="btn btn-outline-info btn-sm">
+                                                        <TbWorld />
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="4" className="text-center">Aucune réclamation disponible</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     );
 };
 

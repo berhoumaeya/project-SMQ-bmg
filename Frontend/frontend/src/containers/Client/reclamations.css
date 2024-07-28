@@ -1,60 +1,70 @@
-.reclamations-dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.container {
+    margin: 2rem auto;
+    max-width: 1200px;
 }
 
-.reclamations-header {
+.table-container {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+}
+
+.formation-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Apple Chancery', cursive, sans-serif;
+    margin-top: 1rem;
+    color: rgb(70, 68, 169);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.button-add,
+.retour {
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-add {
+    background-color: #5585b5;
+    color: white;
+}
+
+.retour {
+    background-color: #ccc;
+    color: black;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+    color: #212529;
+    border: 1px solid #5585b5; 
+    border-radius: 10px;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+    padding: 0.75rem;
+    border: 1px solid rgb(246, 249, 249);
+    border-radius: 5px;
+}
+
+.table-header th {
+    background-color: #5585b5;
+    color: white; 
+    border: 1px solid #ddd; 
+}
+
+.text-center {
     text-align: center;
-    margin-bottom: 20px;
-}
-
-.reclamations-container {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-}
-
-.reclamation-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 20px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.reclamation-card-body {
-    flex: 1;
-}
-
-.reclamation-card-text {
-    margin: 5px 0;
-}
-
-.reclamation-card-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.dashboard-actions {
-    margin-top: 20px;
-}
-
-.error-message {
-    color: red;
-    margin: 20px;
-}
-
-.additional-info {
-    display: none;
-}
-
-.show-additional-info .additional-info {
-    display: block;
 }

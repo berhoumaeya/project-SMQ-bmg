@@ -66,7 +66,7 @@ function Dashboard() {
         {
             title: "Client",
             description: "Consultez les informations sur les clients et les contacts.",
-            url: "/DashboardClient",
+            url: "/Clients",
             icon: <FaUserFriends />,
             className: "bg-color-3"
         },

@@ -1,84 +1,47 @@
-
-#module-card {
-    margin-top: 20px;
-    padding-bottom: 20px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .row {
-    display: flex;
-    justify-content: center;
-  }
-  
-  
-  .col-md-4 {
-    margin-bottom: 20px;
-   
-
-    
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
- 
-    
-  }
-  .card {
-    background-color: #ffffff;
-    border: 1px solid #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-  }
-  .card-body {
-    background-color: #ffffff;
-    padding: 20px;
-    text-align: center;
-   
-  }
-  
-  .card-body h4 {
-  
-    margin-bottom: 15px;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #27296d;
-  }
-  
-  .card-body .btn {
-    font-size: 1rem;
-    padding: 10px 20px;
-    border-radius: 5px;
-    
-  }
-  
- 
-  
-  .dashboard-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .dashboard-buttons .btn {
-    font-size: 1rem;
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
-  
-  .dashboard-buttons .btn-secondary {
-    background-color: #6c757d;
-    border: none;
-  }
-  
-  .dashboard-buttons .btn-secondary:hover {
-    background-color: #5a6268;
-  }
-  
+.circle-tile {
+  margin-bottom: 15px;
+  text-align: center;
+}
+.circle-tile-heading {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 100%;
+  color: #FFFFFF;
+  height: 80px;
+  margin: 0 auto -40px;
+  position: relative;
+  transition: all 0.3s ease-in-out 0s;
+  width: 80px;
+}
+.circle-tile-heading .fa {
+  line-height: 80px;
+}
+.circle-tile-content {
+  padding-top: 50px;
+}
+.circle-tile-number {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 5px 0 15px;
+}
+.circle-tile-description {
+  text-transform: uppercase;
+}
+.circle-tile-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+  padding: 5px;
+  transition: all 0.3s ease-in-out 0s;
+}
+.circle-tile-footer:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+/* Add color classes */
+.dark-blue { background-color: #34495E; }
+.red { background-color: #E74C3C; }
+.yellow { background-color: #F1C40F; }
+.orange { background-color: #F39C12; }
+/* Add more styles as needed */

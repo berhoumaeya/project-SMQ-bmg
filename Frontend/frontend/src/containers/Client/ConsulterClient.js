@@ -164,8 +164,9 @@ const Client = () => {
                         <nav className="side-menu">
                             <ul className="nav">
                                 <li className="active"><a href="#"><span className="fa fa-user"></span> Profile</a></li>
-                                <li><Link to={`/AllReclamations.js/${clientData.id}`}><span className="fa fa-cog"></span> Reclamations</Link></li>
-                                <li><Link to={`/AllSuggestion.js/${clientData.id}`}><span className="fa fa-cog"></span> Suggestion</Link></li>                            </ul>
+                                <li><Link to={`/AllReclamations/${clientData.code}`}><span className="fa fa-cog"></span> Reclamations</Link></li>
+                                <li><Link to={`/AllSuggestion.js/${clientData.id}`}><span className="fa fa-cog"></span> Suggestion</Link></li>    
+                                <li><Link to={`/AllEnquete.js/${clientData.id}`}><span className="fa fa-cog"></span> Enquete</Link></li>                         </ul>
                         </nav>
                     </div>
                     <div className="content-panel">

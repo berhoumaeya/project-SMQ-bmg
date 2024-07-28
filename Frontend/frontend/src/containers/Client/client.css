@@ -1,105 +1,131 @@
-.dashboard-client-int {
-    padding: 20px;
-    position: relative;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.header .dashboard-buttons {
-    display: flex;
-    align-items: center;
-    background-color: #5585b5;
-    border-radius: 5px;
-}
-
-.header .header-right {
-    display: flex;
-    align-items: center;
-}
-
-.header .header-right button {
-    margin-left: 10px;
-}
-
-.search-bar {
-    margin-top: 10px;
-    width: 200px;
+.container {
+    margin: 2rem auto;
+    max-width: 1200px;
 }
 
 .table-container {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+}
+
+.formation-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Apple Chancery', cursive, sans-serif;
+    margin-top: 1rem;
+    color: rgb(70, 68, 169);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.button-add,
+.retour {
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-add {
+    background-color: #5585b5;
+    color: white;
+}
+
+.retour {
+    background-color: #ccc;
+    color: black;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
     margin-top: 20px;
+}
+
+.search-input:focus {
+    border-color: #5585b5;
+    outline: none;
 }
 
 .table {
     width: 100%;
-    margin-bottom: 20px;
-    border-collapse: collapse;
-    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+    color: #212529;
+    border: 1px solid #5585b5; 
+    border-radius: 10px;
 }
 
-.table th, .table td {
-    text-align: center;
+.table th,
+.table td {
+    vertical-align: middle;
+    padding: 0.75rem;
+
+    border: 1px solid rgb(246, 249, 249);
+    border-radius: 5px;
+}
+
+.table-header th {
+    background-color: #5585b5;
+    
+    color: white; 
+    border: 1px solid #ddd; 
+ 
 }
 
 .grid-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 1rem;
 }
 
 .grid-item {
-    width: calc(33.333% - 20px); /* Adjust width based on your needs */
+    flex: 1 1 calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
     text-decoration: none;
     color: inherit;
 }
 
 .card {
-    display: flex;
-    flex-direction: column; /* Change this to column to ensure card-actions stays at the bottom */
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background-color: white;
+    border-radius: 0.5rem;
     overflow: hidden;
-    background: #fff;
-    height: 100%;
-    justify-content: space-between;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-.card-content {
-    display: flex;
-    padding: 10px;
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card-image {
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-    margin-right: 10px;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-.card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.card-content {
+    padding: 1rem;
+    text-align: center;
 }
 
-.card-body p {
-    margin: 5px 0;
-}
-
-.card-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 10px;
-}
-
-.return-button {
-    position: absolute;
-    left: 20px;
+.text-center {
+    text-align: center;
 }
