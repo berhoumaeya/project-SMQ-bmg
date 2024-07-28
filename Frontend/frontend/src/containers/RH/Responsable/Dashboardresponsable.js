@@ -102,12 +102,11 @@ const sampleResponsables = [
 
 const DashboardResponsable = () => {
     const [responsables, setResponsables] = useState([]);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list'); 
 
     useEffect(() => {
-        // Simulating data fetch
         setResponsables(sampleResponsables);
     }, []);
 

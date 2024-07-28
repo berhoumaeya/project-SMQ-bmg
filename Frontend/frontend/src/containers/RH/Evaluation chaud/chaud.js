@@ -127,7 +127,7 @@ const ChaudDetail = () => {
     };
 
     if (deleteReussi) {
-        return <Navigate to="/DashboardChaud" />;
+        return <Navigate to="/DashboardEvaluationChaud" />;
     }
 
     return (

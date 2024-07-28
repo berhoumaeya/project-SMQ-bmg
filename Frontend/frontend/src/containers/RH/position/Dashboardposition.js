@@ -69,7 +69,9 @@ export default DashboardPost;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GrView } from 'react-icons/gr';
+import { FaList, FaTh } from 'react-icons/fa';
 import '../list.css'; 
+
 const samplePosts = [
     {
         id: 1,
@@ -93,11 +95,12 @@ const samplePosts = [
 
 const DashboardPost = () => {
     const [posts, setPosts] = useState([]);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list'); 
 
     useEffect(() => {
-        // Simulating data fetch
+
         setPosts(samplePosts);
     }, []);
 
@@ -119,7 +122,15 @@ const DashboardPost = () => {
                         <br />
                         <br />
                         <div className="table-container">
-                            <h3 className='formation-title'>Liste des Posts</h3>
+                            <div className="view-toggle">
+                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList /> 
+                                </button>
+                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh /> 
+                                </button>
+                            </div>
+                            <h3 className="formation-title">Liste des Posts</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
@@ -140,44 +151,60 @@ const DashboardPost = () => {
                             </div>
                             <br />
                             <div>
-                                <table>
-                                    <thead className="table-header">
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Titre Position</th>
-                                            <th scope="col">Position</th>
-                                            <th scope="col">Mission principale</th>
-                                            <th scope="col">Détails</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                {viewMode === 'list' ? (
+                                    <table>
+                                        <thead className="table-header">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Titre Position</th>
+                                                <th scope="col">Position</th>
+                                                <th scope="col">Mission principale</th>
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredPosts.length > 0 ? (
+                                                filteredPosts.map(post => (
+                                                    <tr key={post.id}>
+                                                        <td>{post.id}</td>
+                                                        <td>{post.title}</td>
+                                                        <td>{post.position}</td>
+                                                        <td>{post.main_mission}</td>
+                                                        <td>
+                                                            <Link to={`/Position/${post.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrView />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="5" className="text-center">Aucun post disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
                                         {filteredPosts.length > 0 ? (
                                             filteredPosts.map(post => (
-                                                <tr key={post.id}>
-                                                    <td>{post.id}</td>
-                                                    <td>
-                                                        <span className="text-muted">{post.title}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{post.position}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span className="text-muted">{post.main_mission}</span>
-                                                    </td>
-                                                    <td>
+                                                <div key={post.id} className="responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={post.title} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{post.title}</h5>
+                                                        <p><strong className="responsable-text">Position :</strong> {post.position}</p>
+                                                        <p><strong className="responsable-text">Mission principale :</strong> {post.main_mission}</p>
                                                         <Link to={`/Position/${post.id}`} className="btn btn-outline-info btn-sm">
                                                             <GrView />
                                                         </Link>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="5" className="text-center">Aucun post disponible</td>
-                                            </tr>
+                                            <p className="text-center">Aucun post disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
