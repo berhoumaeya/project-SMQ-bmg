@@ -48,12 +48,12 @@ return (
 <tbody>
 {employes.map(employe => (
 <tr key={employe.id}>
-    <td>{employe.id}</td>
-    <td>{employe.nom}</td>
-    <td>{employe.prenom}</td>
-    <td>{employe.username}</td>
-    <td>{employe.email}</td>
-    <Link to={`/employe/${employe.id}`}>Détails</Link>
+<td>{employe.id}</td>
+<td>{employe.nom}</td>
+<td>{employe.prenom}</td>
+<td>{employe.username}</td>
+<td>{employe.email}</td>
+<Link to={`/employe/${employe.id}`}>Détails</Link>
 </tr>
 ))}
 </tbody>
@@ -70,9 +70,8 @@ export default DashboardEmploye;
 */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
 import '../list.css';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 
 const sampleEmployes = [
     {
@@ -102,10 +101,9 @@ const DashboardEmploye = () => {
     const [employes, setEmployes] = useState([]);
     const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list'); // Add state for view mode
+    const [viewMode, setViewMode] = useState('list'); 
 
     useEffect(() => {
-        // Simulating data fetch
         setEmployes(sampleEmployes);
     }, []);
 
@@ -121,7 +119,7 @@ const DashboardEmploye = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -180,7 +178,8 @@ const DashboardEmploye = () => {
                                                         <td>{employe.email}</td>
                                                         <td>
                                                             <Link to={`/employe/${employe.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
+
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -204,7 +203,8 @@ const DashboardEmploye = () => {
                                                         <p><strong className="responsable-text">Username :</strong> {employe.username}</p>
                                                         <p><strong className="responsable-text">Email :</strong> {employe.email}</p>
                                                         <Link to={`/employe/${employe.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                            <FaEdit />
+
                                                         </Link>
                                                     </div>
                                                 </div>

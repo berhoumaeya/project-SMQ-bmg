@@ -46,11 +46,11 @@ return (
 <tbody>
 {froids.map(froid => (
 <tr key={froid.id}>
-    <td>{froid.id}</td>
-    <td>{froid.name}</td>
-    <td>{froid.created_by}</td>
-    <td>{froid.created_at}</td>
-    <Link to={`/froid/${froid.id}`}>Détails</Link>
+<td>{froid.id}</td>
+<td>{froid.name}</td>
+<td>{froid.created_by}</td>
+<td>{froid.created_at}</td>
+<Link to={`/froid/${froid.id}`}>Détails</Link>
 </tr>
 ))}
 </tbody>
@@ -67,8 +67,7 @@ export default DashboardFroid;
 */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
 
 const sampleFroids = [
@@ -113,7 +112,7 @@ const DashboardFroid = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -170,8 +169,7 @@ const DashboardFroid = () => {
                                                         <td>{froid.created_at}</td>
                                                         <td>
                                                             <Link to={`/froid/${froid.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
-                                                            </Link>
+                                                                <FaEdit />                                                            </Link>
                                                         </td>
                                                     </tr>
                                                 ))
@@ -194,8 +192,7 @@ const DashboardFroid = () => {
                                                         <p><strong className="responsable-text">Créé par :</strong> {froid.created_by}</p>
                                                         <p><strong className="responsable-text">Créé à :</strong> {froid.created_at}</p>
                                                         <Link to={`/froid/${froid.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
-                                                        </Link>
+                                                            <FaEdit />                                                        </Link>
                                                     </div>
                                                 </div>
                                             ))

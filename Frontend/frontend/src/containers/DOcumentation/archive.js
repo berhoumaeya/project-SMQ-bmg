@@ -55,7 +55,7 @@ const Archive = () => {
             </div>
 
             <div className="dashboard-buttons">
-                <Link to={`/DashboardDocInt/`} className="btn btn-secondary">Retour</Link>
+                <Link to={`/DashboardDocInt/`}><button className="retour">Retour </button></Link>
             </div>
         </div>
     );

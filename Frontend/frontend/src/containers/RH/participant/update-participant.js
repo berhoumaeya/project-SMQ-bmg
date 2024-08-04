@@ -99,7 +99,7 @@ const UpdateParticipant = () => {
         <div class="contact-image ">
           <img src="/images/change.png" alt="rocket_contact" />
           <div class="button-container">
-          <Link to={`/employe/${id}`}>
+          <Link to={`/participant/${id}`}>
               <button className="retour">Retour au tableau de bord</button>
             </Link>   <button className="button-add" type="submit">Modifier un participant</button>
           </div>

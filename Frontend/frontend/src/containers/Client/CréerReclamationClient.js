@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import '../RH/list.css';
 const CreateReclamation = () => {
     const { id } = useParams();
 

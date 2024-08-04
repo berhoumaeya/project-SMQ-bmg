@@ -29,14 +29,20 @@ const PasswordResetRequest = () => {
 
     return (
         <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-               <div>
-                    <ToastContainer />
-                    <div className="vh-xxl-100 section-container content-with-navbar-margin">
-
-                        <div >
-                            <h3 className='centered-text'>Mot de passe oublié?</h3>
+            <section className="vh-xxl-100 section-container content-with-navbar-margin">
+                <ToastContainer />
+                <div className="row g-0">
+                    <div className="col-lg-6 d-flex align-items-center order-2 order-lg-1 ">
+                        <div className="p-3 p-lg-4">
+                            <img src="/images/forgot_password.png" alt="Sign in" style={{ width: '500px', height: '400px' }} />
+                        </div>
+                        <div className="vr opacity-1 d-none d-lg-block" />
+                    </div>
+                    <div className="col-lg-6 order-1">
+                        <div className="p-5 p-sm-7">
+                            <h1 className="centered-text">Mot de passe oublié?</h1>
                             <div className="p-5 p-sm-7">
-                                <p className='link'>Entrez votre adresse e-mail pour réinitialiser votre mot de passe.</p>
+                                <p >Entrez votre adresse e-mail pour réinitialiser votre mot de passe.</p>
                                 <form onSubmit={handleSubmit} className="mt-4 text-start">
                                     <div className="mb-3">
                                         <label className="form-label">Email:</label>
@@ -44,12 +50,16 @@ const PasswordResetRequest = () => {
                                             type="email" name="email" value={email} onChange={handleChange} required />
                                     </div>
                                     <div className="button-group">
-                                        <button className="button-log ">Envoyer</button>
+                                    <button type="submit" className="button-log w-100 mb-0">
+                                    Envoyer</button>
                                     </div>
                                 </form>
-                            </div></div>
-                    </div></div>
-            </main>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main >
     );
 };
 

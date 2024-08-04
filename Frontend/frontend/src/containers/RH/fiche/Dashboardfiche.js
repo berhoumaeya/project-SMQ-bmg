@@ -68,8 +68,7 @@ export default DashboardFiche;
 */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
 
 const sampleFiches = [
@@ -84,12 +83,6 @@ const sampleFiches = [
         name: 'Fiche 2',
         job_position: 'Position B',
         employe_concerne: 'Employe 2',
-    },
-    {
-        id: 3,
-        name: 'Fiche 3',
-        job_position: 'Position C',
-        employe_concerne: 'Employe 3',
     }
 ];
 
@@ -115,7 +108,7 @@ const DashboardFiche = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -130,7 +123,7 @@ const DashboardFiche = () => {
                                     <FaTh />
                                 </button>
                             </div>
-                            <h3 className="fiche-title">Liste des Fiches Employés</h3>
+                            <h3 className="formation-title">Liste des Fiches Employés</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
@@ -172,7 +165,7 @@ const DashboardFiche = () => {
                                                         <td>{fiche.employe_concerne}</td>
                                                         <td>
                                                             <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                 <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -195,7 +188,7 @@ const DashboardFiche = () => {
                                                         <p><strong className="responsable-text">Poste :</strong> {fiche.job_position}</p>
                                                         <p><strong className="responsable-text">Employé Concerné :</strong> {fiche.employe_concerne}</p>
                                                         <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                             <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>

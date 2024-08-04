@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 function ModifierDoc() {
     const { id } = useParams();
 
-
     const [errors, setErrors] = useState({});
     const [fichier, setPiecesJointes] = useState(null);
     const [libelle, setLibelle] = useState('');
@@ -22,7 +21,6 @@ function ModifierDoc() {
 
     const [updateReussi, setupdateReussi] = useState(false);
 
-
     useEffect(() => {
         const fetchDoc = async () => {
             try {
@@ -32,13 +30,13 @@ function ModifierDoc() {
                 setSelectionSite(data.selection_site);
                 setSelectionActivite(data.selection_activite);
                 setSelectionVerificateur(data.selection_verificateur);
-                setSelectionApprobateur(data.selection_approbateur)
-                setListeInformee(data.liste_informee)
+                setSelectionApprobateur(data.selection_approbateur);
+                setListeInformee(data.liste_informee);
                 if (data.fichier) {
                     setPiecesJointesUrl(`${data.fichier}`);
                 }
             } catch (error) {
-                console.error('Erreur lors de la récupération des données de employe:', error);
+                console.error('Erreur lors de la récupération des données de document:', error);
             }
         };
 
@@ -91,11 +89,10 @@ function ModifierDoc() {
                 setSelectionSite('');
                 setSelectionActivite('');
                 setSelectionVerificateur('');
-                setSelectionApprobateur('')
-                setListeInformee('')
+                setSelectionApprobateur('');
+                setListeInformee([]);
                 setPiecesJointes(null);
-
-                setupdateReussi(true)
+                setupdateReussi(true);
             })
             .catch(error => {
                 console.error('Error updating document:', error);
@@ -103,112 +100,130 @@ function ModifierDoc() {
             });
     };
 
-
     if (updateReussi) {
         return <Navigate to="/DashboardDocInt" />;
     }
 
     return (
         <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div class="container ajout-form">
-                <div class="contact-image ">
-                    <img src="/images/change.png" alt="rocket_contact" />
-                    <div class="button-container">
-                        <Link to={`/DashboardDocInt`}>
-                            <button className="retour">Annuler </button>
-                        </Link>   
-                        <button className="button-add-" type="submit">Enregistrer les modifications</button>
-
+            <div className="col-xl-8">
+                <div className="card mb-4">
+                    <div className="card-header--">Modifier le Document</div>
+                    <div className="card-body">
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <label className="small mb-1" htmlFor="inputLibelle">Libellé</label>
+                                <input
+                                    className="form-control"
+                                    id="inputLibelle"
+                                    type="text"
+                                    placeholder="Entrez le libellé"
+                                    value={libelle}
+                                    onChange={(e) => setLibelle(e.target.value)}
+                                />
+                                {errors.libelle && <p className="text-danger">{errors.libelle}</p>}
+                            </div>
+                            <div className="row gx-3 mb-3">
+                                <div className="col-md-6">
+                                    <label className="small mb-1" htmlFor="inputSite">Site</label>
+                                    <select
+                                        className="form-control"
+                                        id="inputSite"
+                                        value={selection_site}
+                                        onChange={(e) => setSelectionSite(e.target.value)}
+                                    >
+                                        <option value="">Sélectionner...</option>
+                                        <option value="Site 1">Site 1</option>
+                                        <option value="Site 2">Site 2</option>
+                                        <option value="Site 3">Site 3</option>
+                                        <option value="Site 4">Site 4</option>
+                                    </select>
+                                    {errors.selection_site && <p className="text-danger">{errors.selection_site}</p>}
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="small mb-1" htmlFor="inputActivite">Activité</label>
+                                    <select
+                                        className="form-control"
+                                        id="inputActivite"
+                                        value={selection_activite}
+                                        onChange={(e) => setSelectionActivite(e.target.value)}
+                                    >
+                                        <option value="">Sélectionner...</option>
+                                        <option value="Développement">Développement</option>
+                                        <option value="Test">Test</option>
+                                        <option value="Documentation">Documentation</option>
+                                        <option value="Déploiement">Déploiement</option>
+                                        <option value="Support">Support</option>
+                                    </select>
+                                    {errors.selection_activite && <p className="text-danger">{errors.selection_activite}</p>}
+                                </div>
+                            </div>
+                            <div className="row gx-3 mb-3">
+                                <div className="col-md-6">
+                                    <label className="small mb-1" htmlFor="inputVerificateur">Vérificateur</label>
+                                    <select
+                                        className="form-control"
+                                        id="inputVerificateur"
+                                        value={selection_verificateurID}
+                                        onChange={(e) => setSelectionVerificateur(e.target.value)}
+                                    >
+                                        <option value="">Sélectionner...</option>
+                                        {selection_verificateurs.map(verificateur => (
+                                            <option key={verificateur.id} value={verificateur.id}>{verificateur.username}</option>
+                                        ))}
+                                    </select>
+                                    {errors.selection_verificateur && <p className="text-danger">{errors.selection_verificateur}</p>}
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="small mb-1" htmlFor="inputApprobateur">Approbateur</label>
+                                    <select
+                                        className="form-control"
+                                        id="inputApprobateur"
+                                        value={selection_approbateurID}
+                                        onChange={(e) => setSelectionApprobateur(e.target.value)}
+                                    >
+                                        <option value="">Sélectionner...</option>
+                                        {selection_approbateurs.map(approbateur => (
+                                            <option key={approbateur.id} value={approbateur.id}>{approbateur.username}</option>
+                                        ))}
+                                    </select>
+                                    {errors.selection_approbateur && <p className="text-danger">{errors.selection_approbateur}</p>}
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <label className="small mb-1" htmlFor="inputListeInformee">Liste Informée</label>
+                                <select
+                                    multiple
+                                    className="form-control"
+                                    id="inputListeInformee"
+                                    value={liste_informeeID}
+                                    onChange={(e) => setListeInformee([...e.target.selectedOptions].map(option => option.value))}
+                                >
+                                    {liste_informees.map(informee => (
+                                        <option key={informee.id} value={informee.id}>{informee.username}</option>
+                                    ))}
+                                </select>
+                                {errors.liste_informee && <p className="text-danger">{errors.liste_informee}</p>}
+                            </div>
+                            <div className="mb-3">
+                                <label className="small mb-1" htmlFor="inputFichier">Fichier</label>
+                                <input
+                                    className="form-control"
+                                    id="inputFichier"
+                                    type="file"
+                                    onChange={handleFileChange}
+                                />
+                            </div>
+                            <div className="text-center">
+                                <button className="button-add-" type="submit">Modifier</button>
+                                <Link to="/DashboardDocInt" > <button className="retour ms-2">Annuler </button></Link>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-                <form onSubmit={handleSubmit} className="row">
-                <div class="col-md-6">
-
-                    <div className="form-label">
-                       <label className="form-label">Libellé:</label>
-                        {errors.libelle && <p className="error-text">{errors.libelle}</p>}
-                        <input className="form-control" type="text" name="libelle" value={libelle} onChange={(e) => setLibelle(e.target.value)} />
-                    </div>
-                    <div className="form-label">
-                       <label className="form-label">Site:</label>
-                        {errors.selection_site && <p className="error-text">{errors.selection_site}</p>}
-                        <select className="form-control" value={selection_site} onChange={(e) => setSelectionSite(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Site 1">Site 1</option>
-                            <option value="Site 2">Site 2</option>
-                            <option value="Site 3">Site 3</option>
-                            <option value="Site 4">Site 4</option>
-                        </select>
-                    </div>
-                    <div className="form-label">
-                       <label className="form-label">Activité:</label>
-                        {errors.selection_activite && <p className="error-text">{errors.selection_activite}</p>}
-                        <select className="form-control"  value={selection_activite} onChange={(e) => setSelectionActivite(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Développement">Développement</option>
-                            <option value="Test">Test</option>
-                            <option value="Documentation">Documentation</option>
-                            <option value="Déploiement">Déploiement</option>
-                            <option value="Support">Support</option>
-                        </select>
-                    </div>
-                    <div className="form-label">
-                       <label className="form-label">Vérificateur:</label>
-                        {errors.selection_verificateur && <p className="error-text">{errors.selection_verificateur}</p>}
-                        <select className="form-control" value={selection_verificateurID} onChange={(e) => setSelectionVerificateur(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {selection_verificateurs.map(selection_verificateur => (
-                                <option key={selection_verificateur.id} value={selection_verificateur.id}>{selection_verificateur.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    </div>
-                    <div class="col-md-6">
-
-                    <div className="form-label">
-                       <label className="form-label">Approbateur:</label>
-                        {errors.selection_approbateur && <p className="error-text">{errors.selection_approbateur}</p>}
-                        <select className="form-control" value={selection_approbateurID} onChange={(e) => setSelectionApprobateur(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {selection_approbateurs.map(selection_approbateur => (
-                                <option key={selection_approbateur.id} value={selection_approbateur.id}>{selection_approbateur.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-label">
-                       <label className="form-label">Liste informée :</label>
-                        {errors.liste_informee && <p className="error-text">{errors.liste_informee}</p>}
-                        <select className="form-control" multiple value={liste_informeeID} onChange={(e) => setListeInformee(Array.from(e.target.selectedOptions, option => option.value))}>
-                            {liste_informees.map(liste_informee => (
-                                <option key={liste_informee.id} value={liste_informee.id}>{liste_informee.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-label">
-                       <label className="form-label">Pièces jointes :</label>
-                        {piecesJointesUrl ? (
-                            <div>
-                                <input
-                                    type="text"
-                                    value={piecesJointesUrl}
-                                    onChange={(e) => setPiecesJointesUrl(e.target.value)}
-                                />
-                                <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
-                            </div>
-                        ) : (
-                            <input
-                                type="file"
-                                onChange={handleFileChange}
-                                className="form-control"
-                            />
-                        )}
-                    </div>
-</div>
-                </form>
             </div>
         </main>
     );
-};
+}
 
 export default ModifierDoc;

@@ -13,64 +13,63 @@ const DashboardPost = () => {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_job_post/`, {
                     headers: {
                         'Accept': '*//*', 
-                    }
-                });
-                setFormations(response.data);
-            } catch (error) {
-                console.error('Error fetching formations:', error);
-                setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-            }
-        };
+}
+});
+setFormations(response.data);
+} catch (error) {
+console.error('Error fetching formations:', error);
+setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
+}
+};
 
-        fetchFormations();
-    }, []);
+fetchFormations();
+}, []);
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+if (error) {
+return <div>Erreur : {error}</div>;
+}
 
-    return (
-        <div>
-             <div className="posts-header">
-                <h3>Liste des posts</h3>
-            </div>
-            <table className="table table-bordered" id="dataTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Titre Position</th>
-                        <th>Position</th>
-                        <th>Mission principale</th>
-                        <th>Détails de Position</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {posts.map(Position => (
-                        <tr key={Position.id}>
-                            <td>{Position.id}</td>
-                            <td>{Position.title}</td>
-                            <td>{Position.position}</td>
-                            <td>{Position.main_mission}</td>
-                            <Link to={`/Position/${Position.id}`}>Détails</Link>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="button-group">
-             <Link to={`/ajouter-Position/`} className="btn btn-primary">Ajouter Position</Link>
-             <Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
-           </div>
-        </div>
-    );
+return (
+<div>
+<div className="posts-header">
+<h3>Liste des posts</h3>
+</div>
+<table className="table table-bordered" id="dataTable">
+<thead>
+<tr>
+<th>ID</th>
+<th>Titre Position</th>
+<th>Position</th>
+<th>Mission principale</th>
+<th>Détails de Position</th>
+</tr>
+</thead>
+<tbody>
+{posts.map(Position => (
+<tr key={Position.id}>
+    <td>{Position.id}</td>
+    <td>{Position.title}</td>
+    <td>{Position.position}</td>
+    <td>{Position.main_mission}</td>
+    <Link to={`/Position/${Position.id}`}>Détails</Link>
+</tr>
+))}
+</tbody>
+</table>
+<div className="button-group">
+<Link to={`/ajouter-Position/`} className="btn btn-primary">Ajouter Position</Link>
+<Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
+</div>
+</div>
+);
 };
 
 export default DashboardPost;
 */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
-import '../list.css'; 
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
+import '../list.css';
 
 const samplePosts = [
     {
@@ -97,7 +96,7 @@ const DashboardPost = () => {
     const [posts, setPosts] = useState([]);
     const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list'); 
+    const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
 
@@ -115,7 +114,7 @@ const DashboardPost = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -124,10 +123,10 @@ const DashboardPost = () => {
                         <div className="table-container">
                             <div className="view-toggle">
                                 <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList /> 
+                                    <FaList />
                                 </button>
                                 <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh /> 
+                                    <FaTh />
                                 </button>
                             </div>
                             <h3 className="formation-title">Liste des Posts</h3>
@@ -172,7 +171,8 @@ const DashboardPost = () => {
                                                         <td>{post.main_mission}</td>
                                                         <td>
                                                             <Link to={`/Position/${post.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
+
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -195,7 +195,8 @@ const DashboardPost = () => {
                                                         <p><strong className="responsable-text">Position :</strong> {post.position}</p>
                                                         <p><strong className="responsable-text">Mission principale :</strong> {post.main_mission}</p>
                                                         <Link to={`/Position/${post.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                            <FaEdit />
+
                                                         </Link>
                                                     </div>
                                                 </div>

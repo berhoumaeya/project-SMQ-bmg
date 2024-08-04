@@ -110,6 +110,7 @@ import { Link } from 'react-router-dom';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
 import './listDoc.css'; // Ensure this CSS file has the styles you need
+import { FaList, FaTh } from 'react-icons/fa';
 
 // Static data
 const sampleDocuments = [
@@ -145,6 +146,7 @@ const sampleDocuments = [
 
 function ApprouveList() {
     const [documents, setDocuments] = useState([]);
+    const [viewMode, setViewMode] = useState('list'); 
 
     useEffect(() => {
         // Simulating data fetch
@@ -169,6 +171,14 @@ function ApprouveList() {
                         <br />
                         <br />
                         <div className="table-container">
+                        <div className="view-toggle">
+                                    <button className={`view-btn-doc ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                        <FaList /> 
+                                    </button>
+                                    <button className={`view-btn-doc ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                        <FaTh /> 
+                                    </button>
+                                </div>
                             <h3 className='doc-title'>Liste des documents à approuver</h3>
                             <div className="button-container">
                                 <Link to="/DashboardDoc/">
@@ -177,6 +187,8 @@ function ApprouveList() {
                             </div>
                             <br />
                             <div>
+                            {viewMode === 'list' ? (
+
                                 <table>
                                     <thead className="table-header">
                                         <tr>
@@ -216,10 +228,10 @@ function ApprouveList() {
                                                             'Aucun'}
                                                     </td>
                                                     <td>
-                                                        <button onClick={() => handleStatusChange(document.id, 'Approuvé')} className="btn btn-outline-info btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'Approuvé')} className="btn btn-outline-success btn-sm">
                                                             <FcApproval /> 
                                                         </button>
-                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-info btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger  btn-sm">
                                                             <RxCross2 /> 
                                                         </button>
                                                     </td>
@@ -232,6 +244,28 @@ function ApprouveList() {
                                         )}
                                     </tbody>
                                 </table>
+                            ) : (
+                                                <div className="grid">
+                                                {documents.length > 0 ? (
+                                                    documents.map(demand => (
+                                                        <div key={demand.id} className="responsable-item">
+                                                            <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
+                                                            <div className="responsable-info">
+                                                                <h5 className="responsable-title"> {demand.type}</h5>
+                                                                <p><strong className="responsable-text">Document object :</strong> {demand.document_object}</p>
+                                                                <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
+                                                                <td>
+                                                        <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success  btn-sm me-2"> <FcApproval /> </button>
+                                                        <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger  btn-sm"> <RxCross2 /></button>
+                                                    </td>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                )  : (
+                                                        <p className="text-center">Aucun demand disponible</p>
+                                                    )}
+                                                </div>
+                                            )}
                             </div>
                         </div>
                     </div>

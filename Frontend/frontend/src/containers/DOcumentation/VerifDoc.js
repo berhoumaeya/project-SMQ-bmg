@@ -110,6 +110,7 @@ import { Link } from 'react-router-dom';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
 import './listDoc.css'; // Make sure this CSS file includes the styles you need
+import {  FaListAlt, FaTh } from 'react-icons/fa';
 
 // Static data
 const sampleDocuments = [
@@ -145,7 +146,7 @@ const sampleDocuments = [
 
 function VerifList() {
     const [documents, setDocuments] = useState([]);
-
+    const [viewMode, setViewMode] = useState('list'); 
     useEffect(() => {
         // Simulating data fetch
         setDocuments(sampleDocuments);
@@ -169,6 +170,14 @@ function VerifList() {
                         <br />
                         <br />
                         <div className="table-container">
+                        <div className="view-toggle">
+                                    <button className={`view-btn-doc ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                        <FaListAlt /> 
+                                    </button>
+                                    <button className={`view-btn-doc ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                        <FaTh /> 
+                                    </button>
+                                </div>
                             <h3 className='doc-title'>Liste des documents à vérifier</h3>
                             <div className="button-container">
                                 <Link to="/DashboardDoc/">
@@ -177,6 +186,8 @@ function VerifList() {
                             </div>
                             <br />
                             <div>
+                            {viewMode === 'list' ? (
+
                                 <table>
                                     <thead className="table-header">
                                         <tr>
@@ -216,10 +227,10 @@ function VerifList() {
                                                             'Aucun'}
                                                     </td>
                                                     <td>
-                                                        <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-info btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success btn-sm">
                                                             <FcApproval /> 
                                                         </button>
-                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-info btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger btn-sm">
                                                             <RxCross2 /> 
                                                         </button>
                                                     </td>
@@ -232,6 +243,28 @@ function VerifList() {
                                         )}
                                     </tbody>
                                 </table>
+                                   ) : (
+                                    <div className="grid">
+                                    {documents.length > 0 ? (
+                                        documents.map(demand => (
+                                            <div key={demand.id} className="responsable-item">
+                                                <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
+                                                <div className="responsable-info">
+                                                    <h5 className="responsable-title"> {demand.type}</h5>
+                                                    <p><strong className="responsable-text">Document object :</strong> {demand.document_object}</p>
+                                                    <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
+                                                    <td>
+                                            <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
+                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm"> <RxCross2 /></button>
+                                        </td>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )  : (
+                                            <p className="text-center">Aucun demand disponible</p>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

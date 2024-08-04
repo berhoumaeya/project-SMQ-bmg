@@ -50,7 +50,7 @@ const DemandeAcc = () => {
             ))}
         </div>
         <div className="button-group">
-            <Link to={`/ajouter-demande/`} className="btn btn-primary">Ajouter demande</Link>
+            <Link to={`/CréerDemande/`} className="btn btn-primary">Ajouter demande</Link>
             <Link to={`/DashboardDocInt/`} className="btn btn-secondary">Retour</Link>
         </div>
     </div>

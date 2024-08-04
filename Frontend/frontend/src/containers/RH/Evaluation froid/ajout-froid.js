@@ -79,7 +79,8 @@ function FroidForm() {
           <div class="button-container">
             <Link to="/DashboardEvaluationFroid">
               <button className="retour">Retour au tableau de bord</button>
-            </Link>   <button className="button-add" type="submit">Evaluer</button>
+            </Link>   
+            <button className="button-add" type="submit">Evaluer</button>
           </div>
         </div>
         <form onSubmit={handleSubmit} className="row">

@@ -70,8 +70,7 @@ export default DashboardResponsable;
 */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css'; 
 
 const sampleResponsables = [
@@ -100,17 +99,12 @@ const sampleResponsables = [
 
 const DashboardResponsable = () => {
     const [responsables, setResponsables] = useState([]);
-    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list'); 
+    const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
         setResponsables(sampleResponsables);
     }, []);
-
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
 
     const filteredResponsables = responsables.filter(responsable =>
         responsable.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -120,32 +114,30 @@ const DashboardResponsable = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
                         <div className="table-container">
-                        <div className="view-toggle">
-                                    <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                        <FaList /> 
-                                    </button>
-                                    <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                        <FaTh /> 
-                                    </button>
-                                </div>
+                            <div className="view-toggle">
+                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList /> 
+                                </button>
+                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh /> 
+                                </button>
+                            </div>
                             <h3 className="formation-title">Liste des Responsables</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
                                 </Link>
-                                <Link to={`/ajouter-responsable/`}>
-                                    <button className="button-add" >Ajouter Responsable</button>
+                                <Link to="/ajouter-responsable/">
+                                    <button className="button-add">Ajouter Responsable</button>
                                 </Link>
-                                
                             </div>
-                           
                             <br />
                             <div className="search-container">
                                 <input
@@ -181,7 +173,7 @@ const DashboardResponsable = () => {
                                                         <td>{responsable.email}</td>
                                                         <td>
                                                             <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -195,21 +187,21 @@ const DashboardResponsable = () => {
                                     </table>
                                 ) : (
                                     <div className="grid">
-                                    {filteredResponsables.length > 0 ? (
-                                        filteredResponsables.map(responsable => (
-                                            <div key={responsable.id} className="responsable-item">
-                                                <img src="https://via.placeholder.com/100" alt={`${responsable.nom} ${responsable.prenom}`} className="responsable-img" />
-                                                <div className="responsable-info">
-                                                    <h5 className="responsable-title">{responsable.nom} {responsable.prenom}</h5>
-                                                    <p><strong className="responsable-text">Nom d'utilisateur :</strong> {responsable.username}</p>
-                                                    <p><strong className="responsable-text">Email :</strong> {responsable.email}</p>
-                                                    <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm" >
-                                                        <GrView />
-                                                    </Link>
+                                        {filteredResponsables.length > 0 ? (
+                                            filteredResponsables.map(responsable => (
+                                                <div key={responsable.id} className="responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={`${responsable.nom} ${responsable.prenom}`} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title">{responsable.nom} {responsable.prenom}</h5>
+                                                        <p><strong className="responsable-text">Nom d'utilisateur :</strong> {responsable.username}</p>
+                                                        <p><strong className="responsable-text">Email :</strong> {responsable.email}</p>
+                                                        <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
+                                                            <FaEdit />
+                                                        </Link>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    )  : (
+                                            ))
+                                        ) : (
                                             <p className="text-center">Aucun responsable disponible</p>
                                         )}
                                     </div>

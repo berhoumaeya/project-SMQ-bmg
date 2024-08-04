@@ -143,6 +143,8 @@ import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './DashboardDocInt.css';
 import { styles } from './styles';
+import { GrEdit } from 'react-icons/gr';
+import {  FaTrashAlt } from 'react-icons/fa';
 
 // Sample static data
 const sampleDocumentsExt = [
@@ -172,15 +174,14 @@ const sampleDocumentsExt = [
         fichier: false,
         liste_informee: ['Informé 3']
     },
-    // Add more sample documents as needed
 ];
 
 const DashboardDocExt = () => {
     const [documents, setDocuments] = useState(sampleDocumentsExt);
-    const [error, setError] = useState(null);
     const [deleteReussi, setDeleteReussi] = useState(false);
 
     const handleDelete = (id) => {
+        // Simulate deleting document
         setDocuments(documents.filter(doc => doc.id !== id));
         setDeleteReussi(true);
     };
@@ -199,11 +200,11 @@ const DashboardDocExt = () => {
                         <Text style={styles.text}>{data.type}</Text>
                     </View>
                     <View style={styles.info}>
-                        <Text style={styles.label}>Lieu de classement:</Text>
+                        <Text style={styles.label}>Lieu classement:</Text>
                         <Text style={styles.text}>{data.lieu_classement}</Text>
                     </View>
                     <View style={styles.info}>
-                        <Text style={styles.label}>Durée de classement:</Text>
+                        <Text style={styles.label}>Durée classement:</Text>
                         <Text style={styles.text}>{data.duree_classement}</Text>
                     </View>
                     <View style={styles.info}>
@@ -219,54 +220,56 @@ const DashboardDocExt = () => {
         </Document>
     );
 
-    if (error) {
-        return <div className="error-message">Erreur : {error}</div>;
-    }
-
     if (deleteReussi) {
         window.location.reload();
     }
 
     return (
-        <div className="dashboard-doc-ext">
-            <div className="header">
+        <div className='' style={{ backgroundColor: '#eeeeee',display:'flex' }}> 
+ <div className="dashboard-doc-int" style={{ backgroundColor: '#ffff', minHeight: '100vh', padding: '20px' }}>
+            <div className="button-container" style={{ marginTop: '20px' }}>
+                <Link to={`/DashboardDoc/`}>
+                    <button className="retour">Retour</button>
+                </Link>
+                <Link to={`/CréerDocExt/`}>
+                    <button className="button-add-" style={{ marginRight: '10px' }}>Créer document externe</button>
+                </Link>
+            </div>
+            <div className="doc-title">
                 <h3>Liste des documents Externes</h3>
             </div>
-            <div className="documents-container">
+            <div className="documents-list">
                 {documents.map(doc => (
-                    <div key={doc.id} className="document-card">
-                        <div className="document-card-body">
-                            <p className="document-card-text"><strong>Désignation:</strong> {doc.designation}</p>
-                            <p className="document-card-text"><strong>Type:</strong> {doc.type}</p>
-                            <p className="document-card-text"><strong>Lieu de classement:</strong> {doc.lieu_classement}</p>
-                            <p className="document-card-text"><strong>Durée de classement:</strong> {doc.duree_classement}</p>
-                            <p className="document-card-text"><strong>Liste informée:</strong> {doc.liste_informee.join(', ')}</p>
-                            <p className="document-card-text"><strong>Modifié par:</strong> {doc.updated_by}</p>
-                            <p className="document-card-text"><strong>Modifié le :</strong> {doc.updated_at}</p>
-                            <p className="document-card-text"><strong>Créé par:</strong> {doc.created_by}</p>
-                            <p className="document-card-text"><strong>Créé à:</strong> {doc.created_at}</p>
-                            <p><strong>Pièces jointes :</strong> {doc.fichier ? <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                            <div className="document-card-buttons">
-                               <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-primary">Modifier</Link>
-                                <button onClick={() => handleDelete(doc.id)} className="btn btn-danger">Supprimer</button>
-                                <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
-                                    {({ blob, url, loading, error }) => (
-                                        <button className="btn btn-primary pdf-button">
-                                            <FontAwesomeIcon icon={faFilePdf} />
-                                        </button>
-                                    )}
-                                </PDFDownloadLink>
-                            </div>
+                    <div key={doc.id} className="document-item" style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px', backgroundColor: '#f7f7f7' }}>
+                        <p><strong>Désignation:</strong> {doc.designation}</p>
+                        <p><strong>Type:</strong> {doc.type}</p>
+                        <p><strong>Lieu classement:</strong> {doc.lieu_classement}</p>
+                        <p><strong>Durée classement:</strong> {doc.duree_classement}</p>
+                        <p><strong>Liste informée:</strong> {doc.liste_informee.join(', ')}</p>
+                        <p><strong>Modifié par:</strong> {doc.updated_by}</p>
+                        <p><strong>Modifié le :</strong> {doc.updated_at}</p>
+                        <p><strong>Créé par:</strong> {doc.created_by}</p>
+                        <p><strong>Créé à:</strong> {doc.created_at}</p>
+                        <p><strong>Pièces jointes :</strong> {doc.fichier ? <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucun'}</p>
+                        <div className="document-buttons" style={{ marginTop: '10px' }}>
+                            <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-primary" style={{ marginRight: '10px' }}>
+                                <GrEdit />
+                            </Link>
+                            <button onClick={() => handleDelete(doc.id)} className="btn btn-danger" style={{ marginRight: '10px' }}>
+                                <FaTrashAlt />
+                            </button>
+                            <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
+                                {({ blob, url, loading, error }) => (
+                                    <button className="btn btn-primary" style={{ marginRight: '20px' }}>
+                                        <FontAwesomeIcon icon={faFilePdf} />
+                                    </button>
+                                )}
+                            </PDFDownloadLink>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="dashboard-buttons">
-                <Link to={`/CréerDocExt/`} className="btn btn-primary">Créer document externe</Link>
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/DashboardDoc/`} className="btn btn-secondary">Retour</Link>
-            </div>
+        </div>
         </div>
     );
 };

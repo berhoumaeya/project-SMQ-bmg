@@ -1,62 +1,13 @@
-.responsable-detail {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 600px;
-    padding: 20px;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .card-body p {
-    margin: 5px 0;
-  }
-  
-  .btn-gray,
-  .btn-blue,
-  .btn-danger {
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
+.card .card-header- {
+    font-weight: 500;
+}
+.card-header-:first-child {
+    border-radius: 0.35rem 0.35rem 0 0;
+}
+.card-header- {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: #5585b5;
+    border-bottom: 1px solid #5585b5;
     color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-  
-  .btn-gray {
-    background-color: #6c757d;
-    margin-right: 5px;
-  }
-  
-  .btn-blue {
-    background-color: #007bff;
-    margin-right: 5px;
-  }
-  
-  .btn-danger {
-    background-color: #dc3545;
-  }
-  
-  .btn-gray:hover,
-  .btn-blue:hover,
-  .btn-danger:hover {
-    opacity: 0.8;
-  }
-  
-  .btn-gray svg,
-  .btn-blue svg,
-  .btn-danger svg {
-    margin-right: 5px;
-  }
-  
+}

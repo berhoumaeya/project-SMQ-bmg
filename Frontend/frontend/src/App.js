@@ -168,6 +168,7 @@ const App = () => (
           <Route path="/ApprouveDoc" element={<ApprouveList />} />
 
 
+
           <Route path="/DashboardDocInt" element={<DashboardDocInt />} />
           <Route path="/DashboardDocExt" element={<DashboardDocExt />} />
           <Route path="/archive/:id" element={<Archive />} />
@@ -200,7 +201,7 @@ const App = () => (
           <Route path="/Dashboardposition" element={<DashboardPost />}/>
           <Route path="/position/:id" element={<PostDetail />}/>
           <Route path="/ajouter-position/" element={<AddPost />} />
-          <Route path="/update-position/" element={<UpdatePost />} />
+          <Route path="/update-position/:id" element={<UpdatePost />} />
 
 
           <Route path="/dashboardresponsable" element={<DashboardResponsable />}/>

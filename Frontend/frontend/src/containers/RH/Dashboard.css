@@ -80,14 +80,23 @@ button:hover {
 button:focus {
   outline: none;
 }
-
 .ajout-form {
   background: #fff;
   margin-top: 5%;
   margin-bottom: 5%;
   width: 10%;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 }
+
+.ajout-form:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+}
+
 
 .ajout-form .form-control {
   border-radius: 1rem;

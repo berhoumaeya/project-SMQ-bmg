@@ -21,67 +21,67 @@ function DemandList() {
         
         const headers = {
             'Accept': '*//*',
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken') 
-        };
-    
-        axios.put(
-            `${process.env.REACT_APP_API_URL}/doc/document-pending/${demandId}/`, 
-            { 
-                statut: newStatus
-            },  
-            { headers: headers }  
-        )
-        .then(response => {
-            const updatedDemands = demands.map(demand => {
-                if (demand.id === demandId) {
-                    return { ...demand, statut: newStatus };
-                }
-                return demand;
-            });
-            setDemands(updatedDemands);
-            window.location.reload();
-        })
-        .catch(error => {
-            console.error('Erreur lors de la mise à jour du statut de la demande:', error);
-        });
-    };
-    
+'Content-Type': 'application/json',
+'X-CSRFToken': Cookies.get('csrftoken') 
+};
+ 
+axios.put(
+`${process.env.REACT_APP_API_URL}/doc/document-pending/${demandId}/`, 
+{ 
+statut: newStatus
+},  
+{ headers: headers }  
+)
+.then(response => {
+const updatedDemands = demands.map(demand => {
+if (demand.id === demandId) {
+return { ...demand, statut: newStatus };
+}
+return demand;
+});
+setDemands(updatedDemands);
+window.location.reload();
+})
+.catch(error => {
+console.error('Erreur lors de la mise à jour du statut de la demande:', error);
+});
+};
+ 
 
-    return (
-        <div className="demand-list">
-        <h2>Liste des demandes</h2>
-        <ul>
-            {demands.map(demand => (
-                <li key={demand.id} className="demand-item">
-                    <div>
-                        <strong>Type de demande :</strong> {demand.type}
-                    </div>
-                    <div>
-                        <strong>Objet de demande :</strong> {demand.document_object}
-                    </div>
-                    <div>
-                        <strong>Créé par :</strong> {demand.created_by}
-                    </div>
-                    <div>
-                        <strong>Créé à :</strong> {new Date(demand.created_at).toLocaleString()}
-                    </div>
-                    <div>
-                    <strong>Pièces jointes :</strong> {demand.attached_file ? <a href={`${process.env.REACT_APP_API_URL}/doc/demand_attachments/${demand.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}
-                    </div>
-                    <div>
-                        <strong>Statut :</strong> {demand.statut}
-                    </div>
-                    <button className="accept-button" onClick={() => handleStatusChange(demand.id, 'Validé')}>Accepter</button>
-                    <button className="reject-button" onClick={() => handleStatusChange(demand.id, 'Refusé')}>Refuser</button>
-                </li>
-            ))}
-        </ul>
-        <div className="dashboard-buttons">
-                <Link to={`/DashboardDoc/`} className="btn btn-secondary">Retour</Link>
-        </div>
-    </div>
-    
+return (
+<div className="demand-list">
+<h2>Liste des demandes</h2>
+<ul>
+{demands.map(demand => (
+<li key={demand.id} className="demand-item">
+<div>
+<strong>Type de demande :</strong> {demand.type}
+</div>
+<div>
+<strong>Objet de demande :</strong> {demand.document_object}
+</div>
+<div>
+<strong>Créé par :</strong> {demand.created_by}
+</div>
+<div>
+<strong>Créé à :</strong> {new Date(demand.created_at).toLocaleString()}
+</div>
+<div>
+<strong>Pièces jointes :</strong> {demand.attached_file ? <a href={`${process.env.REACT_APP_API_URL}/doc/demand_attachments/${demand.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}
+</div>
+<div>
+<strong>Statut :</strong> {demand.statut}
+</div>
+<button className="accept-button" onClick={() => handleStatusChange(demand.id, 'Validé')}>Accepter</button>
+<button className="reject-button" onClick={() => handleStatusChange(demand.id, 'Refusé')}>Refuser</button>
+</li>
+))}
+</ul>
+<div className="dashboard-buttons">
+<Link to={`/DashboardDoc/`} className="btn btn-secondary">Retour</Link>
+</div>
+</div>
+ 
 );
 };
 
@@ -89,10 +89,10 @@ export default DemandList;
 */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import './listDoc.css'; 
+import './listDoc.css';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
+import { FaList, FaTh } from 'react-icons/fa';
 const sampleDemands = [
     {
         id: 1,
@@ -126,6 +126,7 @@ const sampleDemands = [
 const DemandList = () => {
     const [demands, setDemands] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
         // Simulating data fetch
@@ -156,6 +157,14 @@ const DemandList = () => {
                         <br />
                         <br />
                         <div className="table-container">
+                            <div className="view-toggle">
+                                <button className={`view-btn-doc ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList />
+                                </button>
+                                <button className={`view-btn-doc ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh />
+                                </button>
+                            </div>
                             <h3 className='doc-title'>Liste des Demandes</h3>
                             <div className="button-container">
                                 <Link to="/DashboardDoc/">
@@ -174,47 +183,71 @@ const DemandList = () => {
                             </div>
                             <br />
                             <div >
-                                <table >
-                                    <thead className="table-header" >
-                                        <tr>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">ID</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Type de demande</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Objet de demande</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé par</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé à</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Pièces jointes</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Statut</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                {viewMode === 'list' ? (
+
+                                    <table >
+                                        <thead className="table-header" >
+                                            <tr>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">ID</th>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Type de demande</th>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Objet de demande</th>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Créé par</th>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Créé à</th>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Pièces jointes</th>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Statut</th>
+                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredDemands.length > 0 ? (
+                                                filteredDemands.map(demand => (
+                                                    <tr key={demand.id}>
+                                                        <td>{demand.id}</td>
+                                                        <td>{demand.type}</td>
+                                                        <td>{demand.document_object}</td>
+                                                        <td>{demand.created_by}</td>
+                                                        <td>{new Date(demand.created_at).toLocaleString()}</td>
+                                                        <td>
+                                                            {demand.attached_file ?
+                                                                <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> :
+                                                                'Aucun'}
+                                                        </td>
+                                                        <td>{demand.statut}</td>
+                                                        <td>
+                                                            <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm"> <FcApproval /> </button>
+                                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm"> <RxCross2 /></button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="8" className="text-center">Aucune demande disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
                                         {filteredDemands.length > 0 ? (
                                             filteredDemands.map(demand => (
-                                                <tr key={demand.id}>
-                                                    <td>{demand.id}</td>
-                                                    <td>{demand.type}</td>
-                                                    <td>{demand.document_object}</td>
-                                                    <td>{demand.created_by}</td>
-                                                    <td>{new Date(demand.created_at).toLocaleString()}</td>
-                                                    <td>
-                                                        {demand.attached_file ? 
-                                                            <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> : 
-                                                            'Aucun'}
-                                                    </td>
-                                                    <td>{demand.statut}</td>
-                                                    <td>
-                                                        <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-info btn-sm"> <FcApproval /> </button>
-                                                        <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-info btn-sm"> <RxCross2 /></button>
-                                                    </td>
-                                                </tr>
+                                                <div key={demand.id} className="responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
+                                                    <div className="responsable-info">
+                                                        <h5 className="responsable-title"> {demand.type}</h5>
+                                                        <p><strong className="responsable-text">Document object :</strong> {demand.document_object}</p>
+                                                        <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
+                                                        <td>
+                                                            <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
+                                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm"> <RxCross2 /></button>
+                                                        </td>
+                                                    </div>
+                                                </div>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="8" className="text-center">Aucune demande disponible</td>
-                                            </tr>
+                                            <p className="text-center">Aucun demand disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

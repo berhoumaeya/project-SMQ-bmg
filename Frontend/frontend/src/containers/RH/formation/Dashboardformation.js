@@ -71,8 +71,7 @@ export default DashboardFormation;
 */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
 
 const sampleFormations = [
@@ -151,7 +150,7 @@ const DashboardFormation = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -219,7 +218,7 @@ const DashboardFormation = () => {
                                                         </td>
                                                         <td>
                                                             <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                 <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -243,7 +242,7 @@ const DashboardFormation = () => {
                                                         <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
                                                         <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
                                                         <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                             <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>
