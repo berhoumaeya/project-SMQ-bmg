@@ -1,179 +1,58 @@
 .module-card {
+    display: block;
+    text-decoration: none;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     background-color: #fff;
     overflow: hidden;
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.5s ease;
+    color: inherit;
 }
 
 .module-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); 
 }
 
-.module-card .card-content {
-    height: 100%;
-}
-
-.module-card h4 {
-    margin-bottom: 15px;
-}
-
-.module-card p {
+.icon-wrapper {
+    font-size: 2.25rem;
     margin-bottom: 20px;
+    color: #6c476e;
+    transition: font-size 0.3s ease; 
 }
 
-.module-card  {
-    padding: 15px;
-    text-align: center;
-    background-color: #eeeeee;
+.module-card:hover .icon-wrapper {
+    font-size: 2.5rem; 
 }
 
-.bg-color-1 {
-    background-color: #BBDEFB;
-    color: #2f1b41;
+.module-title {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #6c476e;
+    transition: font-size 0.3s ease; 
 }
 
-.bg-color-2 {
-    background-color: #C8E6C9;
-    color: #2f1b41;
-
+.module-card:hover .module-title {
+    font-size: 1.5rem; 
 }
 
-.bg-color-3 {
-    background-color: #FFCDD2;
-    color: #2f1b41;
-}
-
-.bg-color-4 {
-    background-color: #FFECB3;
-    color: #2f1b41;
-}
-
-.bg-color-5 {
-    background-color: #D1C4E9;
-    color: #2f1b41;
-}
-
-.bg-color-6 {
-    background-color: #B2EBF2;
-    color: #2f1b41;
-}
-
-.bg-color-7 {
-    background-color: #FFE0B2;
-    color: #2f1b41;
-}
-
-.bg-color-8 {
-    background-color: #C5CAE9;
-    color: #2f1b41;
-}
-
-.bg-color-9 {
-    background-color: #DCEDC8;
-    color: #2f1b41;
-}
-
-.bg-color-10 {
-    background-color: #F8BBD0;
-    color: #2f1b41;
-}
-
-.bg-color-11 {
-    background-color: #E1BEE7;
-    color: #2f1b41;
-}
-
-.cta {
-    text-align: center;
-    border: none;
-    background: none;
-    cursor: pointer;
-}
-
-.cta span {
-    padding-bottom: 7px;
-    letter-spacing: 4px;
-    font-size: 14px;
-    padding-right: 15px;
-    text-transform: uppercase;
-}
-
-.cta svg {
-    transform: translateX(-8px);
-    transition: all 0.3s ease;
-}
-
-.cta:hover svg {
-    transform: translateX(0);
-}
-
-.cta:active svg {
-    transform: scale(0.9);
-}
-
-.hover-underline-animation {
-    position: relative;
-    color: #4d3664;
-    padding-bottom: 10px;
-}
-
-.hover-underline-animation:after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #4d3664;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-}
-
-.cta:hover .hover-underline-animation:after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-}
-
-.search-bar-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.search-bar-input {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px 15px;
-    border: 2px solid #4d3664;
-    border-radius: 25px;
-    font-size: 16px;
-    outline: none;
-    color: #4d3664;
-    background-color: #eeeeee;
-    transition: border-color 0.3s;
-}
-
-.search-bar-input::placeholder {
-    color: #bbb;
-}
-
-.search-bar-input:focus {
-    border-color: #6c476e;
-}
-
-.search-bar-icon {
-    position: absolute;
-    right: 15px;
-    font-size: 20px;
-    color: #4d3664;
-    cursor: pointer;
-}
+.bg-color-1 { background-color: #BBDEFB; }
+.bg-color-2 { background-color: #C8E6C9; }
+.bg-color-3 { background-color: #FFCDD2; }
+.bg-color-4 { background-color: #FFECB3; }
+.bg-color-5 { background-color: #D1C4E9; }
+.bg-color-6 { background-color: #B2EBF2; }
+.bg-color-7 { background-color: #FFE0B2; }
+.bg-color-8 { background-color: #C5CAE9; }
+.bg-color-9 { background-color: #DCEDC8; }
+.bg-color-10 { background-color: #F8BBD0; }
+.bg-color-11 { background-color: #F0F4C3; }

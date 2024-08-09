@@ -10,7 +10,7 @@ const sampleFormations = [
   {
     id: 1,
     intitule_formation: 'Formation React',
-    type_formation: 'Technique',
+    type_formation: '',
     organisme_formation: 'Organisme A',
     theme_formation: 'Développement Web',
     date_debut_formation: '2024-01-01',
@@ -22,14 +22,14 @@ const sampleFormations = [
     updated_by: 'Admin',
     updated_at: '2024-01-10',
     participants: [5, 6],
-    parametre_validation: 'Examen final',
+    parametre_validation: '',
     date_cloture: '2024-01-11',
     pieces_jointes: true
   },
   {
     id: 2,
     intitule_formation: 'Formation Node.js',
-    type_formation: 'Technique',
+    type_formation: '',
     organisme_formation: 'Organisme B',
     theme_formation: 'Backend',
     date_debut_formation: '2024-02-01',
@@ -41,14 +41,14 @@ const sampleFormations = [
     updated_by: 'Admin',
     updated_at: '2024-02-10',
     participants: [6, 7],
-    parametre_validation: 'Projet final',
+    parametre_validation: '',
     date_cloture: '2024-02-11',
     pieces_jointes: false
   },
   {
     id: 3,
     intitule_formation: 'Formation UX/UI',
-    type_formation: 'Design',
+    type_formation: '',
     organisme_formation: 'Organisme C',
     theme_formation: 'Frontend',
     date_debut_formation: '2024-03-01',
@@ -60,7 +60,7 @@ const sampleFormations = [
     updated_by: 'Admin',
     updated_at: '2024-03-10',
     participants: [7, 8],
-    parametre_validation: 'Portfolio final',
+    parametre_validation: '',
     date_cloture: '2024-03-11',
     pieces_jointes: true
   }
@@ -85,11 +85,15 @@ const FormationDetail = () => {
   const [deleteReussi, setDeleteReussi] = useState(false);
   const [piecesJointes, setPiecesJointes] = useState(null);
   const [ajoutReussi, setAjoutReussi] = useState(false);
+  const [parametreValidation, setParametreValidation] = useState('');
+  const typeFormationOptions = ['formation en interne', 'formation en externe '];
+  const parametresValidation = ['évaluation à chaud', 'évaluation à froid'];
 
   useEffect(() => {
     const formationDetail = sampleFormations.find(f => f.id === parseInt(id));
     if (formationDetail) {
       setFormation(formationDetail);
+      setParametreValidation(formationDetail.parametre_validation);
 
       const responsableValidationName = sampleUsers[formationDetail.responsable_validation];
       setResponsableValidationName(responsableValidationName);
@@ -149,7 +153,10 @@ const FormationDetail = () => {
         console.error('Error updating formation:', error);
       });
   };
-
+  const handleParametreChange = (event) => {
+    setParametreValidation(event.target.value);
+  };
+  
   if (deleteReussi) {
     return <Navigate to="/Dashboardformation" />;
   }
@@ -197,9 +204,14 @@ const FormationDetail = () => {
                       <input className="form-control" type="text" value={formation.intitule_formation} readOnly />
                     </div>
                     <div className="mb-3">
-                      <label className="small mb-1">Type de formation</label>
-                      <input className="form-control" type="text" value={formation.type_formation} readOnly />
+                       <label className="small mb-1">Type de formation</label>
+                       <select  className="form-control" value={formation.type_formation} onChange={(e) =>
+                                setFormation((prev) => ({ ...prev, type_formation: e.target.value })) }>
+                                  {typeFormationOptions.map((option) => (
+                              <option key={option} value={option}> {option}</option>))}
+                        </select>
                     </div>
+
                     <div className="mb-3">
                       <label className="small mb-1">Organisme de formation</label>
                       <input className="form-control" type="text" value={formation.organisme_formation} readOnly />
@@ -251,9 +263,15 @@ const FormationDetail = () => {
                       <input className="form-control" type="text" value={participantsNames.join(', ')} readOnly />
                     </div>
                     <div className="mb-3">
-                      <label className="small mb-1">Paramètre de validation</label>
-                      <input className="form-control" type="text" value={formation.parametre_validation} readOnly />
-                    </div>
+                        <label className="small mb-1">Paramètre de critères de validation</label>
+                        <select className="form-control" value={parametreValidation} onChange={handleParametreChange}>
+                          {parametresValidation.map((parametre, index) => (
+                            <option key={index} value={parametre}>
+                              {parametre}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     <div className="mb-3">
                       <label className="small mb-1">Date de clôture de la formation</label>
                       <input className="form-control" type="text" value={formation.date_cloture_formation} readOnly />

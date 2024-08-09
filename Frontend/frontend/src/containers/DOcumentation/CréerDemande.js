@@ -4,12 +4,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
-
 const CreateDemande = () => {
-
     const [errors, setErrors] = useState({});
     const [attached_file, setPiecesJointes] = useState(null);
-    const [document_object, setdocument_object] = useState('');
+    const [document_object, setDocumentObject] = useState('');
     const [type, setType] = useState('');
 
     const navigate = useNavigate();
@@ -19,8 +17,22 @@ const CreateDemande = () => {
         setPiecesJointes(selectedFile);
     };
 
+    const validateForm = () => {
+        const formErrors = {};
+        if (!document_object) formErrors.document_object = 'Document object est requis.';
+        if (!type) formErrors.type = 'Type est requis.';
+        if (!attached_file) formErrors.attached_file = 'Pièces jointes est requis.';
+
+        return formErrors;
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
 
         const formData = new FormData();
         formData.append('document_object', document_object);
@@ -38,10 +50,12 @@ const CreateDemande = () => {
         axios.post(`${process.env.REACT_APP_API_URL}/doc/create-demand/`, formData, { headers })
             .then(response => {
                 console.log('Document interne créé avec succès:', response.data);
-                toast.success('Demande envoyé ,en attendant un superviseur pour la traiter!');
+                toast.success('Demande envoyée, en attendant un superviseur pour la traiter!');
                 navigate('/ListeDemande');
-                setdocument_object('');
+                setDocumentObject('');
                 setType('');
+                setPiecesJointes(null);
+                setErrors({});
             })
             .catch(error => {
                 console.error('Error creating demande:', error);
@@ -57,21 +71,21 @@ const CreateDemande = () => {
                     <div className="button-container">
                         <Link to="/DashboardDoc">
                             <button className="retour">Retour au tableau de bord</button>
-                        </Link>   <button className="button-add-" type="submit">Envoyer demande</button>
+                        </Link>   
+                        <button className="button-add-" type="submit" onClick={handleSubmit}>Envoyer demande</button>
                     </div>
                 </div>
                 <form onSubmit={handleSubmit} className="row">
                     <div className="col-md-6">
                         <div className="form-label">
                             <label className="form-label">Document object :</label>
-                            {errors.document_object && <p className="error-text">{errors.document_object}</p>}
-                            <input type="text" className="form-control" placeholder='Document object*' name="document_object" value={document_object} onChange={(e) => setdocument_object(e.target.value)} />
+                            <input type="text" className="form-control" placeholder='Document object*' value={document_object} onChange={(e) => setDocumentObject(e.target.value)} />
+                            {errors.document_object && <p className="error">{errors.document_object}</p>}
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-label">
                             <label className="form-label">Type :</label>
-                            {errors.type && <p className="error-text">{errors.type}</p>}
                             <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
                                 <option value="">Sélectionner...</option>
                                 <option value="Manuel">Manuel</option>
@@ -80,12 +94,13 @@ const CreateDemande = () => {
                                 <option value="Rapport">Rapport</option>
                                 <option value="Mémoire">Mémoire</option>
                             </select>
-
+                            {errors.type && <p className="error">{errors.type}</p>}
                         </div>
                     </div>
                     <div className="form-label">
                         <label className="form-label">Pièces jointes :</label>
                         <input type="file" className="form-control" onChange={handleFileChange} />
+                        {errors.attached_file && <p className="error">{errors.attached_file}</p>}
                     </div>
                 </form>
             </div>

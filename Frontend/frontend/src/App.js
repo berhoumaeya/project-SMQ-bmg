@@ -136,6 +136,8 @@ import DashboardMeetingsGuest from './containers/Reunionguest';
 
 //Produit
 import DashboardProduit from './containers/Produit/allProduit';
+import AuditDetail from './containers/audit/auditDetail';
+import AddAudit from './containers/audit/ajouteraudit';
 
 
 const App = () => (
@@ -144,11 +146,11 @@ const App = () => (
       <Layout>
         <Routes>
 
-        <Route path="/guest" element={<DashboardGuest />} />
-        <Route path="/Documentguest" element={<DashboardDocIntGuest />} />
-        <Route path="/Reunionguest" element={<DashboardMeetingsGuest />} />
+          <Route path="/guest" element={<DashboardGuest />} />
+          <Route path="/Documentguest" element={<DashboardDocIntGuest />} />
+          <Route path="/Reunionguest" element={<DashboardMeetingsGuest />} />
 
-        <Route path="/allProduit" element={<DashboardProduit />} />
+          <Route path="/allProduit" element={<DashboardProduit />} />
 
 
 
@@ -183,36 +185,36 @@ const App = () => (
 
 
           <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/dashboardRH" element={<DashboardRH />}/>
+          <Route path="/dashboardRH" element={<DashboardRH />} />
           <Route path="/dashboardClient" element={<DashboardClient />} />
           <Route path="/dashboardFournisseur" element={<DashboardFournisseur />} />
           <Route path="/dashboardDoc" element={<DashboardDoc />} />
 
-          <Route path="/dashboardformation" element={<Dashboardformation />}/>
+          <Route path="/dashboardformation" element={<Dashboardformation />} />
           <Route path="/formation/:id" element={<Formation />} />
           <Route path="/ajouter-formation/" element={<AddFormation />} />
           <Route path="/update-formation/:id" element={<UpdateFormation />} />
 
-          <Route path="/dashboardemploye" element={<DashboardEmploye />}/>
-          <Route path="/employe/:id" element={<EmployeDetail />}/>
+          <Route path="/dashboardemploye" element={<DashboardEmploye />} />
+          <Route path="/employe/:id" element={<EmployeDetail />} />
           <Route path="/ajouter-employe/" element={<AddEmploye />} />
           <Route path="/update-employe/:id" element={<UpdateEmploye />} />
 
-          <Route path="/Dashboardposition" element={<DashboardPost />}/>
-          <Route path="/position/:id" element={<PostDetail />}/>
+          <Route path="/Dashboardposition" element={<DashboardPost />} />
+          <Route path="/position/:id" element={<PostDetail />} />
           <Route path="/ajouter-position/" element={<AddPost />} />
           <Route path="/update-position/:id" element={<UpdatePost />} />
 
 
-          <Route path="/dashboardresponsable" element={<DashboardResponsable />}/>
-          <Route path="/responsable/:id" element={<ResponsableDetail />}/>
+          <Route path="/dashboardresponsable" element={<DashboardResponsable />} />
+          <Route path="/responsable/:id" element={<ResponsableDetail />} />
           <Route path="/ajouter-responsable/" element={<ResponsableForm />} />
           <Route path="/update-responsable/:id" element={<UpdateResponsable />} />
 
-          <Route path="/dashboardcompetence/:id/" element={<DashboardCompetence />}/>
+          <Route path="/dashboardcompetence/:id/" element={<DashboardCompetence />} />
           <Route path="/ajouter-competence/:id/" element={<CompetenceForm />} />
 
-          <Route path="/participant/:id" element={<ParticipantDetail />}/>
+          <Route path="/participant/:id" element={<ParticipantDetail />} />
           <Route path="/ajouter-participant/" element={<ParticipantForm />} />
           <Route path="/Dashboardparticipant" element={<DashboardParticipant />} />
           <Route path="/update-participant/:id" element={<UpdateParticipant />} />
@@ -290,6 +292,8 @@ const App = () => (
           {/* audits : */}
           <Route path="/Audits/" element={<Audits />} />
           <Route path="/valideraudit/" element={<ValidAudit />} />
+          <Route path="/audit/:id" element={<AuditDetail />} />
+          <Route path="/ajouteraudit/" element={<AddAudit />} />
 
 
 
@@ -302,7 +306,6 @@ const App = () => (
 
 
 
-          
 
 
 
@@ -315,6 +318,6 @@ const App = () => (
       </Layout>
     </Router>
   </Provider>
-  
+
 );
 export default App;

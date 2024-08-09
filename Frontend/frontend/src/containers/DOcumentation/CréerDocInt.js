@@ -40,9 +40,25 @@ const CreateDocumentForm = () => {
         setPiecesJointes(selectedFile);
     };
 
+    const validateForm = () => {
+        const formErrors = {};
+        if (!libelle) formErrors.libelle = 'Libellé est requis.';
+        if (!selection_site) formErrors.selection_site = 'Site est requis.';
+        if (!selection_activite) formErrors.selection_activite = 'Activité est requis.';
+        if (!selection_verificateurID) formErrors.selection_verificateur = 'Vérificateur est requis.';
+        if (!selection_approbateurID) formErrors.selection_approbateur = 'Approbateur est requis.';
+        if (liste_informeeID.length === 0) formErrors.liste_informee = 'Liste informée est requis.';
+        if (!fichier) formErrors.fichier = 'Pièces jointes est requis.';
 
+        return formErrors;
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
 
         const formData = new FormData();
         formData.append('libelle', libelle);
@@ -88,19 +104,19 @@ const CreateDocumentForm = () => {
                         <Link to="/DashboardDoc">
                             <button className="retour">Retour au tableau de bord</button>
                         </Link>
-                        <button className="button-add-" type="submit">Rédiger un document</button>
+                        <button className="button-add-" type="submit" onClick={handleSubmit}>Rédiger un document</button>
                     </div>
                 </div>
                 <form onSubmit={handleSubmit} className="row">
                     <div className="col-md-6">
                         <div className="form-label">
                             <label className="form-label">Libellé :</label>
-                            {errors.libelle && <p className="error-text">{errors.libelle}</p>}
                             <input className="form-control" type="text" placeholder='Libellé*' name="libelle" value={libelle} onChange={(e) => setLibelle(e.target.value)} />
+                            {errors.libelle && <p className="error">{errors.libelle}</p>}
+
                         </div>
                         <div className="form-label">
                             <label className="form-label">Site :</label>
-                            {errors.selection_site && <p className="error-text">{errors.selection_site}</p>}
                             <select className="form-control" value={selection_site} onChange={(e) => setSelectionSite(e.target.value)}>
                                 <option value="">Sélectionner...</option>
                                 <option value="Site 1">Site 1</option>
@@ -108,10 +124,11 @@ const CreateDocumentForm = () => {
                                 <option value="Site 3">Site 3</option>
                                 <option value="Site 4">Site 4</option>
                             </select>
+                            {errors.selection_site && <p className="error">{errors.selection_site}</p>}
+
                         </div>
                         <div className="form-label">
                             <label className="form-label">Activité :</label>
-                            {errors.selection_activite && <p className="error-text">{errors.selection_activite}</p>}
                             <select className="form-control" value={selection_activite} onChange={(e) => setSelectionActivite(e.target.value)}>
                                 <option value="">Sélectionner...</option>
                                 <option value="Développement">Développement</option>
@@ -120,41 +137,47 @@ const CreateDocumentForm = () => {
                                 <option value="Déploiement">Déploiement</option>
                                 <option value="Support">Support</option>
                             </select>
+                            {errors.selection_activite && <p className="error">{errors.selection_activite}</p>}
+
                         </div>
                         <div className="form-label">
                             <label className="form-label">Vérificateur :</label>
-                            {errors.selection_verificateur && <p className="error-text">{errors.selection_verificateur}</p>}
                             <select className="form-control" value={selection_verificateurID} onChange={(e) => setSelectionVerificateur(e.target.value)}>
                                 <option value="">Sélectionner...</option>
                                 {selection_verificateurs.map(selection_verificateur => (
                                     <option key={selection_verificateur.id} value={selection_verificateur.id}>{selection_verificateur.username}</option>
                                 ))}
                             </select>
+                            {errors.selection_verificateur && <p className="error">{errors.selection_verificateur}</p>}
+
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-label">
                             <label className="form-label">Approbateur :</label>
-                            {errors.selection_approbateur && <p className="error-text">{errors.selection_approbateur}</p>}
                             <select className="form-control" value={selection_approbateurID} onChange={(e) => setSelectionApprobateur(e.target.value)}>
                                 <option value="">Sélectionner...</option>
                                 {selection_approbateurs.map(selection_approbateur => (
                                     <option key={selection_approbateur.id} value={selection_approbateur.id}>{selection_approbateur.username}</option>
                                 ))}
                             </select>
+                            {errors.selection_approbateur && <p className="error">{errors.selection_approbateur}</p>}
+
                         </div>
                         <div className="form-label">
                             <label className="form-label">Liste informée :</label>
-                            {errors.liste_informee && <p className="error-text">{errors.liste_informee}</p>}
                             <select className="form-control" multiple value={liste_informeeID} onChange={(e) => setListeInformee(Array.from(e.target.selectedOptions, option => option.value))}>
                                 {liste_informees.map(liste_informee => (
                                     <option key={liste_informee.id} value={liste_informee.id}>{liste_informee.username}</option>
                                 ))}
                             </select>
+                            {errors.liste_informee && <p className="error">{errors.liste_informee}</p>}
+
                         </div>
                         <div className="form-label">
                             <label className="form-label">Pièces jointes :</label>
                             <input className="form-control" type="file" onChange={handleFileChange} />
+                            {errors.fichier && <p className="error">{errors.fichier}</p>}
                         </div>
                     </div>
                 </form>

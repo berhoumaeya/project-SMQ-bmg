@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-function DashboardRH({ user }) {
+
+function DashboardRH() {
   const gestionSections = [
     {
       title: 'Gérer les responsables formation', link: '/Dashboardresponsable', className: "bg-color1"
@@ -36,10 +37,9 @@ function DashboardRH({ user }) {
 
   // Define ModuleTile inline
   const ModuleTile = ({ title, link, className }) => (
-    <div className={`module-card p-5 ${className}`}>
+    <Link to={link} className={`module-card p-5 ${className}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <h4>{title}</h4>
       <div className="cta">
-        <a href={link} className="cta-link hover-underline-animation" style={{ textDecoration: 'none', color: '#27296d' }}>Accéder</a>
         <svg
           id="arrow-horizontal"
           xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ function DashboardRH({ user }) {
           ></path>
         </svg>
       </div>
-    </div>
+    </Link>
   );
 
   return (

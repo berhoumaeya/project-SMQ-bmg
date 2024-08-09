@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../fiche/FicheForm.css'
+import '../fiche/FicheForm.css';
 import { Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -14,6 +14,9 @@ function ParticipantForm() {
   const [employeId, setEmployeId] = useState('');
   const [ajoutReussi, setAjoutReussi] = useState(false);
   const [pieces_jointes, setPiecesJointes] = useState(null);
+
+  // State for validation errors
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_employe/`)
@@ -30,8 +33,24 @@ function ParticipantForm() {
     setPiecesJointes(selectedFile);
   };
 
+  const validateForm = () => {
+    const formErrors = {};
+    if (!nom) formErrors.nom = 'Nom est requis.';
+    if (!prenom) formErrors.prenom = 'Prénom est requis.';
+    if (!email) formErrors.email = 'Email est requis.';
+    if (!username) formErrors.username = 'Nom d\'utilisateur est requis.';
+    if (!employeId) formErrors.employeId = 'Employé est requis.';
+    return formErrors;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
     const formData = new FormData();
     formData.append('nom', nom);
     formData.append('prenom', prenom);
@@ -59,6 +78,8 @@ function ParticipantForm() {
         setUsername('');
         setEmployeId('');
         setIs_user(false);
+        setPiecesJointes(null);
+        setErrors({});
         setAjoutReussi(true);
       })
       .catch(error => {
@@ -72,60 +93,60 @@ function ParticipantForm() {
 
   return (
     <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div class="container ajout-form">
-        <div class="contact-image ">
+      <div className="container ajout-form">
+        <div className="contact-image">
           <img src="/images/add.png" alt="rocket_contact" />
-          <div class="button-container">
+          <div className="button-container">
             <Link to="/Dashboardparticipant">
               <button className="retour">Retour au tableau de bord</button>
-            </Link>   
-            <button className="button-add" type="submit">Ajouter un participant</button>
+            </Link>
+            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter un participant</button>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="row">
-          <div class="col-md-6">
+          <div className="col-md-6">
             <div className="form-label">
-              <label className="form-label">
-                Nom :
-              </label>
-              <input type="text" className="form-control" placeholder='Nom*' name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
+              <label className="form-label">Nom :</label>
+              <input type="text" className="form-control" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
+              {errors.nom && <div className="error">{errors.nom}</div>}
             </div>
             <div className="form-label">
               <label className="form-label">Prénom :</label>
-              <input type="text" className="form-control" placeholder='Prénom*' name="prenom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+              <input type="text" className="form-control" placeholder='Prénom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+              {errors.prenom && <div className="error">{errors.prenom}</div>}
             </div>
             <div className="form-label">
               <label className="form-label">Email :</label>
-              <input type="email" className="form-control" placeholder='Email*' name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="email" className="form-control" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
+              {errors.email && <div className="error">{errors.email}</div>}
             </div>
-           
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <div className="form-label">
               <label className="form-label">Nom d'utilisateur :</label>
-              <input type="text" className="form-control" placeholder='Nom utilisateur*' name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+              <input type="text" className="form-control" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
+              {errors.username && <div className="error">{errors.username}</div>}
             </div>
             <div className="form-label">
-              <label className="form-label">
-                Employé :
-              </label>
+              <label className="form-label">Employé :</label>
               <select className="form-control" value={employeId} onChange={(e) => setEmployeId(e.target.value)}>
                 <option value="">Sélectionner...</option>
                 {employes.map(employe => (
                   <option key={employe.id} value={employe.id}>{employe.nom}</option>
                 ))}
               </select>
+              {errors.employeId && <div className="error">{errors.employeId}</div>}
             </div>
             <div className="form-label">
               <label className="form-label">Pièces jointes :</label>
               <input type="file" className="form-control" onChange={handleFileChange} />
             </div>
             <div className="form-label">
-            <div className="checkbox-container">
-              <label className="form-label">Est un utilisateur : </label>
-              <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
-            </div>
+              <div className="checkbox-container">
+                <label className="form-label">Est un utilisateur : </label>
+                <input type="checkbox" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+              </div>
             </div>
           </div>
         </form>

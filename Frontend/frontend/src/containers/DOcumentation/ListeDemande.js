@@ -231,7 +231,7 @@ const DemandList = () => {
                                         {filteredDemands.length > 0 ? (
                                             filteredDemands.map(demand => (
                                                 <div key={demand.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
+                                                    <img src="https://via.placeholder.com/100" alt={`${demand.type}`} className="responsable-img" />
                                                     <div className="responsable-info">
                                                         <h5 className="responsable-title"> {demand.type}</h5>
                                                         <p><strong className="responsable-text">Document object :</strong> {demand.document_object}</p>
