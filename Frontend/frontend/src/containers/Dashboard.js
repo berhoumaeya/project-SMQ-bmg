@@ -16,7 +16,6 @@ function ModuleTile({ title, url, icon, className }) {
 
 function Dashboard() {
     const [modules] = useState([
-<<<<<<< HEAD
         { title: "Ressources Humaines", url: "/dashboardRH", icon: <FaUser />, className: "bg-color-1" },
         { title: "Documentation", url: "/DashboardDoc", icon: <FaBook />, className: "bg-color-2" },
         { title: "Client", url: "/DashboardClient", icon: <FaUserFriends />, className: "bg-color-3" },
@@ -28,85 +27,6 @@ function Dashboard() {
         { title: "Réunion", url: "/allreunion", icon: <FaGavel />, className: "bg-color-9" },
         { title: "Actions", url: "/Actions", icon: <FaTasks />, className: "bg-color-10" },
         { title: "Conformité reglementaire", url: "/Allconformite", icon: <FaBalanceScale />, className: "bg-color-11" }
-=======
-        {
-            title: "Ressources Humaines",
-            description: "Gérez les ressources humaines de votre entreprise.",
-            url: "/dashboardRH",
-            icon: <FaUser />,
-            className: "bg-color-1"
-        },
-        {
-            title: "Documentation",
-            description: "Accédez à la documentation pour obtenir des informations utiles.",
-            url: "/DashboardDoc",
-            icon: <FaBook />,
-            className: "bg-color-2"
-        },
-        {
-            title: "Client",
-            description: "Consultez les informations sur les clients et les contacts.",
-            url: "/Clients",
-            icon: <FaUserFriends />,
-            className: "bg-color-3"
-        },
-        {
-            title: "Fournisseur",
-            description: "Gérez les informations sur les fournisseurs et les contacts.",
-            url: "/fournisseurs",
-            icon: <FaBuilding />,
-            className: "bg-color-4"
-        },
-        {
-            title: "Indicateur",
-            description: "Visualisez les indicateurs clés de performance de votre entreprise.",
-            url: "/indicateurs",
-            icon: <FaChartBar />,
-            className: "bg-color-5"
-        },
-        {
-            title: "Audit",
-            description: "Accédez à l'outil d'audit pour suivre les performances.",
-            url: "/Audits",
-            icon: <FaClipboardList />,
-            className: "bg-color-6"
-        },
-        {
-            title: "Produit Non Conforme",
-            description: "Gérez les produits non conformes et les actions correctives.",
-            url: "/allProduit",
-            icon: <FaExclamationTriangle />,
-            className: "bg-color-7"
-        },
-        {
-            title: "Risk",
-            description: "Évaluez et gérez les risques associés à vos activités.",
-            url: "/AllRisque",
-            icon: <FaHandshake />,
-            className: "bg-color-8"
-        },
-        {
-            title: "Réunion",
-            description: "Planifiez et organisez vos réunions efficacement.",
-            url: "/allreunion",
-            icon: <FaGavel />,
-            className: "bg-color-9"
-        },
-        {
-            title: "Actions",
-            description: "Gérez et suivez les actions en cours dans votre entreprise.",
-            url: "/Actions",
-            icon: <FaTasks />,
-            className: "bg-color-10"
-        },
-        {
-            title: "Conformité reglementaire",
-            description: "Assurez-vous que votre entreprise respecte les réglementations en vigueur.",
-            url: "/Allconformite",
-            icon: <FaBalanceScale />,
-            className: "bg-color-11"
-        },
->>>>>>> fff04b17f20bc9dbab916571748bd04c8cb9cb30
     ]);
 
     return (

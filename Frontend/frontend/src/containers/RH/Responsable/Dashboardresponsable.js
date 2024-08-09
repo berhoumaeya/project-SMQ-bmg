@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
-import '../list.css'; 
-
-=======
 /*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -75,87 +68,51 @@ const DashboardResponsable = () => {
 
 export default DashboardResponsable;
 */
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
-import '../list.css';
- 
->>>>>>> fff04b17f20bc9dbab916571748bd04c8cb9cb30
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
+import '../list.css'; 
+
 const sampleResponsables = [
-    { id: 1, nom: 'Dupont', prenom: 'Jean', username: 'jdupont', email: 'jean.dupont@example.com' },
-    { id: 2, nom: 'Martin', prenom: 'Marie', username: 'mmartin', email: 'marie.martin@example.com' },
-    { id: 3, nom: 'Durand', prenom: 'Paul', username: 'pdurand', email: 'paul.durand@example.com' }
+    {
+        id: 1,
+        nom: 'Dupont',
+        prenom: 'Jean',
+        username: 'jdupont',
+        email: 'jean.dupont@example.com'
+    },
+    {
+        id: 2,
+        nom: 'Martin',
+        prenom: 'Marie',
+        username: 'mmartin',
+        email: 'marie.martin@example.com'
+    },
+    {
+        id: 3,
+        nom: 'Durand',
+        prenom: 'Paul',
+        username: 'pdurand',
+        email: 'paul.durand@example.com'
+    }
 ];
- 
+
 const DashboardResponsable = () => {
     const [responsables, setResponsables] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-<<<<<<< HEAD
-    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
     const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
         setResponsables(sampleResponsables);
     }, []);
 
-    const sortedResponsables = React.useMemo(() => {
-        let sortableResponsables = [...responsables];
-        if (sortConfig !== null) {
-            sortableResponsables.sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? -1 : 1;
-                }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? 1 : -1;
-                }
-                return 0;
-            });
-        }
-        return sortableResponsables;
-    }, [responsables, sortConfig]);
-
-    const filteredResponsables = sortedResponsables.filter(responsable =>
-=======
-    const [viewMode, setViewMode] = useState('list');
- 
-    useEffect(() => {
-        setResponsables(sampleResponsables);
-    }, []);
- 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
- 
     const filteredResponsables = responsables.filter(responsable =>
->>>>>>> fff04b17f20bc9dbab916571748bd04c8cb9cb30
         responsable.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
         responsable.prenom.toLowerCase().includes(searchQuery.toLowerCase()) ||
         responsable.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
         responsable.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
-<<<<<<< HEAD
 
-
-    const requestSort = (key) => {
-        let direction = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
-        }
-        setSortConfig({ key, direction });
-    };
-
-    const getSortArrow = (key) => {
-        if (sortConfig.key === key) {
-            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
-        }
-        return '↕️';
-    };
-
-=======
- 
->>>>>>> fff04b17f20bc9dbab916571748bd04c8cb9cb30
     return (
         <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
@@ -164,7 +121,6 @@ const DashboardResponsable = () => {
                         <br />
                         <br />
                         <div className="table-container">
-<<<<<<< HEAD
                             <div className="view-toggle">
                                 <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
                                     <FaList /> 
@@ -173,16 +129,6 @@ const DashboardResponsable = () => {
                                     <FaTh /> 
                                 </button>
                             </div>
-=======
-                        <div className="view-toggle">
-                                    <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                        <FaList />
-                                    </button>
-                                    <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                        <FaTh />
-                                    </button>
-                                </div>
->>>>>>> fff04b17f20bc9dbab916571748bd04c8cb9cb30
                             <h3 className="formation-title">Liste des Responsables</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
@@ -191,10 +137,6 @@ const DashboardResponsable = () => {
                                 <Link to="/ajouter-responsable/">
                                     <button className="button-add">Ajouter Responsable</button>
                                 </Link>
-<<<<<<< HEAD
-=======
-                               
->>>>>>> fff04b17f20bc9dbab916571748bd04c8cb9cb30
                             </div>
                             <br />
                             <div className="search-container">
@@ -212,25 +154,19 @@ const DashboardResponsable = () => {
                                     <table>
                                         <thead className="table-header">
                                             <tr>
-                                                <th scope="col" onClick={() => requestSort('nom')}>
-                                                    Nom Responsable {getSortArrow('nom')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('prenom')}>
-                                                    Prénom Responsable {getSortArrow('prenom')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('username')}>
-                                                    Nom d'utilisateur {getSortArrow('username')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('email')}>
-                                                    Email Responsable {getSortArrow('email')}
-                                                </th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nom Responsable</th>
+                                                <th scope="col">Prénom Responsable</th>
+                                                <th scope="col">Nom d'utilisateur</th>
+                                                <th scope="col">Email Responsable</th>
                                                 <th scope="col">Détails</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {filteredResponsables.length > 0 ? (
                                                 filteredResponsables.map(responsable => (
-                                                    <tr>
+                                                    <tr key={responsable.id}>
+                                                        <td>{responsable.id}</td>
                                                         <td>{responsable.nom}</td>
                                                         <td>{responsable.prenom}</td>
                                                         <td>{responsable.username}</td>
@@ -278,5 +214,5 @@ const DashboardResponsable = () => {
         </main>
     );
 };
- 
+
 export default DashboardResponsable;
