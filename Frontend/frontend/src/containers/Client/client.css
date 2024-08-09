@@ -1,167 +1,146 @@
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
-.dashboard-client-int {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-    background: #5585b5;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-.header .btn {
-    margin: 0 5px;
-    padding: 10px;
-    border: none;
-    border-radius: 50%;
-    
-    color: white;
-    cursor: pointer;
-    
-}
-
-.header .btn img {
-    width: 20px;
-    height: 20px;
-}
-
-
-.header .btn:hover {
-    background-color: #5585b5;
-    transform: scale(1.1);
-}
-
-.search-bar {
-    margin-left: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-}
-
-.search-bar:focus {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    outline: none;
-}
-
-.table-container {
-    margin-top: 20px;
-}
-
-.table-container table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table-container th, .table-container td {
-    padding: 15px;
-    text-align: center;
-}
-
-.table-container th {
-    background-color: #5585b5;
-    color: #fff;
-}
-
-.table-container tr:nth-child(even) {
-    background-color: #f4f6f8;
-}
-
-.table-container tr:hover {
-    background-color: #e0e0e0;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.grid-item {
+/*.client-main {
+    background-color: #f3f4f6;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
 }
 
-.card {
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+.client-dashboard {
+    margin: 2rem auto;
+    max-width: 1200px;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+.client-dashboard-content {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
 }
 
-.card-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
+.client-list-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: Apple Chancery, cursive, sans-serif;
+    margin-top: 1rem;
+    color: rgb(70, 68, 169);
 }
 
-.card-body {
-    padding: 15px;
-    text-align: center;
-}
-
-.card-text {
-    margin: 10px 0;
-}
-
-.dashboard-buttons {
+.client-actions {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.btn-back,
+.btn-add-client {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-back {
+    background-color: #f3f4f6;
+    color: #333;
+}
+
+.btn-add-client {
+    background-color: #5585b5;
+    color: white;
+}
+
+.client-search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.input-search {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
     margin-top: 20px;
 }
 
-.dashboard-buttons .btn {
-    margin-right: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
+.input-search:focus {
+    border-color: #5585b5;
+    outline: none;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 10px;
+    justify-content: right;
+}
+
+.view-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.dashboard-buttons .btn-primary {
+.view-btn.active {
     background-color: #5585b5;
+    color: white;
+    border-color: #5585b5;
 }
 
-.dashboard-buttons .btn-primary:hover {
-    background-color: #5585b5;
-    transform: scale(1.05);
+.client-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
-.dashboard-buttons .btn-secondary {
-    background-color: #5585b5;
+.client-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
 }
 
-.dashboard-buttons .btn-secondary:hover {
-    background-color: #5585b5;
-    transform: scale(1.05);
+.client-card-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 15px;
 }
 
-.return-button {
-    justify-content: flex-start;
+.client-card-info {
+    flex: 1;
 }
+
+.client-card-name {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-family: Apple Chancery, cursive, sans-serif;
+    margin-top: 1rem;
+    color: rgb(70, 68, 169);
+}
+
+.client-card-label {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    font-family: Apple Chancery, cursive, sans-serif;
+    margin-top: 1rem;
+    color: #011830;
+}
+
+.btn-view-details {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #5585b5;
+}
+*/
