@@ -57,8 +57,8 @@ const DemandeAcc = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
+                                    <table className="table-header">
+                                        <thead>
                                             <tr>
                                                 <th style={{ backgroundColor: '#76ab78' }} scope="col">ID</th>
                                                 <th style={{ backgroundColor: '#76ab78' }} scope="col">Type document</th>

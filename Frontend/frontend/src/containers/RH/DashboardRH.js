@@ -73,7 +73,7 @@ function DashboardRH() {
           ))}
         </div>
         <div className="dashboard-buttons" style={{ marginTop: '50px' }}>
-          <Link to={`/Dashboard/`} className="btn btn-secondary">
+          <Link to={`/Dashboard/`} className="btn btn-secondary" style={{backgroundColor : '#27296d'}}>
             <FaArrowLeft style={{ marginRight: '10px' }} /> Retour
           </Link>
         </div>

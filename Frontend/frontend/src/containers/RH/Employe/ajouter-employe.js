@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../formation/FormationForm.css';
 import { Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 

@@ -156,9 +156,9 @@ const DashboardEmploye = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
-                                            <tr>
+                                    <table className="table-header">
+                                    <thead>
+                                        <tr>
                                                 <th>ID</th>
                                                 <th>Nom Employé</th>
                                                 <th>Prénom Employé</th>

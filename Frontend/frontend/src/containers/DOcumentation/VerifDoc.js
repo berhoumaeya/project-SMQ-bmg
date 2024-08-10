@@ -187,10 +187,9 @@ function VerifList() {
                             <br />
                             <div>
                             {viewMode === 'list' ? (
-
-                                <table>
-                                    <thead className="table-header">
-                                        <tr>
+                                <table className="table-header">
+                                        <thead>
+                                            <tr>
                                             <th style={{backgroundColor:'#76ab78'}} scope="col">ID</th>
                                             <th style={{backgroundColor:'#76ab78'}} scope="col">Libelle</th>
                                             <th style={{backgroundColor:'#76ab78'}} scope="col">Type de document</th>

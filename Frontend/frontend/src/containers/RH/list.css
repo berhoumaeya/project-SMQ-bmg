@@ -10,45 +10,94 @@
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    transition: transform 0.3s ease-in-out;
 }
-.table-container:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
+
+
+
 .table-responsive {
     overflow-x: auto;
 }
 
-.table {
+.table-header {
     width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: separate;
-    border-spacing: 0 0.5rem;
+    margin: 20px 0;
+    border-collapse: collapse;
 }
 
-.table th,
-.table td {
-    vertical-align: top;
-    border: none;
-    padding: 0.75rem;
-    background-color: #f8f9fa;
+.table-header thead th {
+    background-color: #5585b5;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+    cursor: pointer;
+    height: 60px;
+    
 }
 
-.table th {
-    font-weight: 600;
+
+
+.table-header tbody tr {
+    border-bottom: 1px solid #ddd;
 }
 
-.table td h5 {
-    margin-bottom: 0.5rem;
+.table-header tbody tr:hover {
+    background-color: #f9f9f9;
 }
 
-.table td span {
-    display: block;
+.table-header tbody td {
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-header tbody h6 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.table-header tbody .text-muted {
     color: #6c757d;
 }
 
+.table-header tbody .btn-outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.table-header tbody .btn-outline-info:hover {
+    background-color: #17a2b8;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .table-header thead {
+        display: none;
+    }
+
+    .table-header tbody tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .table-header tbody td {
+        display: block;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .table-header tbody td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
 
 
 
@@ -60,11 +109,7 @@
     color: rgb(70, 68, 169);
 }
 
-.search-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
+
 
 .search-input {
     width: 100%;
@@ -84,7 +129,7 @@
 
 .view-toggle {
     display: flex;
-    gap: 10px;
+    gap:2px;
     justify-content: right;
 
 }

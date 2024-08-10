@@ -160,9 +160,9 @@ const DashboardDocInt = () => {
                             </div>
 
                             {viewMode === 'list' ? (
-                                <table>
-                                    <thead>
-                                        <tr>
+                              <table className="table-header">
+                              <thead>
+                                  <tr>
                                             <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('libelle')}>
                                                 Libellé {getSortArrow('libelle')}
                                             </th>

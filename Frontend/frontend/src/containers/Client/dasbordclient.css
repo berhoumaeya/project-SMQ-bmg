@@ -1,4 +1,4 @@
-.circle-tile {
+/*.circle-tile {
   margin-bottom: 15px;
   text-align: center;
 }
@@ -39,7 +39,7 @@
   color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
 }
-/* Add color classes */
+/* Add color classes *//*
 .dark-blue { background-color: #34495E; }
 .red { background-color: #E74C3C; }
 .yellow { background-color: #F1C40F; }

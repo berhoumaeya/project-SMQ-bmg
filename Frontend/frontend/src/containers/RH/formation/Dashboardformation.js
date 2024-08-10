@@ -144,8 +144,8 @@ const DashboardFormation = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
+                                    <table className="table-header">
+                                        <thead>
                                             <tr>
                                                 <th scope="col" onClick={() => requestSort('intitule_formation')}>
                                                     Intitulé Formation {getSortArrow('intitule_formation')}
@@ -165,34 +165,35 @@ const DashboardFormation = () => {
                                         <tbody>
                                             {filteredFormations.length > 0 ? (
                                                 filteredFormations.map(formation => (
-                                                    <tr >
-                                                        <td>
+                                                    <tr key={formation.id}>
+                                                        <td data-label="Intitulé Formation">
                                                             <h6 className="font-weight-bold mb-0">{formation.intitule_formation}</h6>
                                                             <span className="text-muted">{formation.theme_formation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Type Formation">
                                                             <span className="text-muted">{formation.type_formation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Thème de formation">
                                                             <span className="text-muted">{formation.theme_formation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Responsable Validation">
                                                             <span className="text-muted">{formation.responsable_validation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Détails">
                                                             <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                                 <FaEdit />
+                                                                <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="6" className="text-center">Aucune formation disponible</td>
+                                                    <td colSpan="5" className="text-center">Aucune formation disponible</td>
                                                 </tr>
                                             )}
                                         </tbody>
                                     </table>
+
                                 ) : (
                                     <div className="grid">
                                         {filteredFormations.length > 0 ? (
@@ -205,7 +206,7 @@ const DashboardFormation = () => {
                                                         <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
                                                         <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
                                                         <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                             <FaEdit />
+                                                            <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>

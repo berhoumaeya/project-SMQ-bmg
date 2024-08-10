@@ -164,9 +164,9 @@ const DashboardFroid = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
-                                            <tr>
+                                   <table className="table-header">
+                                   <thead>
+                                       <tr>
                                                 <th scope="col" onClick={() => requestSort('name')}>
                                                     Nom {getSortArrow('name')}
                                                 </th>

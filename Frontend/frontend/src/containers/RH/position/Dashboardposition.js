@@ -95,9 +95,9 @@ const DashboardPost = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
-                                            <tr>
+                                    <table className="table-header">
+                                    <thead>
+                                        <tr>
                                                 <th scope="col" onClick={() => requestSort('title')}>
                                                     Titre Position {getSortArrow('title')}
                                                 </th>

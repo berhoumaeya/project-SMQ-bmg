@@ -77,8 +77,8 @@ function ValidAudit() {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
+                                    <table className="table-header">
+                                        <thead>
                                             <tr>
                                                 <th style={{ backgroundColor: '#58b3d3' }} scope="col">ID</th>
                                                 <th style={{ backgroundColor: '#58b3d3' }} scope="col">Référence</th>

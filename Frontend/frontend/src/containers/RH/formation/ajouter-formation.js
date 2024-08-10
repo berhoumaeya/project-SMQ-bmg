@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import './FormationForm.css';
 
 function AddFormation() {
     const [responsablesFormations, setResponsablesFormations] = useState([]);

@@ -136,9 +136,9 @@ const Audits = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
-                                            <tr>
+                                    <table className="table-header">
+                                    <thead>
+                                        <tr>
                                                 <th style={{ backgroundColor: '#58b3d3' }} scope="col" onClick={() => requestSort('reference')}>Référence {getSortArrow('reference')}</th>
                                                 <th style={{ backgroundColor: '#58b3d3' }} scope="col" onClick={() => requestSort('designation')}>Désignation  {getSortArrow('designation')}</th>
                                                 <th style={{ backgroundColor: '#58b3d3' }} scope="col" onClick={() => requestSort('type_audit')}>Type d'Audit {getSortArrow('type_audit')}</th>

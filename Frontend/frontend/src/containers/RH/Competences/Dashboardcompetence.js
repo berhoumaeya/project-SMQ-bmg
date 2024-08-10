@@ -204,10 +204,9 @@ const DashboardCompetence = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table className="grid-table">
-                                        <thead className="table-header">
-                                            <tr>
-                                                <th>ID</th>
+                                  <table className="table-header">
+                                  <thead>
+                                      <tr>
                                                 <th>Nom évaluation</th>
                                                 <th>Commentaires</th>
                                                 <th>Créé par</th>
@@ -218,8 +217,7 @@ const DashboardCompetence = () => {
                                         <tbody>
                                             {filteredCompetences.length > 0 ? (
                                                 filteredCompetences.map(competence => (
-                                                    <tr key={competence.id}>
-                                                        <td>{competence.id}</td>
+                                                    <tr>
                                                         <td>{competence.name}</td>
                                                         <td>{competence.commentaires}</td>
                                                         <td>{competence.created_by}</td>

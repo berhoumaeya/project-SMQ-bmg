@@ -158,7 +158,7 @@ const DashboardDocExt = () => {
                             </div>
 
                             {viewMode === 'list' ? (
-                                <table>
+                                <table className="table-header">
                                     <thead>
                                         <tr>
                                             <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('designation')}>
