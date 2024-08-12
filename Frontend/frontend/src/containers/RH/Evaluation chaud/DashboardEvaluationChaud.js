@@ -65,40 +65,67 @@ return (
 
 export default DashboardChaud;
 */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
-import '../Dashboard.css';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
+import '../list.css';
 
-// Static data for chaud evaluations
-const sampleChaudEvaluations = [
-    { id: 1, name: 'Evaluation A', created_by: 'Admin', created_at: '2024-01-01' },
-    { id: 2, name: 'Evaluation B', created_by: 'Admin', created_at: '2024-02-15' }
+const sampleChauds = [
+    { id: 1, name: 'Chaud 1', created_by: 'User A', created_at: '2024-01-01' },
+    { id: 2, name: 'Chaud 2', created_by: 'User B', created_at: '2024-02-01' }
 ];
 
 const DashboardChaud = () => {
-    const [chauds, setChaudEvaluations] = useState([]);
-    const [error] = useState(null);
+    const [chauds, setChauds] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     useEffect(() => {
-        setChaudEvaluations(sampleChaudEvaluations);
+        setChauds(sampleChauds);
     }, []);
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+    const filteredChauds = useMemo(() => {
+        return chauds.filter(chaud =>
+            chaud.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            chaud.created_by.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            chaud.created_at.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [chauds, searchQuery]);
 
-    const filteredChauds = chauds.filter(chaud =>
-        chaud.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        chaud.created_by.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        chaud.created_at.includes(searchQuery)
-    );
+    const sortedChauds = useMemo(() => {
+        const sortableChauds = [...filteredChauds];
+        if (sortConfig !== null) {
+            sortableChauds.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableChauds;
+    }, [filteredChauds, sortConfig]);
 
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -113,13 +140,13 @@ const DashboardChaud = () => {
                                     <FaTh />
                                 </button>
                             </div>
-                            <h3 className='formation-title'>Liste des Évaluations Chaud</h3>
+                            <h3 className="formation-title">Liste des Évaluations Chaud</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
                                 </Link>
                                 <Link to={`/ajouter-chaud/`}>
-                                    <button className="button-add">Évaluer en chaud</button>
+                                    <button className="button-add">Ajouter Évaluation</button>
                                 </Link>
                             </div>
                             <br />
@@ -135,51 +162,54 @@ const DashboardChaud = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table className="grid-table">
-                                        <thead className="table-header">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Nom évaluation</th>
-                                                <th>Créé par</th>
-                                                <th>Créé à</th>
-                                                <th>Détails</th>
+                                  <table className="table-header">
+                                  <thead>
+                                      <tr>
+                                                <th scope="col" onClick={() => requestSort('name')}>
+                                                    Nom {getSortArrow('name')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('created_by')}>
+                                                    Créé par {getSortArrow('created_by')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('created_at')}>
+                                                    Créé à {getSortArrow('created_at')}
+                                                </th>
+                                                <th scope="col">Détails</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {filteredChauds.length > 0 ? (
-                                                filteredChauds.map(chaud => (
+                                            {sortedChauds.length > 0 ? (
+                                                sortedChauds.map(chaud => (
                                                     <tr key={chaud.id}>
-                                                        <td>{chaud.id}</td>
                                                         <td>{chaud.name}</td>
                                                         <td>{chaud.created_by}</td>
                                                         <td>{chaud.created_at}</td>
                                                         <td>
                                                             <Link to={`/chaud/${chaud.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="5" className="text-center">Aucune évaluation disponible</td>
+                                                    <td colSpan="4" className="text-center">Aucune évaluation disponible</td>
                                                 </tr>
                                             )}
                                         </tbody>
                                     </table>
                                 ) : (
                                     <div className="grid">
-                                        {filteredChauds.length > 0 ? (
-                                            filteredChauds.map(chaud => (
+                                        {sortedChauds.length > 0 ? (
+                                            sortedChauds.map(chaud => (
                                                 <div key={chaud.id} className="responsable-item">
                                                     <img src="https://via.placeholder.com/100" alt={chaud.name} className="responsable-img" />
-
                                                     <div className="responsable-info">
                                                         <h5 className="responsable-title">{chaud.name}</h5>
                                                         <p><strong className="responsable-text">Créé par :</strong> {chaud.created_by}</p>
                                                         <p><strong className="responsable-text">Créé à :</strong> {chaud.created_at}</p>
                                                         <Link to={`/chaud/${chaud.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                            <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>

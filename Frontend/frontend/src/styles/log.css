@@ -24,6 +24,7 @@
 
 .error-message {
     color: #dc3545;
+    font-size: 0.875rem;
 }
 
 .login-form {
@@ -87,11 +88,4 @@
 .link-page
 {
 color: #4495d1;
-}
-
-
-.error-text {
-    color: red;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
 }

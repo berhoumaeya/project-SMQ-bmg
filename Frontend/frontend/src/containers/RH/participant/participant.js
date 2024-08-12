@@ -1,92 +1,11 @@
-/*import React, { useState, useEffect } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom'; 
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import "../Detail.css"
-
-const ParticipantDetail = () => {
-  const { id } = useParams();
-  const [formationsnames, setformationsnames] = useState([]);
-  const [employe, setEmploye] = useState('');
-  const [participant, setFormation] = useState(null);
-  const [deleteReussi, setdeleteReussi] = useState(false);
-
-  useEffect(() => {
-    const fetchFormation = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/participant/${id}/`);
-        setFormation(response.data);
-
-        const employeResponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/employe/${response.data.employe_concerne}/`);
-        setEmploye(employeResponse.data.username);
-
-        const formationsDetails = await Promise.all(response.data.formations_concernees.map(async (formationId) => {
-          const formationResponse = await axios.get(`${process.env.REACT_APP_API_URL}/RH/formation/${formationId}/`);
-          return formationResponse.data.intitule_formation;
-      }));
-      setformationsnames(formationsDetails);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des données de participant:', error);
-      }
-    };
-
-    fetchFormation();
-  }, [id]);
-  const handleDelete = async () => {
-    const headers = {
-      'Accept': '*//*',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrftoken'),
-    };
-    try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_participant/${id}/`,{headers:headers});
-        setdeleteReussi(true)
-    } catch (error) {
-        console.error('Erreur lors de la suppression de l\'employé:', error);
-    }
-};
-if (deleteReussi){
-  return <Navigate to="/Dashboardparticipant"/>
-}
-    return (
-        <div>
-            {participant ? (
-                <div className="card" >
-                    <div className="card-body">
-                        <p><strong>ID :</strong> {participant.id}</p>
-                        <p><strong>Nom participant :</strong> {participant.nom}</p>
-                        <p><strong>Prenom participant :</strong> {participant.prenom}</p>
-                        <p><strong>Nom d'utilisateur participant  :</strong> {participant.username}</p>
-                        <p><strong>Formation concernée participant  :</strong>{formationsnames.join(', ')}</p>
-                        <p><strong>Email de participant :</strong> {participant.email}</p>
-                        <p><strong>Est un utilisateur :</strong> {participant.is_user ? 'Oui' : 'Non'}</p>
-                        <p><strong>employe_concerne :</strong> {employe}</p>
-                        <p><strong>Date de création :</strong> {participant.created_at}</p>
-                        <p><strong>Créé par :</strong> {participant.created_by}</p>
-                        <p><strong>Pièces jointes :</strong> {participant.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_participant/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                        <p><strong>Modifié par :</strong> {participant.updated_by}</p>
-                        <p><strong>Date de modification :</strong> {participant.updated_at}</p>
-                    </div>
-                    <br />
-                    <a href="/Dashboardparticipant"><button className="btn-gray">Retour</button></a>&nbsp;
-                    <Link to={`/update-participant/${participant.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
-                    <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-                </div>
-            ):(
-                <p>chargement ... </p>
-            )}
-        </div>
-    );
-};
-
-export default ParticipantDetail;
-*/
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom'; 
-import '../Detail.css';
 import { GrEdit, GrTrash } from 'react-icons/gr';
-import { IoMdArrowRoundBack } from "react-icons/io";
-// Static data for participants
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import '../Detail.css';
+
 const sampleParticipants = [
     {
         id: 1,
@@ -132,10 +51,15 @@ const sampleParticipants = [
     }
 ];
 
-// Static data for formations
 const sampleFormations = [
     { id: 1, intitule_formation: 'Formation React' },
     { id: 2, intitule_formation: 'Formation Node.js' }
+];
+
+const sampleEmployes = [
+    { id: 1, username: 'admin' },
+    { id: 2, username: 'user1' },
+    { id: 3, username: 'user2' }
 ];
 
 const ParticipantDetail = () => {
@@ -143,65 +67,201 @@ const ParticipantDetail = () => {
     const [participant, setParticipant] = useState(null);
     const [deleteReussi, setDeleteReussi] = useState(false);
     const [formationsnames, setFormationsNames] = useState([]);
+    const [piecesJointes, setPiecesJointes] = useState(null);
+    const [employes] = useState(sampleEmployes);
+    const [employe_concerneID, setEmployeConcerneID] = useState('');
+    const [nom, setNom] = useState('');
+    const [prenom, setPrenom] = useState('');
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [is_user, setIsUser] = useState(false);
+    const [updateReussi, setUpdateReussi] = useState(false);
 
     useEffect(() => {
-        // Simulate data fetch
         const foundParticipant = sampleParticipants.find(p => p.id === parseInt(id));
+        setParticipant(foundParticipant);
         if (foundParticipant) {
-            setParticipant(foundParticipant);
 
             const formationsDetails = sampleFormations
                 .filter(formation => foundParticipant.formations_concernees.includes(formation.id))
                 .map(formation => formation.intitule_formation);
 
             setFormationsNames(formationsDetails);
+            setNom(foundParticipant.nom);
+            setPrenom(foundParticipant.prenom);
+            setEmail(foundParticipant.email);
+            setUsername(foundParticipant.username);
+            setIsUser(foundParticipant.is_user);
+            setEmployeConcerneID(foundParticipant.employe_concerne);
         }
     }, [id]);
 
-    const handleDelete = () => {
-        // Simulate delete operation
-        setDeleteReussi(true);
+
+    const handleDelete = async () => {
+        const headers = {
+            'Accept': '*/*',
+            'Content-Type': 'application/json',
+            'X-CSRFToken': Cookies.get('csrftoken')
+        };
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_participant/${id}/`, { headers });
+            setDeleteReussi(true);
+        } catch (error) {
+            console.error('Erreur lors de la suppression de participant:', error);
+        }
+    };
+
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        setPiecesJointes(selectedFile);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('nom', nom);
+        formData.append('prenom', prenom);
+        formData.append('email', email);
+        formData.append('username', username);
+        formData.append('is_user', is_user ? 'True' : 'False');
+        formData.append('employe_concerne', employe_concerneID);
+        if (piecesJointes) {
+            formData.append('pieces_jointes', piecesJointes);
+        }
+
+        const headers = {
+            'Accept': '*/*',
+            'Content-Type': 'multipart/form-data',
+            'X-CSRFToken': Cookies.get('csrftoken')
+        };
+        try {
+            await axios.put(`${process.env.REACT_APP_API_URL}/RH/update_participant/${id}/`, formData, { headers });
+            setUpdateReussi(true);
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour de participant:', error);
+        }
     };
 
     if (deleteReussi) {
         return <Navigate to="/Dashboardparticipant" />;
     }
 
+    if (updateReussi) {
+        return <Navigate to={`/participant/${id}`} />;
+    }
+
     return (
         <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="participant-detail">
-                {participant ? (
-                    <div className="card">
-                        <div className="card-body">
-                            <p><strong>ID :</strong> {participant.id}</p>
-                            <p><strong>Nom participant :</strong> {participant.nom}</p>
-                            <p><strong>Prénom participant :</strong> {participant.prenom}</p>
-                            <p><strong>Nom d'utilisateur participant :</strong> {participant.username}</p>
-                            <p><strong>Formations concernées :</strong> {formationsnames.join(', ')}</p>
-                            <p><strong>Email de participant :</strong> {participant.email}</p>
-                            <p><strong>Est un utilisateur :</strong> {participant.is_user ? 'Oui' : 'Non'}</p>
-                            <p><strong>Date de création :</strong> {participant.created_at}</p>
-                            <p><strong>Créé par :</strong> {participant.created_by}</p>
-                            <p><strong>Pièces jointes :</strong> {participant.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                            <p><strong>Modifié par :</strong> {participant.updated_by}</p>
-                            <p><strong>Date de modification :</strong> {participant.updated_at}</p>
-                        </div>
-                        <div className="buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                            <Link to="/Dashboardparticipant">
-                                <button className="btn-gray">                  <IoMdArrowRoundBack />
-                                </button>
-                            </Link>
-                            <Link to={`/update-participant/${participant.id}`}>
-                                <button className="btn-blue">                  <GrEdit />
-                                </button>
-                            </Link>
-                            <button className="btn btn-danger" onClick={handleDelete}>                <GrTrash />
-                            </button>
+            <div className="container-xl px-4 mt-4">
+                <div className="row">
+                    <div className="col-xl-4">
+                        <div className="card mb-4 mb-xl-0">
+                            <div className="card-header-">Profile Picture</div>
+                            <div className="card-body text-center">
+                                <div className="img-container mb-2">
+                                    <img
+                                        className="img-account-profile rounded-circle"
+                                        src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
+                                        alt="Profile"
+                                        style={{ width: '150px', height: '150px' }}
+                                    />
+                                </div>
+                                <div className="small font-italic text-muted mb-4">
+                                    JPG or PNG no larger than 5 MB
+                                </div>
+                                <input
+                                    type="file"
+                                    className="form-control mb-2"
+                                    onChange={handleFileChange}
+                                    accept=".jpg, .png"
+                                />
+                            </div>
                         </div>
                     </div>
-                ) : (
-                    <p>Chargement ...</p>
-                )}
+                    <div className="col-xl-8">
+                        <div className="card mb-4">
+                            <div className="card-header-">Account Details</div>
+                            <div className="card-body">
+                                {participant ? (
+                                    <form onSubmit={handleSubmit} className="row">
+
+                                        <div className="row gx-3 mb-3">
+                                            <div className="col-md-6">
+                                                <label className="small mb-1">Nom participant</label>
+                                                <input className="form-control" type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="small mb-1">Prénom participant</label>
+                                                <input className="form-control" type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                                            </div>
+                                        </div>
+                                        <div className="row gx-3 mb-3">
+                                            <div className="col-md-6">
+                                                <label className="small mb-1">Nom d'utilisateur participant</label>
+                                                <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="small mb-1">Email de participant</label>
+                                                <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                            </div>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="small mb-1">Formations concernées</label>
+                                            <input className="form-control" type="text" value={formationsnames.join(', ')} readOnly />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="small mb-1">Date de création</label>
+                                            <input className="form-control" type="text" value={participant.created_at} readOnly />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="small mb-1">Date de mise à jour</label>
+                                            <input className="form-control" type="text" value={participant.updated_at} readOnly />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="small mb-1">Est un utilisateur</label>
+                                            <input
+                                                type="checkbox"
+                                                checked={is_user}
+                                                onChange={(e) => setIsUser(e.target.checked)}
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="small mb-1">Employé concerné</label>
+                                            <select
+                                                className="form-control"
+                                                value={employe_concerneID}
+                                                onChange={(e) => setEmployeConcerneID(e.target.value)}
+                                            >
+                                                <option value="">--Select Employé--</option>
+                                                {employes.map(emp => (
+                                                    <option key={emp.id} value={emp.id}>{emp.username}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="d-flex justify-content-end mt-3">
+                                            <Link to={`/DashboardParticipant`} className="btn btn-secondary me-2">
+                                                <IoMdArrowRoundBack /> Retour
+                                            </Link>
+                                            <button type="submit" className="btn btn-primary me-2">
+                                                <GrEdit /> Modifier
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger"
+                                                onClick={handleDelete}
+                                            >
+                                                <GrTrash /> Supprimer
+                                            </button>
+                                        </div>
+                                    </form>
+                                ) : (
+                                    <p>Loading...</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     );

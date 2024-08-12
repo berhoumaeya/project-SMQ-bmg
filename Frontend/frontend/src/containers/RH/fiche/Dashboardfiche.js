@@ -66,56 +66,69 @@ return (
 
 export default DashboardFiche;
 */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
 
 const sampleFiches = [
-    {
-        id: 1,
-        name: 'Fiche 1',
-        job_position: 'Position A',
-        employe_concerne: 'Employe 1',
-    },
-    {
-        id: 2,
-        name: 'Fiche 2',
-        job_position: 'Position B',
-        employe_concerne: 'Employe 2',
-    },
-    {
-        id: 3,
-        name: 'Fiche 3',
-        job_position: 'Position C',
-        employe_concerne: 'Employe 3',
-    }
+    { id: 1, name: 'Fiche 1', job_position: 'Position A', employe_concerne: 'Employe 1' },
+    { id: 2, name: 'Fiche 2', job_position: 'Position B', employe_concerne: 'Employe 2' }
 ];
 
 const DashboardFiche = () => {
     const [fiches, setFiches] = useState([]);
-    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     useEffect(() => {
-        // Simulating data fetch
+        // Simulate data fetch
         setFiches(sampleFiches);
     }, []);
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+    const filteredFiches = useMemo(() => {
+        return fiches.filter(fiche =>
+            fiche.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            fiche.job_position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            fiche.employe_concerne.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [fiches, searchQuery]);
 
-    const filteredFiches = fiches.filter(fiche =>
-        fiche.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fiche.job_position.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fiche.employe_concerne.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const sortedFiches = useMemo(() => {
+        const sortableFiches = [...filteredFiches];
+        if (sortConfig !== null) {
+            sortableFiches.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableFiches;
+    }, [filteredFiches, sortConfig]);
+
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -130,7 +143,7 @@ const DashboardFiche = () => {
                                     <FaTh />
                                 </button>
                             </div>
-                            <h3 className="fiche-title">Liste des Fiches Employés</h3>
+                            <h3 className="formation-title">Liste des Fiches Employés</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
@@ -152,27 +165,31 @@ const DashboardFiche = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Nom Fiche</th>
-                                                <th scope="col">Poste Employé</th>
-                                                <th scope="col">Fiche de l'Employé</th>
+                                   <table className="table-header">
+                                   <thead>
+                                       <tr>
+                                                <th scope="col" onClick={() => requestSort('name')}>
+                                                    Nom Fiche {getSortArrow('name')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('job_position')}>
+                                                    Poste Employé {getSortArrow('job_position')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('employe_concerne')}>
+                                                    Fiche de l'Employé {getSortArrow('employe_concerne')}
+                                                </th>
                                                 <th scope="col">Détails</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {filteredFiches.length > 0 ? (
-                                                filteredFiches.map(fiche => (
-                                                    <tr key={fiche.id}>
-                                                        <td>{fiche.id}</td>
+                                            {sortedFiches.length > 0 ? (
+                                                sortedFiches.map(fiche => (
+                                                    <tr>
                                                         <td>{fiche.name}</td>
                                                         <td>{fiche.job_position}</td>
                                                         <td>{fiche.employe_concerne}</td>
                                                         <td>
                                                             <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -186,8 +203,8 @@ const DashboardFiche = () => {
                                     </table>
                                 ) : (
                                     <div className="grid">
-                                        {filteredFiches.length > 0 ? (
-                                            filteredFiches.map(fiche => (
+                                        {sortedFiches.length > 0 ? (
+                                            sortedFiches.map(fiche => (
                                                 <div key={fiche.id} className="responsable-item">
                                                     <img src="https://via.placeholder.com/100" alt={fiche.name} className="responsable-img" />
                                                     <div className="responsable-info">
@@ -195,7 +212,7 @@ const DashboardFiche = () => {
                                                         <p><strong className="responsable-text">Poste :</strong> {fiche.job_position}</p>
                                                         <p><strong className="responsable-text">Employé Concerné :</strong> {fiche.employe_concerne}</p>
                                                         <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                            <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>

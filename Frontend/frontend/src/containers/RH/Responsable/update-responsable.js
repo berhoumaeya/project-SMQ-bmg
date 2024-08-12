@@ -82,70 +82,55 @@ const UpdateResponsable = () => {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div class="container ajout-form">
-        <div class="contact-image ">
-          <img src="/images/change.png" alt="rocket_contact" />
-          <div class="button-container">
-            <Link to={`/responsable/${id}`}>
-              <button className="retour">Retour </button>
-            </Link>   <button className="button-add" type="submit">Modifier un responsable</button>
-
+    <div className="form-container">
+      <div className="form-card">
+        <h3>Modifier un Participant</h3>
+        <form onSubmit={handleSubmit} className="form">
+          <div className="form-group">
+            <label>Nom Participant :</label>
+            <input type="text" name="nom" value={nom} onChange={(e) => setnom(e.target.value)} />
           </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="row">
-          <div class="col-md-6">
-            <div className="form-label">
-              <label className="form-label">Nom Participant :</label>
-              <input type="text" className="form-control" placeholder='Nom*' name="nom" value={nom} onChange={(e) => setnom(e.target.value)} />
-            </div>
-            <div className="form-label">
-              <label className="form-label">Prénom de Participant :</label>
-              <input type="text" className="form-control" name="prenom" placeholder='Prenom*' value={prenom} onChange={(e) => setprenom(e.target.value)} />
-            </div>
-            <div className="form-label">
-              <label className="form-label">Nom d'utilisateur Participant :</label>
-              <input type="text" className="form-control" name="username" placeholder='Nom utilisateur*' value={username} onChange={(e) => setusername(e.target.value)} />
-            </div>
+          <div className="form-group">
+            <label>Prénom de Participant :</label>
+            <input type="text" name="prenom" value={prenom} onChange={(e) => setprenom(e.target.value)} />
           </div>
-          <div class="col-md-6">
-
-            <div className="form-label">
-              <label className="form-label">Email de Participant :</label>
-              <input type="email" className="form-control" name="email" placeholder='Email*' value={email} onChange={(e) => setemail(e.target.value)} />
-            </div>
-            <br />
-            <div className="form-label">
-              <div className="checkbox-container">
-                <label className="form-label">Est un utilisateur : </label>
-                <input type="checkbox" name="is_user" checked={is_user} onChange={e => setis_user(e.target.checked)} />
-              </div>
-            </div>
-            <br />
-
-            <div className="form-label">
-              <label className="form-label">Pièces jointes :</label>
-              {piecesJointesUrl ? (
-                <div>
-                  <input
-                    type="text"
-                    value={piecesJointesUrl}
-                    onChange={(e) => setPiecesJointesUrl(e.target.value)}
-                  />
-                  <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
-                </div>
-              ) : (
+          <div className="form-group">
+            <label>Nom d'utilisateur Participant :</label>
+            <input type="text" name="username" value={username} onChange={(e) => setusername(e.target.value)} />
+          </div>
+          <div className="form-group">
+            <label>Email de Participant :</label>
+            <input type="email" name="email" value={email} onChange={(e) => setemail(e.target.value)} />
+          </div>
+          <div className="form-group">
+            <label>Est un utilisateur :</label>
+            <input type="checkbox" name="is_user" checked={is_user} onChange={e => setis_user(e.target.checked)} />
+          </div>
+          <div className="form-group">
+            <label>Pièces jointes :</label>
+            {piecesJointesUrl ? (
+              <div>
                 <input
-                  type="file"
-                  onChange={handleFileChange}
+                  type="text"
+                  value={piecesJointesUrl}
+                  onChange={(e) => setPiecesJointesUrl(e.target.value)}
                 />
-              )}
-            </div>
+                <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
+              </div>
+            ) : (
+              <input
+                type="file"
+                onChange={handleFileChange}
+              />
+            )}
           </div>
+          <button className="btn btn-primary" type="submit">Modifier responsable</button>
+          <Link to={`/responsable/${id}`}>
+            <button>Retour</button>
+          </Link>
         </form>
       </div>
-    </main>
+    </div>
   );
 };
 

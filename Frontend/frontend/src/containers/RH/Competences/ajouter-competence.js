@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../formation/FormationForm.css';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

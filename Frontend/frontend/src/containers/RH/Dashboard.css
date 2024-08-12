@@ -80,14 +80,16 @@ button:hover {
 button:focus {
   outline: none;
 }
-
 .ajout-form {
   background: #fff;
   margin-top: 5%;
   margin-bottom: 5%;
   width: 10%;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
+
 
 .ajout-form .form-control {
   border-radius: 1rem;
@@ -185,11 +187,6 @@ button:focus {
 .criteria-input {
   flex: 2;
   margin-right: 1em;
-}
-
-.error-text {
-  color: red;
-  margin-bottom: 1em;
 }
 
 .remove-icon {

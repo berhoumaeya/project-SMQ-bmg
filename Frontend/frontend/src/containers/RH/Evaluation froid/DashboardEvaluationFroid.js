@@ -46,11 +46,11 @@ return (
 <tbody>
 {froids.map(froid => (
 <tr key={froid.id}>
-    <td>{froid.id}</td>
-    <td>{froid.name}</td>
-    <td>{froid.created_by}</td>
-    <td>{froid.created_at}</td>
-    <Link to={`/froid/${froid.id}`}>Détails</Link>
+<td>{froid.id}</td>
+<td>{froid.name}</td>
+<td>{froid.created_by}</td>
+<td>{froid.created_at}</td>
+<Link to={`/froid/${froid.id}`}>Détails</Link>
 </tr>
 ))}
 </tbody>
@@ -64,56 +64,70 @@ return (
 };
 
 export default DashboardFroid;
-*/
-import React, { useState, useEffect } from 'react';
+*/import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh
+    
+} from 'react-icons/fa';
 import '../list.css';
 
 const sampleFroids = [
-    {
-        id: 1,
-        name: 'Évaluation Froid 1',
-        created_by: 'Admin',
-        created_at: '2024-01-01'
-    },
-    {
-        id: 2,
-        name: 'Évaluation Froid 2',
-        created_by: 'Admin',
-        created_at: '2024-02-01'
-    },
-    {
-        id: 3,
-        name: 'Évaluation Froid 3',
-        created_by: 'Admin',
-        created_at: '2024-03-01'
-    }
+    { id: 1, name: 'Froid 1', created_by: 'User A', created_at: '2024-01-01' },
+    { id: 2, name: 'Froid 2', created_by: 'User B', created_at: '2024-02-01' }
 ];
 
 const DashboardFroid = () => {
     const [froids, setFroids] = useState([]);
-    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     useEffect(() => {
         setFroids(sampleFroids);
     }, []);
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+    const filteredFroids = useMemo(() => {
+        return froids.filter(froid =>
+            froid.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            froid.created_by.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            froid.created_at.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [froids, searchQuery]);
 
-    const filteredFroids = froids.filter(froid =>
-        froid.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        froid.created_by.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        froid.created_at.includes(searchQuery)
-    );
+    const sortedFroids = useMemo(() => {
+        const sortableFroids = [...filteredFroids];
+        if (sortConfig !== null) {
+            sortableFroids.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableFroids;
+    }, [filteredFroids, sortConfig]);
+
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -128,13 +142,13 @@ const DashboardFroid = () => {
                                     <FaTh />
                                 </button>
                             </div>
-                            <h3 className='formation-title'>Liste des Évaluations Froid</h3>
+                            <h3 className="formation-title">Liste des Évaluations Froid</h3>
                             <div className="button-container">
                                 <Link to="/DashboardRH/">
                                     <button className="retour">Retour</button>
                                 </Link>
                                 <Link to={`/ajouter-froid/`}>
-                                    <button className="button-add">Évaluer en Froid</button>
+                                    <button className="button-add">Ajouter Évaluation</button>
                                 </Link>
                             </div>
                             <br />
@@ -150,51 +164,54 @@ const DashboardFroid = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Nom Évaluation</th>
-                                                <th scope="col">Créé par</th>
-                                                <th scope="col">Créé à</th>
+                                   <table className="table-header">
+                                   <thead>
+                                       <tr>
+                                                <th scope="col" onClick={() => requestSort('name')}>
+                                                    Nom {getSortArrow('name')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('created_by')}>
+                                                    Créé par {getSortArrow('created_by')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('created_at')}>
+                                                    Créé à {getSortArrow('created_at')}
+                                                </th>
                                                 <th scope="col">Détails</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {filteredFroids.length > 0 ? (
-                                                filteredFroids.map(froid => (
-                                                    <tr key={froid.id}>
-                                                        <td>{froid.id}</td>
+                                            {sortedFroids.length > 0 ? (
+                                                sortedFroids.map(froid => (
+                                                    <tr >
                                                         <td>{froid.name}</td>
                                                         <td>{froid.created_by}</td>
                                                         <td>{froid.created_at}</td>
                                                         <td>
                                                             <Link to={`/froid/${froid.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="5" className="text-center">Aucune évaluation disponible</td>
+                                                    <td colSpan="4" className="text-center">Aucune évaluation disponible</td>
                                                 </tr>
                                             )}
                                         </tbody>
                                     </table>
                                 ) : (
                                     <div className="grid">
-                                        {filteredFroids.length > 0 ? (
-                                            filteredFroids.map(froid => (
+                                        {sortedFroids.length > 0 ? (
+                                            sortedFroids.map(froid => (
                                                 <div key={froid.id} className="responsable-item">
                                                     <img src="https://via.placeholder.com/100" alt={froid.name} className="responsable-img" />
-
                                                     <div className="responsable-info">
                                                         <h5 className="responsable-title">{froid.name}</h5>
                                                         <p><strong className="responsable-text">Créé par :</strong> {froid.created_by}</p>
                                                         <p><strong className="responsable-text">Créé à :</strong> {froid.created_at}</p>
                                                         <Link to={`/froid/${froid.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                            <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>

@@ -29,10 +29,26 @@ const DocExtForm = () => {
         const selectedFile = event.target.files[0];
         setPiecesJointes(selectedFile);
     };
+    const validateForm = () => {
+        const formErrors = {};
+        if (!designation) formErrors.designation = 'Désignation est requis.';
+        if (!type) formErrors.type = 'Type est requis.';
+        if (!lieu_classement) formErrors.lieu_classement = 'Lieu classement est requis.';
+        if (!duree_classement) formErrors.duree_classement = 'Durée est requis.';
+        if (liste_informeeID.length === 0) formErrors.liste_informee = 'Liste informée est requis.';
+        if (!fichier) formErrors.fichier = 'Pièces jointes est requis.';
 
+        return formErrors;
+    };
 
     const handleSubmit = (event) => {
+
         event.preventDefault();
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
 
         const formData = new FormData();
         formData.append('designation', designation);
@@ -76,28 +92,27 @@ const DocExtForm = () => {
                         <Link to="/DashboardDoc">
                             <button className="retour">Retour au tableau de bord</button>
                         </Link>
-                        <button className="button-add-" type="submit">Rédiger un document</button>
+                        <button className="button-add-" type="submit" onClick={handleSubmit}>Rédiger un document</button>
                     </div>
                 </div>
                 <form onSubmit={handleSubmit} className="row">
                     <div className="col-md-6">
                         <div className="form-label">
                             <label className="form-label">Désignation :</label>
-                            {errors.designation && <p className="error-text">{errors.designation}</p>}
                             <input type="text" className="form-control" placeholder='Désignation*' name="designation" value={designation} onChange={(e) => setdesignation(e.target.value)} />
+                            {errors.designation && <p className="error">{errors.designation}</p>}
                         </div>
                         <div className="form-label">
                             <label className="form-label">Type :</label>
-                            {errors.type && <p className="error-text">{errors.type}</p>}
                             <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
                                 <option value="">Sélectionner...</option>
                                 <option value="numerique">Numerique</option>
                                 <option value="papier">Papier</option>
                             </select>
+                            {errors.type && <p className="error">{errors.type}</p>}
                         </div>
                         <div className="form-label">
                             <label className="form-label">Lieu classement:</label>
-                            {errors.lieu_classement && <p className="error-text">{errors.lieu_classement}</p>}
                             <select className="form-control" value={lieu_classement} onChange={(e) => setlieu_classement(e.target.value)}>
                                 <option value="">Sélectionner...</option>
                                 <option value="Archives">Archives</option>
@@ -105,26 +120,28 @@ const DocExtForm = () => {
                                 <option value="Entrepôt">Entrepôt</option>
                                 <option value="Cloud">Cloud</option>
                             </select>
+                            {errors.lieu_classement && <p className="error">{errors.lieu_classement}</p>}
                         </div>
                         <div className="form-label">
                             <label className="form-label">Durée :</label>
-                            {errors.duree_classement && <p className="error-text">{errors.duree_classement}</p>}
                             <input className="form-control" placeholder='Durée*' type="text" name="duree_classement" value={duree_classement} onChange={(e) => setduree_classement(e.target.value)} />
+                        {errors.duree_classement && <p className="error">{errors.duree_classement}</p>}
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-label">
                             <label className="form-label">Liste informée :</label>
-                            {errors.liste_informee && <p className="error-text">{errors.liste_informee}</p>}
                             <select className="form-control" multiple value={liste_informeeID} onChange={(e) => setListeInformee(Array.from(e.target.selectedOptions, option => option.value))}>
                                 {liste_informees.map(liste_informee => (
                                     <option key={liste_informee.id} value={liste_informee.id}>{liste_informee.username}</option>
                                 ))}
                             </select>
+                            {errors.liste_informee && <p className="error">{errors.liste_informee}</p>}
                         </div>
                         <div className="form-label">
                             <label className="form-label">Pièces jointes :</label>
                             <input className="form-control" type="file" onChange={handleFileChange} />
+                            {errors.fichier && <p className="error">{errors.fichier}</p>}
                         </div>
                     </div>
                 </form>

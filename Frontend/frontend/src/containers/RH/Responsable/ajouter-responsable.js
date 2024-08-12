@@ -9,16 +9,35 @@ function ResponsableForm() {
   const [prenom, setPrenom] = useState('');
   const [email, setEmail] = useState('');
   const [is_user, setIs_user] = useState(false);
-  const [ajoutReussi, setAjoutReussi] = useState(false);
   const [pieces_jointes, setPiecesJointes] = useState(null);
+  const [ajoutReussi, setAjoutReussi] = useState(false);
+
+  // State for validation errors
+  const [errors, setErrors] = useState({});
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setPiecesJointes(selectedFile);
   };
 
+  const validateForm = () => {
+    const formErrors = {};
+    if (!nom) formErrors.nom = 'Nom est requis.';
+    if (!prenom) formErrors.prenom = 'Prénom est requis.';
+    if (!email) formErrors.email = 'Email est requis.';
+    if (!username) formErrors.username = 'Nom d\'utilisateur est requis.';
+    if (email && !/^[\w-.]+@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) formErrors.email = 'Email invalide.';
+    return formErrors;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+
     const formData = new FormData();
     formData.append('nom', nom);
     formData.append('prenom', prenom);
@@ -35,14 +54,16 @@ function ResponsableForm() {
       'X-CSRFToken': Cookies.get('csrftoken')
     };
 
-    axios.post(`${process.env.REACT_APP_API_URL}/RH/create_responsable_formation/`, formData, { headers: headers })
+    axios.post(`${process.env.REACT_APP_API_URL}/RH/create_responsable_formation/`, formData, { headers })
       .then(response => {
-        console.log('Participant ajouté avec succès :', response.data);
+        console.log('Responsable ajouté avec succès :', response.data);
         setNom('');
         setPrenom('');
         setEmail('');
         setUsername('');
         setIs_user(false);
+        setPiecesJointes(null);
+        setErrors({});
         setAjoutReussi(true);
       })
       .catch(error => {
@@ -56,37 +77,40 @@ function ResponsableForm() {
 
   return (
     <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div class="container ajout-form">
-        <div class="contact-image ">
+      <div className="container ajout-form">
+        <div className="contact-image">
           <img src="/images/add.png" alt="rocket_contact" />
-          <div class="button-container">
+          <div className="button-container" style={{marginBottom :'40px'}}>
             <Link to="/Dashboardresponsable">
               <button className="retour">Retour au tableau de bord</button>
-            </Link>   <button className="button-add" type="submit">Ajouter un responsable</button>
-
+            </Link>
+            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter un responsable</button>
           </div>
+      
         </div>
-
         <form onSubmit={handleSubmit} className="row">
-
-          <div class="col-md-6">
+           <div className="col-md-6">
             <div className="form-label">
               <label className="form-label">Nom :</label>
-              <input type="text" className="form-control" placeholder='Nom*' name="nom" value={nom} onChange={(e) => setNom(e.target.value)} />
+              <input type="text" className="form-control" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
+              {errors.nom && <div className="error">{errors.nom}</div>}
             </div>
             <div className="form-label">
               <label className="form-label">Prénom :</label>
-              <input type="text" className="form-control" name="prenom" placeholder='Prenom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+              <input type="text" className="form-control" placeholder='Prénom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+              {errors.prenom && <div className="error">{errors.prenom}</div>}
             </div>
             <div className="form-label">
               <label className="form-label">Email :</label>
-              <input type="email" className="form-control" name="email" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="email" className="form-control" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
+              {errors.email && <div className="error">{errors.email}</div>}
             </div>
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <div className="form-label">
               <label className="form-label">Nom d'utilisateur :</label>
-              <input type="text" className="form-control" name="username" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
+              <input type="text" className="form-control" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
+              {errors.username && <div className="error">{errors.username}</div>}
             </div>
             <div className="form-label">
               <label className="form-label">Pièces jointes :</label>
@@ -95,8 +119,8 @@ function ResponsableForm() {
             <br />
             <div className="form-label">
               <div className="checkbox-container">
-                <label className="form-label">Est un utilisateur : </label>
-                <input type="checkbox" name="is_user" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+                <label className="form-label">Est un utilisateur :</label>
+                <input type="checkbox" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
               </div>
             </div>
           </div>

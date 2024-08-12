@@ -1,78 +1,6 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import './Dashboard.css';
-
-const DashboardFormation = () => {
-    const [formations, setFormations] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchFormations = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_formation/`, {
-                    headers: {
-                        'Accept': '*//*', 
-}
-});
-setFormations(response.data);
-} catch (error) {
-console.error('Error fetching formations:', error);
-setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-}
-};
-
-fetchFormations();
-}, []);
-
-if (error) {
-return <div>Erreur : {error}</div>;
-}
-
-return (
-<div>
-<div className="formations-header">
-<h3>Liste des Formations</h3>
-</div>
-<table className="table table-bordered" id="dataTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Intitulé Formation</th>
-<th>Type Formation</th>
-<th>Thème de formation</th>
-<th>Responsable Validation</th>
-<th>Détails de la formation</th>
-</tr>
-</thead>
-<tbody>
-{formations.map(formation => (
-<tr key={formation.id}>
-<td>{formation.id}</td>
-<td>{formation.intitule_formation}</td>
-<td>{formation.type_formation}</td>
-<td>{formation.theme_formation}</td>
-<td>{formation.responsable_validation}</td>
-<td><Link to={`/formation/${formation.id}`} className="details-link">Détails</Link></td>
-</tr>
-))}
-</tbody>
-</table>
-<div className="button-group">
-<Link to={`/ajouter-formation/`} className="btn btn-primary">Ajouter Formation</Link>
-<Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
-</div>
-</div>
-
-);
-};
-
-export default DashboardFormation;
-*/
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
 
 const sampleFormations = [
@@ -131,27 +59,55 @@ const sampleFormations = [
 
 const DashboardFormation = () => {
     const [formations, setFormations] = useState([]);
-    const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     useEffect(() => {
         // Simulating data fetch
         setFormations(sampleFormations);
     }, []);
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+    const sortedFormations = useMemo(() => {
+        let sortableFormations = [...formations];
+        if (sortConfig !== null) {
+            sortableFormations.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableFormations;
+    }, [formations, sortConfig]);
 
-    const filteredFormations = formations.filter(formation =>
+    const filteredFormations = sortedFormations.filter(formation =>
         formation.intitule_formation.toLowerCase().includes(searchQuery.toLowerCase()) ||
         formation.theme_formation.toLowerCase().includes(searchQuery.toLowerCase()) ||
         formation.type_formation.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
+
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container dashboard">
                 <div className="row">
                     <div>
@@ -160,10 +116,10 @@ const DashboardFormation = () => {
                         <div className="table-container">
                             <div className="view-toggle">
                                 <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList /> 
+                                    <FaList />
                                 </button>
                                 <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh /> 
+                                    <FaTh />
                                 </button>
                             </div>
                             <h3 className="formation-title">Liste des Formations</h3>
@@ -188,14 +144,21 @@ const DashboardFormation = () => {
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
+                                    <table className="table-header">
+                                        <thead>
                                             <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Intitulé Formation</th>
-                                                <th scope="col">Type Formation</th>
-                                                <th scope="col">Thème de formation</th>
-                                                <th scope="col">Responsable Validation</th>
+                                                <th scope="col" onClick={() => requestSort('intitule_formation')}>
+                                                    Intitulé Formation {getSortArrow('intitule_formation')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('type_formation')}>
+                                                    Type Formation {getSortArrow('type_formation')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('theme_formation')}>
+                                                    Thème de formation {getSortArrow('theme_formation')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('responsable_validation')}>
+                                                    Responsable Validation {getSortArrow('responsable_validation')}
+                                                </th>
                                                 <th scope="col">Détails</th>
                                             </tr>
                                         </thead>
@@ -203,34 +166,34 @@ const DashboardFormation = () => {
                                             {filteredFormations.length > 0 ? (
                                                 filteredFormations.map(formation => (
                                                     <tr key={formation.id}>
-                                                        <td>{formation.id}</td>
-                                                        <td>
+                                                        <td data-label="Intitulé Formation">
                                                             <h6 className="font-weight-bold mb-0">{formation.intitule_formation}</h6>
                                                             <span className="text-muted">{formation.theme_formation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Type Formation">
                                                             <span className="text-muted">{formation.type_formation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Thème de formation">
                                                             <span className="text-muted">{formation.theme_formation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Responsable Validation">
                                                             <span className="text-muted">{formation.responsable_validation}</span>
                                                         </td>
-                                                        <td>
+                                                        <td data-label="Détails">
                                                             <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="6" className="text-center">Aucune formation disponible</td>
+                                                    <td colSpan="5" className="text-center">Aucune formation disponible</td>
                                                 </tr>
                                             )}
                                         </tbody>
                                     </table>
+
                                 ) : (
                                     <div className="grid">
                                         {filteredFormations.length > 0 ? (
@@ -243,13 +206,13 @@ const DashboardFormation = () => {
                                                         <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
                                                         <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
                                                         <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                            <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>
                                             ))
                                         ) : (
-                                            <p className="text-center">Aucune formation disponible</p>
+                                            <p>Aucune formation disponible</p>
                                         )}
                                     </div>
                                 )}

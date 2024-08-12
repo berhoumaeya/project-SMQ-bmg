@@ -39,7 +39,7 @@ const Login = ({ login, isAuthenticated }) => {
                 <div className="row g-0">
                     <div className="col-lg-6 d-flex align-items-center order-2 order-lg-1 ">
                         <div className="p-3 p-lg-4">
-                            <img src="/images/Sign.png" alt="Sign in" style={{ width: '400px', height: '400px' }} />
+                            <img src="/images/account.png" alt="Sign in" style={{ width: '400px', height: '400px' }} />
                         </div>
                         <div className="vr opacity-1 d-none d-lg-block" />
                     </div>

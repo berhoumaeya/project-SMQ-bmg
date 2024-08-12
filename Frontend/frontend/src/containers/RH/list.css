@@ -1,52 +1,106 @@
 .container {
     margin: 2rem auto;
     max-width: 1200px;
- 
+
 }
- 
+
 .table-container {
     padding: 1.5rem;
     background-color: #ffffff;
     border-radius: 0.5rem;
- 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
- 
+
+
+
 .table-responsive {
     overflow-x: auto;
 }
- 
-.table {
+
+.table-header {
     width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: separate;
-    border-spacing: 0 0.5rem;
+    margin: 20px 0;
+    border-collapse: collapse;
 }
- 
-.table th,
-.table td {
-    vertical-align: top;
-    border: none;
-    padding: 0.75rem;
-    background-color: #f8f9fa;
+
+.table-header thead th {
+    background-color: #5585b5;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+    cursor: pointer;
+    height: 60px;
+    
 }
- 
-.table th {
-    font-weight: 600;
+
+
+
+.table-header tbody tr {
+    border-bottom: 1px solid #ddd;
 }
- 
-.table td h5 {
-    margin-bottom: 0.5rem;
+
+.table-header tbody tr:hover {
+    background-color: #f9f9f9;
 }
- 
-.table td span {
-    display: block;
+
+.table-header tbody td {
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-header tbody h6 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.table-header tbody .text-muted {
     color: #6c757d;
 }
- 
- 
- 
- 
+
+.table-header tbody .btn-outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.table-header tbody .btn-outline-info:hover {
+    background-color: #17a2b8;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .table-header thead {
+        display: none;
+    }
+
+    .table-header tbody tr {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .table-header tbody td {
+        display: block;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .table-header tbody td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+
+
+
 .formation-title {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
@@ -54,13 +108,9 @@
     margin-top: 1rem;
     color: rgb(70, 68, 169);
 }
- 
-.search-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
- 
+
+
+
 .search-input {
     width: 100%;
     max-width: 1200px;
@@ -71,19 +121,19 @@
     transition: border-color 0.3s ease;
     margin-top: 20px;
 }
- 
+
 .search-input:focus {
     border-color: #5585b5;
     outline: none;
 }
- 
+
 .view-toggle {
     display: flex;
-    gap: 10px;
+    gap:2px;
     justify-content: right;
- 
+
 }
- 
+
 .view-btn {
     background-color: #fff;
     border: 1px solid #ccc;
@@ -94,19 +144,20 @@
     align-items: center;
     gap: 5px;
 }
- 
+
 .view-btn.active {
     background-color: #5585b5;
     color: white;
     border-color: #5585b5;
 }
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
 }
- 
+
 .responsable-item {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -115,26 +166,39 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-   
+
 }
-.responsable-title{
+
+.responsable-title {
     font-size: 1.2em;
     margin-bottom: 10px;
     font-family: Apple Chancery, cursive, sans sherif;
     margin-top: 1rem;
     color: rgb(70, 68, 169);
 }
-.responsable-text{
+
+.responsable-text {
     margin-bottom: 10px;
     font-size: 0.9em;
     font-family: Apple Chancery, cursive, sans sherif;
     margin-top: 1rem;
     color: #011830;
 }
+
 .responsable-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     margin-right: 15px;
 }
- 
+
+.delete {
+    border-radius: 1rem;
+    color: #cc0000;
+    background-color: transparent;
+    border: 2px solid #cc0000;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: none;
+    justify-items: center;
+}

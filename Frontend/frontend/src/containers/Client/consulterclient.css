@@ -1,80 +1,36 @@
-.container-xl {
-    max-width: 100%;
-    padding: 0 20px;
-    margin: 0 auto;
+body {
+    background: #f9f9fb;
 }
 
 .card-header {
-    background-color: rgba(33, 40, 50, 0.03);
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-.card-body {
-    padding: 1.5rem;
+    background-color: #e47a85;
 }
 
 .img-account-profile {
-    height: 10rem;
-    width: 10rem;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+    border-radius: 50%;
 }
 
-.table-user-information {
-    width: 100%;
-    margin-bottom: 1.5rem;
-    color: #212529;
-}
-
-.table-user-information td {
-    padding: .75rem;
-    vertical-align: middle;
-    border-top: 1px solid #dee2e6;
-}
-
-.table-user-information td:first-child {
-    font-weight: bold;
-    width: 20%;
-}
-
-.table-user-information input.form-control {
-    width: 100%;
-}
-
-.btn-primary {
-    background-color: #0061f2;
-    border-color: #0061f2;
-    color: #fff;
-}
-
-.btn-primary:hover {
-    background-color: #004bbd;
-    border-color: #004bbd;
+.container-xl {
+    margin-top: 20px;
+    background: #FFFFFF;
+    padding: 30px;
 }
 
 .nav-borders .nav-link.active {
-    color: #0061f2;
-    border-bottom-color: #0061f2;
-    font-weight: bold;
+    color: #5585b5;
+    border-bottom: 2px solid #40babd;
 }
 
-.nav-borders .nav-link {
-    color: #69707a;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    font-weight: 500;
-    font-size: 1rem;
+.btn-primary {
+    background-color: #5585b5;
+    border-color: #5585b5;
+    margin: 20px;
 }
 
-.table td {
-    border-top: none;
-}
-
-.document-card-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+.btn-danger {
+    background-color: #5585b5;
+    border-color: #5585b5;
 }

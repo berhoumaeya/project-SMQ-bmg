@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
 const Home = () => (
-<div >
+
+  <div >
+
     <div className="">
       <header
         className="row align-items-center mb-5"
@@ -10,12 +12,12 @@ const Home = () => (
           backgroundImage: 'url(/images/a.png)',
           backgroundSize: 'cover',
           opacity: '0.9',
-        
+
         }}
       >
         <div className="col-lg-12 text-center text-white" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '150px' }}>
           <div className="  display-4 mb-4 ">
-            <div className='title'> Bienvenue dans notre ERP</div></div>
+            <div className='-title'> Bienvenue dans notre ERP</div></div>
           <p className=" small-title">
             Où l'innovation rencontre la gestion de la qualité.
           </p>
@@ -34,9 +36,11 @@ const Home = () => (
             </Link>
           </div>
         </div>
+        
       </header>
 
     </div>
+    
   </div>
 );
 
