@@ -61,14 +61,11 @@ const AllClients = () => {
 
 export default AllClients;*/
 
-
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaList, FaTh } from 'react-icons/fa';
-import { GrView } from 'react-icons/gr';
-import '../RH/list.css';
+import { FaEdit } from 'react-icons/fa';
+import './client.css';
 
 const AllClients = () => {
     const [view, setView] = useState('list');
@@ -88,44 +85,44 @@ const AllClients = () => {
 
     return (
         <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+            <div className="container client-dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${view === 'list' ? 'active' : ''}`} onClick={() => setView('list')}>
+                        <div className="client-table-container">
+                            <div className="client-view-toggle">
+                                <button className={`client-view-btn ${view === 'list' ? 'client-active' : ''}`} onClick={() => setView('list')}>
                                     <FaList /> 
                                 </button>
-                                <button className={`view-btn ${view === 'grid' ? 'active' : ''}`} onClick={() => setView('grid')}>
+                                <button className={`client-view-btn ${view === 'grid' ? 'client-active' : ''}`} onClick={() => setView('grid')}>
                                     <FaTh /> 
                                 </button>
                             </div>
-                            <h3 className='formation-title'>Liste des Clients</h3>
-                            <div className="button-container">
+                            <h3 className='client-formation-title'>Liste des Clients</h3>
+                            <div className="client-button-container">
                                 <Link to="/DashboardClient/">
-                                    <button className="retour">Retour</button>
+                                    <button className="client-retour">Retour</button>
                                 </Link>
                                 <Link to="/CréerClient/">
-                                    <button className="button-add">Ajouter Client</button>
+                                    <button className="client-button-add">Ajouter Client</button>
                                 </Link>
                             </div>
                             <br />
-                            <div className="search-container">
+                            <div className="client-search-container">
                                 <input
                                     type="text"
                                     placeholder="Rechercher..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="search-input"
+                                    className="client-search-input"
                                 />
                             </div>
                             <br />
                             <div>
                                 {view === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
+                                    <table className="client-styled-table">
+                                        <thead className="client-table-header">
                                             <tr>
                                                 <th scope="col">Code client</th>
                                                 <th scope="col">Nom client</th>
@@ -144,7 +141,7 @@ const AllClients = () => {
                                                         <td>{client.email}</td>
                                                         <td>
                                                             <Link to={`/consulterclient/${client.code}`} className="btn btn-outline-info btn-sm">
-                                                            <GrView />
+                                                            <FaEdit /> 
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -157,17 +154,17 @@ const AllClients = () => {
                                         </tbody>
                                     </table>
                                 ) : (
-                                    <div className="grid">
+                                    <div className="client-grid">
                                         {filteredClients.length > 0 ? (
                                             filteredClients.map((client, index) => (
-                                                <div key={index} className="responsable-item">
-                                                    <img src={client.image} alt={`Image de ${client.nom}`} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{client.nom} {client.firstName}</h5>
-                                                        <p><strong className="responsable-text">Code :</strong> {client.code}</p>
-                                                        <p><strong className="responsable-text">Email :</strong> {client.email}</p>
+                                                <div key={index} className="client-responsable-item">
+                                                    <img src={client.image} alt={`Image de ${client.nom}`} className="client-responsable-img" />
+                                                    <div className="client-responsable-info">
+                                                        <h5 className="client-responsable-title">{client.nom} {client.firstName}</h5>
+                                                        <p><strong className="client-responsable-text">Code :</strong> {client.code}</p>
+                                                        <p><strong className="client-responsable-text">Email :</strong> {client.email}</p>
                                                         <Link to={`/client/${client.code}`} className="btn btn-outline-info btn-sm">
-                                                        <GrView />
+                                                        <FaEdit /> 
                                                         </Link>
                                                     </div>
                                                 </div>

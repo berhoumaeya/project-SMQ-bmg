@@ -61,18 +61,17 @@ export default AllFournisseurs;*/
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GrView } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
-import '../RH/list.css';
+import { FaList, FaTh, FaEdit } from 'react-icons/fa';
+import './fournisseur.css'; 
 
 const sampleFournisseurs = [
-    { id: 1, nom: 'Fournisseur A', code_fournisseur: 'FA123' },
-    { id: 2, nom: 'Fournisseur B', code_fournisseur: 'FB456' },
-    { id: 3, nom: 'Fournisseur C', code_fournisseur: 'FC789' },
+    { id: 1, nom: 'Fournisseur A', prénom:'ca', code_fournisseur: 'FA123', email:'a@gmail.com', },
+    { id: 2, nom: 'Fournisseur B',prénom:'ca', code_fournisseur: 'FB456', email:'b@gmail.com',  },
+    
 ];
 
 const AllFournisseurs = () => {
-    const [fournisseurs, setfournisseurs] = useState(sampleFournisseurs);
+    const [fournisseurs, setFournisseurs] = useState(sampleFournisseurs);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
 
@@ -83,48 +82,49 @@ const AllFournisseurs = () => {
 
     return (
         <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+            <div className="container fournisseur-dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
+                        <div className="fournisseur-table-container">
+                            <div className="fournisseur-view-toggle">
+                                <button className={`fournisseur-view-btn ${viewMode === 'list' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList /> 
                                 </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
+                                <button className={`fournisseur-view-btn ${viewMode === 'grid' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh /> 
                                 </button>
                             </div>
-                            <h3 className="formation-title">Liste des Fournisseurs</h3>
-                            <div className="button-container">
+                            <h3 className='fournisseur-formation-title'>Liste des Fournisseurs</h3>
+                            <div className="fournisseur-button-container">
                                 <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
+                                    <button className="fournisseur-retour">Retour</button>
                                 </Link>
-                                <Link to={`/CréerFournisseur/`}>
-                                    <button className="button-add">Ajouter Fournisseur</button>
+                                <Link to="/CréerFournisseur/">
+                                    <button className="fournisseur-button-add">Ajouter Fournisseur</button>
                                 </Link>
                             </div>
                             <br />
-                            <div className="search-container">
+                            <div className="fournisseur-search-container">
                                 <input
                                     type="text"
                                     placeholder="Rechercher..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
+                                    className="fournisseur-search-input"
                                 />
                             </div>
                             <br />
                             <div>
                                 {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
+                                    <table className="fournisseur-styled-table">
+                                        <thead className="fournisseur-table-header">
                                             <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Nom Fournisseur</th>
                                                 <th scope="col">Code Fournisseur</th>
+                                                <th scope="col">Nom Fournisseur</th>
+                                                <th scope="col">Prénom Fournisseur</th>
+                                                <th scope="col">Email</th>
                                                 <th scope="col">Détails</th>
                                             </tr>
                                         </thead>
@@ -132,12 +132,13 @@ const AllFournisseurs = () => {
                                             {filteredFournisseurs.length > 0 ? (
                                                 filteredFournisseurs.map(fournisseur => (
                                                     <tr key={fournisseur.id}>
-                                                        <td>{fournisseur.id}</td>
+                                                       <td>{fournisseur.code_fournisseur}</td>
                                                         <td>{fournisseur.nom}</td>
-                                                        <td>{fournisseur.code_fournisseur}</td>
+                                                        <td>{fournisseur.prénom}</td>
+                                                        <td>{fournisseur.email}</td>
                                                         <td>
                                                             <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="btn btn-outline-info btn-sm">
-                                                                <GrView />
+                                                                <FaEdit />
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -150,16 +151,17 @@ const AllFournisseurs = () => {
                                         </tbody>
                                     </table>
                                 ) : (
-                                    <div className="grid">
+                                    <div className="fournisseur-grid">
                                         {filteredFournisseurs.length > 0 ? (
                                             filteredFournisseurs.map(fournisseur => (
-                                                <div key={fournisseur.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={`${fournisseur.nom}`} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{fournisseur.nom}</h5>
-                                                        <p><strong className="responsable-text">Code :</strong> {fournisseur.code_fournisseur}</p>
-                                                        <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="btn btn-outline-info btn-sm" >
-                                                            <GrView />
+                                                <div key={fournisseur.id} className="fournisseur-responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={`${fournisseur.nom}`} className="fournisseur-responsable-img" />
+                                                    <div className="fournisseur-responsable-info">
+                                                        <h5 className="fournisseur-responsable-title">{fournisseur.nom} {fournisseur.prénom}</h5>
+                                                        <p><strong className="fournisseur-responsable-text">Code :</strong> {fournisseur.code_fournisseur}</p>
+                                                        <p><strong className="fournisseur-responsable-text">Email</strong> {fournisseur.email}</p>
+                                                        <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="btn btn-outline-info btn-sm">
+                                                            <FaEdit />
                                                         </Link>
                                                     </div>
                                                 </div>

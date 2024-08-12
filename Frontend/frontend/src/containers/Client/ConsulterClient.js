@@ -97,7 +97,8 @@ const Client = () => {
 export default Client;*/
 
 import React, { useState } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './consulterclient.css';
 
 const Client = () => {
@@ -119,8 +120,8 @@ const Client = () => {
         pieces_jointes: true,
         image_url: "https://bootdey.com/img/Content/avatar/avatar1.png",
     });
-    const [error, setError] = useState(null);
     const [deleteReussi, setDeleteReussi] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -134,110 +135,210 @@ const Client = () => {
         setDeleteReussi(true);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Logique pour soumettre les modifications
-        console.log('Client data updated:', clientData);
+    const validateForm = () => {
+        const newErrors = {};
+        if (!clientData.nom) newErrors.nom = "Le nom est requis";
+        if (!clientData.prenom) newErrors.prenom = "Le prénom est requis";
+        if (!clientData.email) newErrors.email = "L'email est requis";
+        if (!clientData.code_client) newErrors.code_client = "Le code client est requis";
+        return newErrors;
     };
 
-    if (error) {
-        return <div className="error-message">Erreur : {error}</div>;
-    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+        console.log('Client data updated:', clientData);
+    };
 
     if (deleteReussi) {
         return <Navigate to="/Clients" />;
     }
 
     return (
-        <div className="container view-account">
-            <section className="module">
-                <div className="module-inner">
-                    <div className="side-bar">
-                        <div className="user-info">
-                            <img className="img-profile img-circle img-responsive center-block" src={clientData.image_url} alt="Client" />
-                            <ul className="meta list list-unstyled">
-                                <li className="name">{clientData.nom} {clientData.prenom}</li>
-                                <li className="email">{clientData.email}</li>
-                                <li className="activity">Last updated: {clientData.updated_at}</li>
-                            </ul>
+        <div className="container-xl px-4 mt-4">
+            <nav className="nav nav-borders">
+                <a className="nav-link active ms-0" href="#">Profile</a>
+                <a className="nav-link" href="#">Reclamations</a>
+                <a className="nav-link" href="#">Suggestion</a>
+                <a className="nav-link" href="#">Enquete</a>
+            </nav>
+            <hr className="mt-0 mb-4" />
+            <div className="row">
+                <div className="col-xl-4">
+                    <div className="card mb-4 mb-xl-0">
+                        <div className="card-header">Profile Picture</div>
+                        <div className="card-body text-center">
+                            <img className="img-account-profile rounded-circle mb-2" src={clientData.image_url} alt="Client" />
+                            <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <input className="form-control mb-2" type="file" accept="image/*" />
+                          
                         </div>
-                        <nav className="side-menu">
-                            <ul className="nav">
-                                <li className="active"><a href="#"><span className="fa fa-user"></span> Profile</a></li>
-                                <li><Link to={`/AllReclamations/${clientData.code}`}><span className="fa fa-cog"></span> Reclamations</Link></li>
-                                <li><Link to={`/AllSuggestion.js/${clientData.id}`}><span className="fa fa-cog"></span> Suggestion</Link></li>    
-                                <li><Link to={`/AllEnquete.js/${clientData.id}`}><span className="fa fa-cog"></span> Enquete</Link></li>                         </ul>
-                        </nav>
-                    </div>
-                    <div className="content-panel">
-                        <h2 className="title">Modifier le Profil</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="table-responsive">
-                                <table className="table table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Nom Client</strong></td>
-                                            <td><input type="text" className="form-control" name="nom" value={clientData.nom} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Prénom Client</strong></td>
-                                            <td><input type="text" className="form-control" name="prenom" value={clientData.prenom} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Email</strong></td>
-                                            <td><input type="email" className="form-control" name="email" value={clientData.email} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Code Client</strong></td>
-                                            <td><input type="text" className="form-control" name="code_client" value={clientData.code_client} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Raison Sociale</strong></td>
-                                            <td><input type="text" className="form-control" name="raison_sociale" value={clientData.raison_sociale} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Activité</strong></td>
-                                            <td><input type="text" className="form-control" name="activite" value={clientData.activite} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Type Client</strong></td>
-                                            <td><input type="text" className="form-control" name="type_client" value={clientData.type_client} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Catégorie</strong></td>
-                                            <td><input type="text" className="form-control" name="categorie" value={clientData.categorie} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Modifié le</strong></td>
-                                            <td><input type="date" className="form-control" name="updated_at" value={clientData.updated_at} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Modifié par</strong></td>
-                                            <td><input type="text" className="form-control" name="updated_by" value={clientData.updated_by} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Créé le</strong></td>
-                                            <td><input type="date" className="form-control" name="created_at" value={clientData.created_at} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Créé par</strong></td>
-                                            <td><input type="text" className="form-control" name="created_by" value={clientData.created_by} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Pièces jointes</strong></td>
-                                            <td>{clientData.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div className="document-card-buttons">
-                                <button type="submit" className="btn btn-primary">Enregistrer</button>
-                                <button type="button" onClick={handleDelete} className="btn btn-danger">Supprimer</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </section>
+                <div className="col-xl-8">
+                    <div className="card mb-4">
+                        <div className="card-header">Account Details</div>
+                        <div className="card-body">
+                            <form onSubmit={handleSubmit}>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputNom">Nom Client</label>
+                                        <input
+                                            className={`form-control ${errors.nom ? 'is-invalid' : ''}`}
+                                            id="inputNom"
+                                            name="nom"
+                                            type="text"
+                                            value={clientData.nom}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.nom && <div className="invalid-feedback">{errors.nom}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputPrenom">Prénom Client</label>
+                                        <input
+                                            className={`form-control ${errors.prenom ? 'is-invalid' : ''}`}
+                                            id="inputPrenom"
+                                            name="prenom"
+                                            type="text"
+                                            value={clientData.prenom}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.prenom && <div className="invalid-feedback">{errors.prenom}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputEmail">Email</label>
+                                        <input
+                                            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                                            id="inputEmail"
+                                            name="email"
+                                            type="email"
+                                            value={clientData.email}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputCodeClient">Code Client</label>
+                                        <input
+                                            className={`form-control ${errors.code_client ? 'is-invalid' : ''}`}
+                                            id="inputCodeClient"
+                                            name="code_client"
+                                            type="text"
+                                            value={clientData.code_client}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.code_client && <div className="invalid-feedback">{errors.code_client}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputRaisonSociale">Raison Sociale</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputRaisonSociale"
+                                            name="raison_sociale"
+                                            type="text"
+                                            value={clientData.raison_sociale}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputActivite">Activité</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputActivite"
+                                            name="activite"
+                                            type="text"
+                                            value={clientData.activite}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputTypeClient">Type Client</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputTypeClient"
+                                            name="type_client"
+                                            type="text"
+                                            value={clientData.type_client}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputCategorie">Catégorie</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputCategorie"
+                                            name="categorie"
+                                            type="text"
+                                            value={clientData.categorie}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputUpdatedBy">Modifié par</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputUpdatedBy"
+                                            name="updated_by"
+                                            type="text"
+                                            value={clientData.updated_by}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputUpdatedAt">Modifié le</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputUpdatedAt"
+                                            name="updated_at"
+                                            type="date"
+                                            value={clientData.updated_at}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputCreatedBy">Créé par</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputCreatedBy"
+                                            name="created_by"
+                                            type="text"
+                                            value={clientData.created_by}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="inputCreatedAt">Créé le</label>
+                                        <input
+                                            className="form-control"
+                                            id="inputCreatedAt"
+                                            name="created_at"
+                                            type="date"
+                                            value={clientData.created_at}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <button className="btn btn-primary" type="submit">Save Changes</button>
+                                <button className="btn btn-danger" type="button" onClick={handleDelete}>Delete Account</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-//import './CréerFournisseur.css';
+import '../Client/consulterclient.css';
 const AddFournisseur = () => {
 
     const [errors, setErrors] = useState({});

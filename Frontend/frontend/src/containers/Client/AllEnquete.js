@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams,Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -18,7 +18,7 @@ const AllEnquetes = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/CRM/dashboard_enquete/`, {
                     headers: {
-                        'Accept': '*/*',
+                        'Accept': '*//*',
                     }
                 });
                 setreclamations(response.data);
@@ -33,7 +33,7 @@ const AllEnquetes = () => {
 
     const handleDelete = async (id) => {
         const headers = {
-            'Accept': '*/*',
+            'Accept': '*//*',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
         };
@@ -88,6 +88,137 @@ const AllEnquetes = () => {
                 <Link to={`/DashboardClient/`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>
+    );
+};
+
+export default AllEnquetes;*/
+
+
+import React, { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import './client.css';
+import { FaEdit } from 'react-icons/fa';
+
+const AllEnquetes = () => {
+    const { id } = useParams();
+
+    const [reclamations, setReclamations] = useState([
+        {
+            id: 1,
+            name_enquete: 'Enquête 1',
+            date_debut: '2023-01-01',
+            date_fin: '2023-01-10',
+            type_questionnaire: 'Type 1',
+            clients: ['Client A', 'Client B'],
+            pieces_jointes: true,
+            created_at: '2023-01-01T12:00:00Z',
+            created_by: 'User 1',
+            updated_at: '2023-01-05T12:00:00Z',
+            updated_by: 'User 2',
+        },
+        {
+            id: 2,
+            name_enquete: 'Enquête 2',
+            date_debut: '2023-02-01',
+            date_fin: '2023-02-10',
+            type_questionnaire: 'Type 2',
+            clients: ['Client C', 'Client D'],
+            pieces_jointes: false,
+            created_at: '2023-02-01T12:00:00Z',
+            created_by: 'User 3',
+            updated_at: null,
+            updated_by: null,
+        },
+    ]);
+
+    const [loading, setLoading] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleDelete = (reclamationId) => {
+        setReclamations(prevReclamations => prevReclamations.filter(client => client.id !== reclamationId));
+    };
+
+    const filteredReclamations = reclamations.filter(reclamation =>
+        reclamation.name_enquete.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        reclamation.type_questionnaire.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        reclamation.clients.join(', ').toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (loading) {
+        return <div>Chargement...</div>;
+    }
+
+    return (
+        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <div className="client-dashboard">
+                <div className="row">
+                    <div>
+                        <br />
+                        <br />
+                        <div className="table-container">
+                            <h3 className='client-formation-title'>Liste des Enquêtes</h3>
+                            <div className="client-button-container">
+                                <Link to={`/CréerEnquete/`}>
+                                    <button className="client-button-add">Ajouter Enquête</button>
+                                </Link>
+                                <Link to={`/DashboardClient/`}>
+                                    <button className="client-retour">Retour</button>
+                                </Link>
+                            </div>
+                            <div className="client-search-container">
+                                <input
+                                    type="text"
+                                    className="client-search-input"
+                                    placeholder="Rechercher..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                            <br />
+                            <table className="client-styled-table">
+                                <thead className="table-header">
+                                    <tr>
+                                        <th scope="col">Nom Enquête</th>
+                                        <th scope="col">Date Début</th>
+                                        <th scope="col">Date Fin</th>
+                                        <th scope="col">Type Questionnaire</th>
+                                        <th scope="col">Clients</th>
+                                        <th scope="col">Actions</th>
+                                        <th scope="col">Actions</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredReclamations.length > 0 ? (
+                                        filteredReclamations.map((reclamation, index) => (
+                                            <tr key={index}>
+                                                <td>{reclamation.name_enquete}</td>
+                                                <td>{reclamation.date_debut}</td>
+                                                <td>{reclamation.date_fin}</td>
+                                                <td>{reclamation.type_questionnaire}</td>
+                                                <td>{reclamation.clients.join(', ')}</td>
+                                                <td>
+                                                    <Link to={`/ModifierReclamation/${reclamation.id}`} className="btn-view-details">
+                                                        <FaEdit />
+                                                    </Link>
+                                                   <button onClick={() => handleDelete(reclamation.id)} className="btn btn-danger">
+                                                        Supprimer
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="6" className="text-center">Aucune enquête disponible</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     );
 };
 

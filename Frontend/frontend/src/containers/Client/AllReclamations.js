@@ -113,20 +113,20 @@ const Allreclamations = () => {
 };
 
 export default Allreclamations;*/
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import '../RH/list.css';
-import { TbWorld } from "react-icons/tb";
+import './client.css';
+import { FaEdit } from 'react-icons/fa';
 
 const Allreclamations = () => {
     const { id } = useParams();
 
     const [reclamations, setReclamations] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        //  API call
+        // Mock API call
         const mockReclamations = [
             {
                 id: 1,
@@ -134,7 +134,6 @@ const Allreclamations = () => {
                 description: 'Description for reclamation 1',
                 type_reclamation: 'Type 1',
             },
-      
         ];
 
         setReclamations(mockReclamations);
@@ -146,29 +145,44 @@ const Allreclamations = () => {
         setReclamations(prevReclamations => prevReclamations.filter(client => client.id !== reclamationId));
     };
 
+    const filteredReclamations = reclamations.filter(reclamation =>
+        reclamation.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        reclamation.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        reclamation.type_reclamation.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (loading) {
         return <div>Chargement...</div>;
     }
 
     return (
         <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+            <div className="client-dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
                         <div className="table-container">
-                            <h3 className='formation-title'>Liste des Réclamations</h3>
-                            <div className="button-container">
+                            <h3 className='client-formation-title'>Liste des Réclamations</h3>
+                            <div className="client-button-container">
                                 <Link to={`/CréerReclamationClient/${id}/`}>
-                                    <button className="button-add">Ajouter Réclamation</button>
+                                    <button className="client-button-add">Ajouter Réclamation</button>
                                 </Link>
                                 <Link to={`/ConsulterClient/${id}`}>
-                                    <button className="retour">Retour</button>
+                                    <button className="client-retour">Retour</button>
                                 </Link>
                             </div>
+                            <div className="client-search-container">
+                                <input
+                                    type="text"
+                                    className="client-search-input"
+                                    placeholder="Rechercher..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
                             <br />
-                            <table className="table">
+                            <table className="client-styled-table">
                                 <thead className="table-header">
                                     <tr>
                                         <th scope="col">Code Réclamation</th>
@@ -178,15 +192,15 @@ const Allreclamations = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {reclamations.length > 0 ? (
-                                        reclamations.map((reclamation, index) => (
+                                    {filteredReclamations.length > 0 ? (
+                                        filteredReclamations.map((reclamation, index) => (
                                             <tr key={index}>
                                                 <td>{reclamation.code}</td>
                                                 <td>{reclamation.description}</td>
                                                 <td>{reclamation.type_reclamation}</td>
                                                 <td>
-                                                    <Link to={`/detailsreclamtion.js/${reclamation.code}`} className="btn btn-outline-info btn-sm">
-                                                        <TbWorld />
+                                                    <Link to={`/detailsrec.js/${reclamation.code}`} className="btn-view-details">
+                                                    <FaEdit />
                                                     </Link>
                                                 </td>
                                             </tr>

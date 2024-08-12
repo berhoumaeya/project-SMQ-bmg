@@ -63,7 +63,7 @@ const AllSuggestions = () => {
                 {reclamations.map(client => (
                     <div key={client.id} className="client-card">
                         <div className="client-card-body">
-                            <p className="client-card-text"><strong>Nom Enquete:</strong> {client.name}</p>
+                            <p className="client-card-text"><strong>Nom Suggestion:</strong> {client.name}</p>
                             <p className="client-card-text"><strong>date:</strong> {client.date}</p>
                             <p className="client-card-text"><strong>type_suggestion:</strong> {client.type_suggestion}</p>
                             <p className="client-card-text"><strong>receptionnaire:</strong> {client.receptionnaire}</p>
