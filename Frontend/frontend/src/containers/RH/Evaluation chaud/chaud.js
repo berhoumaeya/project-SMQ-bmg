@@ -77,6 +77,7 @@ import { GrEdit, GrTrash } from 'react-icons/gr';
 import "../Detail.css";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import SubNavbarRH from '../../../components/SubNavbarRH';
 
 const sampleChaudDetails = {
     1: {
@@ -171,7 +172,9 @@ const ChaudDetail = () => {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <>
+        <SubNavbarRH />
+        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>            
             <div className="container-xl px-4 mt-4">
                 <div className="row">
                     <div className="col-xl-4">
@@ -264,6 +267,7 @@ const ChaudDetail = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

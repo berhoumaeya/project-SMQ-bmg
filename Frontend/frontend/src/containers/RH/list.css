@@ -1,18 +1,11 @@
-.container {
-    margin: 2rem auto;
-    max-width: 1200px;
-
-}
-
 .table-container {
     padding: 1.5rem;
     background-color: #ffffff;
     border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+    margin-right: 10px;
 }
-
-
 
 .table-responsive {
     overflow-x: auto;
@@ -27,12 +20,11 @@
 .table-header thead th {
     background-color: #5585b5;
     color: #ffffff;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     border-bottom: 2px solid #ddd;
-    cursor: pointer;
-    height: 60px;
-    
+    height: 50px;
+
 }
 
 
@@ -129,28 +121,10 @@
 
 .view-toggle {
     display: flex;
-    gap:2px;
+    gap: 2px;
     justify-content: right;
 
 }
-
-.view-btn {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.view-btn.active {
-    background-color: #5585b5;
-    color: white;
-    border-color: #5585b5;
-}
-
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -197,7 +171,6 @@
     color: #cc0000;
     background-color: transparent;
     border: 2px solid #cc0000;
-    cursor: pointer;
     padding: 10px 20px;
     margin-top: none;
     justify-items: center;

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 function CompetenceForm() {
     const { id } = useParams();
@@ -77,81 +79,83 @@ function CompetenceForm() {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div class="container ajout-form">
-                <div class="contact-image ">
-                    <img src="/images/add.png" alt="rocket_contact" />
-                    <div class="button-container">
-                        <Link to={`/Dashboardcompetence/${id}`}>
-                            <button className="retour">Retour au tableau de bord</button>
-                        </Link>   <button className="button-add" type="submit">Evaluer</button>
+        <>
+            <SubNavbarRH />
+            <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+                <SidebarRH />
 
+                <div class="container ajout-form">
+                 
+                    <form onSubmit={handleSubmit} className="form">
+                        <div className="form-label">
+                            <label className="form-label">Nom du évaluation :</label>
+                            {errors.name && <p className="error-text">{errors.name}</p>}
+                            <input className="form-control" placeholder='Nom du évaluation*' type="text" name="name" value={formData.name} onChange={handleChange} required />
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Commentaires :</label>
+                            {errors.commentaires && <p className="error-text">{errors.commentaires}</p>}
+                            <input type="text" className="form-control" placeholder='Commentaires*' name="commentaires" value={formData.commentaires} onChange={handleChange} />
+                        </div>
+                        {formData.criteres.map((critere, index) => (
+                            <div className="criteria-row" key={index}>
+                                <label className="criteria-label">Critère {index + 1}:</label>
+                                {errors.criteres && errors.criteres[index] && (
+                                    <div className="error-text">
+                                        {errors.criteres[index].skills_acquis && <p>{errors.criteres[index].skills_acquis}</p>}
+                                        {errors.criteres[index].note_acquis && <p>{errors.criteres[index].note_acquis}</p>}
+                                        {errors.criteres[index].note_requis && <p>{errors.criteres[index].note_requis}</p>}
+                                    </div>
+                                )}
+                                <input
+                                    type="text"
+                                    name="skills_acquis"
+                                    className="form-control criteria-input"
+                                    value={critere.skills_acquis}
+                                    onChange={(e) => handleCritereChange(index, e)}
+                                    required
+                                />
+                                <input
+                                    type="number"
+                                    name="note_acquis"
+                                    className="form-control criteria-input"
+                                    value={critere.note_acquis}
+                                    onChange={(e) => handleCritereChange(index, e)}
+                                    min="1"
+                                    max="10"
+                                    required
+                                />
+                                <input
+                                    type="number"
+                                    name="note_requis"
+                                    className="form-control criteria-input"
+                                    value={critere.note_requis}
+                                    onChange={(e) => handleCritereChange(index, e)}
+                                    min="1"
+                                    max="10"
+                                    required
+                                />
+                                {index > 0 && (
+                                    <FontAwesomeIcon
+                                        icon={faMinus}
+                                        onClick={() => removeCritere(index)}
+                                        className="remove-icon"
+                                    />
+                                )}
+                            </div>
+                        ))}
+
+                        <FontAwesomeIcon icon={faPlus} onClick={addCritere} style={{ cursor: 'pointer', marginTop: '10px' }} />
+
+                    </form>
+                    <div class="contact-image ">
+                        <div class="button-container">
+                            <button className="button-add" type="submit">Evaluer</button>
+                        </div>
                     </div>
                 </div>
-                <form onSubmit={handleSubmit} className="form">
-                    <div className="form-label">
-                        <label className="form-label">Nom du évaluation :</label>
-                        {errors.name && <p className="error-text">{errors.name}</p>}
-                        <input className="form-control" placeholder='Nom du évaluation*' type="text" name="name" value={formData.name} onChange={handleChange} required />
-                    </div>
-                    <div className="form-label">
-                        <label className="form-label">Commentaires :</label>
-                        {errors.commentaires && <p className="error-text">{errors.commentaires}</p>}
-                        <input type="text" className="form-control" placeholder='Commentaires*' name="commentaires" value={formData.commentaires} onChange={handleChange} />
-                    </div>
-                    {formData.criteres.map((critere, index) => (
-                        <div className="criteria-row" key={index}>
-                            <label className="criteria-label">Critère {index + 1}:</label>
-                            {errors.criteres && errors.criteres[index] && (
-                                <div className="error-text">
-                                    {errors.criteres[index].skills_acquis && <p>{errors.criteres[index].skills_acquis}</p>}
-                                    {errors.criteres[index].note_acquis && <p>{errors.criteres[index].note_acquis}</p>}
-                                    {errors.criteres[index].note_requis && <p>{errors.criteres[index].note_requis}</p>}
-                                </div>
-                            )}
-                            <input
-                                type="text"
-                                name="skills_acquis"
-                                className="form-control criteria-input"
-                                value={critere.skills_acquis}
-                                onChange={(e) => handleCritereChange(index, e)}
-                                required
-                            />
-                            <input
-                                type="number"
-                                name="note_acquis"
-                                className="form-control criteria-input"
-                                value={critere.note_acquis}
-                                onChange={(e) => handleCritereChange(index, e)}
-                                min="1"
-                                max="10"
-                                required
-                            />
-                            <input
-                                type="number"
-                                name="note_requis"
-                                className="form-control criteria-input"
-                                value={critere.note_requis}
-                                onChange={(e) => handleCritereChange(index, e)}
-                                min="1"
-                                max="10"
-                                required
-                            />
-                            {index > 0 && (
-                                <FontAwesomeIcon
-                                    icon={faMinus}
-                                    onClick={() => removeCritere(index)}
-                                    className="remove-icon"
-                                />
-                            )}
-                        </div>
-                    ))}
-
-                    <FontAwesomeIcon icon={faPlus} onClick={addCritere} style={{ cursor: 'pointer', marginTop: '10px' }} />
-
-                </form>
-            </div>
-        </main>
+            </main>
+        </>
     );
 }
 

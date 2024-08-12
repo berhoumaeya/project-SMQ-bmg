@@ -75,6 +75,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../Detail.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
 const samplePosts = [
   {
     id: 1,
@@ -207,8 +208,11 @@ const PostDetail = () => {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="container-xl px-4 mt-4">
+
+    <>
+    <SubNavbarRH />
+    <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+<div className="container-xl px-4 mt-4">
         <div className="row">
           <div className="col-xl-4">
             <div className="card mb-4 mb-xl-0">
@@ -310,6 +314,7 @@ const PostDetail = () => {
         </div>
       </div>
     </main>
+    </>
   );
 };
 

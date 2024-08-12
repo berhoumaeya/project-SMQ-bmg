@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
-import '../list.css'; 
+import { FaEdit} from 'react-icons/fa';
+import '../list.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
+
 
 const sampleParticipants = [
     {
@@ -77,110 +80,103 @@ const DashboardParticipant = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+            <SidebarRH /> 
+                <div className="container dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
                         <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList /> 
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh /> 
-                                </button>
-                            </div>
-                            <h3 className="formation-title">Liste des Participants</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to={`/ajouter-participant/`}>
-                                    <button className="button-add">Ajouter Participant</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                    <table>
-                                        <thead className="table-header">
-                                            <tr>
-                                                <th scope="col" onClick={() => requestSort('nom')}>
-                                                    Nom {getSortArrow('nom')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('prenom')}>
-                                                    Prénom {getSortArrow('prenom')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('username')}>
-                                                    Nom d'utilisateur {getSortArrow('username')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('email')}>
-                                                    Email {getSortArrow('email')}
-                                                </th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                     
+                                <h3 className="formation-title">Liste des Participants</h3>
+                                <div className="button-container">
+                                    <Link to={`/ajouter-participant/`}>
+                                        <button className="button-add">Ajouter Participant</button>
+                                    </Link>
+                                </div>
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead >
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('nom')}>
+                                                        Nom {getSortArrow('nom')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('prenom')}>
+                                                        Prénom {getSortArrow('prenom')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('username')}>
+                                                        Nom d'utilisateur {getSortArrow('username')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('email')}>
+                                                        Email {getSortArrow('email')}
+                                                    </th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredParticipants.length > 0 ? (
+                                                    filteredParticipants.map(participant => (
+                                                        <tr >
+                                                            <td>{participant.nom}</td>
+                                                            <td>{participant.prenom}</td>
+                                                            <td>{participant.username}</td>
+                                                            <td>{participant.email}</td>
+                                                            <td>
+                                                                <Link to={`/update-participant/${participant.id}`} className="btn btn-outline-info btn-sm">
+                                                                    <FaEdit />
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6" className="text-center">Aucun participant disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {filteredParticipants.length > 0 ? (
                                                 filteredParticipants.map(participant => (
-                                                    <tr >
-                                                        <td>{participant.nom}</td>
-                                                        <td>{participant.prenom}</td>
-                                                        <td>{participant.username}</td>
-                                                        <td>{participant.email}</td>
-                                                        <td>
-                                                            <Link to={`/participant/${participant.id}`} className="btn btn-outline-info btn-sm">
+                                                    <div key={participant.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={participant.nom} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{participant.nom} {participant.prenom}</h5>
+                                                            <p><strong className="responsable-text">Nom d'utilisateur :</strong> {participant.username}</p>
+                                                            <p><strong className="responsable-text">Email :</strong> {participant.email}</p>
+                                                            <Link to={`/update-participant/${participant.id}`} className="btn btn-outline-info btn-sm">
                                                                 <FaEdit />
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="6" className="text-center">Aucun participant disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucun participant disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {filteredParticipants.length > 0 ? (
-                                            filteredParticipants.map(participant => (
-                                                <div key={participant.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={participant.nom} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{participant.nom} {participant.prenom}</h5>
-                                                        <p><strong className="responsable-text">Nom d'utilisateur :</strong> {participant.username}</p>
-                                                        <p><strong className="responsable-text">Email :</strong> {participant.email}</p>
-                                                        <Link to={`/participant/${participant.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucun participant disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

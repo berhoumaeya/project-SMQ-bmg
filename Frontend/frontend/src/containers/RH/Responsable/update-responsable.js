@@ -82,6 +82,7 @@ const UpdateResponsable = () => {
   }
 
   return (
+    
     <div className="form-container">
       <div className="form-card">
         <h3>Modifier un Participant</h3>

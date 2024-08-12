@@ -71,7 +71,9 @@ export default DashboardEmploye;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../list.css';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
+import { FaEdit } from 'react-icons/fa';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 const sampleEmployes = [
     {
@@ -101,7 +103,7 @@ const DashboardEmploye = () => {
     const [employes, setEmployes] = useState([]);
     const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list'); 
+    const [viewMode, setViewMode] = useState('list');
 
     useEffect(() => {
         setEmployes(sampleEmployes);
@@ -119,107 +121,100 @@ const DashboardEmploye = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+            <SidebarRH /> 
+                <div className="container dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
                         <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className='formation-title'>Liste des Employés</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to={`/ajouter-employe/`}>
-                                    <button className="button-add">Ajouter Employé</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                    <table className="table-header">
-                                    <thead>
-                                        <tr>
-                                                <th>ID</th>
-                                                <th>Nom Employé</th>
-                                                <th>Prénom Employé</th>
-                                                <th>Nom d'utilisateur Employé</th>
-                                                <th>Email Employé</th>
-                                                <th>Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                     
+                                <h3 className='formation-title'>Liste des Employés</h3>
+                                <div className="button-container">
+                                    <Link to={`/ajouter-employe/`}>
+                                        <button className="button-add">Ajouter Employé</button>
+                                    </Link>
+                                </div>
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nom Employé</th>
+                                                    <th>Prénom Employé</th>
+                                                    <th>Nom d'utilisateur Employé</th>
+                                                    <th>Email Employé</th>
+                                                    <th>Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredEmployes.length > 0 ? (
+                                                    filteredEmployes.map(employe => (
+                                                        <tr key={employe.id}>
+                                                            <td>{employe.id}</td>
+                                                            <td>{employe.nom}</td>
+                                                            <td>{employe.prenom}</td>
+                                                            <td>{employe.username}</td>
+                                                            <td>{employe.email}</td>
+                                                            <td>
+                                                                <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info btn-sm">
+                                                                    <FaEdit />
+
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6" className="text-center">Aucun employé disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {filteredEmployes.length > 0 ? (
                                                 filteredEmployes.map(employe => (
-                                                    <tr key={employe.id}>
-                                                        <td>{employe.id}</td>
-                                                        <td>{employe.nom}</td>
-                                                        <td>{employe.prenom}</td>
-                                                        <td>{employe.username}</td>
-                                                        <td>{employe.email}</td>
-                                                        <td>
-                                                            <Link to={`/employe/${employe.id}`} className="btn btn-outline-info btn-sm">
+                                                    <div key={employe.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={employe.nom} className="responsable-img" />
+
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-name">{employe.nom} {employe.prenom}</h5>
+                                                            <p><strong className="responsable-text">Username :</strong> {employe.username}</p>
+                                                            <p><strong className="responsable-text">Email :</strong> {employe.email}</p>
+                                                            <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info btn-sm">
                                                                 <FaEdit />
 
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="6" className="text-center">Aucun employé disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucun employé disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {filteredEmployes.length > 0 ? (
-                                            filteredEmployes.map(employe => (
-                                                <div key={employe.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={employe.nom} className="responsable-img" />
-
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-name">{employe.nom} {employe.prenom}</h5>
-                                                        <p><strong className="responsable-text">Username :</strong> {employe.username}</p>
-                                                        <p><strong className="responsable-text">Email :</strong> {employe.email}</p>
-                                                        <Link to={`/employe/${employe.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
-
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucun employé disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

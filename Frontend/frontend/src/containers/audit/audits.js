@@ -29,7 +29,7 @@ const sampleAudits = [
 
 const Audits = () => {
     const [audits, setAudits] = useState([]);
-    const [error, setError] = useState(null);
+    const [setError] = useState(null);
     const [deleteReussi, setDeleteReussi] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');

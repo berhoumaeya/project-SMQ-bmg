@@ -209,7 +209,7 @@ const DemandList = () => {
                                                         <td>{new Date(demand.created_at).toLocaleString()}</td>
                                                         <td>
                                                             {demand.attached_file ?
-                                                                <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> :
+                                                                <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
                                                                 'Aucun'}
                                                         </td>
                                                         <td>{demand.statut}</td>

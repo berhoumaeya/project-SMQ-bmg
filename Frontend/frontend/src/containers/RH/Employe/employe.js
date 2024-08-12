@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { GrEdit, GrTrash } from 'react-icons/gr';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { LuFileSearch } from "react-icons/lu";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../Detail.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
 
 // Sample data
 const sampleEmployes = [
@@ -131,8 +131,10 @@ const EmployeDetail = () => {
         return <Navigate to={`/employe/${id}`} />;
     }
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="container-xl px-4 mt-4">
+        <>
+        <SubNavbarRH />
+        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+                        <div className="container-xl px-4 mt-4">
                 <div className="row">
                     <div className="col-xl-4">
                         <div className="card mb-4 mb-xl-0">
@@ -226,11 +228,6 @@ const EmployeDetail = () => {
                                             <button type="button" className="btn btn-danger me-2" onClick={handleDelete}>
                                                 <GrTrash /> Supprimer
                                             </button>
-                                            <Link to={`/Dashboardcompetence/${employe.id}`} className="btn btn-success me-2">
-                                                <LuFileSearch />
-                                                Consulter evaluations
-                                            </Link>
-
                                         </div>
                                     </form>
                                 ) : (
@@ -242,6 +239,7 @@ const EmployeDetail = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

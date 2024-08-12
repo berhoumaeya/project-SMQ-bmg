@@ -12,10 +12,10 @@ const Navbar = ({ isAuthenticated, user, logout }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav className="navbar navbar-expand-lg  ">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          <img src="/images/logo.png" alt="BMG Logo" height="30" className="logo" /> BMG
+          <img src="/images/logo.png" alt="BMG Logo" height="30" className="logo" /><div className='bmg'> BMG</div>
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -24,27 +24,27 @@ const Navbar = ({ isAuthenticated, user, logout }) => {
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             {!isAuthenticated && (
               <li className="nav-item">
-                <NavLink className="nav-link" exact to="/" activeClassName="active">Home</NavLink>
+                <NavLink className="nav-link " exact to="/" activeClassName="active"><div className='title-color-navbar'>Home</div></NavLink>
               </li>
             )}
             {!isAuthenticated && (
               <>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/login" activeClassName="active">Login</NavLink>
+                  <NavLink className="nav-link" to="/login" activeClassName="active"><div className='title-color-navbar'>Login</div></NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/register" activeClassName="active">Register</NavLink>
+                  <NavLink className="nav-link" to="/register" activeClassName="active"><div className='title-color-navbar'>Register</div></NavLink>
                 </li>
               </>
             )}
-            {isAuthenticated && (
+            {!isAuthenticated && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/dashboard" activeClassName="active">Dashboard</NavLink>
+                <NavLink className="nav-link" to="/dashboard" activeClassName="active"><div className='title-color-navbar'>Dashboard</div></NavLink>
               </li>
             )}
           </ul>
           {isAuthenticated && (
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-1">
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#!" role="button" onClick={toggleDropdown}>
                   {user ? `Welcome, ${user.username}` : 'Account'}

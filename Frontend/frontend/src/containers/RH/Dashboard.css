@@ -82,12 +82,9 @@ button:focus {
 }
 .ajout-form {
   background: #fff;
-  margin-top: 5%;
-  margin-bottom: 5%;
-  width: 10%;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  
 }
 
 
@@ -97,6 +94,7 @@ button:focus {
 
 .ajout-form form {
   padding: 4%;
+  
 }
 
 .ajout-form form .row {

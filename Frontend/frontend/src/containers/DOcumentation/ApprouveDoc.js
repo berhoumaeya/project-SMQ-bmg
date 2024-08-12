@@ -224,7 +224,7 @@ function ApprouveList() {
                                                         <td>{document.statut}</td>
                                                         <td>
                                                             {document.fichier ?
-                                                                <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> :
+                                                                <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
                                                                 'Aucun'}
                                                         </td>
                                                         <td>

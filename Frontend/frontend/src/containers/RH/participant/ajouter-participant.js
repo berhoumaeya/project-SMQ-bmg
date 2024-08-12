@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../fiche/FicheForm.css';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 function ParticipantForm() {
   const [employes, setEmployes] = useState([]);
@@ -92,17 +94,11 @@ function ParticipantForm() {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="container ajout-form">
-        <div className="contact-image">
-          <img src="/images/add.png" alt="rocket_contact" />
-          <div className="button-container">
-            <Link to="/Dashboardparticipant">
-              <button className="retour">Retour au tableau de bord</button>
-            </Link>
-            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter un participant</button>
-          </div>
-        </div>
+    <>
+    <SubNavbarRH />
+    <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>     
+    <SidebarRH />
+    <div className="container ajout-form">
 
         <form onSubmit={handleSubmit} className="row">
           <div className="col-md-6">
@@ -150,8 +146,15 @@ function ParticipantForm() {
             </div>
           </div>
         </form>
+        <div className="contact-image">
+          <div className="button-container">
+            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter un participant</button>
+          </div>
+        </div>
+
       </div>
     </main>
+    </>
   );
 }
 
