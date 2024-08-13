@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams,Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -18,7 +18,7 @@ const AllSuggestions = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/CRM/dashboard_suggestion/${id}/`, {
                     headers: {
-                        'Accept': '*/*',
+                        'Accept': '*//*',
                     }
                 });
                 setreclamations(response.data);
@@ -33,7 +33,7 @@ const AllSuggestions = () => {
 
     const handleDelete = async (id) => {
         const headers = {
-            'Accept': '*/*',
+            'Accept': '*//*',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
         };
@@ -89,6 +89,152 @@ const AllSuggestions = () => {
                 <Link to={`/ConsulterClient/${id}`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>
+    );
+};
+
+export default AllSuggestions;*/
+
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './client.css';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
+
+const AllSuggestions = () => {
+    // Sample static data
+    const suggestions = [
+        {
+            id: 1,
+            name: 'Suggestion A',
+            date: '2024-08-10',
+            type_suggestion: 'Type 1',
+            receptionnaire: 'John Doe',
+            description: 'Description de la suggestion A',
+            actions: 'Action A',
+            pieces_jointes: true,
+            created_at: '2024-08-10',
+            created_by: 'Admin',
+            updated_at: '2024-08-11',
+            updated_by: 'Admin',
+        },
+        {
+            id: 2,
+            name: 'Suggestion B',
+            date: '2024-08-11',
+            type_suggestion: 'Type 2',
+            receptionnaire: 'Jane Doe',
+            description: 'Description de la suggestion B',
+            actions: 'Action B',
+            pieces_jointes: false,
+            created_at: '2024-08-11',
+            created_by: 'Admin',
+            updated_at: '2024-08-12',
+            updated_by: 'Admin',
+        },
+    ];
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [view, setView] = useState('list'); // Default view is list
+
+    const filteredSuggestions = suggestions.filter(suggestion =>
+        suggestion.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        suggestion.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        suggestion.type_suggestion.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return (
+        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <div className="client-dashboard">
+                <div className="row">
+                    <div>
+                        <br />
+                        <div className="table-container">
+                            <div className="client-view-toggle">
+                                <button className={`client-view-btn ${view === 'list' ? 'client-active' : ''}`} onClick={() => setView('list')}>
+                                    <FaList /> 
+                                </button>
+                                <button className={`client-view-btn ${view === 'grid' ? 'client-active' : ''}`} onClick={() => setView('grid')}>
+                                    <FaTh /> 
+                                </button>
+                            </div>
+                            <h3 className='client-formation-title'>Liste des Suggestions</h3>
+                            <div className="client-button-container">
+                                <Link to={`/CréerSuggestionClient/`}>
+                                    <button className="client-button-add">Ajouter</button>
+                                </Link>
+                                <Link to={`/ConsulterClient/`}>
+                                    <button className="client-retour">Retour</button>
+                                </Link>
+                            </div>
+                            <div className="client-search-container">
+                                <input
+                                    type="text"
+                                    className="client-search-input"
+                                    placeholder="Rechercher..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                            <br />
+                            {view === 'list' ? (
+                                <table className="client-styled-table">
+                                    <thead className="table-header">
+                                        <tr>
+                                            <th scope="col">Nom Suggestion</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Type Suggestion</th>
+                                            <th scope="col">Réceptionnaire</th>
+                                            <th scope="col">Détails</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {filteredSuggestions.length > 0 ? (
+                                            filteredSuggestions.map((suggestion, index) => (
+                                                <tr key={index}>
+                                                    <td>{suggestion.name}</td>
+                                                    <td>{suggestion.date}</td>
+                                                    <td>{suggestion.type_suggestion}</td>
+                                                    <td>{suggestion.receptionnaire}</td>
+                                                    <td>
+                                                        <Link to={`/modifierSuggestion/${suggestion.id}`} className="btn-view-details">
+                                                            <FaEdit />
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="5" className="text-center">Aucune suggestion disponible</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <div className="client-grid">
+                                    {filteredSuggestions.length > 0 ? (
+                                        filteredSuggestions.map((suggestion, index) => (
+                                            <div key={index} className="client-responsable-item">
+                                                <div className="client-responsable-info">
+                                                    <h5 className="client-responsable-title">{suggestion.name}</h5>
+                                                    <p><strong className="client-responsable-text">Date :</strong> {suggestion.date}</p>
+                                                    <p><strong className="client-responsable-text">Type :</strong> {suggestion.type_suggestion}</p>
+                                                    <p><strong className="client-responsable-text">Réceptionnaire :</strong> {suggestion.receptionnaire}</p>
+                                                    <Link to={`/modifierSuggestion/${suggestion.id}`} className="btn btn-outline-info btn-sm">
+                                                        <FaEdit />
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-center">Aucune suggestion disponible</p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     );
 };
 

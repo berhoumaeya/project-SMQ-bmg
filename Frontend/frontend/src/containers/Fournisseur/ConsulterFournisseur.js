@@ -100,11 +100,13 @@ const Fournisseur = () => {
 };
 
 export default Fournisseur;*/
-
 import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import '../Client/consulterclient.css'; 
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './consulterfou.css'; 
+import { GrTrash } from 'react-icons/gr';
+import { IoMdArrowRoundBack} from 'react-icons/io';
+import { CiSaveDown2 } from "react-icons/ci";
 const sampleFournisseur = {
     id: 1,
     nom: 'Fournisseur A',
@@ -128,6 +130,7 @@ const Fournisseur = () => {
     const { id } = useParams();
     const [fournisseurData, setFournisseurData] = useState(sampleFournisseur);
     const [deleteReussi, setDeleteReussi] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -141,9 +144,21 @@ const Fournisseur = () => {
         setDeleteReussi(true);
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!fournisseurData.nom) newErrors.nom = "Le nom est requis";
+        if (!fournisseurData.code_fournisseur) newErrors.code_fournisseur = "Le code fournisseur est requis";
+        if (!fournisseurData.email) newErrors.email = "L'email est requis";
+        return newErrors;
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Logic for submitting the changes
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
         console.log('Fournisseur data updated:', fournisseurData);
     };
 
@@ -152,95 +167,216 @@ const Fournisseur = () => {
     }
 
     return (
-        <div className="container view-account">
-            <section className="module">
-                <div className="module-inner">
-                    <div className="side-bar">
-                        <div className="user-info">
-                            <img className="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Fournisseur" />
-                            <ul className="meta list list-unstyled">
-                                <li className="name">{fournisseurData.nom}</li>
-                                <li className="email">{fournisseurData.email}</li>
-                                <li className="activity">Last updated: {fournisseurData.updated_at}</li>
-                            </ul>
+        <div className="container-fournisseur px-4 mt-4">
+            <nav className="nav-fournisseur">
+                <Link className="nav-item active ms-0" to="#">Profile</Link>
+                <Link className="nav-item" to={`/AllReclamationFournisseur/${fournisseurData.id}`}>Reclamations</Link>
+                <Link className="nav-item" to={`/AllEvaluationFournisseur/${fournisseurData.id}`}>Evaluations</Link>
+            </nav>
+            <hr className="divider" />
+            <div className="row">
+                <div className="col-lg-4">
+                    <div className="card-fournisseur mb-4">
+                        <div className="card-header-fournisseur">Profile Picture</div>
+                        <div className="card-body-fournisseur text-center">
+                            <img className="img-fournisseur rounded-circle mb-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Fournisseur" />
+                            <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <input className="form-control mb-2" type="file" accept="image/*" />
+                          
                         </div>
-                        <nav className="side-menu">
-                            <ul className="nav">
-                                <li className="active"><a href="#"><span className="fa fa-user"></span> Profile</a></li>
-                                <li><Link to={`/AllReclamationFournisseur/${fournisseurData.id}`}><span className="fa fa-cog"></span> Reclamations</Link></li>
-                                <li><Link to={`/AllEvaluationFournisseur/${fournisseurData.id}`}><span className="fa fa-cog"></span> Evaluations</Link></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div className="content-panel">
-                        <h2 className="title">Modifier le Profil</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="table-responsive">
-                                <table className="table table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Nom Fournisseur</strong></td>
-                                            <td><input type="text" className="form-control" name="nom" value={fournisseurData.nom} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Code Fournisseur</strong></td>
-                                            <td><input type="text" className="form-control" name="code_fournisseur" value={fournisseurData.code_fournisseur} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Raison sociale</strong></td>
-                                            <td><input type="text" className="form-control" name="raison_sociale" value={fournisseurData.raison_sociale} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Adresse</strong></td>
-                                            <td><input type="text" className="form-control" name="adresse" value={fournisseurData.adresse} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Numéro</strong></td>
-                                            <td><input type="text" className="form-control" name="numero_telephone" value={fournisseurData.numero_telephone} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Email</strong></td>
-                                            <td><input type="email" className="form-control" name="email" value={fournisseurData.email} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Type Fournisseur</strong></td>
-                                            <td><input type="text" className="form-control" name="type_fournisseur" value={fournisseurData.type_fournisseur} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Catégorie</strong></td>
-                                            <td><input type="text" className="form-control" name="categorie" value={fournisseurData.categorie} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Modifié le</strong></td>
-                                            <td><input type="date" className="form-control" name="updated_at" value={fournisseurData.updated_at} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Modifié par</strong></td>
-                                            <td><input type="text" className="form-control" name="updated_by" value={fournisseurData.updated_by} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Créé le</strong></td>
-                                            <td><input type="date" className="form-control" name="created_at" value={fournisseurData.created_at} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Créé par</strong></td>
-                                            <td><input type="text" className="form-control" name="created_by" value={fournisseurData.created_by} onChange={handleChange} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Pièces jointes</strong></td>
-                                            <td>{fournisseurData.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div className="document-card-buttons">
-                                <button type="submit" className="btn btn-primary">Enregistrer</button>
-                                <button type="button" onClick={handleDelete} className="btn btn-danger">Supprimer</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </section>
+                <div className="col-lg-8">
+                    <div className="card-fournisseur mb-4">
+                        <div className="card-header-fournisseur">Account Details</div>
+                        <div className="card-body-fournisseur">
+                            <form onSubmit={handleSubmit}>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputNom">Nom Fournisseur</label>
+                                        <input
+                                            className={`form-control-fournisseur ${errors.nom ? 'is-invalid' : ''}`}
+                                            id="inputNom"
+                                            name="nom"
+                                            type="text"
+                                            value={fournisseurData.nom}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.nom && <div className="invalid-feedback">{errors.nom}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputCodeFournisseur">Code Fournisseur</label>
+                                        <input
+                                            className={`form-control-fournisseur ${errors.code_fournisseur ? 'is-invalid' : ''}`}
+                                            id="inputCodeFournisseur"
+                                            name="code_fournisseur"
+                                            type="text"
+                                            value={fournisseurData.code_fournisseur}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.code_fournisseur && <div className="invalid-feedback">{errors.code_fournisseur}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputRaisonSociale">Raison Sociale</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputRaisonSociale"
+                                            name="raison_sociale"
+                                            type="text"
+                                            value={fournisseurData.raison_sociale}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputAdresse">Adresse</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputAdresse"
+                                            name="adresse"
+                                            type="text"
+                                            value={fournisseurData.adresse}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputNumeroTelephone">Numéro</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputNumeroTelephone"
+                                            name="numero_telephone"
+                                            type="text"
+                                            value={fournisseurData.numero_telephone}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputEmail">Email</label>
+                                        <input
+                                            className={`form-control-fournisseur ${errors.email ? 'is-invalid' : ''}`}
+                                            id="inputEmail"
+                                            name="email"
+                                            type="email"
+                                            value={fournisseurData.email}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputTypeFournisseur">Type Fournisseur</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputTypeFournisseur"
+                                            name="type_fournisseur"
+                                            type="text"
+                                            value={fournisseurData.type_fournisseur}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputCategorie">Catégorie</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputCategorie"
+                                            name="categorie"
+                                            type="text"
+                                            value={fournisseurData.categorie}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputUpdatedBy">Modifié par</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputUpdatedBy"
+                                            name="updated_by"
+                                            type="text"
+                                            value={fournisseurData.updated_by}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputUpdatedAt">Modifié le</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputUpdatedAt"
+                                            name="updated_at"
+                                            type="date"
+                                            value={fournisseurData.updated_at}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputCreatedBy">Créé par</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputCreatedBy"
+                                            name="created_by"
+                                            type="text"
+                                            value={fournisseurData.created_by}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputCreatedAt">Créé le</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputCreatedAt"
+                                            name="created_at"
+                                            type="date"
+                                            value={fournisseurData.created_at}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <div className="form-check-fournisseur">
+                                            <input
+                                                className="form-check-input-fournisseur"
+                                                id="inputFournisseurAgree"
+                                                name="fournisseur_agree"
+                                                type="checkbox"
+                                                checked={fournisseurData.fournisseur_agree}
+                                                onChange={() => setFournisseurData((prevData) => ({ ...prevData, fournisseur_agree: !prevData.fournisseur_agree }))}
+                                            />
+                                            <label className="form-check-label-fournisseur" htmlFor="inputFournisseurAgree">
+                                                Fournisseur Agréé
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputPeriodiciteEvaluation">Périodicité d'évaluation</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputPeriodiciteEvaluation"
+                                            name="periodicite_evaluation"
+                                            type="text"
+                                            value={fournisseurData.periodicite_evaluation}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-end mt-4">
+                                <button className="btn-save-fournisseur" type="submit"> <CiSaveDown2 /> save </button>
+                                <button className="btn-delete-fournisseur ms-2" type="button" onClick={handleDelete}>     <GrTrash /> Delete</button>
+                                <Link to="/Clients" className="btn btn-secondary ms-2">  <IoMdArrowRoundBack />Retour 
+                      </Link>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

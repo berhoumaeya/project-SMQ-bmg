@@ -141,11 +141,13 @@
     color: #011830;
 }
 
-.btn-view-details {
+.client-btn {
     border: none;
     background: none;
     cursor: pointer;
-    color: #5585b5;
+    color:#5585b5 ;
+    margin-left: 20px;
+    
 }
 
 .client-responsable-img {

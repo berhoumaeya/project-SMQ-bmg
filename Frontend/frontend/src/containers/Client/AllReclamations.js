@@ -113,10 +113,11 @@ const Allreclamations = () => {
 };
 
 export default Allreclamations;*/
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './client.css';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 
 const Allreclamations = () => {
     const { id } = useParams();
@@ -124,9 +125,9 @@ const Allreclamations = () => {
     const [reclamations, setReclamations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [view, setView] = useState('list'); 
 
     useEffect(() => {
-        // Mock API call
         const mockReclamations = [
             {
                 id: 1,
@@ -134,6 +135,7 @@ const Allreclamations = () => {
                 description: 'Description for reclamation 1',
                 type_reclamation: 'Type 1',
             },
+            
         ];
 
         setReclamations(mockReclamations);
@@ -141,8 +143,8 @@ const Allreclamations = () => {
     }, [id]);
 
     const handleDelete = (reclamationId) => {
-        // Update state to simulate deletion
-        setReclamations(prevReclamations => prevReclamations.filter(client => client.id !== reclamationId));
+
+        setReclamations(prevReclamations => prevReclamations.filter(reclamation => reclamation.id !== reclamationId));
     };
 
     const filteredReclamations = reclamations.filter(reclamation =>
@@ -163,6 +165,14 @@ const Allreclamations = () => {
                         <br />
                         <br />
                         <div className="table-container">
+                            <div className="client-view-toggle">
+                                <button className={`client-view-btn ${view === 'list' ? 'client-active' : ''}`} onClick={() => setView('list')}>
+                                    <FaList /> 
+                                </button>
+                                <button className={`client-view-btn ${view === 'grid' ? 'client-active' : ''}`} onClick={() => setView('grid')}>
+                                    <FaTh /> 
+                                </button>
+                            </div>
                             <h3 className='client-formation-title'>Liste des Réclamations</h3>
                             <div className="client-button-container">
                                 <Link to={`/CréerReclamationClient/${id}/`}>
@@ -182,36 +192,57 @@ const Allreclamations = () => {
                                 />
                             </div>
                             <br />
-                            <table className="client-styled-table">
-                                <thead className="table-header">
-                                    <tr>
-                                        <th scope="col">Code Réclamation</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Type Réclamation</th>
-                                        <th scope="col">Détails</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            {view === 'list' ? (
+                                <table className="client-styled-table">
+                                    <thead className="table-header">
+                                        <tr>
+                                            <th scope="col">Code Réclamation</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Type Réclamation</th>
+                                            <th scope="col">Détails</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {filteredReclamations.length > 0 ? (
+                                            filteredReclamations.map((reclamation, index) => (
+                                                <tr key={index}>
+                                                    <td>{reclamation.code}</td>
+                                                    <td>{reclamation.description}</td>
+                                                    <td>{reclamation.type_reclamation}</td>
+                                                    <td>
+                                                        <Link to={`/ReclamationDetails/${reclamation.code}`} className="btn-view-details">
+                                                            <FaEdit />
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="4" className="text-center">Aucune réclamation disponible</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <div className="client-grid">
                                     {filteredReclamations.length > 0 ? (
                                         filteredReclamations.map((reclamation, index) => (
-                                            <tr key={index}>
-                                                <td>{reclamation.code}</td>
-                                                <td>{reclamation.description}</td>
-                                                <td>{reclamation.type_reclamation}</td>
-                                                <td>
-                                                    <Link to={`/detailsrec.js/${reclamation.code}`} className="btn-view-details">
-                                                    <FaEdit />
+                                            <div key={index} className="client-responsable-item">
+                                                <div className="client-responsable-info">
+                                                    <h5 className="client-responsable-title">{reclamation.code}</h5>
+                                                    <p><strong className="client-responsable-text">Description :</strong> {reclamation.description}</p>
+                                                    <p><strong className="client-responsable-text">Type :</strong> {reclamation.type_reclamation}</p>
+                                                    <Link to={`/detailsrec.js/${reclamation.code}`} className="btn btn-outline-info btn-sm">
+                                                        <FaEdit />
                                                     </Link>
-                                                </td>
-                                            </tr>
+                                                </div>
+                                            </div>
                                         ))
                                     ) : (
-                                        <tr>
-                                            <td colSpan="4" className="text-center">Aucune réclamation disponible</td>
-                                        </tr>
+                                        <p className="text-center">Aucune réclamation disponible</p>
                                     )}
-                                </tbody>
-                            </table>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

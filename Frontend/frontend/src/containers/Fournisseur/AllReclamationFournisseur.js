@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useParams, Link } from 'react-router-dom';
@@ -28,7 +28,7 @@ const AllReclamation = () => {
 
     const handleDelete = async (id) => {
         const headers = {
-            'Accept': '*/*',
+            'Accept': '*//*',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
         };
@@ -92,4 +92,156 @@ const AllReclamation = () => {
     );
 };
 
-export default AllReclamation;
+export default AllReclamation;*/
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaList, FaTh, FaEdit } from 'react-icons/fa';
+import './fournisseur.css'; 
+
+const sampleReclamations = [
+    {
+        id: 1,
+        numero_sequentiel: '12345',
+        date_reclamation: '2024-08-13',
+        description: 'Description de la réclamation.',
+        designation: 'Désignation',
+        type_reclamation: 'Type A',
+        gravite: 'Élevée',
+        actions: 'Actions effectuées',
+        reclamation_client: 'Client X',
+        created_by: 'Utilisateur Y',
+        created_at: '2024-08-10',
+        updated_by: 'Utilisateur Z',
+        updated_at: '2024-08-12',
+        pieces_jointes: true,
+    },
+    // Add more static data as needed
+];
+
+const AllReclamations = () => {
+    const [reclamations] = useState(sampleReclamations);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list');
+
+    const filteredReclamations = reclamations.filter(reclamation =>
+        reclamation.numero_sequentiel.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reclamation.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <div className="container fournisseur-dashboard">
+                <div className="row">
+                    <div>
+                        <br />
+                        <br />
+                        <div className="fournisseur-table-container">
+                            <div className="fournisseur-view-toggle">
+                                <button className={`fournisseur-view-btn ${viewMode === 'list' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList />
+                                </button>
+                                <button className={`fournisseur-view-btn ${viewMode === 'grid' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh />
+                                </button>
+                            </div>
+                            <h3 className='fournisseur-formation-title'>Liste des Réclamations</h3>
+                            <div className="fournisseur-button-container">
+                                <Link to="/DashboardRH/">
+                                    <button className="fournisseur-retour">Retour</button>
+                                </Link>
+                                <Link to="/CréerRéclamationFournisseur/">
+                                    <button className="fournisseur-button-add">Ajouter Réclamation</button>
+                                </Link>
+                            </div>
+                            <br />
+                            <div className="fournisseur-search-container">
+                                <input
+                                    type="text"
+                                    placeholder="Rechercher..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="fournisseur-search-input"
+                                />
+                            </div>
+                            <br />
+                            <div>
+                                {viewMode === 'list' ? (
+                                    <table className="fournisseur-styled-table">
+                                        <thead className="fournisseur-table-header">
+                                            <tr>
+                                                <th scope="col">N° Réclamation</th>
+                                                <th scope="col">Date</th>
+                                             
+                                                <th scope="col">Désignation</th>
+                                                <th scope="col">Type</th>
+                                                
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredReclamations.length > 0 ? (
+                                                filteredReclamations.map(reclamation => (
+                                                    <tr key={reclamation.id}>
+                                                        <td>{reclamation.numero_sequentiel}</td>
+                                                        <td>{reclamation.date_reclamation}</td>
+                                                       
+                                                        <td>{reclamation.designation}</td>
+                                                        <td>{reclamation.type_reclamation}</td>
+                                                       
+        
+                                                        <td>
+                                                            <Link to={`/ReclamationfouDetails/${reclamation.id}`} className="client-btn">
+                                                                <FaEdit />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="13" className="text-center">Aucune réclamation disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="fournisseur-grid">
+                                        {filteredReclamations.length > 0 ? (
+                                            filteredReclamations.map(reclamation => (
+                                                <div key={reclamation.id} className="fournisseur-responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt={`${reclamation.numero_sequentiel}`} className="fournisseur-responsable-img" />
+                                                    <div className="fournisseur-responsable-info">
+                                                        <h5 className="fournisseur-responsable-title">{reclamation.numero_sequentiel} - {reclamation.description}</h5>
+                                                        <p><strong className="fournisseur-responsable-text">Date :</strong> {reclamation.date_reclamation}</p>
+                                                        <p><strong className="fournisseur-responsable-text">Désignation :</strong> {reclamation.designation}</p>
+                                                        <p><strong className="fournisseur-responsable-text">Type :</strong> {reclamation.type_reclamation}</p>
+                                                        <p><strong className="fournisseur-responsable-text">Gravité :</strong> {reclamation.gravite}</p>
+                                                        <p><strong className="fournisseur-responsable-text">Client :</strong> {reclamation.reclamation_client}</p>
+                                                        <Link to={`/modifierReclamation/${reclamation.id}`} className="client-btn">
+                                                            <FaEdit />
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className="text-center">Aucune réclamation disponible</p>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    );
+};
+
+export default AllReclamations;

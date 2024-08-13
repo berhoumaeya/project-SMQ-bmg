@@ -97,9 +97,12 @@ const Client = () => {
 export default Client;*/
 
 import React, { useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './consulterclient.css';
+import './consulterclient.css'; 
+import { GrTrash } from 'react-icons/gr';
+import { IoMdArrowRoundBack} from 'react-icons/io';
+import { CiSaveDown2 } from "react-icons/ci";
 
 const Client = () => {
     const { id } = useParams();
@@ -159,36 +162,35 @@ const Client = () => {
     }
 
     return (
-        <div className="container-xl px-4 mt-4">
-            <nav className="nav nav-borders">
-                <a className="nav-link active ms-0" href="#">Profile</a>
-                <a className="nav-link" href="#">Reclamations</a>
-                <a className="nav-link" href="#">Suggestion</a>
-                <a className="nav-link" href="#">Enquete</a>
+        <div className="container-client px-4 mt-4">
+            <nav className="nav-client">
+                <Link className="nav-item-client active ms-0" to="#">Profile</Link>
+                <Link className="nav-item-client" to="/AllReclamations">Reclamations</Link>
+                <Link className="nav-item-client" to="/AllSuggestion">Suggestion</Link>
+                <Link className="nav-item-client" to="/AllEnquete">Enquete</Link>
             </nav>
-            <hr className="mt-0 mb-4" />
+            <hr className="divider-client" />
             <div className="row">
                 <div className="col-xl-4">
-                    <div className="card mb-4 mb-xl-0">
-                        <div className="card-header">Profile Picture</div>
-                        <div className="card-body text-center">
-                            <img className="img-account-profile rounded-circle mb-2" src={clientData.image_url} alt="Client" />
+                    <div className="card-client mb-4 mb-xl-0">
+                        <div className="card-header-client">Profile Picture</div>
+                        <div className="card-body-client text-center">
+                            <img className="img-client rounded-circle mb-2" src={clientData.image_url} alt="Client" />
                             <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                            <input className="form-control mb-2" type="file" accept="image/*" />
-                          
+                            <input className="form-control-client mb-2" type="file" accept="image/*" />
                         </div>
                     </div>
                 </div>
                 <div className="col-xl-8">
-                    <div className="card mb-4">
-                        <div className="card-header">Account Details</div>
-                        <div className="card-body">
+                    <div className="card-client mb-4">
+                        <div className="card-header-client">Account Details</div>
+                        <div className="card-body-client">
                             <form onSubmit={handleSubmit}>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputNom">Nom Client</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputNom">Nom Client</label>
                                         <input
-                                            className={`form-control ${errors.nom ? 'is-invalid' : ''}`}
+                                            className={`form-control-client ${errors.nom ? 'is-invalid' : ''}`}
                                             id="inputNom"
                                             name="nom"
                                             type="text"
@@ -198,9 +200,9 @@ const Client = () => {
                                         {errors.nom && <div className="invalid-feedback">{errors.nom}</div>}
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputPrenom">Prénom Client</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputPrenom">Prénom Client</label>
                                         <input
-                                            className={`form-control ${errors.prenom ? 'is-invalid' : ''}`}
+                                            className={`form-control-client ${errors.prenom ? 'is-invalid' : ''}`}
                                             id="inputPrenom"
                                             name="prenom"
                                             type="text"
@@ -212,9 +214,9 @@ const Client = () => {
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputEmail">Email</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputEmail">Email</label>
                                         <input
-                                            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                                            className={`form-control-client ${errors.email ? 'is-invalid' : ''}`}
                                             id="inputEmail"
                                             name="email"
                                             type="email"
@@ -224,9 +226,9 @@ const Client = () => {
                                         {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputCodeClient">Code Client</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputCodeClient">Code Client</label>
                                         <input
-                                            className={`form-control ${errors.code_client ? 'is-invalid' : ''}`}
+                                            className={`form-control-client ${errors.code_client ? 'is-invalid' : ''}`}
                                             id="inputCodeClient"
                                             name="code_client"
                                             type="text"
@@ -238,9 +240,9 @@ const Client = () => {
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputRaisonSociale">Raison Sociale</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputRaisonSociale">Raison Sociale</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputRaisonSociale"
                                             name="raison_sociale"
                                             type="text"
@@ -249,9 +251,9 @@ const Client = () => {
                                         />
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputActivite">Activité</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputActivite">Activité</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputActivite"
                                             name="activite"
                                             type="text"
@@ -262,9 +264,9 @@ const Client = () => {
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputTypeClient">Type Client</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputTypeClient">Type Client</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputTypeClient"
                                             name="type_client"
                                             type="text"
@@ -273,9 +275,9 @@ const Client = () => {
                                         />
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputCategorie">Catégorie</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputCategorie">Catégorie</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputCategorie"
                                             name="categorie"
                                             type="text"
@@ -286,9 +288,9 @@ const Client = () => {
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputUpdatedBy">Modifié par</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputUpdatedBy">Modifié par</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputUpdatedBy"
                                             name="updated_by"
                                             type="text"
@@ -297,9 +299,9 @@ const Client = () => {
                                         />
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputUpdatedAt">Modifié le</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputUpdatedAt">Modifié le</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputUpdatedAt"
                                             name="updated_at"
                                             type="date"
@@ -310,9 +312,9 @@ const Client = () => {
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputCreatedBy">Créé par</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputCreatedBy">Créé par</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputCreatedBy"
                                             name="created_by"
                                             type="text"
@@ -321,9 +323,9 @@ const Client = () => {
                                         />
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="small mb-1" htmlFor="inputCreatedAt">Créé le</label>
+                                        <label className="form-label-client mb-1" htmlFor="inputCreatedAt">Créé le</label>
                                         <input
-                                            className="form-control"
+                                            className="form-control-client"
                                             id="inputCreatedAt"
                                             name="created_at"
                                             type="date"
@@ -332,8 +334,25 @@ const Client = () => {
                                         />
                                     </div>
                                 </div>
-                                <button className="btn btn-primary" type="submit">Save Changes</button>
-                                <button className="btn btn-danger" type="button" onClick={handleDelete}>Delete Account</button>
+                                <div className="mb-3">
+                                    <div className="form-check">
+                                        <input
+                                            className="form-check-input-client"
+                                            id="inputPiecesJointes"
+                                            name="pieces_jointes"
+                                            type="checkbox"
+                                            checked={clientData.pieces_jointes}
+                                            onChange={(e) => setClientData({ ...clientData, pieces_jointes: e.target.checked })}
+                                        />
+                                        <label className="form-check-label-client" htmlFor="inputPiecesJointes">Pièces jointes</label>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-end mt-4">
+                                <button className="btn-save-fournisseur" type="submit"> <CiSaveDown2 /> save </button>
+                                <button className="btn-delete-fournisseur ms-2" type="button" onClick={handleDelete}>     <GrTrash /> Delete</button>
+                                <Link to="/Clients" className="btn btn-secondary ms-2">  <IoMdArrowRoundBack />Retour 
+                      </Link>
+                                </div>
                             </form>
                         </div>
                     </div>

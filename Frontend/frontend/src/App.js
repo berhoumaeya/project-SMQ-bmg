@@ -82,7 +82,7 @@ import ModifierClient from './containers/Client/modifierclient';
 
 //Réclamation Client
 import CreateReclamation from './containers/Client/CréerReclamationClient';
-import Allreclamations from './containers/Client/AllReclamations';
+import AllReclamations  from './containers/Client/AllReclamations';
 import ModifierReclamation from './containers/Client/ModifierReclamation';
 // Enquetes
 import AllEnquetes from './containers/Client/AllEnquete';
@@ -241,15 +241,16 @@ const App = () => (
           {/* Réclamation Clients : */}
           <Route path="/CréerReclamationClient/:id" element={<CreateReclamation />} />
           <Route path="/ModifierReclamation/:reclamationId/" element={<ModifierReclamation />} />
-          <Route path="/AllReclamations/:id/" element={<Allreclamations />} />
+          <Route path="/AllReclamations" element={<AllReclamations />} />
+          
 
           {/* Enquetes Clients : */}
           <Route path="/AllEnquete/" element={<AllEnquetes />} />
           <Route path="/CréerEnquete/" element={<AddEnquete />} />
 
           {/* Suggestions Clients : */}
-          <Route path="/AllSuggestion/:id/" element={<AllSuggestions />} />
-          <Route path="/CréerSuggestionClient/:id/" element={<CreateSuggestion />} />
+          <Route path="/AllSuggestion" element={<AllSuggestions />} />
+          <Route path="/CréerSuggestionClient/" element={<CreateSuggestion />} />
 
           {/* Fournisseurs : */}
           <Route path="/fournisseurs" element={<AllFournisseurs />} />
@@ -258,7 +259,7 @@ const App = () => (
           <Route path="/CréerEvaluationFournisseur/:id/" element={<AddEvaluationFournisseur />} />
           <Route path="/AllEvaluationFournisseur/:id/" element={<AllEvaluations />} />
           <Route path="/AllReclamationFournisseur/:id/" element={<AllReclamation />} />
-          <Route path="/CréerRéclamationFournisseur/:id/" element={<AddReclamationFournisseur />} />
+          <Route path="/CréerRéclamationFournisseur/" element={<AddReclamationFournisseur />} />
 
           {/* Risk : */}
           <Route path="/AllRisque/" element={<DashboardRisk />} />

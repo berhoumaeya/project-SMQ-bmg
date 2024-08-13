@@ -141,11 +141,12 @@
     color: #011830;
 }
 
-.btn-view-details {
+.btn {
     border: none;
     background: none;
     cursor: pointer;
     color: #5585b5;
+    
 }
 
 .fournisseur-responsable-img {
