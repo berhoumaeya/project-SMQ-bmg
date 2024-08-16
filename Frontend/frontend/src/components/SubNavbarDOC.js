@@ -36,7 +36,7 @@ const SubNavbarDoc = ({ viewMode, setViewMode }) => {
     const showRetourButton = location.pathname.includes('/Créer') || location.pathname.includes('/modifier');
     const dashboardLink = getDashboardLink();
 
-    const showListGridButtons = !showRetourButton; // Hide list/grid buttons on Créer and modifier pages
+    const showListGridButtons = !showRetourButton; 
     const ajouterLink = getAjouterLink();
 
     const isDashboardDocIntPage = location.pathname === '/DashboardDocInt';

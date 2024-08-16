@@ -213,10 +213,10 @@ function ApprouveList() {
                                                                     'Aucun'}
                                                             </td>
                                                             <td>
-                                                                <button onClick={() => handleStatusChange(document.id, 'Approuvé')} className="btn btn-outline-success btn-sm">
+                                                                <button onClick={() => handleStatusChange(document.id, 'Approuvé')} className="btn btn-outline-succes me-2">
                                                                     <FcApproval />
                                                                 </button>
-                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger  btn-sm">
+                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
                                                                     <RxCross2 />
                                                                 </button>
                                                             </td>
@@ -241,7 +241,7 @@ function ApprouveList() {
                                                             <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
                                                             <td>
                                                                 <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success  btn-sm me-2"> <FcApproval /> </button>
-                                                                <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger  btn-sm"> <RxCross2 /></button>
+                                                                <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger  btn-sm me-2"> <RxCross2 /></button>
                                                             </td>
                                                         </div>
                                                     </div>

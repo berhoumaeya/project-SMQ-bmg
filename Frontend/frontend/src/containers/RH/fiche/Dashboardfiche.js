@@ -68,10 +68,10 @@ export default DashboardFiche;
 */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit } from 'react-icons/fa';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleFiches = [
     { id: 1, name: 'Fiche 1', job_position: 'Position A', employe_concerne: 'Employe 1' },
@@ -174,8 +174,8 @@ const DashboardFiche = () => {
                                                             <td>{fiche.job_position}</td>
                                                             <td>{fiche.employe_concerne}</td>
                                                             <td>
-                                                                <Link to={`/update-fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                                    <FaEdit />
+                                                                <Link to={`/update-fiche/${fiche.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
                                                                 </Link>
                                                             </td>
                                                         </tr>
@@ -198,7 +198,7 @@ const DashboardFiche = () => {
                                                             <p><strong className="responsable-text">Poste :</strong> {fiche.job_position}</p>
                                                             <p><strong className="responsable-text">Employé Concerné :</strong> {fiche.employe_concerne}</p>
                                                             <Link to={`/update-fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                                <GrEdit />
                                                             </Link>
                                                         </div>
                                                     </div>

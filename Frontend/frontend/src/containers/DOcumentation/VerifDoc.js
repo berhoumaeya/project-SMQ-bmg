@@ -212,10 +212,10 @@ function VerifList() {
                                                             'Aucun'}
                                                     </td>
                                                     <td>
-                                                        <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success me-2">
                                                             <FcApproval /> 
                                                         </button>
-                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
                                                             <RxCross2 /> 
                                                         </button>
                                                     </td>
@@ -240,7 +240,7 @@ function VerifList() {
                                                     <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
                                                     <td>
                                             <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
-                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm"> <RxCross2 /></button>
+                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
                                         </td>
                                                 </div>
                                             </div>

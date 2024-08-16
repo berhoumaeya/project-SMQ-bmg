@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaEdit, FaList, FaTh, FaTrash } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
+import SubNavbarAudit from '../../components/SubNavbarAudit';
+import SidebarAudit from '../../components/SidebarAudit';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleAudits = [
     {
@@ -96,34 +99,14 @@ const Audits = () => {
         }
         return '↕️';
     }; return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+      <> <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} /> 
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <SidebarAudit />
+        <div className="container dashboard">
                 <div className="row">
                     <div>
-                        <br />
-                        <br />
                         <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn-audit ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn-audit ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className='title'>Liste des Audits</h3>
-                            <div className="button-container">
-                                <Link to="/Dashboard/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to={`/ajouteraudit/`}>
-                                    <button className="button-add-audit">Ajouter Audit</button>
-                                </Link>
-                                <Link to={`/valideraudit/`}>
-                                    <button className="button-add-audit  me-2">Valider Audit</button>
-                                </Link>
-                            </div>
-                            <br />
+                            <h3 className='formation-title'>Liste des Audits</h3>
                             <div className="search-container">
                                 <input
                                     type="text"
@@ -133,17 +116,16 @@ const Audits = () => {
                                     className="search-input"
                                 />
                             </div>
-                            <br />
                             <div>
                                 {viewMode === 'list' ? (
                                     <table className="table-header">
                                     <thead>
                                         <tr>
-                                                <th style={{ backgroundColor: '#58b3d3' }} scope="col" onClick={() => requestSort('reference')}>Référence {getSortArrow('reference')}</th>
-                                                <th style={{ backgroundColor: '#58b3d3' }} scope="col" onClick={() => requestSort('designation')}>Désignation  {getSortArrow('designation')}</th>
-                                                <th style={{ backgroundColor: '#58b3d3' }} scope="col" onClick={() => requestSort('type_audit')}>Type d'Audit {getSortArrow('type_audit')}</th>
-                                                <th style={{ backgroundColor: '#58b3d3' }} scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
-                                                <th style={{ backgroundColor: '#58b3d3' }} scope="col">Détails</th>
+                                                <th scope="col" onClick={() => requestSort('reference')}>Référence {getSortArrow('reference')}</th>
+                                                <th scope="col" onClick={() => requestSort('designation')}>Désignation  {getSortArrow('designation')}</th>
+                                                <th scope="col" onClick={() => requestSort('type_audit')}>Type d'Audit {getSortArrow('type_audit')}</th>
+                                                <th scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
+                                                <th scope="col">Détails</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -155,11 +137,11 @@ const Audits = () => {
                                                         <td>{audit.type_audit}</td>
                                                         <td>{audit.statut}</td>
                                                         <td>
-                                                            <Link to={`/audit/${audit.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                            <Link to={`/audit/${audit.id}`} className="btn btn-outline-info  me-2">
+                                                            <GrEdit />
                                                             </Link>
-                                                            <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(audit.id)}>
-                                                                <FaTrash />
+                                                            <button className="btn btn-outline-danger" onClick={() => handleDelete(audit.id)}>
+                                                                <FaTrashAlt />
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -181,11 +163,11 @@ const Audits = () => {
                                                         <h5 className="responsable-title">{audit.designation}</h5>
                                                         <p><strong className="responsable-text">Type :</strong> {audit.type_audit}</p>
                                                         <p><strong className="responsable-text">Statut :</strong> {audit.statut}</p>
-                                                        <Link to={`/audit/${audit.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
+                                                        <Link to={`/audit/${audit.id}`} className="btn btn-outline-info btn-sm me-2">
+                                                            <GrEdit />
                                                         </Link>
                                                         <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(audit.id)}>
-                                                            <FaTrash />
+                                                            <FaTrashAlt />
                                                         </button>
                                                     </div>
                                                 </div>
@@ -201,6 +183,7 @@ const Audits = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

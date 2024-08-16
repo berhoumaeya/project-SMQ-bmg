@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit } from 'react-icons/fa';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleFormations = [
     {
@@ -166,8 +166,8 @@ const DashboardFormation = () => {
                                                                 <span className="text-muted">{formation.responsable_validation}</span>
                                                             </td>
                                                             <td data-label="Détails">
-                                                                <Link to={`/update-formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                                    <FaEdit />
+                                                                <Link to={`/update-formation/${formation.id}`} className="btn btn-outline-info ">
+                                                                    <GrEdit />
                                                                 </Link>
                                                             </td>
                                                         </tr>
@@ -192,7 +192,7 @@ const DashboardFormation = () => {
                                                             <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
                                                             <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
                                                             <Link to={`/update-formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                                <GrEdit />
                                                             </Link>
                                                         </div>
                                                     </div>

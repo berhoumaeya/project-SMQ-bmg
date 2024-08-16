@@ -9,6 +9,7 @@ import { GrEdit } from 'react-icons/gr';
 import { FaTrashAlt } from 'react-icons/fa';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
+import { IoMdArchive } from "react-icons/io";
 
 const sampleDocuments = [
     {
@@ -127,10 +128,10 @@ const DashboardDocInt = () => {
     );
 
     return (
-        <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode}/>
+        <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
             <main style={{ display: 'flex', minHeight: '100vh' }}>
-                <SidebarDoc />  
-                 <div className="container dashboard">
+                <SidebarDoc />
+                <div className="container dashboard">
                     <div className="row">
                         <div>
                             <div className="table-container">
@@ -178,6 +179,8 @@ const DashboardDocInt = () => {
                                                         <td>{doc.selection_redacteur}</td>
                                                         <td>{doc.created_at}</td>
                                                         <td>
+                                                            <Link to={`/archive/${doc.id}`} className="btn btn-outline-primary me-2"><IoMdArchive />
+                                                            </Link>
                                                             <Link to={`/modifierDocInt/${doc.id}`} className="btn btn-outline-success me-2">
                                                                 <GrEdit />
                                                             </Link>

@@ -137,7 +137,7 @@ function ModifierDoc() {
                 <div className='row'>
                     <div className="col-xl-4">
                         <div className="card mb-4 mb-xl-0">
-                            <div className="card-header--">Profile Picture</div>
+                            <div className="card-header-">Profile Picture</div>
                             <div className="card-body text-center">
                                 <div className="img-container mb-2">
                                     <img
@@ -153,7 +153,7 @@ function ModifierDoc() {
                     </div>
                     <div className="col-xl-8">
                         <div className="card mb-4">
-                            <div className="card-header--">Modifier le Document</div>
+                            <div className="card-header-">Modifier le Document</div>
                             <div className="card-body">
                                 <form onSubmit={handleSubmit}>
                                 <div className="mb-3">

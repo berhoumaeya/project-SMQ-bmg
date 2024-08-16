@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit } from 'react-icons/fa';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRh from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const samplePosts = [
     { id: 1, title: 'Développeur Frontend', position: 'Développeur', main_mission: 'Développer des interfaces utilisateur' },
@@ -104,8 +104,8 @@ const DashboardPost = () => {
                                                             <td>{post.position}</td>
                                                             <td>{post.main_mission}</td>
                                                             <td>
-                                                                <Link to={`/update-position/${post.id}`} className="btn btn-outline-info btn-sm">
-                                                                    <FaEdit />
+                                                                <Link to={`/update-position/${post.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
                                                                 </Link>
                                                             </td>
                                                         </tr>
@@ -128,7 +128,7 @@ const DashboardPost = () => {
                                                             <p><strong className="responsable-text">Position :</strong> {post.position}</p>
                                                             <p><strong className="responsable-text">Mission principale :</strong> {post.main_mission}</p>
                                                             <Link to={`/update-position/${post.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                                <GrEdit />
                                                             </Link>
                                                         </div>
                                                     </div>

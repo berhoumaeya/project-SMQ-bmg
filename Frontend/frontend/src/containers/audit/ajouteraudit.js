@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SidebarAudit from '../../components/SidebarAudit';
+import SubNavbarAudit from '../../components/SubNavbarAudit';
 
 function AddAudit() {
     const [reference, setReference] = useState('');
@@ -95,84 +97,80 @@ function AddAudit() {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="container ajout-form">
-                <div className="contact-image">
-                    <img src="/images/add.png" alt="rocket_contact" />
-                </div>
-                {apiError && <p className="error">{apiError}</p>}
-                <form onSubmit={handleSubmit} className="row">
-                    <div className="button-container">
-                        <Link to="/Audits">
-                            <button className="retour">Retour au tableau de bord</button>
-                        </Link>
+        <> <SubNavbarAudit />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarAudit />
+                <div className="container ajout-form">
+                    {apiError && <p className="error">{apiError}</p>}
+                    <form onSubmit={handleSubmit} className="row">
                         <div className="button-container">
-                            <button className="button-add-audit" type="submit">Ajouter audit</button>
+                                <button className="button-add" type="submit">Ajouter</button>
                         </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Référence :</label>
-                            <input type="text" className="form-control" placeholder="Référence*" name="reference" value={reference} onChange={(e) => setReference(e.target.value)} />
-                            {errors.reference && <p className="error">{errors.reference}</p>}
+                        <h4>Ajout d'un audit</h4>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Référence :</label>
+                                <input type="text" className="form-control" placeholder="Référence*" name="reference" value={reference} onChange={(e) => setReference(e.target.value)} />
+                                {errors.reference && <p className="error">{errors.reference}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Désignation :</label>
+                                <input type="text" className="form-control" placeholder="Désignation*" name="designation" value={designation} onChange={(e) => setDesignation(e.target.value)} />
+                                {errors.designation && <p className="error">{errors.designation}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Champ d'audit :</label>
+                                <input type="text" className="form-control" placeholder="Champ d'audit*" name="champAudit" value={champAudit} onChange={(e) => setChampAudit(e.target.value)} />
+                                {errors.champAudit && <p className="error">{errors.champAudit}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Type d'audit :</label>
+                                <input type="text" className="form-control" placeholder="Type d'audit*" name="typeAudit" value={typeAudit} onChange={(e) => setTypeAudit(e.target.value)} />
+                                {errors.typeAudit && <p className="error">{errors.typeAudit}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Date de début :</label>
+                                <input type="date" className="form-control" placeholder="Date de début*" name="dateDebut" value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} />
+                                {errors.dateDebut && <p className="error">{errors.dateDebut}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Date de fin :</label>
+                                <input type="date" className="form-control" placeholder="Date de fin*" name="dateFin" value={dateFin} onChange={(e) => setDateFin(e.target.value)} />
+                                {errors.dateFin && <p className="error">{errors.dateFin}</p>}
+                            </div>
                         </div>
-                        <div className="form-label">
-                            <label className="form-label">Désignation :</label>
-                            <input type="text" className="form-control" placeholder="Désignation*" name="designation" value={designation} onChange={(e) => setDesignation(e.target.value)} />
-                            {errors.designation && <p className="error">{errors.designation}</p>}
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Pièces jointes :</label>
+                                <input type="file" className="form-control" onChange={handleFileChange} />
+                            </div>
+                            <br />
+                            <div className="form-label">
+                                <label className="form-label">Auditeurs :</label>
+                                <select multiple className="form-control" value={auditeurs} onChange={(e) => setAuditeurs([...e.target.selectedOptions].map(option => option.value))}>
+                                    <option value="1">Auditeur 1</option>
+                                    <option value="2">Auditeur 2</option>
+                                </select>
+                                {errors.auditeurs && <p className="error">{errors.auditeurs}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Audités :</label>
+                                <select multiple className="form-control" value={audites} onChange={(e) => setAudites([...e.target.selectedOptions].map(option => option.value))}>
+                                    <option value="1">Audité 1</option>
+                                    <option value="2">Audité 2</option>
+                                </select>
+                                {errors.audites && <p className="error">{errors.audites}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Responsable de validation :</label>
+                                <input type="text" className="form-control" placeholder="Responsable de validation*" name="responsableValidation" value={responsableValidation} onChange={(e) => setResponsableValidation(e.target.value)} />
+                                {errors.responsableValidation && <p className="error">{errors.responsableValidation}</p>}
+                            </div>
                         </div>
-                        <div className="form-label">
-                            <label className="form-label">Champ d'audit :</label>
-                            <input type="text" className="form-control" placeholder="Champ d'audit*" name="champAudit" value={champAudit} onChange={(e) => setChampAudit(e.target.value)} />
-                            {errors.champAudit && <p className="error">{errors.champAudit}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Type d'audit :</label>
-                            <input type="text" className="form-control" placeholder="Type d'audit*" name="typeAudit" value={typeAudit} onChange={(e) => setTypeAudit(e.target.value)} />
-                            {errors.typeAudit && <p className="error">{errors.typeAudit}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Date de début :</label>
-                            <input type="date" className="form-control" placeholder="Date de début*" name="dateDebut" value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} />
-                            {errors.dateDebut && <p className="error">{errors.dateDebut}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Date de fin :</label>
-                            <input type="date" className="form-control" placeholder="Date de fin*" name="dateFin" value={dateFin} onChange={(e) => setDateFin(e.target.value)} />
-                            {errors.dateFin && <p className="error">{errors.dateFin}</p>}
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Pièces jointes :</label>
-                            <input type="file" className="form-control" onChange={handleFileChange} />
-                        </div>
-                        <br />
-                        <div className="form-label">
-                            <label className="form-label">Auditeurs :</label>
-                            <select multiple className="form-control" value={auditeurs} onChange={(e) => setAuditeurs([...e.target.selectedOptions].map(option => option.value))}>
-                                <option value="1">Auditeur 1</option>
-                                <option value="2">Auditeur 2</option>
-                            </select>
-                            {errors.auditeurs && <p className="error">{errors.auditeurs}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Audités :</label>
-                            <select multiple className="form-control" value={audites} onChange={(e) => setAudites([...e.target.selectedOptions].map(option => option.value))}>
-                                <option value="1">Audité 1</option>
-                                <option value="2">Audité 2</option>
-                            </select>
-                            {errors.audites && <p className="error">{errors.audites}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Responsable de validation :</label>
-                            <input type="text" className="form-control" placeholder="Responsable de validation*" name="responsableValidation" value={responsableValidation} onChange={(e) => setResponsableValidation(e.target.value)} />
-                            {errors.responsableValidation && <p className="error">{errors.responsableValidation}</p>}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </main>
+                    </form>
+                </div>
+            </main>
+        </>
     );
 }
 

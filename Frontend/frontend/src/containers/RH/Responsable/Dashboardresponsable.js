@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit } from 'react-icons/fa';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleResponsables = [
     {
@@ -122,8 +122,8 @@ const DashboardResponsable = () => {
                                                             <td>{responsable.username}</td>
                                                             <td>{responsable.email}</td>
                                                             <td>
-                                                                <Link to={`/update-responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
-                                                                    <FaEdit />
+                                                                <Link to={`/update-responsable/${responsable.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
                                                                 </Link>
                                                             </td>
                                                         </tr>
@@ -146,7 +146,7 @@ const DashboardResponsable = () => {
                                                             <p><strong className="responsable-text">Nom d'utilisateur :</strong> {responsable.username}</p>
                                                             <p><strong className="responsable-text">Email :</strong> {responsable.email}</p>
                                                             <Link to={`/update-responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                                <GrEdit />
                                                             </Link>
                                                         </div>
                                                     </div>

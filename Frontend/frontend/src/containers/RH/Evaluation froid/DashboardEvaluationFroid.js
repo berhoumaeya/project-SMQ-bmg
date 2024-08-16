@@ -66,10 +66,10 @@ return (
 export default DashboardFroid;
 */import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import {FaEdit} from 'react-icons/fa';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleFroids = [
     { id: 1, name: 'Froid 1', created_by: 'User A', created_at: '2024-01-01' },
@@ -171,8 +171,8 @@ const DashboardFroid = () => {
                                                             <td>{froid.created_by}</td>
                                                             <td>{froid.created_at}</td>
                                                             <td>
-                                                                <Link to={`/update-froid/${froid.id}`} className="btn btn-outline-info btn-sm">
-                                                                    <FaEdit />
+                                                                <Link to={`/update-froid/${froid.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
                                                                 </Link>
                                                             </td>
                                                         </tr>
@@ -195,7 +195,7 @@ const DashboardFroid = () => {
                                                             <p><strong className="responsable-text">Créé par :</strong> {froid.created_by}</p>
                                                             <p><strong className="responsable-text">Créé à :</strong> {froid.created_at}</p>
                                                             <Link to={`/update-froid/${froid.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                                <GrEdit />
                                                             </Link>
                                                         </div>
                                                     </div>

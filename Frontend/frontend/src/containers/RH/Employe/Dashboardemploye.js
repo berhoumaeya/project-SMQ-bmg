@@ -71,9 +71,9 @@ export default DashboardEmploye;
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../list.css';
-import { FaEdit } from 'react-icons/fa';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleEmployes = [
     {
@@ -185,8 +185,8 @@ const DashboardEmploye = () => {
                                                             <td>{employe.username}</td>
                                                             <td>{employe.email}</td>
                                                             <td>
-                                                                <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info btn-sm">
-                                                                    <FaEdit />
+                                                                <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info ">
+                                                                    <GrEdit />
 
                                                                 </Link>
                                                             </td>
@@ -211,7 +211,7 @@ const DashboardEmploye = () => {
                                                             <p><strong className="responsable-text">Username :</strong> {employe.username}</p>
                                                             <p><strong className="responsable-text">Email :</strong> {employe.email}</p>
                                                             <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                                <GrEdit />
 
                                                             </Link>
                                                         </div>
