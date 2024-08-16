@@ -37,42 +37,42 @@ const ResponsableDetail = () => {
 'X-CSRFToken': Cookies.get('csrftoken'),
 };
 try {
-  await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_responsable/${id}/`,{headers:headers});
-  setdeleteReussi(true)
+await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_responsable/${id}/`,{headers:headers});
+setdeleteReussi(true)
 } catch (error) {
-  console.error('Erreur lors de la suppression de l\'employé:', error);
+console.error('Erreur lors de la suppression de l\'employé:', error);
 }
 };
 if (deleteReussi){
 return <Navigate to="/Dashboardresponsable"/>
 }
 return (
-  <div>
-      {responsable ? (
-          <div className="card" >
-              <div className="card-body">
-                  <p><strong>ID :</strong> {responsable.id}</p>
-                  <p><strong>Nom responsable :</strong> {responsable.nom}</p>
-                  <p><strong>Prenom responsable :</strong> {responsable.prenom}</p>
-                  <p><strong>Nom d'utilisateur responsable  :</strong> {responsable.username}</p>
-                  <p><strong>Formation concernée responsable  :</strong>{formationsnames.join(', ')}</p>
-                  <p><strong>Email de responsable :</strong> {responsable.email}</p>
-                  <p><strong>Est un utilisateur :</strong> {responsable.is_user ? 'Oui' : 'Non'}</p>
-                  <p><strong>Date de création :</strong> {responsable.created_at}</p>
-                  <p><strong>Créé par :</strong> {responsable.created_by}</p>
-                  <p><strong>Pièces jointes :</strong> {responsable.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_responsable/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                  <p><strong>Modifié par :</strong> {responsable.updated_by}</p>
-                  <p><strong>Date de modification :</strong> {responsable.updated_at}</p>
-              </div>
-              <br />
-              <a href="/Dashboardresponsable"><button className="btn-gray">Retour</button></a>&nbsp;
-              <Link to={`/update-responsable/${responsable.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
-              <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-          </div>
-      ):(
-          <p>chargement ... </p>
-      )}
-  </div>
+<div>
+{responsable ? (
+    <div className="card" >
+        <div className="card-body">
+            <p><strong>ID :</strong> {responsable.id}</p>
+            <p><strong>Nom responsable :</strong> {responsable.nom}</p>
+            <p><strong>Prenom responsable :</strong> {responsable.prenom}</p>
+            <p><strong>Nom d'utilisateur responsable  :</strong> {responsable.username}</p>
+            <p><strong>Formation concernée responsable  :</strong>{formationsnames.join(', ')}</p>
+            <p><strong>Email de responsable :</strong> {responsable.email}</p>
+            <p><strong>Est un utilisateur :</strong> {responsable.is_user ? 'Oui' : 'Non'}</p>
+            <p><strong>Date de création :</strong> {responsable.created_at}</p>
+            <p><strong>Créé par :</strong> {responsable.created_by}</p>
+            <p><strong>Pièces jointes :</strong> {responsable.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_responsable/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+            <p><strong>Modifié par :</strong> {responsable.updated_by}</p>
+            <p><strong>Date de modification :</strong> {responsable.updated_at}</p>
+        </div>
+        <br />
+        <a href="/Dashboardresponsable"><button className="btn-gray">Retour</button></a>&nbsp;
+        <Link to={`/update-responsable/${responsable.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
+        <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+    </div>
+):(
+    <p>chargement ... </p>
+)}
+</div>
 );
 };
 
@@ -87,6 +87,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../Detail.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 // Sample data
 const sampleResponsables = [
@@ -234,117 +235,118 @@ const ResponsableDetail = () => {
 
   return (
     <>
-    <SubNavbarRH />
-    <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
-            <div className="container-xl px-4 mt-4">
-        <div className="row">
-          <div className="col-xl-4">
-            <div className="card mb-4 mb-xl-0">
-              <div className="card-header-">Profile Picture</div>
-              <div className="card-body text-center">
-                <div className="img-container mb-2">
-                  <img
-                    className="img-account-profile rounded-circle"
-                    src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
-                    alt="Profile"
-                    style={{ width: '150px', height: '150px' }}
+      <SubNavbarRH />
+      <main style={{ display: 'flex', minHeight: '100vh'}}>
+        <SidebarRH />
+        <div className="container-xl px-4 mt-4">
+          <div className="row">
+            <div className="col-xl-4">
+              <div className="card mb-4 mb-xl-0">
+                <div className="card-header-">Profile Picture</div>
+                <div className="card-body text-center">
+                  <div className="img-container mb-2">
+                    <img
+                      className="img-account-profile rounded-circle"
+                      src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
+                      alt="Profile"
+                      style={{ width: '150px', height: '150px' }}
+                    />
+                  </div>
+                  <div className="small font-italic text-muted mb-4">
+                    JPG or PNG no larger than 5 MB
+                  </div>
+                  <input
+                    type="file"
+                    className="form-control mb-2"
+                    onChange={handleFileChange}
+                    accept=".jpg, .png"
                   />
                 </div>
-                <div className="small font-italic text-muted mb-4">
-                  JPG or PNG no larger than 5 MB
+              </div>
+            </div>
+            <div className="col-xl-8">
+              <div className="card mb-4">
+                <div className="card-header-">Account Details</div>
+                <div className="card-body">
+                  {responsable ? (
+                    <form onSubmit={handleSubmit} className="row">
+
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Nom responsable</label>
+                          <input className="form-control" type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Prénom responsable</label>
+                          <input className="form-control" type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                        </div>
+                      </div>
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Nom d'utilisateur responsable</label>
+                          <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Email de responsable</label>
+                          <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <label className="small mb-1">Formations concernées responsable</label>
+                        <input className="form-control" type="text" value={formationsnames.join(', ')} readOnly />
+                      </div>
+                      <div className="mb-3">
+                        <label className="small mb-1">Est un utilisateur</label>
+                        <input
+                          type="checkbox"
+                          checked={is_user}
+                          onChange={(e) => setIsUser(e.target.checked)}
+                        />
+                      </div>
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Date de création</label>
+                          <input className="form-control" type="text" value={responsable.created_at} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Créé par</label>
+                          <input className="form-control" type="text" value={responsable.created_by} readOnly />
+                        </div>
+                      </div>
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Modifié par</label>
+                          <input className="form-control" type="text" value={responsable.updated_by} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Date de modification</label>
+                          <input className="form-control" type="text" value={responsable.updated_at} readOnly />
+                        </div>
+                      </div>
+
+
+                      <div className="d-flex justify-content-end mt-3">
+                        <Link to="/DashboardResponsable" className="btn btn-secondary me-2">
+                          <IoMdArrowRoundBack /> Retour
+                        </Link>
+                        <button type="submit" className="btn btn-primary me-2">
+                          <GrEdit /> Modifier
+                        </button>
+                        <button type="button" className="btn btn-danger" onClick={handleDelete}>
+                          <GrTrash /> Supprimer
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    <p>Loading...</p>
+                  )}
                 </div>
-                <input
-                  type="file"
-                  className="form-control mb-2"
-                  onChange={handleFileChange}
-                  accept=".jpg, .png"
-                />
               </div>
             </div>
           </div>
-          <div className="col-xl-8">
-            <div className="card mb-4">
-              <div className="card-header-">Account Details</div>
-              <div className="card-body">
-                {responsable ? (
-                  <form onSubmit={handleSubmit} className="row">
-                    
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Nom responsable</label>
-                        <input className="form-control" type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Prénom responsable</label>
-                        <input className="form-control" type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-                      </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Nom d'utilisateur responsable</label>
-                        <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Email de responsable</label>
-                        <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                      </div>
-                    </div>
-                    <div className="mb-3">
-                      <label className="small mb-1">Formations concernées responsable</label>
-                      <input className="form-control" type="text" value={formationsnames.join(', ')} readOnly />
-                    </div>
-                    <div className="mb-3">
-                      <label className="small mb-1">Est un utilisateur</label>
-                      <input
-                        type="checkbox"
-                        checked={is_user}
-                        onChange={(e) => setIsUser(e.target.checked)}
-                      />
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Date de création</label>
-                        <input className="form-control" type="text" value={responsable.created_at} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Créé par</label>
-                        <input className="form-control" type="text" value={responsable.created_by} readOnly />
-                      </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Modifié par</label>
-                        <input className="form-control" type="text" value={responsable.updated_by} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Date de modification</label>
-                        <input className="form-control" type="text" value={responsable.updated_at} readOnly />
-                      </div>
-                    </div>
-                   
 
-                    <div className="d-flex justify-content-end mt-3">
-                      <Link to="/DashboardResponsable" className="btn btn-secondary me-2">
-                        <IoMdArrowRoundBack /> Retour
-                      </Link>
-                      <button type="submit" className="btn btn-primary me-2">
-                        <GrEdit /> Modifier
-                      </button>
-                      <button type="button" className="btn btn-danger" onClick={handleDelete}>
-                        <GrTrash /> Supprimer
-                      </button>
-                    </div>
-                  </form>
-                ) : (
-                  <p>Loading...</p>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
-
-      </div>
-    </main>
+      </main>
     </>
   );
 };

@@ -74,21 +74,13 @@ const DashboardResponsable = () => {
     return (
 
         <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
-                <SidebarRH /> 
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH /> 
                     <div className="container dashboard">
                     <div className="row">
                         <div>
-                            <br />
-                            <br />
                             <div className="table-container">
-                         
                                 <h3 className="formation-title">Liste des Responsables</h3>
-                                <div className="button-container">
-                                    <Link to="/ajouter-responsable/">
-                                        <button className="button-add">Ajouter Responsable</button>
-                                    </Link>
-                                </div>
                                 <br />
                                 <div className="search-container">
                                     <input

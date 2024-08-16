@@ -1,17 +1,15 @@
-// Sidebar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaUserShield, FaBriefcase, FaUsers, FaUserTie, FaFile, FaBook } from 'react-icons/fa';
+import { FaUserShield, FaBriefcase, FaUsers, FaUserTie, FaBook } from 'react-icons/fa';
 import '../styles/Sidebar.css';
 
-// Define the sidebar items with icons
 const sidebarItems = [
-    { title: 'Responsables formation', link: '/DashboardResponsable', icon: <FaUserShield /> },
-    { title: 'Job post', link: '/DashboardPosition', icon: <FaBriefcase /> },
-    { title: 'Participants', link: '/DashboardParticipant', icon: <FaUsers /> },
-    { title: 'Employés', link: '/DashboardEmploye', icon: <FaUserTie /> },
-    { title: 'Fiche Employé', link: '/DashboardFiche', icon: <FaFile /> },
-    { title: 'Formations', link: '/DashboardFormation', icon: <FaBook /> },
+    { title: 'Employés', link: '/dashboardemploye', icon: <FaUserTie /> },
+    { title: 'Job position', link: '/dashboardposition', icon: <FaBriefcase /> },    
+    { title: 'Formations', link: '/dashboardformation', icon: <FaBook /> },
+    { title: 'Participants', link: '/dashboardparticipant', icon: <FaUsers /> },
+    { title: 'Responsables formation', link: '/dashboardresponsable', icon: <FaUserShield /> },
+
 ];
 
 const SidebarRH = () => {

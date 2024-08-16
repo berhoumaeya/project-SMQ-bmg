@@ -110,20 +110,13 @@ const DashboardFormation = () => {
 
     return (
         <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
-                <SidebarRH />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH />
                 <div className="container dashboard">
                     <div className="row">
                         <div>
-                            <br />
-                            <br />
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des Formations</h3>
-                                <div className="button-container">
-                                    <Link to={`/ajouter-formation/`}>
-                                        <button className="button-add">Ajouter Formation</button>
-                                    </Link>
-                                </div>
                                 <br />
                                 <div className="search-container">
                                     <input

@@ -104,6 +104,7 @@ const DashboardEmploye = () => {
     const [error] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     useEffect(() => {
         setEmployes(sampleEmployes);
@@ -120,23 +121,29 @@ const DashboardEmploye = () => {
         employe.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
     return (
         <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
-            <SidebarRH /> 
-                <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                     
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
+                <div className=" container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
                                 <h3 className='formation-title'>Liste des Employés</h3>
-                                <div className="button-container">
-                                    <Link to={`/ajouter-employe/`}>
-                                        <button className="button-add">Ajouter Employé</button>
-                                    </Link>
-                                </div>
                                 <br />
                                 <div className="search-container">
                                     <input
@@ -153,19 +160,26 @@ const DashboardEmploye = () => {
                                         <table className="table-header">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Nom Employé</th>
-                                                    <th>Prénom Employé</th>
-                                                    <th>Nom d'utilisateur Employé</th>
-                                                    <th>Email Employé</th>
-                                                    <th>Détails</th>
+                                                    <th scope="col" onClick={() => requestSort('nom')}>
+                                                        Nom Employé {getSortArrow('nom')} 
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('prenom')}>
+                                                        Prénom Employé {getSortArrow('prenom')}    
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('username')}>
+                                                        Nom d'utilisateur Employé {getSortArrow('username')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('email')}>
+                                                        Email Employé {getSortArrow('email')}
+                                                    </th>
+                                                    <th>
+                                                        Détails</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {filteredEmployes.length > 0 ? (
                                                     filteredEmployes.map(employe => (
-                                                        <tr key={employe.id}>
-                                                            <td>{employe.id}</td>
+                                                        <tr >
                                                             <td>{employe.nom}</td>
                                                             <td>{employe.prenom}</td>
                                                             <td>{employe.username}</td>

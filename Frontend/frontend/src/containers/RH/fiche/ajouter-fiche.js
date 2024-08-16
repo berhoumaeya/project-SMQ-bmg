@@ -208,6 +208,11 @@ function FicheForm() {
                 <div class="container ajout-form">
                     
                     <form onSubmit={handleSubmit} className="row">
+                    <div class="contact-image ">
+                        <div class="button-container">
+                            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
+                        </div>
+                    </div> <h4>Ajout d'une fiche employé</h4>
 
                         <div class="col-md-6">
                             <div className="form-label">
@@ -383,11 +388,6 @@ function FicheForm() {
                         </div>
                         
                     </form>
-                    <div class="contact-image ">
-                        <div class="button-container">
-                            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter une fiche</button>
-                        </div>
-                    </div>
                 </div>
             </main>
         </>

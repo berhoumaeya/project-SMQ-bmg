@@ -200,7 +200,7 @@ const App = () => (
           <Route path="/update-employe/:id" element={<EmployeDetail />} />
           <Route path="/ajouter-employe/" element={<AddEmploye />} />
 
-          <Route path="/Dashboardposition" element={<DashboardPost />} />
+          <Route path="/dashboardposition" element={<DashboardPost />} />
           <Route path="/update-position/:id" element={<PostDetail />} />
           <Route path="/ajouter-position/" element={<AddPost />} />
 
@@ -214,7 +214,7 @@ const App = () => (
 
           <Route path="/update-participant/:id" element={<ParticipantDetail />} />
           <Route path="/ajouter-participant/" element={<ParticipantForm />} />
-          <Route path="/Dashboardparticipant" element={<DashboardParticipant />} />
+          <Route path="/dashboardparticipant" element={<DashboardParticipant />} />
 
           <Route path="/dashboardfiche/" element={<DashboardFiche />} />
           <Route path="/ajouter-fiche/" element={<FicheForm />} />

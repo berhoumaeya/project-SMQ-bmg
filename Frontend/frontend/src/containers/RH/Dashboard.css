@@ -80,21 +80,22 @@ button:hover {
 button:focus {
   outline: none;
 }
+
 .ajout-form {
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  
+
 }
 
 
 .ajout-form .form-control {
-  border-radius: 1rem;
+  border-radius: 0.5rem;
 }
 
 .ajout-form form {
   padding: 4%;
-  
+
 }
 
 .ajout-form form .row {
@@ -119,14 +120,15 @@ button:focus {
 }
 
 .ajout-form h4 {
-  margin-top: 1%;
   color: #0062cc;
+  margin-bottom: 2%;
 }
 
 
 .button-container {
   display: flex;
   flex-direction: row-reverse;
+  margin-bottom: 2rem;
 }
 
 .button-add {
@@ -170,6 +172,7 @@ button:focus {
   height: 20px;
   cursor: pointer;
 }
+
 .criteria-row {
   display: flex;
   flex-wrap: wrap;

@@ -97,7 +97,12 @@ function FroidForm() {
       <div className="container ajout-form">
        
         <form onSubmit={handleSubmit} className="row">
-          <h4>Informations sur l'évaluation à froid</h4>
+        <div className="contact-image">
+          <div className="button-container">
+            <button className="button-add" type="submit" onClick={handleSubmit}>Evaluer</button>
+          </div>
+        </div>
+           <h4>Ajout d'une évaluation à froid</h4>
           <div className="col-md-6">
             <div className="form-label">
               <label className="form-label">Nom <span className="required">*</span>:</label>
@@ -148,11 +153,6 @@ function FroidForm() {
             </div>
           </div>
           </form>
-          <div className="contact-image">
-          <div className="button-container">
-            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter une évaluation à froid</button>
-          </div>
-        </div>
       </div>
     </main></>
   );

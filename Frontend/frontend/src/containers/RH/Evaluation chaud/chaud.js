@@ -45,21 +45,21 @@ return (
 <div>
 {chaud ? (
 <div className="card" >
-  <div className="card-body">
-      <p><strong>ID :</strong> {chaud.id}</p>
-      <p><strong>name evaluation :</strong> {chaud.name}</p>
-      <p><strong>Formation :</strong> {formation}</p>
-      <p><strong>Date de réalisation :</strong> {chaud.date_realisation}</p>
-      <p><strong>criteres   :</strong> {chaud.criteres}</p>
-      <p><strong>coefficients  :</strong> {chaud.coefficients}</p>
-      <p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_chaud/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-      <p><strong>crée par  :</strong> {chaud.created_by}</p>
-      <p><strong>crée à :</strong> {chaud.created_at}</p>
+<div className="card-body">
+<p><strong>ID :</strong> {chaud.id}</p>
+<p><strong>name evaluation :</strong> {chaud.name}</p>
+<p><strong>Formation :</strong> {formation}</p>
+<p><strong>Date de réalisation :</strong> {chaud.date_realisation}</p>
+<p><strong>criteres   :</strong> {chaud.criteres}</p>
+<p><strong>coefficients  :</strong> {chaud.coefficients}</p>
+<p><strong>Pièces jointes :</strong> {chaud.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_chaud/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+<p><strong>crée par  :</strong> {chaud.created_by}</p>
+<p><strong>crée à :</strong> {chaud.created_at}</p>
 
-  </div>
-  <br />
-  <a href="/DashboardEvaluationChaud"><button className="btn-gray">Retour</button></a>&nbsp;
-  <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+</div>
+<br />
+<a href="/DashboardEvaluationChaud"><button className="btn-gray">Retour</button></a>&nbsp;
+<button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
 </div>
 ):(
 <p>chargement ... </p>
@@ -78,6 +78,7 @@ import "../Detail.css";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 const sampleChaudDetails = {
     1: {
@@ -173,100 +174,101 @@ const ChaudDetail = () => {
 
     return (
         <>
-        <SubNavbarRH />
-        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>            
-            <div className="container-xl px-4 mt-4">
-                <div className="row">
-                    <div className="col-xl-4">
-                        <div className="card mb-4 mb-xl-0">
-                            <div className="card-header-">Profile Picture</div>
-                            <div className="card-body text-center">
-                                <div className="img-container mb-2">
-                                    <img
-                                        className="img-account-profile rounded-circle"
-                                        src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
-                                        alt="Profile"
-                                        style={{ width: '150px', height: '150px' }}
+            <SubNavbarRH />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
+                <div className="container-xl px-4 mt-4">
+                    <div className="row">
+                        <div className="col-xl-4">
+                            <div className="card mb-4 mb-xl-0">
+                                <div className="card-header-">Profile Picture</div>
+                                <div className="card-body text-center">
+                                    <div className="img-container mb-2">
+                                        <img
+                                            className="img-account-profile rounded-circle"
+                                            src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
+                                            alt="Profile"
+                                            style={{ width: '150px', height: '150px' }}
+                                        />
+                                    </div>
+                                    <div className="small font-italic text-muted mb-4">
+                                        JPG or PNG no larger than 5 MB
+                                    </div>
+                                    <input
+                                        type="file"
+                                        className="form-control mb-2"
+                                        onChange={handleFileChange}
+                                        accept=".jpg, .png"
                                     />
                                 </div>
-                                <div className="small font-italic text-muted mb-4">
-                                    JPG or PNG no larger than 5 MB
-                                </div>
-                                <input
-                                    type="file"
-                                    className="form-control mb-2"
-                                    onChange={handleFileChange}
-                                    accept=".jpg, .png"
-                                />
                             </div>
                         </div>
-                    </div>
-                    <div className="col-xl-8">
-                        <div className="card mb-4">
-                            <div className="card-header-">Détails de l'évaluation</div>
-                            <div className="card-body">
-                                {chaud ? (
-                                    <form className="row" onSubmit={handleSubmit}>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Nom évaluation</label>
-                                            <input className="form-control" type="text" value={chaud.name} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Formation</label>
-                                            <input className="form-control" type="text" value={formation} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Date de réalisation</label>
-                                            <input className="form-control" type="text" value={chaud.date_realisation} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Critères</label>
-                                            <input className="form-control" type="text" value={chaud.criteres} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Coefficients</label>
-                                            <input className="form-control" type="text" value={chaud.coefficients} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Pièces jointes</label>
-                                            <input className="form-control" type="text" value={chaud.pieces_jointes ? 'Oui' : 'Non'} readOnly />
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Créé par</label>
-                                                <input className="form-control" type="text" value={chaud.created_by} readOnly />
+                        <div className="col-xl-8">
+                            <div className="card mb-4">
+                                <div className="card-header-">Détails de l'évaluation</div>
+                                <div className="card-body">
+                                    {chaud ? (
+                                        <form className="row" onSubmit={handleSubmit}>
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Nom évaluation</label>
+                                                <input className="form-control" type="text" value={chaud.name} readOnly />
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Date de création</label>
-                                                <input className="form-control" type="text" value={chaud.created_at} readOnly />
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Formation</label>
+                                                <input className="form-control" type="text" value={formation} readOnly />
                                             </div>
-                                        </div>
-                                        <div className="d-flex justify-content-end mt-3">
-                                            <Link to={`/DashboardEvaluationChaud`} className="btn btn-secondary me-2">
-                                                <IoMdArrowRoundBack /> Retour
-                                            </Link>
-                                            <button type="submit" className="btn btn-primary me-2">
-                                                <GrEdit /> Modifier
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn btn-danger"
-                                                onClick={handleDelete}
-                                            >
-                                                <GrTrash /> Supprimer
-                                            </button>
-                                        </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Date de réalisation</label>
+                                                <input className="form-control" type="text" value={chaud.date_realisation} readOnly />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Critères</label>
+                                                <input className="form-control" type="text" value={chaud.criteres} readOnly />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Coefficients</label>
+                                                <input className="form-control" type="text" value={chaud.coefficients} readOnly />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Pièces jointes</label>
+                                                <input className="form-control" type="text" value={chaud.pieces_jointes ? 'Oui' : 'Non'} readOnly />
+                                            </div>
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Créé par</label>
+                                                    <input className="form-control" type="text" value={chaud.created_by} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Date de création</label>
+                                                    <input className="form-control" type="text" value={chaud.created_at} readOnly />
+                                                </div>
+                                            </div>
+                                            <div className="d-flex justify-content-end mt-3">
+                                                <Link to={`/DashboardEvaluationChaud`} className="btn btn-secondary me-2">
+                                                    <IoMdArrowRoundBack /> Retour
+                                                </Link>
+                                                <button type="submit" className="btn btn-primary me-2">
+                                                    <GrEdit /> Modifier
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger"
+                                                    onClick={handleDelete}
+                                                >
+                                                    <GrTrash /> Supprimer
+                                                </button>
+                                            </div>
 
-                                    </form>
-                                ) : (
-                                    <p>Chargement ...</p>
-                                )}
+                                        </form>
+                                    ) : (
+                                        <p>Chargement ...</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
         </>
     );
 };

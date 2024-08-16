@@ -87,7 +87,13 @@ function AddPost() {
     
 
         <form onSubmit={handleSubmit} className="row">
-          <div className="col-md-6">
+        <div className="contact-image">
+          <div className="button-container">
+            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
+          </div>
+        </div> 
+        <h4>Ajout d'une position</h4>
+        <div className="col-md-6">
             <div className="form-label">
               <label className="form-label">Titre :</label>
               <input type="text" className="form-control" placeholder='Titre*' value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -121,11 +127,6 @@ function AddPost() {
             </div>
           </div>
         </form>
-        <div className="contact-image">
-          <div className="button-container">
-            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter position</button>
-          </div>
-        </div>
       </div>
     </main>
     </>

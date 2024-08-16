@@ -88,11 +88,11 @@ return (
 export default DemandList;
 */
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './listDoc.css';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
-import { FaList, FaTh } from 'react-icons/fa';
+import SidebarDoc from '../../components/SidebarDoc';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
 const sampleDemands = [
     {
         id: 1,
@@ -127,9 +127,9 @@ const DemandList = () => {
     const [demands, setDemands] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     useEffect(() => {
-        // Simulating data fetch
         setDemands(sampleDemands);
     }, []);
 
@@ -148,61 +148,59 @@ const DemandList = () => {
         demand.document_object.toLowerCase().includes(searchQuery.toLowerCase()) ||
         demand.created_by.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
 
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn-doc ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn-doc ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className='doc-title'>Liste des Demandes</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardDoc/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input-doc"
-                                />
-                            </div>
-                            <br />
-                            <div >
+        <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarDoc />
+                <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className='doc-title'>Liste des Demandes</h3>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input-doc"
+                                    />
+                                </div>
+                                <br />
+                                <br />
+
                                 {viewMode === 'list' ? (
 
                                     <table className="table-header">
                                         <thead>
                                             <tr>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">ID</th>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Type de demande</th>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Objet de demande</th>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Créé par</th>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Créé à</th>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Pièces jointes</th>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Statut</th>
-                                                <th style={{ backgroundColor: '#76ab78' }} scope="col">Actions</th>
+                                                <th scope="col" onClick={() => requestSort('type')}>Type de demande {getSortArrow('type')}</th>
+                                                <th scope="col" onClick={() => requestSort('document_object')}>Objet de demande {getSortArrow('document_object')}</th>
+                                                <th scope="col" onClick={() => requestSort('created_by')}>Créé par {getSortArrow('created_by')}</th>
+                                                <th scope="col" onClick={() => requestSort('created_at')}>Créé à {getSortArrow('created_at')}</th>
+                                                <th scope="col" >Pièces jointes</th>
+                                                <th scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
+                                                <th scope="col">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {filteredDemands.length > 0 ? (
                                                 filteredDemands.map(demand => (
-                                                    <tr key={demand.id}>
-                                                        <td>{demand.id}</td>
+                                                    <tr >
                                                         <td>{demand.type}</td>
                                                         <td>{demand.document_object}</td>
                                                         <td>{demand.created_by}</td>
@@ -252,8 +250,8 @@ const DemandList = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

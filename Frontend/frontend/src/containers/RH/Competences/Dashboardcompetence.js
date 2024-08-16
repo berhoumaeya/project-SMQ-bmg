@@ -93,7 +93,6 @@ return (
 export default DashboardCompetence;
 */
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { GrTrash } from 'react-icons/gr';
 import '../Dashboard.css';
 import Cookies from 'js-cookie';
@@ -131,7 +130,6 @@ const sampleCompetences = [
 ];
 
 const DashboardCompetence = () => {
-    const { id } = useParams();
     const [competences, setCompetences] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
@@ -169,22 +167,13 @@ const DashboardCompetence = () => {
     }
     return (
         <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
-                <SidebarRH />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH />
                 <div className="container dashboard">
                     <div className="row">
                         <div>
-                            <br />
-                            <br />
                             <div className="table-container">
-
                                 <h3 className='formation-title'>Liste des Évaluations de Compétence</h3>
-                                <div className="button-container">
-                                    <Link to={`/ajouter-competence/${id}`}>
-                                        <button className="button-add">Évaluer</button>
-                                    </Link>
-
-                                </div>
                                 <br />
                                 <div className="search-container">
                                     <input

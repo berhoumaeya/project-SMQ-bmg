@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
+import SidebarDoc from '../../components/SidebarDoc';
 
 function ModifierDocExt() {
     const { id } = useParams();
@@ -105,7 +107,9 @@ function ModifierDocExt() {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <> <SubNavbarDoc />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <SidebarDoc />             
             <div className="container-xl px-4 mt-4">
                 <div className='row'>
                     <div className="col-xl-4">
@@ -235,6 +239,7 @@ function ModifierDocExt() {
                 </div>
             </div>
         </main>
+    </>
     );
 }
 

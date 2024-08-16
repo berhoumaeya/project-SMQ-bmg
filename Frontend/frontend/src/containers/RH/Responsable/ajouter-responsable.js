@@ -85,7 +85,14 @@ function ResponsableForm() {
         <div className="container ajout-form">
       
           <form onSubmit={handleSubmit} className="row">
-            <div className="col-md-6">
+          <div className="contact-image">
+            <div className="button-container">
+              <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
+            </div>
+
+          </div>
+          <h4>Ajout d'un responsable </h4>
+          <div className="col-md-6">
               <div className="form-label">
                 <label className="form-label">Nom :</label>
                 <input type="text" className="form-control" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
@@ -121,12 +128,7 @@ function ResponsableForm() {
               </div>
             </div>
           </form>
-          <div className="contact-image">
-            <div className="button-container">
-              <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter un responsable</button>
-            </div>
-
-          </div>
+         
         </div>
       </main>
     </>

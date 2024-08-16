@@ -6,6 +6,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../Detail.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 // Sample data
 const sampleEmployes = [
@@ -132,113 +133,114 @@ const EmployeDetail = () => {
     }
     return (
         <>
-        <SubNavbarRH />
-        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
-                        <div className="container-xl px-4 mt-4">
-                <div className="row">
-                    <div className="col-xl-4">
-                        <div className="card mb-4 mb-xl-0">
-                            <div className="card-header-">Profile Picture</div>
-                            <div className="card-body text-center">
-                                <div className="img-container mb-2">
-                                    <img
-                                        className="img-account-profile rounded-circle"
-                                        src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
-                                        alt="Profile"
-                                        style={{ width: '150px', height: '150px' }}
+            <SubNavbarRH />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
+                <div className="container-xl px-4 mt-4">
+                    <div className="row">
+                        <div className="col-xl-4">
+                            <div className="card mb-4 mb-xl-0">
+                                <div className="card-header-">Profile Picture</div>
+                                <div className="card-body text-center">
+                                    <div className="img-container mb-2">
+                                        <img
+                                            className="img-account-profile rounded-circle"
+                                            src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
+                                            alt="Profile"
+                                            style={{ width: '150px', height: '150px' }}
+                                        />
+                                    </div>
+                                    <div className="small font-italic text-muted mb-4">
+                                        JPG or PNG no larger than 5 MB
+                                    </div>
+                                    <input
+                                        type="file"
+                                        className="form-control mb-2"
+                                        onChange={handleFileChange}
+                                        accept=".jpg, .png"
                                     />
                                 </div>
-                                <div className="small font-italic text-muted mb-4">
-                                    JPG or PNG no larger than 5 MB
-                                </div>
-                                <input
-                                    type="file"
-                                    className="form-control mb-2"
-                                    onChange={handleFileChange}
-                                    accept=".jpg, .png"
-                                />
                             </div>
                         </div>
-                    </div>
-                    <div className="col-xl-8">
-                        <div className="card mb-4">
-                            <div className="card-header-">Account Details</div>
-                            <div className="card-body">
-                                {employe ? (
-                                    <form onSubmit={handleSubmit} className="row">
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Nom employé</label>
-                                                <input className="form-control" type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
+                        <div className="col-xl-8">
+                            <div className="card mb-4">
+                                <div className="card-header-">Account Details</div>
+                                <div className="card-body">
+                                    {employe ? (
+                                        <form onSubmit={handleSubmit} className="row">
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Nom employé</label>
+                                                    <input className="form-control" type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Prénom employé</label>
+                                                    <input className="form-control" type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                                                </div>
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Prénom employé</label>
-                                                <input className="form-control" type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Nom d'utilisateur</label>
+                                                    <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Email</label>
+                                                    <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Nom d'utilisateur</label>
-                                                <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Est un utilisateur</label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={is_user}
+                                                    onChange={(e) => setIsUser(e.target.checked)}
+                                                />
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Email</label>
-                                                <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Date de création</label>
+                                                    <input className="form-control" type="text" value={employe.created_at} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Créé par</label>
+                                                    <input className="form-control" type="text" value={employe.created_by} readOnly />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Est un utilisateur</label>
-                                            <input
-                                                type="checkbox"
-                                                checked={is_user}
-                                                onChange={(e) => setIsUser(e.target.checked)}
-                                            />
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Date de création</label>
-                                                <input className="form-control" type="text" value={employe.created_at} readOnly />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Date de mise à jour</label>
+                                                    <input className="form-control" type="text" value={employe.updated_at} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Mis à jour par</label>
+                                                    <input className="form-control" type="text" value={employe.updated_by} readOnly />
+                                                </div>
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Créé par</label>
-                                                <input className="form-control" type="text" value={employe.created_by} readOnly />
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Pièces jointes</label>
+                                                {employe.pieces_jointes ? <a className="form-control" href="/" target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}
                                             </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Date de mise à jour</label>
-                                                <input className="form-control" type="text" value={employe.updated_at} readOnly />
+                                            <div className="d-flex justify-content-end mt-3">
+                                                <Link to="/Dashboardemploye" className="btn btn-secondary me-2">
+                                                    <IoMdArrowRoundBack /> Retour
+                                                </Link>
+                                                <button type="submit" className="btn btn-primary me-2">
+                                                    <GrEdit /> Modifier
+                                                </button>
+                                                <button type="button" className="btn btn-danger me-2" onClick={handleDelete}>
+                                                    <GrTrash /> Supprimer
+                                                </button>
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Mis à jour par</label>
-                                                <input className="form-control" type="text" value={employe.updated_by} readOnly />
-                                            </div>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Pièces jointes</label>
-                                            {employe.pieces_jointes ? <a className="form-control" href="/" target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}
-                                        </div>
-                                        <div className="d-flex justify-content-end mt-3">
-                                            <Link to="/Dashboardemploye" className="btn btn-secondary me-2">
-                                                <IoMdArrowRoundBack /> Retour
-                                            </Link>
-                                            <button type="submit" className="btn btn-primary me-2">
-                                                <GrEdit /> Modifier
-                                            </button>
-                                            <button type="button" className="btn btn-danger me-2" onClick={handleDelete}>
-                                                <GrTrash /> Supprimer
-                                            </button>
-                                        </div>
-                                    </form>
-                                ) : (
-                                    <p>Chargement ...</p>
-                                )}
+                                        </form>
+                                    ) : (
+                                        <p>Chargement ...</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
         </>
     );
 };

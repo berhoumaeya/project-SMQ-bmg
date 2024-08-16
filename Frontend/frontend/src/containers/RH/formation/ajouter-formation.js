@@ -156,11 +156,16 @@ function AddFormation() {
         <>
             <SubNavbarRH />
             <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
-            <SidebarRH />
-            <div className="container ajout-form">
-                    
+                <SidebarRH />
+                <div className="container ajout-form">
+
                     <form onSubmit={handleSubmit} className="row">
-                        <h4>Informations sur la Formation</h4>
+                        <div className="contact-image">
+                            <div className="button-container">
+                                <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
+                            </div>
+                        </div>
+                        <h4>Ajout d'une Formation</h4>
                         <div className="col-md-6">
                             <div className="form-label">
                                 <label className="form-label">Intitulé de la formation <span className="required">*</span>:</label>
@@ -266,11 +271,6 @@ function AddFormation() {
                             </div>
                         </div>
                     </form>
-                    <div className="contact-image">
-                        <div className="button-container">
-                            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter une formation</button>
-                        </div>
-                    </div>
                 </div>
             </main>
         </>

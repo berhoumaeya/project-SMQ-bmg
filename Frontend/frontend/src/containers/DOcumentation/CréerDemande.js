@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import SidebarDoc from '../../components/SidebarDoc';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
 
 const CreateDemande = () => {
     const [errors, setErrors] = useState({});
@@ -64,47 +66,47 @@ const CreateDemande = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="container ajout-form">
-                <div className="contact-image ">
-                    <img src="/images/plus-1.png" alt="rocket_contact" />
-                    <div className="button-container">
-                        <Link to="/DashboardDoc">
-                            <button className="retour">Retour au tableau de bord</button>
-                        </Link>   
-                        <button className="button-add-" type="submit" onClick={handleSubmit}>Envoyer demande</button>
+        <> <SubNavbarDoc />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarDoc />
+                <div className="container ajout-form">
+                    <div className="contact-image ">
+                        <div className="button-container">
+                            <button className="button-add-" type="submit" onClick={handleSubmit}>Envoyer</button>
+                        </div>
                     </div>
+                    <form onSubmit={handleSubmit} className="row">
+                    <p className='p-doc'>Création une demande</p>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Document object :</label>
+                                <input type="text" className="form-control" placeholder='Document object*' value={document_object} onChange={(e) => setDocumentObject(e.target.value)} />
+                                {errors.document_object && <p className="error">{errors.document_object}</p>}
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Type :</label>
+                                <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="Manuel">Manuel</option>
+                                    <option value="Procédure">Procédure</option>
+                                    <option value="Politique">Politique</option>
+                                    <option value="Rapport">Rapport</option>
+                                    <option value="Mémoire">Mémoire</option>
+                                </select>
+                                {errors.type && <p className="error">{errors.type}</p>}
+                            </div>
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Pièces jointes :</label>
+                            <input type="file" className="form-control" onChange={handleFileChange} />
+                            {errors.attached_file && <p className="error">{errors.attached_file}</p>}
+                        </div>
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit} className="row">
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Document object :</label>
-                            <input type="text" className="form-control" placeholder='Document object*' value={document_object} onChange={(e) => setDocumentObject(e.target.value)} />
-                            {errors.document_object && <p className="error">{errors.document_object}</p>}
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Type :</label>
-                            <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                <option value="Manuel">Manuel</option>
-                                <option value="Procédure">Procédure</option>
-                                <option value="Politique">Politique</option>
-                                <option value="Rapport">Rapport</option>
-                                <option value="Mémoire">Mémoire</option>
-                            </select>
-                            {errors.type && <p className="error">{errors.type}</p>}
-                        </div>
-                    </div>
-                    <div className="form-label">
-                        <label className="form-label">Pièces jointes :</label>
-                        <input type="file" className="form-control" onChange={handleFileChange} />
-                        {errors.attached_file && <p className="error">{errors.attached_file}</p>}
-                    </div>
-                </form>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

@@ -79,49 +79,51 @@ function AddEmploye() {
   return (
     <>
       <SubNavbarRH />
-      <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>   
+      <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
         <SidebarRH />
         <div class="container ajout-form">
-        <form onSubmit={handleSubmit} className="row">
-          <div className="col-md-6">
-            <div className="form-label">
-              <label className="form-label">Nom :</label>
-              <input type="text" className="form-control" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
-              {errors.nom && <div className="error">{errors.nom}</div>}
+          <form onSubmit={handleSubmit} className="row">
+            <div className="button-container">
+              <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
             </div>
-            <div className="form-label">
-              <label className="form-label">Prénom :</label>
-              <input type="text" className="form-control" placeholder='Prénom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-              {errors.prenom && <div className="error">{errors.prenom}</div>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Email :</label>
-              <input type="email" className="form-control" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
-              {errors.email && <div className="error">{errors.email}</div>}
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="form-label">
-              <label className="form-label">Nom d'utilisateur :</label>
-              <input type="text" className="form-control" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
-              {errors.username && <div className="error">{errors.username}</div>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Pièces jointes :</label>
-              <input type="file" className="form-control" onChange={handleFileChange} />
-            </div>
-            <div className="form-label">
-              <div className="checkbox-container">
-                <label className="form-label">Est un utilisateur :</label>
-                <input type="checkbox" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+            <h4>Ajout d'un employé</h4>
+            <div className="col-md-6">
+              <div className="form-label">
+                <label className="form-label">Nom :</label>
+                <input type="text" className="form-control" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
+                {errors.nom && <div className="error">{errors.nom}</div>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Prénom :</label>
+                <input type="text" className="form-control" placeholder='Prénom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                {errors.prenom && <div className="error">{errors.prenom}</div>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Email :</label>
+                <input type="email" className="form-control" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
+                {errors.email && <div className="error">{errors.email}</div>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Nom d'utilisateur :</label>
+                <input type="text" className="form-control" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
+                {errors.username && <div className="error">{errors.username}</div>}
               </div>
             </div>
-          </div>
+            <div className="col-md-6">
+              <div className="form-label">
+                <label className="form-label">Pièces jointes :</label>
+                <input type="file" className="form-control" onChange={handleFileChange} />
+              </div>
+              <br />
+              <div className="form-label">
+                <div className="checkbox-container">
+                  <label className="form-label">Est un utilisateur :</label>
+                  <input type="checkbox" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+                </div>
+              </div>
+            </div>
           </form>
-             <div className="button-container">
-            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter employé</button>
-          </div>
-      </div>
+        </div>
       </main>
     </>
   );

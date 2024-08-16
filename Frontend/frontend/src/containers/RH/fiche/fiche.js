@@ -125,6 +125,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../Detail.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 const sampleFiches = [
   {
@@ -255,191 +256,192 @@ const FicheDetail = () => {
 
   return (
     <>
-    <SubNavbarRH />
-    <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>    
+      <SubNavbarRH />
+      <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH />
         <div className="container-xl px-4 mt-4">
-        <div className="row">
-          <div className="col-xl-4">
-            <div className="card mb-4 mb-xl-0">
-              <div className="card-header-">Profile Picture</div>
-              <div className="card-body text-center">
-                <div className="img-container mb-2">
-                  <img
-                    className="img-account-profile rounded-circle"
-                    src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
-                    alt="Profile"
-                    style={{ width: '150px', height: '150px' }}
+          <div className="row">
+            <div className="col-xl-4">
+              <div className="card mb-4 mb-xl-0">
+                <div className="card-header-">Profile Picture</div>
+                <div className="card-body text-center">
+                  <div className="img-container mb-2">
+                    <img
+                      className="img-account-profile rounded-circle"
+                      src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
+                      alt="Profile"
+                      style={{ width: '150px', height: '150px' }}
+                    />
+                  </div>
+                  <div className="small font-italic text-muted mb-4">
+                    JPG or PNG no larger than 5 MB
+                  </div>
+                  <input
+                    type="file"
+                    className="form-control mb-2"
+                    onChange={handleFileChange}
+                    accept=".jpg, .png"
                   />
                 </div>
-                <div className="small font-italic text-muted mb-4">
-                  JPG or PNG no larger than 5 MB
-                </div>
-                <input
-                  type="file"
-                  className="form-control mb-2"
-                  onChange={handleFileChange}
-                  accept=".jpg, .png"
-                />
               </div>
             </div>
-          </div>
-          <div className="col-xl-8">
-            <div className="card mb-4">
-              <div className="card-header-">Account Details</div>
-              <div className="card-body">
-                {fiche ? (
-                  <form onSubmit={handleSubmit} className="row">
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Nom fiche</label>
-                        <input className="form-control" type="text" value={fiche.name} readOnly />
+            <div className="col-xl-8">
+              <div className="card mb-4">
+                <div className="card-header-">Account Details</div>
+                <div className="card-body">
+                  {fiche ? (
+                    <form onSubmit={handleSubmit} className="row">
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Nom fiche</label>
+                          <input className="form-control" type="text" value={fiche.name} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Employé concerné</label>
+                          <input className="form-control" type="text" value={fiche.employe_concerne} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Employé concerné</label>
-                        <input className="form-control" type="text" value={fiche.employe_concerne} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Poste occupé</label>
+                          <input className="form-control" type="text" value={fiche.job_position} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Téléphone travail</label>
+                          <input className="form-control" type="text" value={fiche.work_phone} readOnly />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Poste occupé</label>
-                        <input className="form-control" type="text" value={fiche.job_position} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Téléphone mobile</label>
+                          <input className="form-control" type="text" value={fiche.work_mobile} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Email travail</label>
+                          <input className="form-control" type="text" value={fiche.work_email} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Téléphone travail</label>
-                        <input className="form-control" type="text" value={fiche.work_phone} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Département</label>
+                          <input className="form-control" type="text" value={fiche.department.join(', ')} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Manager</label>
+                          <input className="form-control" type="text" value={fiche.manager} readOnly />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Téléphone mobile</label>
-                        <input className="form-control" type="text" value={fiche.work_mobile} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Mis à jour par</label>
+                          <input className="form-control" type="text" value={fiche.updated_by} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Date de mise à jour</label>
+                          <input className="form-control" type="text" value={fiche.updated_at} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Email travail</label>
-                        <input className="form-control" type="text" value={fiche.work_email} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Coach</label>
+                          <input className="form-control" type="text" value={fiche.coach} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Adresse travail</label>
+                          <input className="form-control" type="text" value={fiche.work_address} readOnly />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Département</label>
-                        <input className="form-control" type="text" value={fiche.department.join(', ')} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Lieu travail</label>
+                          <input className="form-control" type="text" value={fiche.work_location} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Horaires de travail</label>
+                          <input className="form-control" type="text" value={fiche.working_hours} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Manager</label>
-                        <input className="form-control" type="text" value={fiche.manager} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Numéro de compte bancaire</label>
+                          <input className="form-control" type="text" value={fiche.bank_account_number} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Distance domicile-travail</label>
+                          <input className="form-control" type="text" value={fiche.home_work_distance} readOnly />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Mis à jour par</label>
-                        <input className="form-control" type="text" value={fiche.updated_by} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Statut marital</label>
+                          <input className="form-control" type="text" value={fiche.martial_status} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Contact d'urgence</label>
+                          <input className="form-control" type="text" value={fiche.emergency_contact} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Date de mise à jour</label>
-                        <input className="form-control" type="text" value={fiche.updated_at} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Téléphone d'urgence</label>
+                          <input className="form-control" type="text" value={fiche.emergency_phone} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Niveau de certificat</label>
+                          <input className="form-control" type="text" value={fiche.certificate_level} readOnly />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Coach</label>
-                        <input className="form-control" type="text" value={fiche.coach} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Domaine d'étude</label>
+                          <input className="form-control" type="text" value={fiche.field_of_study} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">École</label>
+                          <input className="form-control" type="text" value={fiche.school} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Adresse travail</label>
-                        <input className="form-control" type="text" value={fiche.work_address} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">CNSS</label>
+                          <input className="form-control" type="text" value={fiche.cnss} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">CIN</label>
+                          <input className="form-control" type="text" value={fiche.cin} readOnly />
+                        </div>
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Lieu travail</label>
-                        <input className="form-control" type="text" value={fiche.work_location} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Adresse</label>
+                          <input className="form-control" type="text" value={fiche.address} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Créé par</label>
+                          <input className="form-control" type="text" value={fiche.created_by} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Horaires de travail</label>
-                        <input className="form-control" type="text" value={fiche.working_hours} readOnly />
+                      <div className="d-flex justify-content-end mt-3">
+                        <Link to="/DashboardFiche" className="btn btn-secondary me-2">
+                          <IoMdArrowRoundBack /> Retour
+                        </Link>
+                        <button type="submit" className="btn btn-primary me-2">
+                          <GrEdit /> Modifier
+                        </button>
+                        <button type="button" className="btn btn-danger" onClick={handleDelete}>
+                          <GrTrash /> Supprimer
+                        </button>
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Numéro de compte bancaire</label>
-                        <input className="form-control" type="text" value={fiche.bank_account_number} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Distance domicile-travail</label>
-                        <input className="form-control" type="text" value={fiche.home_work_distance} readOnly />
-                      </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Statut marital</label>
-                        <input className="form-control" type="text" value={fiche.martial_status} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Contact d'urgence</label>
-                        <input className="form-control" type="text" value={fiche.emergency_contact} readOnly />
-                      </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Téléphone d'urgence</label>
-                        <input className="form-control" type="text" value={fiche.emergency_phone} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Niveau de certificat</label>
-                        <input className="form-control" type="text" value={fiche.certificate_level} readOnly />
-                      </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Domaine d'étude</label>
-                        <input className="form-control" type="text" value={fiche.field_of_study} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">École</label>
-                        <input className="form-control" type="text" value={fiche.school} readOnly />
-                      </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">CNSS</label>
-                        <input className="form-control" type="text" value={fiche.cnss} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">CIN</label>
-                        <input className="form-control" type="text" value={fiche.cin} readOnly />
-                      </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Adresse</label>
-                        <input className="form-control" type="text" value={fiche.address} readOnly />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Créé par</label>
-                        <input className="form-control" type="text" value={fiche.created_by} readOnly />
-                      </div>
-                    </div>
-                    <div className="d-flex justify-content-end mt-3">
-                      <Link to="/DashboardFiche" className="btn btn-secondary me-2">
-                        <IoMdArrowRoundBack /> Retour
-                      </Link>
-                      <button type="submit" className="btn btn-primary me-2">
-                        <GrEdit /> Modifier
-                      </button>
-                      <button type="button" className="btn btn-danger" onClick={handleDelete}>
-                        <GrTrash /> Supprimer
-                      </button>
-                    </div>
-                  </form>
-                ) : (
-                  <p>Loading...</p>
-                )}
+                    </form>
+                  ) : (
+                    <p>Loading...</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main></>
+      </main></>
   );
 };
 

@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './DashboardDocInt.css';
 import { styles } from './styles';
 import { GrEdit } from 'react-icons/gr';
-import { FaTrashAlt, FaList, FaTh } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
+import SidebarDoc from '../../components/SidebarDoc';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
 
 // Sample static data
 const sampleDocumentsExt = [
@@ -122,138 +124,123 @@ const DashboardDocExt = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle" style={{ marginBottom: '20px' }}>
-                                <button className={`view-btn-doc ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn-doc ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className="doc-title">Liste des documents Externes</h3>
+        <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarDoc />           
+                 <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className="doc-title">Liste des documents Externes</h3>
+                                <div className="search-container" style={{ marginBottom: '20px' }}>
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input-doc"
+                                    />
+                                </div>
+                                <br />
 
-                            <div className="button-container" style={{ marginBottom: '20px' }}>
-                                <Link to="/DashboardDoc/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to="/CréerDocExt/">
-                                    <button className="button-add-" style={{ marginLeft: '10px' }}>Créer document externe</button>
-                                </Link>
-                            </div>
-                            <div className="search-container" style={{ marginBottom: '20px' }}>
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input-doc"
-                                />
-                            </div>
-
-                            {viewMode === 'list' ? (
-                                <table className="table-header">
-                                    <thead>
-                                        <tr>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('designation')}>
-                                                Désignation {getSortArrow('designation')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('updated_by')}>
-                                                Modifié par {getSortArrow('updated_by')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('updated_at')}>
-                                                Modifié le {getSortArrow('updated_at')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('created_by')}>
-                                                Créé par {getSortArrow('created_by')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('created_at')}>
-                                                Créé à {getSortArrow('created_at')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                {viewMode === 'list' ? (
+                                    <table className="table-header">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" onClick={() => requestSort('designation')}>
+                                                    Désignation {getSortArrow('designation')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('updated_by')}>
+                                                    Modifié par {getSortArrow('updated_by')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('updated_at')}>
+                                                    Modifié le {getSortArrow('updated_at')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('created_by')}>
+                                                    Créé par {getSortArrow('created_by')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('created_at')}>
+                                                    Créé à {getSortArrow('created_at')}
+                                                </th>
+                                                <th scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {sortedDocuments.length > 0 ? (
+                                                sortedDocuments.map(doc => (
+                                                    <tr key={doc.id}>
+                                                        <td>{doc.designation}</td>
+                                                        <td>{doc.updated_by}</td>
+                                                        <td>{doc.updated_at}</td>
+                                                        <td>{doc.created_by}</td>
+                                                        <td>{doc.created_at}</td>
+                                                        <td>
+                                                            <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
+                                                                <GrEdit />
+                                                            </Link>
+                                                            <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
+                                                                <FaTrashAlt />
+                                                            </button>
+                                                            <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
+                                                                {({ blob, url, loading, error }) => (
+                                                                    <button className="btn btn-outline-info">
+                                                                        <FontAwesomeIcon icon={faFilePdf} />
+                                                                    </button>
+                                                                )}
+                                                            </PDFDownloadLink>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="6">Aucun document trouvé</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid-container">
                                         {sortedDocuments.length > 0 ? (
                                             sortedDocuments.map(doc => (
-                                                <tr key={doc.id}>
-                                                    <td>{doc.designation}</td>
-                                                    <td>{doc.updated_by}</td>
-                                                    <td>{doc.updated_at}</td>
-                                                    <td>{doc.created_by}</td>
-                                                    <td>{doc.created_at}</td>
-                                                    <td>
-                                                        <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
-                                                            <GrEdit />
-                                                        </Link>
-                                                        <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
-                                                            <FaTrashAlt />
-                                                        </button>
-                                                        <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
-                                                            {({ blob, url, loading, error }) => (
-                                                                <button className="btn btn-outline-info">
-                                                                    <FontAwesomeIcon icon={faFilePdf} />
-                                                                </button>
-                                                            )}
-                                                        </PDFDownloadLink>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        ) : (
-                                            <tr>
-                                                <td colSpan="6">Aucun document trouvé</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            ) : (
-                                <div className="grid-container">
-                                    {sortedDocuments.length > 0 ? (
-                                        sortedDocuments.map(doc => (
-                                            <div key={doc.id} className="card">
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{doc.designation}</h5>
-                                                    <p className="card-text">
-                                                        Type: {doc.type}<br />
-                                                        Lieu classement: {doc.lieu_classement}<br />
-                                                        Durée classement: {doc.duree_classement}<br />
-                                                        Créé par: {doc.created_by}<br />
-                                                        Créé à: {doc.created_at}
-                                                    </p>
-                                                    <div className="card-buttons">
-                                                        <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
-                                                            <GrEdit />
-                                                        </Link>
-                                                        <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
-                                                            <FaTrashAlt />
-                                                        </button>
-                                                        <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
-                                                            {({ blob, url, loading, error }) => (
-                                                                <button className="btn btn-outline-info">
-                                                                    <FontAwesomeIcon icon={faFilePdf} />
-                                                                </button>
-                                                            )}
-                                                        </PDFDownloadLink>
+                                                <div key={doc.id} className="card">
+                                                    <div className="card-body">
+                                                        <h5 className="card-title">{doc.designation}</h5>
+                                                        <p className="card-text">
+                                                            Type: {doc.type}<br />
+                                                            Lieu classement: {doc.lieu_classement}<br />
+                                                            Durée classement: {doc.duree_classement}<br />
+                                                            Créé par: {doc.created_by}<br />
+                                                            Créé à: {doc.created_at}
+                                                        </p>
+                                                        <div className="card-buttons">
+                                                            <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
+                                                                <GrEdit />
+                                                            </Link>
+                                                            <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
+                                                                <FaTrashAlt />
+                                                            </button>
+                                                            <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
+                                                                {({ blob, url, loading, error }) => (
+                                                                    <button className="btn btn-outline-info">
+                                                                        <FontAwesomeIcon icon={faFilePdf} />
+                                                                    </button>
+                                                                )}
+                                                            </PDFDownloadLink>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p>Aucun document trouvé</p>
-                                    )}
-                                </div>
-                            )}
+                                            ))
+                                        ) : (
+                                            <p>Aucun document trouvé</p>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

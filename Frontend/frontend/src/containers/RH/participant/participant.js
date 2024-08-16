@@ -6,6 +6,7 @@ import { GrEdit, GrTrash } from 'react-icons/gr';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import '../Detail.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 const sampleParticipants = [
     {
@@ -154,119 +155,120 @@ const ParticipantDetail = () => {
 
     return (
         <>
-        <SubNavbarRH />
-        <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>       
-                 <div className="container-xl px-4 mt-4">
-                <div className="row">
-                    <div className="col-xl-4">
-                        <div className="card mb-4 mb-xl-0">
-                            <div className="card-header-">Profile Picture</div>
-                            <div className="card-body text-center">
-                                <div className="img-container mb-2">
-                                    <img
-                                        className="img-account-profile rounded-circle"
-                                        src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
-                                        alt="Profile"
-                                        style={{ width: '150px', height: '150px' }}
+            <SubNavbarRH />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
+                <div className="container-xl px-4 mt-4">
+                    <div className="row">
+                        <div className="col-xl-4">
+                            <div className="card mb-4 mb-xl-0">
+                                <div className="card-header-">Profile Picture</div>
+                                <div className="card-body text-center">
+                                    <div className="img-container mb-2">
+                                        <img
+                                            className="img-account-profile rounded-circle"
+                                            src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
+                                            alt="Profile"
+                                            style={{ width: '150px', height: '150px' }}
+                                        />
+                                    </div>
+                                    <div className="small font-italic text-muted mb-4">
+                                        JPG or PNG no larger than 5 MB
+                                    </div>
+                                    <input
+                                        type="file"
+                                        className="form-control mb-2"
+                                        onChange={handleFileChange}
+                                        accept=".jpg, .png"
                                     />
                                 </div>
-                                <div className="small font-italic text-muted mb-4">
-                                    JPG or PNG no larger than 5 MB
-                                </div>
-                                <input
-                                    type="file"
-                                    className="form-control mb-2"
-                                    onChange={handleFileChange}
-                                    accept=".jpg, .png"
-                                />
                             </div>
                         </div>
-                    </div>
-                    <div className="col-xl-8">
-                        <div className="card mb-4">
-                            <div className="card-header-">Account Details</div>
-                            <div className="card-body">
-                                {participant ? (
-                                    <form onSubmit={handleSubmit} className="row">
+                        <div className="col-xl-8">
+                            <div className="card mb-4">
+                                <div className="card-header-">Account Details</div>
+                                <div className="card-body">
+                                    {participant ? (
+                                        <form onSubmit={handleSubmit} className="row">
 
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Nom participant</label>
-                                                <input className="form-control" type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Nom participant</label>
+                                                    <input className="form-control" type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Prénom participant</label>
+                                                    <input className="form-control" type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                                                </div>
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Prénom participant</label>
-                                                <input className="form-control" type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Nom d'utilisateur participant</label>
+                                                    <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Email de participant</label>
+                                                    <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Nom d'utilisateur participant</label>
-                                                <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Formations concernées</label>
+                                                <input className="form-control" type="text" value={formationsnames.join(', ')} readOnly />
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Email de participant</label>
-                                                <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Date de création</label>
+                                                <input className="form-control" type="text" value={participant.created_at} readOnly />
                                             </div>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Formations concernées</label>
-                                            <input className="form-control" type="text" value={formationsnames.join(', ')} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Date de création</label>
-                                            <input className="form-control" type="text" value={participant.created_at} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Date de mise à jour</label>
-                                            <input className="form-control" type="text" value={participant.updated_at} readOnly />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Est un utilisateur</label>
-                                            <input
-                                                type="checkbox"
-                                                checked={is_user}
-                                                onChange={(e) => setIsUser(e.target.checked)}
-                                            />
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1">Employé concerné</label>
-                                            <select
-                                                className="form-control"
-                                                value={employe_concerneID}
-                                                onChange={(e) => setEmployeConcerneID(e.target.value)}
-                                            >
-                                                <option value="">--Select Employé--</option>
-                                                {employes.map(emp => (
-                                                    <option key={emp.id} value={emp.id}>{emp.username}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="d-flex justify-content-end mt-3">
-                                            <Link to={`/DashboardParticipant`} className="btn btn-secondary me-2">
-                                                <IoMdArrowRoundBack /> Retour
-                                            </Link>
-                                            <button type="submit" className="btn btn-primary me-2">
-                                                <GrEdit /> Modifier
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn btn-danger"
-                                                onClick={handleDelete}
-                                            >
-                                                <GrTrash /> Supprimer
-                                            </button>
-                                        </div>
-                                    </form>
-                                ) : (
-                                    <p>Loading...</p>
-                                )}
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Date de mise à jour</label>
+                                                <input className="form-control" type="text" value={participant.updated_at} readOnly />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Est un utilisateur</label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={is_user}
+                                                    onChange={(e) => setIsUser(e.target.checked)}
+                                                />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1">Employé concerné</label>
+                                                <select
+                                                    className="form-control"
+                                                    value={employe_concerneID}
+                                                    onChange={(e) => setEmployeConcerneID(e.target.value)}
+                                                >
+                                                    <option value="">--Select Employé--</option>
+                                                    {employes.map(emp => (
+                                                        <option key={emp.id} value={emp.id}>{emp.username}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div className="d-flex justify-content-end mt-3">
+                                                <Link to={`/DashboardParticipant`} className="btn btn-secondary me-2">
+                                                    <IoMdArrowRoundBack /> Retour
+                                                </Link>
+                                                <button type="submit" className="btn btn-primary me-2">
+                                                    <GrEdit /> Modifier
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger"
+                                                    onClick={handleDelete}
+                                                >
+                                                    <GrTrash /> Supprimer
+                                                </button>
+                                            </div>
+                                        </form>
+                                    ) : (
+                                        <p>Loading...</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
         </>
     );
 };

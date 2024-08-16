@@ -87,6 +87,7 @@ function CompetenceForm() {
                 <div class="container ajout-form">
                  
                     <form onSubmit={handleSubmit} className="form">
+                    <h4>Ajout de Compétence</h4>
                         <div className="form-label">
                             <label className="form-label">Nom du évaluation :</label>
                             {errors.name && <p className="error-text">{errors.name}</p>}

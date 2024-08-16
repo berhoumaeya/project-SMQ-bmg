@@ -93,7 +93,11 @@ function ChaudForm() {
           
       
           <form onSubmit={handleSubmit} className="row">
-            <div className="col-md-6">
+          <div className="button-container">
+            <button className="button-add" type="submit" onClick={handleSubmit}>Evaluer</button>
+          </div>
+          <h4>Ajout d'une évaluation à chaud</h4>
+          <div className="col-md-6">
               <div className="form-label">
                 <label className="form-label">Nom de l'évaluation :</label>
                 <input
@@ -178,11 +182,7 @@ function ChaudForm() {
                 />
               </div>
             </div>
-            </form>
-              <div className="button-container">
-            <button className="button-add" type="submit" onClick={handleSubmit}>Evaluer</button>
-          </div>
-        
+            </form>     
         </div>
       </main>
     </>

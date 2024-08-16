@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './DashboardDocInt.css';
 import { styles } from './styles';
 import { GrEdit } from 'react-icons/gr';
-import { FaTrashAlt, FaList, FaTh } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
+import SidebarDoc from '../../components/SidebarDoc';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
 
 const sampleDocuments = [
     {
@@ -125,71 +127,90 @@ const DashboardDocInt = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle" style={{ marginBottom: '20px' }}>
-                                <button className={`view-btn-doc ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn-doc ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className="doc-title">Liste des documents Internes</h3>
-                            <div className="button-container" style={{ marginBottom: '20px' }}>
-                                <Link to="/demandeAccepte/">
-                                    <button className="button-add-" style={{ marginLeft: '10px' }}>Rédiger document</button>
-                                </Link>
-                                <Link to="/DashboardDoc/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                            </div>
-                            <div className="search-container" style={{ marginBottom: '20px' }}>
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input-doc"
-                                />
-                            </div>
+        <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode}/>
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarDoc />  
+                 <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className="doc-title">Liste des documents Internes</h3>
+                                <div className="search-container" style={{ marginBottom: '20px' }}>
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input-doc"
+                                    />
+                                </div>
+                                <br />
 
-                            {viewMode === 'list' ? (
-                              <table className="table-header">
-                              <thead>
-                                  <tr>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('libelle')}>
-                                                Libellé {getSortArrow('libelle')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('updated_by')}>
-                                                Modifié par {getSortArrow('updated_by')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('updated_at')}>
-                                                Modifié le {getSortArrow('updated_at')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('selection_redacteur')}>
-                                                Créé par {getSortArrow('selection_redacteur')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col" onClick={() => requestSort('created_at')}>
-                                                Créé à {getSortArrow('created_at')}
-                                            </th>
-                                            <th style={{ backgroundColor: '#76ab78' }} scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {sortedDocuments.length > 0 ? (
-                                            sortedDocuments.map(doc => (
-                                                <tr key={doc.id}>
-                                                    <td>{doc.libelle}</td>
-                                                    <td>{doc.updated_by}</td>
-                                                    <td>{doc.updated_at}</td>
-                                                    <td>{doc.selection_redacteur}</td>
-                                                    <td>{doc.created_at}</td>
+                                {viewMode === 'list' ? (
+                                    <table className="table-header">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" onClick={() => requestSort('libelle')}>
+                                                    Libellé {getSortArrow('libelle')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('updated_by')}>
+                                                    Modifié par {getSortArrow('updated_by')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('updated_at')}>
+                                                    Modifié le {getSortArrow('updated_at')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('selection_redacteur')}>
+                                                    Créé par {getSortArrow('selection_redacteur')}
+                                                </th>
+                                                <th scope="col" onClick={() => requestSort('created_at')}>
+                                                    Créé à {getSortArrow('created_at')}
+                                                </th>
+                                                <th scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {sortedDocuments.length > 0 ? (
+                                                sortedDocuments.map(doc => (
+                                                    <tr key={doc.id}>
+                                                        <td>{doc.libelle}</td>
+                                                        <td>{doc.updated_by}</td>
+                                                        <td>{doc.updated_at}</td>
+                                                        <td>{doc.selection_redacteur}</td>
+                                                        <td>{doc.created_at}</td>
+                                                        <td>
+                                                            <Link to={`/modifierDocInt/${doc.id}`} className="btn btn-outline-success me-2">
+                                                                <GrEdit />
+                                                            </Link>
+                                                            <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
+                                                                <FaTrashAlt />
+                                                            </button>
+                                                            <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
+                                                                {({ blob, url, loading, error }) => (
+                                                                    <button className="btn btn-outline-info">
+                                                                        <FontAwesomeIcon icon={faFilePdf} />
+                                                                    </button>
+                                                                )}
+                                                            </PDFDownloadLink>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="6">Aucun document trouvé.</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="grid">
+                                        {filteredDocuments.map(doc => (
+                                            <div key={doc.id} className="responsable-item">
+                                                <div className="responsable-info">
+                                                    <p className="responsable-text "><strong>Libellé:</strong> {doc.libelle}</p>
+                                                    <p className="responsable-text"><strong>Modifié par:</strong> {doc.updated_by}</p>
+                                                    <p className="responsable-text"><strong>Modifié le:</strong> {doc.updated_at}</p>
+                                                    <p className="responsable-text"><strong>Créé par:</strong> {doc.selection_redacteur}</p>
+                                                    <p className="responsable-text"><strong>Créé à:</strong> {doc.created_at}</p>
                                                     <td>
                                                         <Link to={`/modifierDocInt/${doc.id}`} className="btn btn-outline-success me-2">
                                                             <GrEdit />
@@ -205,50 +226,17 @@ const DashboardDocInt = () => {
                                                             )}
                                                         </PDFDownloadLink>
                                                     </td>
-                                                </tr>
-                                            ))
-                                        ) : (
-                                            <tr>
-                                                <td colSpan="6">Aucun document trouvé.</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            ) : (
-                                <div className="grid">
-                                    {filteredDocuments.map(doc => (
-                                        <div key={doc.id} className="responsable-item">
-                                            <div className="responsable-info">
-                                                <p className="responsable-text "><strong>Libellé:</strong> {doc.libelle}</p>
-                                                <p className="responsable-text"><strong>Modifié par:</strong> {doc.updated_by}</p>
-                                                <p className="responsable-text"><strong>Modifié le:</strong> {doc.updated_at}</p>
-                                                <p className="responsable-text"><strong>Créé par:</strong> {doc.selection_redacteur}</p>
-                                                <p className="responsable-text"><strong>Créé à:</strong> {doc.created_at}</p>
-                                                <td>
-                                                    <Link to={`/modifierDocInt/${doc.id}`} className="btn btn-outline-success me-2">
-                                                        <GrEdit />
-                                                    </Link>
-                                                    <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
-                                                        <FaTrashAlt />
-                                                    </button>
-                                                    <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
-                                                        {({ blob, url, loading, error }) => (
-                                                            <button className="btn btn-outline-info">
-                                                                <FontAwesomeIcon icon={faFilePdf} />
-                                                            </button>
-                                                        )}
-                                                    </PDFDownloadLink>
-                                                </td>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 
