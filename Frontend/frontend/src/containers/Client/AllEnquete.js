@@ -109,11 +109,8 @@ const AllEnquetes = () => {
             date_fin: '2023-01-10',
             type_questionnaire: 'Type 1',
             clients: ['Client A', 'Client B'],
-            pieces_jointes: true,
-            created_at: '2023-01-01T12:00:00Z',
-            created_by: 'User 1',
-            updated_at: '2023-01-05T12:00:00Z',
-            updated_by: 'User 2',
+          
+           
         },
         {
             id: 2,
@@ -122,11 +119,8 @@ const AllEnquetes = () => {
             date_fin: '2023-02-10',
             type_questionnaire: 'Type 2',
             clients: ['Client C', 'Client D'],
-            pieces_jointes: false,
-            created_at: '2023-02-01T12:00:00Z',
-            created_by: 'User 3',
-            updated_at: null,
-            updated_by: null,
+           
+          
         },
     ]);
 
@@ -231,7 +225,7 @@ const AllEnquetes = () => {
                                                         <p><strong className="client-responsable-text">Date Fin :</strong> {reclamation.date_fin}</p>
                                                         <p><strong className="client-responsable-text">Type Questionnaire :</strong> {reclamation.type_questionnaire}</p>
                                                         <p><strong className="client-responsable-text">Clients :</strong> {reclamation.clients.join(', ')}</p>
-                                                        <Link to={`/ModifierReclamation/${reclamation.id}`} className="btn btn-outline-info btn-sm">
+                                                        <Link to={`/DetailsEnquete/${reclamation.id}`} className="btn btn-outline-info btn-sm">
                                                             <FaEdit />
                                                         </Link>
                                                     </div>

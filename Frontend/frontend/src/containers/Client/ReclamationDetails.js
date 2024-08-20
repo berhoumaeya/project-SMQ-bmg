@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import './consulterclient.css';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { CiSaveDown2 } from 'react-icons/ci';
 
 const staticReclamation = {
     code: 'RCL123',
@@ -26,47 +28,52 @@ const staticReclamation = {
     source_non_conformite: 'Source C',
     niveau_gravite: 'Élevé',
     pieces_jointes: true,
-    personnes_a_notifier: 'Alice, Bob'
+    personnes_a_notifier: 'Alice, Bob',
 };
 
 const ReclamationDetails = () => {
     return (
-        <div className="reclamation-details">
-            <div className="details-header">
-                <h3>Détails de la Réclamation</h3>
-            </div>
-            <div className="details-container">
-                <p><strong>Code Réclamation:</strong> {staticReclamation.code}</p>
-                <p><strong>Description:</strong> {staticReclamation.description}</p>
-                <p><strong>Type Réclamation:</strong> {staticReclamation.type_reclamation}</p>
-                <p><strong>Date Livraison:</strong> {staticReclamation.date_livraison}</p>
-                <p><strong>Gravité:</strong> {staticReclamation.gravite}</p>
-                <p><strong>Responsable Traitement:</strong> {staticReclamation.responsable_traitement}</p>
-                <p><strong>Décisions:</strong> {staticReclamation.decisions}</p>
-                <p><strong>Créé à:</strong> {staticReclamation.created_at}</p>
-                <p><strong>Créé par:</strong> {staticReclamation.created_by}</p>
-                <p><strong>Modifié à:</strong> {staticReclamation.updated_at}</p>
-                <p><strong>Modifié par:</strong> {staticReclamation.updated_by}</p>
-                <p><strong>Reclamation Fournisseur:</strong> {staticReclamation.reclamation_fournisseur ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                <p><strong>Plan Action:</strong> {staticReclamation.plan_action ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                <p><strong>Pièces Jointes:</strong> {staticReclamation.fichier_pdf ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                {staticReclamation.declencher_plan_action && (
-                    <div className="additional-info">
-                        <p><strong>Date Détection:</strong> {staticReclamation.date_detection}</p>
-                        <p><strong>Désignation Produit Non Conforme:</strong> {staticReclamation.designation_produit_non_conforme}</p>
-                        <p><strong>Description Non Conformité:</strong> {staticReclamation.description_non_conformite}</p>
-                        <p><strong>Produits Non Conformes:</strong> {staticReclamation.produits_non_conformes}</p>
-                        <p><strong>Type Non Conformité:</strong> {staticReclamation.type_non_conformite}</p>
-                        <p><strong>Source Non Conformité:</strong> {staticReclamation.source_non_conformite}</p>
-                        <p><strong>Niveau Gravité:</strong> {staticReclamation.niveau_gravite}</p>
-                        <p><strong>Pièces Jointes:</strong> {staticReclamation.pieces_jointes ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                        <p><strong>Personnes à Notifier:</strong> {staticReclamation.personnes_a_notifier}</p>
+        <div className="container-client px-4 mt-4">
+            <nav className="nav-client">
+                <Link className="nav-item-client active ms-0" to="#">Détails</Link>
+                <Link className="nav-item-client" to="/AllReclamations">Reclamations</Link>
+                <Link className="nav-item-client" to="/AllSuggestion">Suggestion</Link>
+                <Link className="nav-item-client" to="/AllEnquete">Enquete</Link>
+            </nav>
+            <hr className="divider-client" />
+            <div className="row">
+                <div className="col-xl-12">
+                    <div className="card-client mb-4">
+                        <div className="card-header-client">Détails de la Réclamation</div>
+                        <div className="card-body-client">
+                            <div className="row gx-3 mb-3">
+                                <div className="col-md-6">
+                                    <label className="form-label-client mb-1">Code Réclamation</label>
+                                    <p className="form-control-client">{staticReclamation.code}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="form-label-client mb-1">Description</label>
+                                    <p className="form-control-client">{staticReclamation.description}</p>
+                                </div>
+                            </div>
+                            <div className="row gx-3 mb-3">
+                                <div className="col-md-6">
+                                    <label className="form-label-client mb-1">Type Réclamation</label>
+                                    <p className="form-control-client">{staticReclamation.type_reclamation}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="form-label-client mb-1">Date Livraison</label>
+                                    <p className="form-control-client">{staticReclamation.date_livraison}</p>
+                                </div>
+                            </div>
+                            {/* Additional rows for other details... */}
+                            <div className="d-flex justify-content-end mt-4">
+                                <Link to={`/ModifierReclamation/${staticReclamation.code}`} className="btn-save-fournisseur"><CiSaveDown2 /> Modifier</Link>
+                                <Link to="/AllReclamations" className="btn btn-secondary ms-2"><IoMdArrowRoundBack /> Retour à la Liste</Link>
+                            </div>
+                        </div>
                     </div>
-                )}
-            </div>
-            <div className="details-actions">
-                <Link to={`/ModifierReclamation/${staticReclamation.code}`} className="btn btn-primary">Modifier</Link>
-                <Link to={`/AllReclamations`} className="btn btn-secondary">Retour à la Liste</Link>
+                </div>
             </div>
         </div>
     );

@@ -162,7 +162,7 @@ const AllSuggestions = () => {
                                 <Link to={`/CréerSuggestionClient/`}>
                                     <button className="client-button-add">Ajouter</button>
                                 </Link>
-                                <Link to={`/ConsulterClient/`}>
+                                <Link to={`/ConsulterClient/:id/`}>
                                     <button className="client-retour">Retour</button>
                                 </Link>
                             </div>
@@ -196,7 +196,7 @@ const AllSuggestions = () => {
                                                     <td>{suggestion.type_suggestion}</td>
                                                     <td>{suggestion.receptionnaire}</td>
                                                     <td>
-                                                        <Link to={`/modifierSuggestion/${suggestion.id}`} className="btn-view-details">
+                                                        <Link to={`/suggestion/${suggestion.id}`} className="btn-view-details">
                                                             <FaEdit />
                                                         </Link>
                                                     </td>
@@ -219,7 +219,7 @@ const AllSuggestions = () => {
                                                     <p><strong className="client-responsable-text">Date :</strong> {suggestion.date}</p>
                                                     <p><strong className="client-responsable-text">Type :</strong> {suggestion.type_suggestion}</p>
                                                     <p><strong className="client-responsable-text">Réceptionnaire :</strong> {suggestion.receptionnaire}</p>
-                                                    <Link to={`/modifierSuggestion/${suggestion.id}`} className="btn btn-outline-info btn-sm">
+                                                    <Link to={`/suggestion/${suggestion.id}`} className="btn btn-outline-info btn-sm">
                                                         <FaEdit />
                                                     </Link>
                                                 </div>

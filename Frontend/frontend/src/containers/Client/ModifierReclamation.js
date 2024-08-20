@@ -323,105 +323,136 @@ const ModifierReclamation = () => {
 };
 
 export default ModifierReclamation;*/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './consulterclient.css'; 
 import { GrTrash } from 'react-icons/gr';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { CiSaveDown2 } from "react-icons/ci";
+import { CiSaveDown2 } from 'react-icons/ci';
+
+const staticReclamation = {
+    // Données statiques pour la réclamation
+    code: 'RCL123',
+    description: 'Description de la réclamation',
+    type_reclamation: 'Type A',
+    date_livraison: '2024-08-01',
+    gravite: 'Haute',
+    responsable_traitement: 'Jean Dupont',
+    decisions: 'Décision prise',
+    created_at: '2024-07-30',
+    created_by: 'Marie Curie',
+    updated_at: '2024-08-02',
+    updated_by: 'Paul Martin',
+    reclamation_fournisseur: true,
+    plan_action: false,
+    fichier_pdf: true,
+    declencher_plan_action: true,
+    date_detection: '2024-07-29',
+    designation_produit_non_conforme: 'Produit XYZ',
+    description_non_conformite: 'Non-conformité détectée',
+    produits_non_conformes: 'Produit 1, Produit 2',
+    type_non_conformite: 'Type B',
+    source_non_conformite: 'Source C',
+    niveau_gravite: 'Élevé',
+    pieces_jointes: true,
+    personnes_a_notifier: 'Alice, Bob',
+};
 
 const ModifierReclamation = () => {
     const { reclamationId } = useParams();
 
-    const [errors, setErrors] = useState({});
-    const [reclamation_fournisseur, setReclamationFournisseur] = useState(null);
-    const [plan_action, setPlanAction] = useState(null);
-    const [fichier_pdf, setFichierPdf] = useState(null);
-
-    const [code, setCode] = useState('');
-    const [client, setClient] = useState('');
-    const [date_livraison, setDateLivraison] = useState('');
-    const [description, setDescription] = useState('');
-    const [decisions, setDecisions] = useState('');
-    const [type_reclamation, setTypeReclamation] = useState('');
-    const [gravite, setGravite] = useState('');
-    const [declencher_plan_action, setDeclencherPlanAction] = useState(false);
-    const [responsable_traitement, setResponsableTraitement] = useState('');
-    const [responsable_traitements, setResponsableTraitements] = useState([
-        { id: 1, username: 'User1' },
-        { id: 2, username: 'User2' }
-    ]);
-
-    const [date_detection, setDateDetection] = useState('');
-    const [designation_produit_non_conforme, setDesignationProduitNonConforme] = useState('');
-    const [description_non_conformite, setDescriptionNonConformite] = useState('');
-    const [produits_non_conformes, setProduitsNonConformes] = useState('');
-    const [produits, setProduits] = useState([
-        { id: 1, nom: 'Product1' },
-        { id: 2, nom: 'Product2' }
-    ]);
-    const [type_non_conformite, setTypeNonConformite] = useState('');
-    const [source_non_conformite, setSourceNonConformite] = useState('');
-    const [niveau_gravite, setNiveauGravite] = useState('');
-    const [personnes_a_notifierID, setPersonnesANotifierID] = useState([]);
-    const [personnes_a_notifiers, setPersonnesANotifiers] = useState([
-        { id: 1, username: 'Notifier1' },
-        { id: 2, username: 'Notifier2' }
-    ]);
-    const [pieces_jointes, setPiecesJointes] = useState(null);
+    // Initialisation des états avec des valeurs statiques
+    const [code, setCode] = useState(staticReclamation.code);
+    const [description, setDescription] = useState(staticReclamation.description);
+    const [type_reclamation, setTypeReclamation] = useState(staticReclamation.type_reclamation);
+    const [date_livraison, setDateLivraison] = useState(staticReclamation.date_livraison);
+    const [gravite, setGravite] = useState(staticReclamation.gravite);
+    const [responsable_traitement, setResponsableTraitement] = useState(staticReclamation.responsable_traitement);
+    const [decisions, setDecisions] = useState(staticReclamation.decisions);
+    const [declencher_plan_action, setDeclencherPlanAction] = useState(staticReclamation.declencher_plan_action);
+    const [date_detection, setDateDetection] = useState(staticReclamation.date_detection);
+    const [designation_produit_non_conforme, setDesignationProduitNonConforme] = useState(staticReclamation.designation_produit_non_conforme);
+    const [description_non_conformite, setDescriptionNonConformite] = useState(staticReclamation.description_non_conformite);
+    const [produits_non_conformes, setProduitsNonConformes] = useState(staticReclamation.produits_non_conformes);
+    const [type_non_conformite, setTypeNonConformite] = useState(staticReclamation.type_non_conformite);
+    const [source_non_conformite, setSourceNonConformite] = useState(staticReclamation.source_non_conformite);
+    const [niveau_gravite, setNiveauGravite] = useState(staticReclamation.niveau_gravite);
+    const [personnes_a_notifierID, setPersonnesANotifierID] = useState(staticReclamation.personnes_a_notifier.split(', '));
+    const [pieces_jointes, setPiecesJointes] = useState(staticReclamation.pieces_jointes);
+    const [fichier_pdf, setFichierPdf] = useState(null); // A gérer avec les fichiers
 
     const [modificationReussi, setModificationReussi] = useState(false);
+    const [deleteReussi, setDeleteReussi] = useState(false);
+    
+    // État pour les erreurs de validation
+    const [errors, setErrors] = useState({});
 
-    const handleFileChange = (event, setFile) => {
+    useEffect(() => {
+        // Logic to fetch actual data if needed
+        // This is just a placeholder for demonstration
+    }, [reclamationId]);
+
+    const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
-        setFile(selectedFile);
+        setFichierPdf(selectedFile);
+    };
+
+    const handleDelete = () => {
+        setDeleteReussi(true);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        // Logic to handle form submission and validation
+        // Example of setting errors if validation fails
+        let validationErrors = {};
+        if (!code) validationErrors.code = 'Le code est requis.';
+        // ... Add validation for other fields
         
-        // Simulate form submission success
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+        
+        // Simuler le succès de la soumission du formulaire
         setModificationReussi(true);
     };
 
     if (modificationReussi) {
-        return <Navigate to={`/AllReclamations/${client}/`} />;
+        return <Navigate to={`/AllReclamations/${reclamationId}/`} />;
     }
 
     return (
         <div className="container-client px-4 mt-4">
             <nav className="nav-client">
                 <Link className="nav-item-client active ms-0" to="#">Modifier Réclamation</Link>
-    
             </nav>
             <hr className="divider-client" />
             <div className="row">
-            <div className="col-xl-4">
+                <div className="col-xl-4">
                     <div className="card-client mb-4 mb-xl-0">
                         <div className="card-header-client">Profile Picture</div>
                         <div className="card-body-client text-center">
-                        <img className="img-client rounded-circle mb-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" />
-          
+                            <img className="img-client rounded-circle mb-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile" />
                         </div>
-                        
-                        </div>
-                        </div>
-                        <div className="col-xl-8">
+                    </div>
+                </div>
+                <div className="col-xl-8">
                     <div className="card-client mb-4">
                         <div className="card-header-client">Modifier Réclamation</div>
                         <div className="card-body-client">
                             <form onSubmit={handleSubmit}>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Code:</label>
-                                        <input 
-                                            type="text" 
-                                            name="code" 
+                                        <label className="form-label-client mb-1" htmlFor="inputcode">Code</label>
+                                        <input
                                             className={`form-control-client ${errors.code ? 'is-invalid' : ''}`}
-                                            value={code} 
-                                            onChange={(e) => setCode(e.target.value)} 
+                                            id="inputcode"
+                                            name="code"
+                                            type="text"
+                                            value={code}
+                                            onChange={(e) => setCode(e.target.value)}
                                         />
                                         {errors.code && <div className="invalid-feedback">{errors.code}</div>}
                                     </div>
@@ -468,211 +499,164 @@ const ModifierReclamation = () => {
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Gravité :</label>
-                                        <select 
-                                            className={`form-control-client ${errors.gravite ? 'is-invalid' : ''}`} 
+                                        <label className="form-label-client mb-1">Gravité:</label>
+                                        <input 
+                                            type="text" 
+                                            name="gravite" 
+                                            className={`form-control-client ${errors.gravite ? 'is-invalid' : ''}`}
                                             value={gravite} 
-                                            onChange={(e) => setGravite(e.target.value)}
-                                        >
-                                            <option value="">Sélectionner...</option>
-                                            <option value="Faible">Faible</option>
-                                            <option value="Moyenne">Moyenne</option>
-                                            <option value="Grave">Grave</option>
-                                            <option value="Critique">Critique</option>
-                                        </select>
+                                            onChange={(e) => setGravite(e.target.value)} 
+                                        />
                                         {errors.gravite && <div className="invalid-feedback">{errors.gravite}</div>}
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Date de Livraison :</label>
+                                        <label className="form-label-client mb-1">Date de Livraison:</label>
                                         <input 
                                             type="date" 
                                             name="date_livraison" 
-                                            className="form-control-client"
+                                            className={`form-control-client ${errors.date_livraison ? 'is-invalid' : ''}`}
                                             value={date_livraison} 
                                             onChange={(e) => setDateLivraison(e.target.value)} 
                                         />
+                                        {errors.date_livraison && <div className="invalid-feedback">{errors.date_livraison}</div>}
                                     </div>
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Responsable traitement:</label>
-                                        <select 
-                                            className={`form-control-client ${errors.responsable_traitement ? 'is-invalid' : ''}`} 
-                                            value={responsable_traitement} 
-                                            onChange={(e) => setResponsableTraitement(e.target.value)}
-                                        >
-                                            <option value="">Sélectionner...</option>
-                                            {responsable_traitements.map(responsable_traitement => (
-                                                <option key={responsable_traitement.id} value={responsable_traitement.id}>{responsable_traitement.username}</option>
-                                            ))}
-                                        </select>
-                                        {errors.responsable_traitement && <div className="invalid-feedback">{errors.responsable_traitement}</div>}
+                                        <label className="form-label-client mb-1">Date de Détection:</label>
+                                        <input 
+                                            type="date" 
+                                            name="date_detection" 
+                                            className={`form-control-client ${errors.date_detection ? 'is-invalid' : ''}`}
+                                            value={date_detection} 
+                                            onChange={(e) => setDateDetection(e.target.value)} 
+                                        />
+                                        {errors.date_detection && <div className="invalid-feedback">{errors.date_detection}</div>}
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Fichier Réclamation fournisseur :</label>
+                                        <label className="form-label-client mb-1">Désignation Produit Non Conforme:</label>
+                                        <input 
+                                            type="text" 
+                                            name="designation_produit_non_conforme" 
+                                            className={`form-control-client ${errors.designation_produit_non_conforme ? 'is-invalid' : ''}`}
+                                            value={designation_produit_non_conforme} 
+                                            onChange={(e) => setDesignationProduitNonConforme(e.target.value)} 
+                                        />
+                                        {errors.designation_produit_non_conforme && <div className="invalid-feedback">{errors.designation_produit_non_conforme}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Description Non-Conformité:</label>
+                                        <input 
+                                            type="text" 
+                                            name="description_non_conformite" 
+                                            className={`form-control-client ${errors.description_non_conformite ? 'is-invalid' : ''}`}
+                                            value={description_non_conformite} 
+                                            onChange={(e) => setDescriptionNonConformite(e.target.value)} 
+                                        />
+                                        {errors.description_non_conformite && <div className="invalid-feedback">{errors.description_non_conformite}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Produits Non-Conformes:</label>
+                                        <input 
+                                            type="text" 
+                                            name="produits_non_conformes" 
+                                            className={`form-control-client ${errors.produits_non_conformes ? 'is-invalid' : ''}`}
+                                            value={produits_non_conformes} 
+                                            onChange={(e) => setProduitsNonConformes(e.target.value)} 
+                                        />
+                                        {errors.produits_non_conformes && <div className="invalid-feedback">{errors.produits_non_conformes}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Type Non-Conformité:</label>
+                                        <input 
+                                            type="text" 
+                                            name="type_non_conformite" 
+                                            className={`form-control-client ${errors.type_non_conformite ? 'is-invalid' : ''}`}
+                                            value={type_non_conformite} 
+                                            onChange={(e) => setTypeNonConformite(e.target.value)} 
+                                        />
+                                        {errors.type_non_conformite && <div className="invalid-feedback">{errors.type_non_conformite}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Source Non-Conformité:</label>
+                                        <input 
+                                            type="text" 
+                                            name="source_non_conformite" 
+                                            className={`form-control-client ${errors.source_non_conformite ? 'is-invalid' : ''}`}
+                                            value={source_non_conformite} 
+                                            onChange={(e) => setSourceNonConformite(e.target.value)} 
+                                        />
+                                        {errors.source_non_conformite && <div className="invalid-feedback">{errors.source_non_conformite}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Niveau Gravité:</label>
+                                        <input 
+                                            type="text" 
+                                            name="niveau_gravite" 
+                                            className={`form-control-client ${errors.niveau_gravite ? 'is-invalid' : ''}`}
+                                            value={niveau_gravite} 
+                                            onChange={(e) => setNiveauGravite(e.target.value)} 
+                                        />
+                                        {errors.niveau_gravite && <div className="invalid-feedback">{errors.niveau_gravite}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Personnes à Notifier:</label>
+                                        <input 
+                                            type="text" 
+                                            name="personnes_a_notifier" 
+                                            className={`form-control-client ${errors.personnes_a_notifier ? 'is-invalid' : ''}`}
+                                            value={personnes_a_notifierID.join(', ')} 
+                                            onChange={(e) => setPersonnesANotifierID(e.target.value.split(', '))} 
+                                        />
+                                        {errors.personnes_a_notifier && <div className="invalid-feedback">{errors.personnes_a_notifier}</div>}
+                                    </div>
+                                </div>
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Pièces Jointes:</label>
+                                        <input 
+                                            type="checkbox" 
+                                            name="pieces_jointes" 
+                                            checked={pieces_jointes} 
+                                            onChange={(e) => setPiecesJointes(e.target.checked)} 
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="form-label-client mb-1">Fichier PDF:</label>
                                         <input 
                                             type="file" 
-                                            className="form-control-client"
-                                            onChange={(e) => handleFileChange(e, setReclamationFournisseur)} 
+                                            name="fichier_pdf" 
+                                            onChange={handleFileChange} 
                                         />
                                     </div>
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Fichier plan action :</label>
-                                        <input 
-                                            type="file" 
-                                            className="form-control-client"
-                                            onChange={(e) => handleFileChange(e, setPlanAction)} 
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Pièces jointes :</label>
-                                        <input 
-                                            type="file" 
-                                            className="form-control-client"
-                                            onChange={(e) => handleFileChange(e, setFichierPdf)} 
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mb-3">
-                                    <div className="form-check">
+                                        <label className="form-label-client mb-1">Déclencher Plan d'Action:</label>
                                         <input 
                                             type="checkbox" 
                                             name="declencher_plan_action" 
-                                            className="form-check-input-client"
                                             checked={declencher_plan_action} 
-                                            onChange={e => setDeclencherPlanAction(e.target.checked)} 
+                                            onChange={(e) => setDeclencherPlanAction(e.target.checked)} 
                                         />
-                                        <label className="form-check-label-client">Déclencher plan action</label>
                                     </div>
                                 </div>
-                                {declencher_plan_action && (
-                                    <>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Date de Détection</label>
-                                                <input 
-                                                    type="date" 
-                                                    name="date_detection" 
-                                                    className={`form-control-client ${errors.date_detection ? 'is-invalid' : ''}`}
-                                                    value={date_detection} 
-                                                    onChange={(e) => setDateDetection(e.target.value)} 
-                                                    required 
-                                                />
-                                                {errors.date_detection && <div className="invalid-feedback">{errors.date_detection}</div>}
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Désignation produit non conforme</label>
-                                                <input 
-                                                    type="text" 
-                                                    name="designation_produit_non_conforme" 
-                                                    className={`form-control-client ${errors.designation_produit_non_conforme ? 'is-invalid' : ''}`}
-                                                    value={designation_produit_non_conforme} 
-                                                    onChange={(e) => setDesignationProduitNonConforme(e.target.value)} 
-                                                    required 
-                                                />
-                                                {errors.designation_produit_non_conforme && <div className="invalid-feedback">{errors.designation_produit_non_conforme}</div>}
-                                            </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Description non conformité</label>
-                                                <input 
-                                                    type="text" 
-                                                    name="description_non_conformite" 
-                                                    className={`form-control-client ${errors.description_non_conformite ? 'is-invalid' : ''}`}
-                                                    value={description_non_conformite} 
-                                                    onChange={(e) => setDescriptionNonConformite(e.target.value)} 
-                                                    required 
-                                                />
-                                                {errors.description_non_conformite && <div className="invalid-feedback">{errors.description_non_conformite}</div>}
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Produit:</label>
-                                                <select 
-                                                    className={`form-control-client ${errors.produits_non_conformes ? 'is-invalid' : ''}`} 
-                                                    value={produits_non_conformes} 
-                                                    onChange={(e) => setProduitsNonConformes(e.target.value)} 
-                                                    required
-                                                >
-                                                    <option value="">Sélectionner...</option>
-                                                    {produits.map(produit => (
-                                                        <option key={produit.id} value={produit.id}>{produit.nom}</option>
-                                                    ))}
-                                                </select>
-                                                {errors.produits_non_conformes && <div className="invalid-feedback">{errors.produits_non_conformes}</div>}
-                                            </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Type non conformité</label>
-                                                <input 
-                                                    type="text" 
-                                                    name="type_non_conformite" 
-                                                    className={`form-control-client ${errors.type_non_conformite ? 'is-invalid' : ''}`}
-                                                    value={type_non_conformite} 
-                                                    onChange={(e) => setTypeNonConformite(e.target.value)} 
-                                                    required 
-                                                />
-                                                {errors.type_non_conformite && <div className="invalid-feedback">{errors.type_non_conformite}</div>}
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Source non conformité</label>
-                                                <input 
-                                                    type="text" 
-                                                    name="source_non_conformite" 
-                                                    className={`form-control-client ${errors.source_non_conformite ? 'is-invalid' : ''}`}
-                                                    value={source_non_conformite} 
-                                                    onChange={(e) => setSourceNonConformite(e.target.value)} 
-                                                    required 
-                                                />
-                                                {errors.source_non_conformite && <div className="invalid-feedback">{errors.source_non_conformite}</div>}
-                                            </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Niveau gravité</label>
-                                                <input 
-                                                    type="text" 
-                                                    name="niveau_gravite" 
-                                                    className={`form-control-client ${errors.niveau_gravite ? 'is-invalid' : ''}`}
-                                                    value={niveau_gravite} 
-                                                    onChange={(e) => setNiveauGravite(e.target.value)} 
-                                                    required 
-                                                />
-                                                {errors.niveau_gravite && <div className="invalid-feedback">{errors.niveau_gravite}</div>}
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label className="form-label-client mb-1">Personnes à notifier</label>
-                                                <select 
-                                                    multiple 
-                                                    className={`form-control-client ${errors.personnes_a_notifierID ? 'is-invalid' : ''}`} 
-                                                    value={personnes_a_notifierID} 
-                                                    onChange={(e) => setPersonnesANotifierID(Array.from(e.target.selectedOptions, option => option.value))}
-                                                >
-                                                    {personnes_a_notifiers.map(personne => (
-                                                        <option key={personne.id} value={personne.id}>{personne.username}</option>
-                                                    ))}
-                                                </select>
-                                                {errors.personnes_a_notifierID && <div className="invalid-feedback">{errors.personnes_a_notifierID}</div>}
-                                            </div>
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="form-label-client mb-1">Pièces jointes :</label>
-                                            <input 
-                                                type="file" 
-                                                className="form-control-client"
-                                                onChange={(e) => handleFileChange(e, setPiecesJointes)} 
-                                            />
-                                        </div>
-                                    </>
-                                )}
-                                <div className="d-flex justify-content-end mt-4">
-                                    <button className="btn-save-fournisseur" type="submit"> <CiSaveDown2 /> save </button>
-                                    <button className="btn-delete-fournisseur ms-2" type="button" >     <GrTrash /> Delete</button>
-                                    <Link to={`/AllReclamations/${client}/`} className="btn btn-secondary ms-2">  <IoMdArrowRoundBack /> Retour </Link>
-                                    
+                                <div className="d-flex justify-content-end">
+                                    <button type="submit" className="btn btn-primary-client me-2">
+                                        <CiSaveDown2 className="icon-client me-1" /> Sauvegarder
+                                    </button>
+                                    <Link to={`/AllReclamations/`} className="btn btn-danger-client">
+                                        <IoMdArrowRoundBack className="icon-client me-1" /> Retour
+                                    </Link>
+                                    <button className="btn-delete-fournisseur ms-2" type="button" onClick={handleDelete}>
+                                        <GrTrash /> Delete
+                                    </button>
                                 </div>
                             </form>
                         </div>

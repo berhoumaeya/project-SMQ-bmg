@@ -79,6 +79,7 @@ import AllClients from './containers/Client/Clients';
 import Client from './containers/Client/ConsulterClient';
 import AddClient from './containers/Client/CréerClient';
 import ModifierClient from './containers/Client/modifierclient';
+import ReclamationDetails from './containers/Client/ReclamationDetails';
 
 //Réclamation Client
 import CreateReclamation from './containers/Client/CréerReclamationClient';
@@ -87,10 +88,11 @@ import ModifierReclamation from './containers/Client/ModifierReclamation';
 // Enquetes
 import AllEnquetes from './containers/Client/AllEnquete';
 import AddEnquete from './containers/Client/CréerEnquete';
+import DetailsEnquete from './containers/Client/DetailsEnquete';
 //Suggestions
 import AllSuggestions from './containers/Client/AllSuggestion';
 import CreateSuggestion from './containers/Client/CréerSuggestionClient';
-
+import SuggestionDetails from './containers/Client/SuggestionDetails';
 //Fournisseurs
 import AllFournisseurs from './containers/Fournisseur/fournisseurs';
 import Fournisseur from './containers/Fournisseur/ConsulterFournisseur';
@@ -138,6 +140,7 @@ import DashboardMeetingsGuest from './containers/Reunionguest';
 import DashboardProduit from './containers/Produit/allProduit';
 import AuditDetail from './containers/audit/auditDetail';
 import AddAudit from './containers/audit/ajouteraudit';
+import Allreclamations from './containers/Client/AllReclamations';
 
 
 const App = () => (
@@ -242,16 +245,20 @@ const App = () => (
           <Route path="/CréerReclamationClient/:id" element={<CreateReclamation />} />
           <Route path="/ModifierReclamation/:reclamationId/" element={<ModifierReclamation />} />
           <Route path="/AllReclamations" element={<AllReclamations />} />
+          <Route path="/ReclamationDetails/:id" element={<ReclamationDetails />} />
           
 
           {/* Enquetes Clients : */}
           <Route path="/AllEnquete/" element={<AllEnquetes />} />
           <Route path="/CréerEnquete/" element={<AddEnquete />} />
+          <Route path="/DetailEnquete/:id" element={<DetailsEnquete />} />
+
+          
 
           {/* Suggestions Clients : */}
           <Route path="/AllSuggestion" element={<AllSuggestions />} />
           <Route path="/CréerSuggestionClient/" element={<CreateSuggestion />} />
-
+          <Route path="/suggestion/:id" element={<SuggestionDetails />} />
           {/* Fournisseurs : */}
           <Route path="/fournisseurs" element={<AllFournisseurs />} />
           <Route path="/ConsulterFournisseur/:id/" element={<Fournisseur />} />

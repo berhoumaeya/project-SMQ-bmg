@@ -25,8 +25,8 @@ body {
 }
 
 .nav-client .nav-item-client.active {
-    color: #e47a85;
-    border-bottom: 2px solid #e47a85;
+    color:#5585b5;
+    border-bottom: 2px solid#5585b5;
 }
 
 .divider-client {
@@ -41,7 +41,7 @@ body {
 }
 
 .card-header-client {
-    background-color: #e47a85;
+    background-color: #5585b5;
     color: #fff;
     font-weight: bold;
     padding: 10px 15px;

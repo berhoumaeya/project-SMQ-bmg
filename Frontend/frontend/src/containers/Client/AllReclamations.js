@@ -210,7 +210,7 @@ const Allreclamations = () => {
                                                     <td>{reclamation.description}</td>
                                                     <td>{reclamation.type_reclamation}</td>
                                                     <td>
-                                                        <Link to={`/ReclamationDetails/${reclamation.code}`} className="btn-view-details">
+                                                        <Link to={`/ModifierReclamation/${reclamation.code}`} className="btn-view-details">
                                                             <FaEdit />
                                                         </Link>
                                                     </td>
@@ -232,7 +232,7 @@ const Allreclamations = () => {
                                                     <h5 className="client-responsable-title">{reclamation.code}</h5>
                                                     <p><strong className="client-responsable-text">Description :</strong> {reclamation.description}</p>
                                                     <p><strong className="client-responsable-text">Type :</strong> {reclamation.type_reclamation}</p>
-                                                    <Link to={`/detailsrec.js/${reclamation.code}`} className="btn btn-outline-info btn-sm">
+                                                    <Link to={`/ModifierReclamation/${reclamation.code}`} className="btn btn-outline-info btn-sm">
                                                         <FaEdit />
                                                     </Link>
                                                 </div>
