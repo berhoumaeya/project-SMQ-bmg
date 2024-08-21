@@ -129,6 +129,7 @@ import Indicateur from './containers/indicateur/ConsulterIndicateur';
 import AddIndicateur from './containers/indicateur/AjouterIndicateur';
 import CreateSuiviIndicateurForm from './containers/indicateur/AjouterSuiviIndicateur';
 import SuiviIndicateur from './containers/indicateur/SuiviIndicateur';
+import ConsulterSuivi from './containers/indicateur/ConsulterSuivi'; 
 //
 import Audits from './containers/audit/audits';
 import ValidAudit from './containers/audit/valideraudit';
@@ -292,7 +293,7 @@ const App = () => (
           <Route path="/AjouterIndicateur/" element={<AddIndicateur />} />
           <Route path="/AjouterSuiviIndicateur/:id/" element={<CreateSuiviIndicateurForm />} />
           <Route path="/SuiviIndicateur/:id/" element={<SuiviIndicateur />} />
-
+          <Route path="/ConsulterSuivi/:id" element={<ConsulterSuivi />} />
 
 
 
