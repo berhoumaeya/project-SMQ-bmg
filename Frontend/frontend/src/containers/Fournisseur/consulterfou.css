@@ -25,7 +25,7 @@
 
 .nav-fournisseur .nav-item.active {
     border-bottom: 3px solid #5585b5;
-    color: #f6d164;
+    color: #5585b5;
 }
 
 
@@ -41,7 +41,7 @@
 }
 
 .card-header-fournisseur {
-    background-color: #f6d164;
+    background-color: #5585b5;
     color: #fff;
     font-weight: bold;
     padding: 10px 15px;
@@ -75,7 +75,7 @@
 }
 
 .form-control-fournisseur.is-invalid {
-    border-color: #f6d164;
+    border-color: #5585b5;
 }
 
 .invalid-feedback {

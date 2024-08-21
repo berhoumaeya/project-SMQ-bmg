@@ -101,7 +101,9 @@ import AddEvaluationFournisseur from './containers/Fournisseur/CréerEvaluationF
 import AllEvaluations from './containers/Fournisseur/AllEvaluationFournisseur';
 import AllReclamation from './containers/Fournisseur/AllReclamationFournisseur';
 import AddReclamationFournisseur from './containers/Fournisseur/CréerRéclamationFournisseur';
+import ReclamationfouDetails from './containers/Fournisseur/ReclamationfouDetails'; 
 
+import EvaluationDetails from './containers/Fournisseur/EvaluationDetails';
 //Risques
 import DashboardRisk from './containers/risque/AllRisque';
 import AddRisque from './containers/risque/AjouterRisk';
@@ -267,7 +269,8 @@ const App = () => (
           <Route path="/AllEvaluationFournisseur/:id/" element={<AllEvaluations />} />
           <Route path="/AllReclamationFournisseur/:id/" element={<AllReclamation />} />
           <Route path="/CréerRéclamationFournisseur/" element={<AddReclamationFournisseur />} />
-
+          <Route path="/ReclamationfouDetails/:id" element={<ReclamationfouDetails/>} />
+          <Route path="/EvaluationDetails/:id" element={<EvaluationDetails/>} />
           {/* Risk : */}
           <Route path="/AllRisque/" element={<DashboardRisk />} />
           <Route path="/AjouterRisk/" element={<AddRisque />} />

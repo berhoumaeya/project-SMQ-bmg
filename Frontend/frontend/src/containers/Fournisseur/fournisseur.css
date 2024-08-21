@@ -25,7 +25,7 @@
 
 .fournisseur-formation-title {
     font-size: 24px;
-    color: #f6d164;
+    color: #5585b5;
     text-align: left;
     margin-bottom: 20px;
 }
@@ -77,7 +77,7 @@
 }
 
 .fournisseur-styled-table thead tr {
-    background-color: #f6d164;
+    background-color: #5585b5;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
