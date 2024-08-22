@@ -1,198 +1,271 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';import { useNavigate, Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { Link, Navigate } from 'react-router-dom';
+
 import './ajoutaction.css';
 import { toast } from 'react-toastify';
+import SubNavbarAudit from '../../components/SubNavbarAudit';
 
 const CreateActionForm = () => {
-
     const [errors, setErrors] = useState({});
-    const [nom_action, setnom_action] = useState('');
-    const [designation, setdesignation] = useState('');
-    const [description, setdescription] = useState('');
-    const [site, setsite] = useState('');
-    const [priorite_action, setpriorite_action] = useState('');
-    const [gravite_action, setgravite_action] = useState('');
-    const [cause_action, setcause_action] = useState('');
-    const [source_action, setsource_action] = useState('');
-    const [type_action, settype_action] = useState('');
-    const [piece_jointe, setpiece_jointe] = useState(null);
+    const [nom_action, setNomAction] = useState('');
+    const [designation, setDesignation] = useState('');
+    const [description, setDescription] = useState('');
+    const [site, setSite] = useState('');
+    const [priorite_action, setPrioriteAction] = useState('');
+    const [gravite_action, setGraviteAction] = useState('');
+    const [cause_action, setCauseAction] = useState('');
+    const [source_action, setSourceAction] = useState('');
+    const [type_action, setTypeAction] = useState('');
+    const [piece_jointe, setPieceJointe] = useState(null);
 
-    const [responsable_validationID, setresponsable_validation] = useState('');
-    const [responsable_validations, setresponsable_validations] = useState([]);
-    const [plan, setplan] = useState('');
-    const [plans, setplans] = useState([]);
-    const navigate = useNavigate();
+    const [responsable_validationID, setResponsableValidation] = useState('');
+    const [responsable_validations, setResponsableValidations] = useState([]);
+    const [plan, setPlan] = useState('');
+    const [plans, setPlans] = useState([]);
+    const [ajoutReussi, setAjoutReussi] = useState(false);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_employe/`)
-            .then(response => setresponsable_validations(response.data))
+            .then(response => setResponsableValidations(response.data))
             .catch(error => console.error('Error fetching users:', error));
 
         axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_plan/`)
-            .then(response => setplans(response.data))
+            .then(response => setPlans(response.data))
             .catch(error => console.error('Error fetching approbateurs:', error));
     }, []);
 
-
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
-        setpiece_jointe(selectedFile);
+        setPieceJointe(selectedFile);
+    };
+
+    const validateForm = () => {
+        const formErrors = {};
+        if (!nom_action) formErrors.nom_action = 'Nom d\'action est requis.';
+        if (!designation) formErrors.designation = 'Désignation est requise.';
+        // Add other validation checks if needed
+        return formErrors;
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
 
         const formData = new FormData();
-        formData.append('nom_action',nom_action)
-        formData.append('designation',designation)
-        formData.append('description',description)
-        formData.append('site',site)
-        formData.append('priorite_action',priorite_action)
-        formData.append('gravite_action',gravite_action)
-        formData.append('cause_action',cause_action)
-        formData.append('source_action',source_action)
-        formData.append('type_action',type_action)
-        formData.append('plan',plan)
-        formData.append('responsable_validation',responsable_validationID)
+        formData.append('nom_action', nom_action);
+        formData.append('designation', designation);
+        formData.append('description', description);
+        formData.append('site', site);
+        formData.append('priorite_action', priorite_action);
+        formData.append('gravite_action', gravite_action);
+        formData.append('cause_action', cause_action);
+        formData.append('source_action', source_action);
+        formData.append('type_action', type_action);
+        formData.append('plan', plan);
+        formData.append('responsable_validation', responsable_validationID);
         if (piece_jointe) {
             formData.append('piece_jointe', piece_jointe);
         }
 
-
-             axios.post(`${process.env.REACT_APP_API_URL}/action/create_action/`, formData, {
-                headers: {
-                    'Accept': '*/*',
-                    'Content-Type': 'multipart/form-data',
-                    'X-CSRFToken': Cookies.get('csrftoken')
-                }
-            })
+        axios.post(`${process.env.REACT_APP_API_URL}/action/create_action/`, formData, {
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'multipart/form-data',
+                'X-CSRFToken': Cookies.get('csrftoken')
+            }
+        })
             .then(response => {
                 console.log('Success:', response.data);
                 toast.success('Ajout avec succès!');
-                navigate('/Actions');
-
+                setAjoutReussi(true);
             })
-         .catch (error =>  {
-            console.error('Error:', error);
-            setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création du action.' });
-
-        });
+            .catch(error => {
+                console.error('Error:', error);
+                setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création de l\'action.' });
+            });
     };
 
+    if (ajoutReussi) {
+        return <Navigate to="/Actions" />;
+    }
+
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <h3>Ajouter action</h3>
+        <>
+            <SubNavbarAudit />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <div className="container ajout-form">
+                    <form onSubmit={handleSubmit} className="row">
 
-            <div className="form-group">
-                <label>Nom Action</label>
-                <input type="text" name="nom_action" value={nom_action} onChange={(e) => setnom_action(e.target.value)}  />
-            </div>
+                        <div className="button-container">
+                            <button className="button-add me-2" type="submit" onClick={handleSubmit}>Ajouter</button>
+                            <Link to="/Actions" ><button className="retour me-2">Annuler</button></Link>
+                        </div>
+                        <h4>Ajouter action</h4>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Nom Action:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Nom Action*'
+                                    value={nom_action}
+                                    onChange={(e) => setNomAction(e.target.value)}
+                                />
+                                {errors.nom_action && <div className="error">{errors.nom_action}</div>}
+                            </div>
 
-            <div className="form-group">
-                <label>Designation</label>
-                <textarea name="designation" value={designation} onChange={(e) => setdesignation(e.target.value)} ></textarea>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Designation:</label>
+                                <textarea
+                                    className="form-control"
+                                    placeholder='Designation*'
+                                    value={designation}
+                                    onChange={(e) => setDesignation(e.target.value)}
+                                ></textarea>
+                                {errors.designation && <div className="error">{errors.designation}</div>}
+                            </div>
 
-            <div className="form-group">
-                <label>Description</label>
-                <textarea name="description" value={description} onChange={(e) => setdescription(e.target.value)} ></textarea>
-            </div>
-            <div className="form-group">
-                <label>Type Action</label>
-                <select name="type_action" value={type_action} onChange={(e) => settype_action(e.target.value)} >
-                    <option value="">Select Type</option>
-                    <option value="Corrective">Corrective</option>
-                    <option value="Preventive">Preventive</option>
-                    <option value="Improvement">Improvement</option>
-                </select>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Description:</label>
+                                <textarea
+                                    className="form-control"
+                                    placeholder='Description*'
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                ></textarea>
+                            </div>
 
-            <div className="form-group">
-                <label>Source Action</label>
-                <select name="source_action" value={source_action} onChange={(e) => setsource_action(e.target.value)} >
-                    <option value="">Select Source</option>
-                    <option value="Audit">Audit</option>
-                    <option value="Customer Feedback">Customer Feedback</option>
-                    <option value="Internal Review">Internal Review</option>
-                </select>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Type Action:</label>
+                                <select
+                                    className="form-control"
+                                    value={type_action}
+                                    onChange={(e) => setTypeAction(e.target.value)}
+                                >
+                                    <option value="">Select Type</option>
+                                    <option value="Corrective">Corrective</option>
+                                    <option value="Preventive">Preventive</option>
+                                    <option value="Improvement">Improvement</option>
+                                </select>
+                            </div>
 
-            <div className="form-group">
-                <label>Cause Action</label>
-                <select name="cause_action" value={cause_action} onChange={(e) => setcause_action(e.target.value)} >
-                    <option value="">Select Cause</option>
-                    <option value="Human Error">Human Error</option>
-                    <option value="Equipment Failure">Equipment Failure</option>
-                    <option value="Process Gap">Process Gap</option>
-                </select>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Source Action:</label>
+                                <select
+                                    className="form-control"
+                                    value={source_action}
+                                    onChange={(e) => setSourceAction(e.target.value)}
+                                >
+                                    <option value="">Select Source</option>
+                                    <option value="Audit">Audit</option>
+                                    <option value="Customer Feedback">Customer Feedback</option>
+                                    <option value="Internal Review">Internal Review</option>
+                                </select>
+                            </div>
 
-            <div className="form-group">
-                <label>Gravité Action</label>
-                <select name="gravite_action" value={gravite_action} onChange={(e) => setgravite_action(e.target.value)} >
-                    <option value="">Select Gravité</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Cause Action:</label>
+                                <select
+                                    className="form-control"
+                                    value={cause_action}
+                                    onChange={(e) => setCauseAction(e.target.value)}
+                                >
+                                    <option value="">Select Cause</option>
+                                    <option value="Human Error">Human Error</option>
+                                    <option value="Equipment Failure">Equipment Failure</option>
+                                    <option value="Process Gap">Process Gap</option>
+                                </select>
+                            </div>
 
-            <div className="form-group">
-                <label>Priorité Action</label>
-                <select name="priorite_action" value={priorite_action} onChange={(e) => setpriorite_action(e.target.value)} >
-                    <option value="">Select Priorité</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Gravité Action:</label>
+                                <select
+                                    className="form-control"
+                                    value={gravite_action}
+                                    onChange={(e) => setGraviteAction(e.target.value)}
+                                >
+                                    <option value="">Select Gravité</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
 
-            <div className="form-group">
-                <label>Site</label>
-                <select name="site" value={site} onChange={(e) => setsite(e.target.value)} >
-                    <option value="">Select Site</option>
-                    <option value="New York">New York</option>
-                    <option value="Los Angeles">Los Angeles</option>
-                    <option value="Chicago">Chicago</option>
-                </select>
-            </div>
-            <div className="form-group">
-                        <label>Responsable validation:</label>
-                        {errors.responsable_validation && <p className="error-text">{errors.responsable_validation}</p>}
-                        <select value={responsable_validationID} onChange={(e) => setresponsable_validation(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {responsable_validations.map(responsable_validation => (
-                                <option key={responsable_validation.id} value={responsable_validation.id}>{responsable_validation.username}</option>
-                            ))}
-                        </select>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Priorité Action:</label>
+                                <select
+                                    className="form-control"
+                                    value={priorite_action}
+                                    onChange={(e) => setPrioriteAction(e.target.value)}
+                                >
+                                    <option value="">Select Priorité</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
 
-            <div className="form-group">
-                        <label>Plan:</label>
-                        {errors.plan && <p className="error-text">{errors.plan}</p>}
-                        <select value={plan} onChange={(e) => setplan(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {plans.map(plan => (
-                                <option key={plan.id} value={plan.id}>{plan.description}</option>
-                            ))}
-                        </select>
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Site:</label>
+                                <select
+                                    className="form-control"
+                                    value={site}
+                                    onChange={(e) => setSite(e.target.value)}
+                                >
+                                    <option value="">Select Site</option>
+                                    <option value="New York">New York</option>
+                                    <option value="Los Angeles">Los Angeles</option>
+                                    <option value="Chicago">Chicago</option>
+                                </select>
+                            </div>
 
-            <div className="form-group">
-                <label>Pièce Jointe</label>
-                <input type="file" name="piece_jointe" onChange={handleFileChange} className="form-control" />
-            </div>
+                            <div className="form-label">
+                                <label className="form-label">Responsable Validation:</label>
+                                <select
+                                    className="form-control"
+                                    value={responsable_validationID}
+                                    onChange={(e) => setResponsableValidation(e.target.value)}
+                                >
+                                    <option value="">Select Responsable</option>
+                                    {responsable_validations.map((validation) => (
+                                        <option key={validation.id} value={validation.id}>{validation.nom} {validation.prenom}</option>
+                                    ))}
+                                </select>
+                            </div>
 
-            <div className="button-group">
-                        <button className="btn btn-primary" type="submit">
-                            Ajouter action
-                        </button>
-                        <Link to="/AllRisque" className="btn btn-secondary">
-                            Retour au tableau de bord
-                        </Link>
-                    </div>
-        </form>
+                            <div className="form-label">
+                                <label className="form-label">Plan:</label>
+                                <select
+                                    className="form-control"
+                                    value={plan}
+                                    onChange={(e) => setPlan(e.target.value)}
+                                >
+                                    <option value="">Select Plan</option>
+                                    {plans.map((plan) => (
+                                        <option key={plan.id} value={plan.id}>{plan.nom}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="form-label">
+                                <label className="form-label">Piece Jointe:</label>
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    onChange={handleFileChange}
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </>
     );
 };
 

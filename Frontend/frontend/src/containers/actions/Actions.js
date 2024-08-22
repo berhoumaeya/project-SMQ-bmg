@@ -1,102 +1,215 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import '../DOcumentation/DashboardDocInt.css'
+import '../RH/list.css';
+import { GrEdit } from 'react-icons/gr';
+import SubNavbarAudit from '../../components/SubNavbarAudit';
 
+// Sample actions data
+const actions = [
+    {
+        id: 1,
+        nom_action: 'Amélioration du processus',
+        designation: 'Optimiser le processus de fabrication pour réduire les coûts.',
+        description: 'Analyse approfondie du processus existant et mise en œuvre des améliorations pour augmenter l\'efficacité.',
+        site: 'New York',
+        priorite_action: 'High',
+        gravite_action: 'Medium',
+        cause_action: 'Process Gap',
+        source_action: 'Internal Review',
+        type_action: 'Improvement',
+        responsable_validation: 'jdoe',
+        plan: 'Plan d\'action 2024',
+        piece_jointe: 'plan_action.pdf'
+    },
+    {
+        id: 2,
+        nom_action: 'Action corrective client',
+        designation: 'Résoudre les problèmes signalés par les clients concernant le produit X.',
+        description: 'Collecter les retours clients et effectuer les modifications nécessaires pour améliorer le produit.',
+        site: 'Los Angeles',
+        priorite_action: 'Medium',
+        gravite_action: 'High',
+        cause_action: 'Human Error',
+        source_action: 'Customer Feedback',
+        type_action: 'Corrective',
+        responsable_validation: 'mmartin',
+        plan: 'Plan de correction client Q3',
+        piece_jointe: 'feedback_clients.pdf'
+    },
+    {
+        id: 3,
+        nom_action: 'Maintenance préventive',
+        designation: 'Planifier et exécuter une maintenance préventive sur l\'équipement Y.',
+        description: 'Évaluer l\'état de l\'équipement et effectuer les réparations nécessaires avant toute défaillance.',
+        site: 'Chicago',
+        priorite_action: 'Low',
+        gravite_action: 'Low',
+        cause_action: 'Equipment Failure',
+        source_action: 'Audit',
+        type_action: 'Preventive',
+        responsable_validation: 'pdurand',
+        plan: 'Plan de maintenance 2024',
+        piece_jointe: 'maintenance_plan.pdf'
+    },
+];
 const Actions = () => {
-    const [risks, setrisks] = useState([]);
-    const [error, setError] = useState(null);
-    const [deleteReussi, setDeleteReussi] = useState(false);
+    const [risks, setRisks] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     useEffect(() => {
-        const fetchrisks = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/action/dashboard_action/`, {
-                    headers: {
-                        'Accept': '*/*',
-                    }
-                });
-                setrisks(response.data);
-            } catch (error) {
-                console.error('Error fetching risks:', error);
-                setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-            }
-        };
-
-        fetchrisks();
-        const successMessage = localStorage.getItem('successMessage');
-        if (successMessage) {
-            toast.success(successMessage);
-            localStorage.removeItem('successMessage');
-        }
+        setRisks(actions);
     }, []);
+    const sortedActions = React.useMemo(() => {
+        let sortableActions = [...risks];
+        if (sortConfig !== null) {
+            sortableActions.sort((a, b) => {
+                const aValue = a[sortConfig.key].toString().toLowerCase();
+                const bValue = b[sortConfig.key].toString().toLowerCase();
+                if (aValue < bValue) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (aValue > bValue) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableActions;
+    }, [risks, sortConfig]);
+    
+    const filteredRisks = sortedActions.filter(risk =>
+        risk.nom_action.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        risk.designation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        risk.type_action.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-    const handleDelete = async (id) => {
-        const headers = {
-            'Accept': '*/*',
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken'),
-        };
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/action/delete_action/${id}/`, { headers: headers });
-            setDeleteReussi(true);
-        } catch (error) {
-            console.error('Error deleting document:', error);
-            setError(error.message || 'Une erreur s\'est produite lors de la suppression du document.');
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
+
+    const getTypeActionLabelClass = (type_action) => {
+        switch (type_action.toLowerCase()) {
+            case 'improvement':
+                return 'label label-danger';
+            case 'corrective':
+                return 'label label-warning';
+            case 'preventive':
+                return 'label label-success';
+            default:
+                return 'label';
         }
     };
 
-
-    if (error) {
-        return <div className="error-message">Erreur : {error}</div>;
-    }
-
-    if (deleteReussi) {
-        window.location.reload();
-    }
-
     return (
-        <div className="dashboard-doc-int">
-            <div className="header">
-                <h3>Liste des actions</h3>
-            </div>
-            <div className="documents-container">
-                {risks.map(risk => (
-                    <div key={risk.id} className="document-card">
-                        <div className="document-card-body">
-                            <p className="document-card-text"><strong>nom action:</strong> {risk.nom_action}</p>
-                            <p className="document-card-text"><strong>designation:</strong> {risk.designation}</p>
-                            <p className="document-card-text"><strong>description:</strong> {risk.description}</p>
-                            <p className="document-card-text"><strong>type_action:</strong> {risk.type_action}</p>
-                            <p className="document-card-text"><strong>source_action:</strong> {risk.source_action}</p>
-                            <p className="document-card-text"><strong>cause_action:</strong> {risk.cause_action}</p>
-                            <p className="document-card-text"><strong>gravite_action:</strong> {risk.gravite_action}</p>
-                            <p className="document-card-text"><strong>priorite_action:</strong> {risk.priorite_action}</p>
-                            <p className="document-card-text"><strong>site:</strong> {risk.site}</p>
-                            <p className="document-card-text"><strong>responsable_validation:</strong> {risk.responsable_validation}</p>
-                            <p className="document-card-text"><strong>Crée par:</strong> {risk.created_by}</p>
-                            <p className="document-card-text"><strong>Crée à:</strong> {risk.created_at}</p>
-                            <p><strong>Pièces jointes :</strong> {risk.piece_jointe ? <a href={`${process.env.REACT_APP_API_URL}/action/documents/${risk.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+        <>
+            <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className='formation-title'>Liste des Actions</h3>
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('nom_action')}>
+                                                        Nom Action {getSortArrow('nom_action')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('designation')}>
+                                                        Designation {getSortArrow('designation')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('type_action')}>
+                                                        Type action {getSortArrow('type_action')}
+                                                    </th>
+                                                    <th scope="col">
+                                                        Détails
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredRisks.length > 0 ? (
+                                                    filteredRisks.map(risk => (
+                                                        <tr key={risk.id}>
+                                                            <td>{risk.nom_action}</td>
+                                                            <td>{risk.designation}</td>
+                                                            <td>
+                                                                <span className={getTypeActionLabelClass(risk.type_action)}>
+                                                                    {risk.type_action}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <Link to={`/update-action/${risk.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
+                                                                </Link>
+                                                            </td>
 
-                            <p className="document-card-text"><strong>Modifié par:</strong> {risk.updated_by ? risk.updated_by : 'pas de modification'}</p>
-                            <p className="document-card-text"><strong>Modifié le :</strong> {risk.updated_at ? risk.updated_at : 'pas de modification'}</p>
-                            <div className="document-card-buttons">
-                                {/* <Link to={`/ModifierRisk/${risk.id}`} className="btn btn-success mt-3">Modifier</Link> */}
-                                <button onClick={() => handleDelete(risk.id)} className="btn btn-danger">Supprimer</button>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">Aucune action disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
+                                            {filteredRisks.length > 0 ? (
+                                                filteredRisks.map(risk => (
+                                                    <div key={risk.id} className="responsable-item">
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{risk.nom_action}</h5>
+                                                            <p><strong className="responsable-text">Designation:</strong> {risk.designation}</p>
+                                                            <p>
+                                                                <span className={getTypeActionLabelClass(risk.type_action)}>
+                                                                    {risk.type_action}
+                                                                </span>
+                                                            </p>
+                                                            <Link to={`/update-action/${risk.id}`} className="btn btn-outline-info btn-sm me-2">
+                                                                <GrEdit />
+                                                            </Link>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-center">Aucune action disponible</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
-                ))}
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/ajouteraction/`} className="btn btn-primary">ajouter action</Link>
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
-            </div>
-        </div>
+                </div>
+            </main>
+        </>
     );
 };
 
