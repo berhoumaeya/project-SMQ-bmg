@@ -1,97 +1,135 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import '../DOcumentation/DashboardDocInt.css';
+import { FaList, FaTh, FaEdit } from 'react-icons/fa';
+import './allProduit.css';
 
 const DashboardProduit = () => {
-    const [risks, setRisks] = useState([]);
-    const [error, setError] = useState(null);
-    const [deleteReussi, setDeleteReussi] = useState(false);
+    const [risks, setRisks] = useState([
+        { id: 1, date_detection: '2024-01-01', designation_produit_non_conforme: 'Produit 1', reclamation_client: 'Client 1' },
+        { id: 2, date_detection: '2024-02-01', designation_produit_non_conforme: 'Produit 2', reclamation_client: 'Client 2', type_non_conformite: 'type2' },
 
-    useEffect(() => {
-        const fetchRisks = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/produit/dashboard_Produit/`, {
-                    headers: {
-                        'Accept': '*/*',
-                    }
-                });
-                setRisks(response.data);
-            } catch (error) {
-                console.error('Error fetching risks:', error);
-                setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-            }
-        };
+    ]);
+    const [viewMode, setViewMode] = useState('list');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterBy, setFilterBy] = useState('id');
 
-        fetchRisks();
-        const successMessage = localStorage.getItem('successMessage');
-        if (successMessage) {
-            toast.success(successMessage);
-            localStorage.removeItem('successMessage');
-        }
-    }, []);
-
-    const handleDelete = async (id) => {
-        const headers = {
-            'Accept': '*/*',
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken'),
-        };
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/produit/delete_Produit/${id}/`, { headers: headers });
-            setDeleteReussi(true);
-            setRisks(prevRisks => prevRisks.filter(risk => risk.id !== id));
-        } catch (error) {
-            console.error('Error deleting document:', error);
-            setError(error.message || 'Une erreur s\'est produite lors de la suppression du document.');
-        }
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
     };
 
-    if (error) {
-        return <div className="error-message">Erreur : {error}</div>;
-    }
+    const handleFilterChange = (e) => {
+        setFilterBy(e.target.value);
+    };
+
+    const filteredRisks = risks.filter(risk => {
+        const value = risk[filterBy]?.toString().toLowerCase();
+        return value.includes(searchTerm.toLowerCase());
+    });
 
     return (
-        <div className="dashboard-doc-int">
-            <div className="header">
-                <h3>Liste des Non conforme</h3>
-            </div>
-            <div className="documents-container">
-                {risks.map(risk => (
-                    <div key={risk.id} className="document-card">
-                        <div className="document-card-body">
-                            <p className="document-card-text"><strong>Fiche Non Conforme N°:</strong> {risk.id}</p>
-                            <p className="document-card-text"><strong>date_detection:</strong> {risk.date_detection}</p>
-                            <p className="document-card-text"><strong>designation_produit_non_conforme:</strong> {risk.designation_produit_non_conforme}</p>
-                            <p className="document-card-text"><strong>reclamation_client:</strong> {risk.reclamation_client}</p>
-                            <p className="document-card-text"><strong>description_non_conformite:</strong> {risk.description_non_conformite}</p>
-                            <p className="document-card-text"><strong>produits_non_conformes:</strong> {risk.produits_non_conformes}</p>
-                            <p className="document-card-text"><strong>type_non_conformite:</strong> {risk.type_non_conformite}</p>
-                            <p className="document-card-text"><strong>source_non_conformite:</strong> {risk.source_non_conformite}</p>
-                            <p className="document-card-text"><strong>niveau_gravite:</strong> {risk.niveau_gravite}</p>
-                            <p className="document-card-text"><strong>reclamation_client:</strong> {risk.reclamation_client}</p>
-
-                            <p className="document-card-text"><strong>Crée par:</strong> {risk.created_by}</p>
-                            <p className="document-card-text"><strong>Crée à:</strong> {risk.created_at}</p>
-                            <p className="document-card-text"><strong>Modifié par:</strong> {risk.updated_by ? risk.updated_by : 'pas de modification'}</p>
-                            <p className="document-card-text"><strong>Modifié le :</strong> {risk.updated_at ? risk.updated_at : 'pas de modification'}</p>
-                            <div className="document-card-buttons">
-                                <Link to={`/ModifierRisk/${risk.id}`} className="btn btn-success mt-3">Modifier</Link>
-                                <button onClick={() => handleDelete(risk.id)} className="btn btn-danger">Supprimer</button>
+        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <div className="container produit-dashboard">
+                <div className="row">
+                    <div>
+                        <br />
+                        <br />
+                        <div className="produit-table-container">
+                            <div className="produit-view-toggle">
+                                <button className={`produit-view-btn ${viewMode === 'list' ? 'produit-active' : ''}`} onClick={() => setViewMode('list')}>
+                                    <FaList />
+                                </button>
+                                <button className={`produit-view-btn ${viewMode === 'grid' ? 'produit-active' : ''}`} onClick={() => setViewMode('grid')}>
+                                    <FaTh />
+                                </button>
+                            </div>
+                            <h3 className='produit-formation-title'>Liste des Non Conformités</h3>
+                            <div className="produit-button-container">
+                                <Link to="/Dashboard/">
+                                    <button className="produit-retour">Retour</button>
+                                </Link>
+                                <Link to="/FormProduit/">
+                                    <button className="produit-button-add">Ajouter Non Conforme</button>
+                                </Link>
+                            </div>
+                            <br />
+                            <div className="produit-search-container">
+                                <select onChange={handleFilterChange} value={filterBy} className="produit-filter-select">
+                                    <option value="id">Numéro</option>
+                                    <option value="date_detection">Date</option>
+                                    <option value="designation_produit_non_conforme">Désignation</option>
+                                    <option value="reclamation_client">Réclamation</option>
+                                </select>
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                    placeholder="Rechercher..."
+                                    className="produit-search-input"
+                                />
+                            </div>
+                            <br />
+                            <div>
+                                {viewMode === 'list' ? (
+                                    <table className="produit-styled-table">
+                                        <thead className="produit-table-header">
+                                            <tr>
+                                                <th scope="col">Fiche N°</th>
+                                                <th scope="col">Date de Détection</th>
+                                                <th scope="col">Désignation Produit</th>
+                                                <th scope="col">Réclamation Client</th>
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredRisks.length > 0 ? (
+                                                filteredRisks.map(risk => (
+                                                    <tr key={risk.id}>
+                                                        <td>{risk.id}</td>
+                                                        <td>{risk.date_detection}</td>
+                                                        <td>{risk.designation_produit_non_conforme}</td>
+                                                        <td>{risk.reclamation_client}</td>
+                                                        <td>
+                                                            <Link to={`/ConsulterProduit/${risk.id}`} className="produit-btn">
+                                                                <FaEdit />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="5" className="text-center">Aucune non-conformité disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="produit-grid">
+                                        {filteredRisks.length > 0 ? (
+                                            filteredRisks.map(risk => (
+                                                <div key={risk.id} className="produit-responsable-item">
+                                                    <img src="https://via.placeholder.com/100" alt="Produit" className="produit-responsable-img" />
+                                                    <div className="produit-responsable-info">
+                                                        <h5 className="produit-responsable-title">Fiche N° {risk.id}</h5>
+                                                        <p><strong>Date:</strong> {risk.date_detection}</p>
+                                                        <p><strong>Désignation:</strong> {risk.designation_produit_non_conforme}</p>
+                                                        <p><strong>Réclamation:</strong> {risk.reclamation_client}</p>
+                                                        <Link to={`/ConsulterProduit/${risk.id}`} className="produit-btn">
+                                                            <FaEdit />
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className="text-center">Aucune non-conformité disponible</p>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
-                ))}
+                </div>
             </div>
-            <div className="dashboard-buttons">
-                <Link to={`/AjouterNonConforme/`} className="btn btn-primary">Ajouter Non conforme</Link>
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
-            </div>
-        </div>
+        </main>
     );
 };
 

@@ -141,6 +141,9 @@ import DashboardMeetingsGuest from './containers/Reunionguest';
 
 //Produit
 import DashboardProduit from './containers/Produit/allProduit';
+import FormProduit from './containers/Produit/FormProduit';
+import ConsulterProduit from './containers/Produit/ConsulterProduit';
+
 import AuditDetail from './containers/audit/auditDetail';
 import AddAudit from './containers/audit/ajouteraudit';
 import Allreclamations from './containers/Client/AllReclamations';
@@ -156,7 +159,6 @@ const App = () => (
           <Route path="/Documentguest" element={<DashboardDocIntGuest />} />
           <Route path="/Reunionguest" element={<DashboardMeetingsGuest />} />
 
-          <Route path="/allProduit" element={<DashboardProduit />} />
 
 
 
@@ -294,8 +296,10 @@ const App = () => (
           <Route path="/AjouterSuiviIndicateur/:id/" element={<CreateSuiviIndicateurForm />} />
           <Route path="/SuiviIndicateur/:id/" element={<SuiviIndicateur />} />
           <Route path="/ConsulterSuivi/:id" element={<ConsulterSuivi />} />
-
-
+ {/* Produitnon conforme : */}
+          <Route path="/allProduit" element={<DashboardProduit />} />
+          <Route path="/FormProduit" element={<FormProduit />} />
+          <Route path="/ConsulterProduit/:id" element={<ConsulterProduit />} />
 
           {/* actions : */}
           <Route path="/ajouteraction/" element={<CreateActionForm />} />

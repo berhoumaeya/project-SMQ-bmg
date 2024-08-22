@@ -169,10 +169,15 @@ const Fournisseur = () => {
     return (
         <div className="container-fournisseur px-4 mt-4">
             <nav className="nav-fournisseur">
+            <div className="nav-items-container">
                 <Link className="nav-item active ms-0" to="#">Profile</Link>
                 <Link className="nav-item" to={`/AllReclamationFournisseur/${fournisseurData.id}`}>Reclamations</Link>
                 <Link className="nav-item" to={`/AllEvaluationFournisseur/${fournisseurData.id}`}>Evaluations</Link>
-            </nav>
+                </div>
+                <Link className="btn btn-return" to={`/fournisseurs`}><IoMdArrowRoundBack /> Retour</Link>
+                </nav>
+           
+          
             <hr className="divider" />
             <div className="row">
                 <div className="col-lg-4">
@@ -366,11 +371,10 @@ const Fournisseur = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="d-flex justify-content-end mt-4">
-                                <button className="btn-save-fournisseur" type="submit"> <CiSaveDown2 /> save </button>
-                                <button className="btn-delete-fournisseur ms-2" type="button" onClick={handleDelete}>     <GrTrash /> Delete</button>
-                                <Link to="/Clients" className="btn btn-secondary ms-2">  <IoMdArrowRoundBack />Retour 
-                      </Link>
+                                <div className="text-end">
+                                    <button type="submit" className="btn btn-primary"><CiSaveDown2 /> Sauvgarder</button>
+                                    <button type="button" className="btn btn-danger ms-2" onClick={handleDelete}><GrTrash /> Supprimer</button>
+                                    <Link className="btn btn-secondary ms-2" to={`/DashboardProduit`}><IoMdArrowRoundBack /> Retour</Link>
                                 </div>
                             </form>
                         </div>
