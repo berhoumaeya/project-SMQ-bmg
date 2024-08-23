@@ -1,17 +1,17 @@
-.produit-dashboard {
-    background: #fff;
+.conformite-dashboard {
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: #fff;
 }
 
-.produit-view-toggle {
+
+
+.conformite-view-toggle {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
 }
 
-.produit-view-btn {
+.conformite-view-btn {
     border: none;
     background: none;
     font-size: 1.2em;
@@ -19,25 +19,27 @@
     margin-right: 10px;
 }
 
-.produit-active {
+
+
+.conformite-active {
     color: #5585b5;
 }
 
-.produit-formation-title {
+.conformite-formation-title {
     font-size: 24px;
     color: #5585b5;
     text-align: left;
     margin-bottom: 20px;
 }
 
-.produit-button-container {
+.conformite-button-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.produit-button-add, .produit-retour {
+.conformite-retour, .conformite-button-add {
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
@@ -45,38 +47,35 @@
     border: 1px solid;
     background: none;
 }
-
-.produit-button-add {
+.conformite-button-add{
     color: #5585b5;
 }
-
-.produit-retour {
+.conformite-retour{
     color: #ccc;
 }
 
-.produit-search-container {
+.conformite-search-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
     margin-bottom: 20px;
 }
 
-.produit-search-input {
-    padding: 10px;
-    width: 90%;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 1em;
-}
-.produit-filter-select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    font-size: 1em;
+.conformite-filter-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
 }
 
-.produit-styled-table {
+.conformite-search-input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 300px;
+}
+
+.conformite-styled-table {
     width: 100%;
     border-collapse: collapse;
     margin: 25px 0;
@@ -86,82 +85,65 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.produit-styled-table thead tr {
+.conformite-styled-table th, .conformite-styled-table td {
+    padding: 12px 15px;
+  
+}
+
+.conformite-styled-table th {
     background-color: #5585b5;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
 }
 
-.produit-styled-table th, .produit-styled-table td {
-   
-    padding: 8px;
-}
-
-.produit-styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-.produit-styled-table tbody tr:nth-of-type(even) {
+.conformite-styled-table tbody tr:nth-child(even) {
     background-color: #f3f3f3;
 }
 
-.produit-styled-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.produit-grid {
+.conformite-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
 }
 
-.produit-responsable-item {
+.conformite-responsable-item {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.produit-responsable-info {
-    flex: 1;
-    text-align: center;
-}
-
-.produit-responsable-title {
+.conformite-responsable-item h4 {
     font-size: 1.2em;
     margin-bottom: 10px;
     font-family: 'Apple Chancery', cursive, sans-serif;
+    margin-top: 1rem;
     color: rgb(70, 68, 169);
 }
 
-.produit-responsable-text {
+.conformite-responsable-item p {
     margin-bottom: 10px;
     font-size: 0.9em;
     font-family: 'Apple Chancery', cursive, sans-serif;
+    margin-top: 1rem;
     color: #011830;
 }
 
-.btn {
+.conformite-btn {
     border: none;
     background: none;
     cursor: pointer;
     color: #5585b5;
 }
 
-.produit-responsable-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+.conformite-btn:hover {
+    color: #5585b5;
 }
-.produit-btn{
-    color:#5585b5;
-}
+
+
