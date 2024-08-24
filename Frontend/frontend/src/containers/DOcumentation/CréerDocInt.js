@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
+import SidebarDoc from '../../components/SidebarDoc';
 const CreateDocumentForm = () => {
     const { id } = useParams();
 
@@ -96,93 +98,93 @@ const CreateDocumentForm = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="container ajout-form">
-                <div className="contact-image ">
-                    <img src="/images/plus-1.png" alt="rocket_contact" />
-                    <div className="button-container">
-                        <Link to="/DashboardDoc">
-                            <button className="retour">Retour au tableau de bord</button>
-                        </Link>
-                        <button className="button-add-" type="submit" onClick={handleSubmit}>Rédiger un document</button>
+        <> <SubNavbarDoc />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarDoc />
+                <div className="container ajout-form">
+                    <div className="contact-image ">
+                        <div className="button-container">
+                            <button className="button-add-" type="submit" onClick={handleSubmit}>Rédiger</button>
+                        </div>
                     </div>
+                    <form onSubmit={handleSubmit} className="row">
+                        <p className='p-doc'>Création un document interne</p>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Libellé :</label>
+                                <input className="form-control" type="text" placeholder='Libellé*' name="libelle" value={libelle} onChange={(e) => setLibelle(e.target.value)} />
+                                {errors.libelle && <p className="error">{errors.libelle}</p>}
+
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Site :</label>
+                                <select className="form-control" value={selection_site} onChange={(e) => setSelectionSite(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="Site 1">Site 1</option>
+                                    <option value="Site 2">Site 2</option>
+                                    <option value="Site 3">Site 3</option>
+                                    <option value="Site 4">Site 4</option>
+                                </select>
+                                {errors.selection_site && <p className="error">{errors.selection_site}</p>}
+
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Activité :</label>
+                                <select className="form-control" value={selection_activite} onChange={(e) => setSelectionActivite(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="Développement">Développement</option>
+                                    <option value="Test">Test</option>
+                                    <option value="Documentation">Documentation</option>
+                                    <option value="Déploiement">Déploiement</option>
+                                    <option value="Support">Support</option>
+                                </select>
+                                {errors.selection_activite && <p className="error">{errors.selection_activite}</p>}
+
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Vérificateur :</label>
+                                <select className="form-control" value={selection_verificateurID} onChange={(e) => setSelectionVerificateur(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {selection_verificateurs.map(selection_verificateur => (
+                                        <option key={selection_verificateur.id} value={selection_verificateur.id}>{selection_verificateur.username}</option>
+                                    ))}
+                                </select>
+                                {errors.selection_verificateur && <p className="error">{errors.selection_verificateur}</p>}
+
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Approbateur :</label>
+                                <select className="form-control" value={selection_approbateurID} onChange={(e) => setSelectionApprobateur(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {selection_approbateurs.map(selection_approbateur => (
+                                        <option key={selection_approbateur.id} value={selection_approbateur.id}>{selection_approbateur.username}</option>
+                                    ))}
+                                </select>
+                                {errors.selection_approbateur && <p className="error">{errors.selection_approbateur}</p>}
+
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Liste informée :</label>
+                                <select className="form-control" multiple value={liste_informeeID} onChange={(e) => setListeInformee(Array.from(e.target.selectedOptions, option => option.value))}>
+                                    {liste_informees.map(liste_informee => (
+                                        <option key={liste_informee.id} value={liste_informee.id}>{liste_informee.username}</option>
+                                    ))}
+                                </select>
+                                {errors.liste_informee && <p className="error">{errors.liste_informee}</p>}
+
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Pièces jointes :</label>
+                                <input className="form-control" type="file" onChange={handleFileChange} />
+                                {errors.fichier && <p className="error">{errors.fichier}</p>}
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit} className="row">
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Libellé :</label>
-                            <input className="form-control" type="text" placeholder='Libellé*' name="libelle" value={libelle} onChange={(e) => setLibelle(e.target.value)} />
-                            {errors.libelle && <p className="error">{errors.libelle}</p>}
-
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Site :</label>
-                            <select className="form-control" value={selection_site} onChange={(e) => setSelectionSite(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                <option value="Site 1">Site 1</option>
-                                <option value="Site 2">Site 2</option>
-                                <option value="Site 3">Site 3</option>
-                                <option value="Site 4">Site 4</option>
-                            </select>
-                            {errors.selection_site && <p className="error">{errors.selection_site}</p>}
-
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Activité :</label>
-                            <select className="form-control" value={selection_activite} onChange={(e) => setSelectionActivite(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                <option value="Développement">Développement</option>
-                                <option value="Test">Test</option>
-                                <option value="Documentation">Documentation</option>
-                                <option value="Déploiement">Déploiement</option>
-                                <option value="Support">Support</option>
-                            </select>
-                            {errors.selection_activite && <p className="error">{errors.selection_activite}</p>}
-
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Vérificateur :</label>
-                            <select className="form-control" value={selection_verificateurID} onChange={(e) => setSelectionVerificateur(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {selection_verificateurs.map(selection_verificateur => (
-                                    <option key={selection_verificateur.id} value={selection_verificateur.id}>{selection_verificateur.username}</option>
-                                ))}
-                            </select>
-                            {errors.selection_verificateur && <p className="error">{errors.selection_verificateur}</p>}
-
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Approbateur :</label>
-                            <select className="form-control" value={selection_approbateurID} onChange={(e) => setSelectionApprobateur(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {selection_approbateurs.map(selection_approbateur => (
-                                    <option key={selection_approbateur.id} value={selection_approbateur.id}>{selection_approbateur.username}</option>
-                                ))}
-                            </select>
-                            {errors.selection_approbateur && <p className="error">{errors.selection_approbateur}</p>}
-
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Liste informée :</label>
-                            <select className="form-control" multiple value={liste_informeeID} onChange={(e) => setListeInformee(Array.from(e.target.selectedOptions, option => option.value))}>
-                                {liste_informees.map(liste_informee => (
-                                    <option key={liste_informee.id} value={liste_informee.id}>{liste_informee.username}</option>
-                                ))}
-                            </select>
-                            {errors.liste_informee && <p className="error">{errors.liste_informee}</p>}
-
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Pièces jointes :</label>
-                            <input className="form-control" type="file" onChange={handleFileChange} />
-                            {errors.fichier && <p className="error">{errors.fichier}</p>}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRh from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const samplePosts = [
     { id: 1, title: 'Développeur Frontend', position: 'Développeur', main_mission: 'Développer des interfaces utilisateur' },
@@ -41,7 +43,6 @@ const DashboardPost = () => {
         post.main_mission.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -58,106 +59,92 @@ const DashboardPost = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className="formation-title">Liste des Posts</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to={`/ajouter-position/`}>
-                                    <button className="button-add">Ajouter Position</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                    <table className="table-header">
-                                    <thead>
-                                        <tr>
-                                                <th scope="col" onClick={() => requestSort('title')}>
-                                                    Titre Position {getSortArrow('title')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('position')}>
-                                                    Position {getSortArrow('position')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('main_mission')}>
-                                                    Mission principale {getSortArrow('main_mission')}
-                                                </th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+        <>
+            <SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <SidebarRh /> 
+                <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className="formation-title">Liste des Posts</h3>    
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('title')}>
+                                                        Titre Position {getSortArrow('title')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('position')}>
+                                                        Position {getSortArrow('position')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('main_mission')}>
+                                                        Mission principale {getSortArrow('main_mission')}
+                                                    </th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredPosts.length > 0 ? (
+                                                    filteredPosts.map(post => (
+                                                        <tr key={post.id}>
+                                                            <td>{post.title}</td>
+                                                            <td>{post.position}</td>
+                                                            <td>{post.main_mission}</td>
+                                                            <td>
+                                                                <Link to={`/update-position/${post.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">Aucun post disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {filteredPosts.length > 0 ? (
                                                 filteredPosts.map(post => (
-                                                    <tr>
-                                                        <td>{post.title}</td>
-                                                        <td>{post.position}</td>
-                                                        <td>{post.main_mission}</td>
-                                                        <td>
-                                                            <Link to={`/Position/${post.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                    <div key={post.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={post.title} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{post.title}</h5>
+                                                            <p><strong className="responsable-text">Position :</strong> {post.position}</p>
+                                                            <p><strong className="responsable-text">Mission principale :</strong> {post.main_mission}</p>
+                                                            <Link to={`/update-position/${post.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrEdit />
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center">Aucun post disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucun post disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {filteredPosts.length > 0 ? (
-                                            filteredPosts.map(post => (
-                                                <div key={post.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={post.title} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{post.title}</h5>
-                                                        <p><strong className="responsable-text">Position :</strong> {post.position}</p>
-                                                        <p><strong className="responsable-text">Mission principale :</strong> {post.main_mission}</p>
-                                                        <Link to={`/Position/${post.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucun post disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

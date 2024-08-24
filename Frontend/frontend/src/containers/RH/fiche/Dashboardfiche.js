@@ -68,8 +68,10 @@ export default DashboardFiche;
 */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleFiches = [
     { id: 1, name: 'Fiche 1', job_position: 'Position A', employe_concerne: 'Employe 1' },
@@ -128,106 +130,91 @@ const DashboardFiche = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className="formation-title">Liste des Fiches Employés</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to={`/ajouter-fiche/`}>
-                                    <button className="button-add">Ajouter Fiche</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                   <table className="table-header">
-                                   <thead>
-                                       <tr>
-                                                <th scope="col" onClick={() => requestSort('name')}>
-                                                    Nom Fiche {getSortArrow('name')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('job_position')}>
-                                                    Poste Employé {getSortArrow('job_position')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('employe_concerne')}>
-                                                    Fiche de l'Employé {getSortArrow('employe_concerne')}
-                                                </th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH />
+                <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container" >
+                                <h3 className="formation-title" >Liste des Fiches Employés</h3>
+                                <br />
+                                <div className="search-container" >
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('name')}>
+                                                        Nom Fiche {getSortArrow('name')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('job_position')}>
+                                                        Poste Employé {getSortArrow('job_position')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('employe_concerne')}>
+                                                        Fiche de l'Employé {getSortArrow('employe_concerne')}
+                                                    </th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {sortedFiches.length > 0 ? (
+                                                    sortedFiches.map(fiche => (
+                                                        <tr>
+                                                            <td>{fiche.name}</td>
+                                                            <td>{fiche.job_position}</td>
+                                                            <td>{fiche.employe_concerne}</td>
+                                                            <td>
+                                                                <Link to={`/update-fiche/${fiche.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">Aucune fiche disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {sortedFiches.length > 0 ? (
                                                 sortedFiches.map(fiche => (
-                                                    <tr>
-                                                        <td>{fiche.name}</td>
-                                                        <td>{fiche.job_position}</td>
-                                                        <td>{fiche.employe_concerne}</td>
-                                                        <td>
-                                                            <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                    <div key={fiche.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={fiche.name} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{fiche.name}</h5>
+                                                            <p><strong className="responsable-text">Poste :</strong> {fiche.job_position}</p>
+                                                            <p><strong className="responsable-text">Employé Concerné :</strong> {fiche.employe_concerne}</p>
+                                                            <Link to={`/update-fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrEdit />
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center">Aucune fiche disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucune fiche disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {sortedFiches.length > 0 ? (
-                                            sortedFiches.map(fiche => (
-                                                <div key={fiche.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={fiche.name} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{fiche.name}</h5>
-                                                        <p><strong className="responsable-text">Poste :</strong> {fiche.job_position}</p>
-                                                        <p><strong className="responsable-text">Employé Concerné :</strong> {fiche.employe_concerne}</p>
-                                                        <Link to={`/fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucune fiche disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

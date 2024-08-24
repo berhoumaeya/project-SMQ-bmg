@@ -1,9 +1,9 @@
 .doc-title {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    font-family: Apple Chancery, cursive, sans sherif;
+    margin-bottom: 50px;
     margin-top: 1rem;
-    color: #054808;
+    color: rgb(70, 68, 169);
 }
 .search-input-doc {
     width: 100%;
@@ -40,4 +40,10 @@
     background-color: #77c17a;
     border-bottom: 1px solid #77c17a;
     color: #fff;
+}
+.p-doc{
+    color: #216629;
+    margin-bottom: 5%;
+    font-size: 25px;
+    font-weight: 600;
 }

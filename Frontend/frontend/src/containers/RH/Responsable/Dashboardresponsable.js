@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaList, FaTh, FaSort } from 'react-icons/fa';
-import '../list.css'; 
+import '../list.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleResponsables = [
     {
@@ -54,126 +56,113 @@ const DashboardResponsable = () => {
             return 0;
         });
 
-        const requestSort = (key) => {
-            let direction = 'ascending';
-            if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-                direction = 'descending';
-            }
-            setSortConfig({ key, direction });
-        };
-    
-        const getSortArrow = (key) => {
-            if (sortConfig.key === key) {
-                return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
-            }
-            return '↕️';
-        };
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList /> 
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh /> 
-                                </button>
-                            </div>
-                            <h3 className="formation-title">Liste des Responsables</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to="/ajouter-responsable/">
-                                    <button className="button-add">Ajouter Responsable</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                    <table className="table-header">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" onClick={() => requestSort('nom')}>
-                                                    Nom Responsable {getSortArrow('nom ')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('prenom')}>
-                                                    Prénom Responsable {getSortArrow('prenom')}
-                                                                                                    </th>
-                                                <th scope="col" onClick={() => requestSort('username')}>
-                                                    Nom d' Utilisateur {getSortArrow('username')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('email')}>
-                                                    Email Responsable {getSortArrow('email')}
-                                                </th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+
+        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH /> 
+                    <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className="formation-title">Liste des Responsables</h3>
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('nom')}>
+                                                        Nom Responsable {getSortArrow('nom ')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('prenom')}>
+                                                        Prénom Responsable {getSortArrow('prenom')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('username')}>
+                                                        Nom d' Utilisateur {getSortArrow('username')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('email')}>
+                                                        Email Responsable {getSortArrow('email')}
+                                                    </th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredResponsables.length > 0 ? (
+                                                    filteredResponsables.map(responsable => (
+                                                        <tr key={responsable.id}>
+                                                            <td>{responsable.nom}</td>
+                                                            <td>{responsable.prenom}</td>
+                                                            <td>{responsable.username}</td>
+                                                            <td>{responsable.email}</td>
+                                                            <td>
+                                                                <Link to={`/update-responsable/${responsable.id}`} className="btn btn-outline-info">
+                                                                    <GrEdit />
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">Aucun responsable disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {filteredResponsables.length > 0 ? (
                                                 filteredResponsables.map(responsable => (
-                                                    <tr key={responsable.id}>
-                                                        <td>{responsable.nom}</td>
-                                                        <td>{responsable.prenom}</td>
-                                                        <td>{responsable.username}</td>
-                                                        <td>{responsable.email}</td>
-                                                        <td>
-                                                            <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                    <div key={responsable.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={`${responsable.nom} ${responsable.prenom}`} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{responsable.nom} {responsable.prenom}</h5>
+                                                            <p><strong className="responsable-text">Nom d'utilisateur :</strong> {responsable.username}</p>
+                                                            <p><strong className="responsable-text">Email :</strong> {responsable.email}</p>
+                                                            <Link to={`/update-responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrEdit />
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center">Aucun responsable disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucun responsable disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {filteredResponsables.length > 0 ? (
-                                            filteredResponsables.map(responsable => (
-                                                <div key={responsable.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={`${responsable.nom} ${responsable.prenom}`} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{responsable.nom} {responsable.prenom}</h5>
-                                                        <p><strong className="responsable-text">Nom d'utilisateur :</strong> {responsable.username}</p>
-                                                        <p><strong className="responsable-text">Email :</strong> {responsable.email}</p>
-                                                        <Link to={`/responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucun responsable disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

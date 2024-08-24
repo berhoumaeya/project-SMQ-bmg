@@ -5,6 +5,8 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../RH/Detail.css';
+import SubNavbarAudit from '../../components/SubNavbarAudit';
+import SidebarAudit from '../../components/SidebarAudit';
 
 const sampleAudits = [
     {
@@ -112,60 +114,63 @@ const AuditDetail = () => {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="container-xl px-4 mt-4">
-                <div className="row">
-                    <div className="col-xl-8">
-                        <div className="card mb-4">
-                            <div className="card-header" style={{backgroundColor:'#58b3d3' , color:'white'}}>Audit Details</div>
-                            <div className="card-body">
-                                {audit ? (
-                                    <form onSubmit={handleSubmit} className="row">
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Référence</label>
-                                                <input className="form-control" type="text" value={reference} onChange={(e) => setReference(e.target.value)} />
-                                                {errors.reference && <p className="error">{errors.reference}</p>}
+        <> <SubNavbarAudit />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarAudit />
+                <div className="container-xl px-4 mt-4">
+                    <div className="row">
+                        <div className="col-xl-10" style={{marginTop:'40px' , marginLeft:'50px'}}>
+                            <div className="card mb-5">
+                                <div className="card-header-">Audit Details</div>
+                                <div className="card-body">
+                                    {audit ? (
+                                        <form onSubmit={handleSubmit} className="row">
+                                            <div className="row gx-3 mb-4">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Référence</label>
+                                                    <input className="form-control" type="text" value={reference} onChange={(e) => setReference(e.target.value)} />
+                                                    {errors.reference && <p className="error">{errors.reference}</p>}
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Désignation</label>
+                                                    <input className="form-control" type="text" value={designation} onChange={(e) => setDesignation(e.target.value)} />
+                                                    {errors.designation && <p className="error">{errors.designation}</p>}
+                                                </div>
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Désignation</label>
-                                                <input className="form-control" type="text" value={designation} onChange={(e) => setDesignation(e.target.value)} />
-                                                {errors.designation && <p className="error">{errors.designation}</p>}
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Type d'audit</label>
+                                                    <input className="form-control" type="text" value={typeAudit} onChange={(e) => setTypeAudit(e.target.value)} />
+                                                    {errors.typeAudit && <p className="error">{errors.typeAudit}</p>}
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Statut</label>
+                                                    <input className="form-control" type="text" value={statut} onChange={(e) => setStatut(e.target.value)} />
+                                                    {errors.statut && <p className="error">{errors.statut}</p>}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Type d'audit</label>
-                                                <input className="form-control" type="text" value={typeAudit} onChange={(e) => setTypeAudit(e.target.value)} />
-                                                {errors.typeAudit && <p className="error">{errors.typeAudit}</p>}
+                                            <div className="d-flex justify-content-end mt-3">
+                                                <Link to="/Audits" className="btn btn-secondary me-2">
+                                                    <IoMdArrowRoundBack /> Retour
+                                                </Link>
+                                                <button type="submit" className="btn btn-primary me-2">
+                                                    <GrEdit /> Modifier
+                                                </button>
+                                                <button type="button" className="btn btn-danger me-2" onClick={handleDelete}>
+                                                    <GrTrash /> Supprimer
+                                                </button>
                                             </div>
-                                            <div className="col-md-6">
-                                                <label className="small mb-1">Statut</label>
-                                                <input className="form-control" type="text" value={statut} onChange={(e) => setStatut(e.target.value)} />
-                                                {errors.statut && <p className="error">{errors.statut}</p>}
-                                            </div>
-                                        </div>
-                                        <div className="d-flex justify-content-end mt-3">
-                                            <Link to="/Audits" className="btn btn-secondary me-2">
-                                                <IoMdArrowRoundBack /> Retour
-                                            </Link>
-                                            <button type="submit" className="btn btn-primary me-2">
-                                                <GrEdit /> Modifier
-                                            </button>
-                                            <button type="button" className="btn btn-danger me-2" onClick={handleDelete}>
-                                                <GrTrash /> Supprimer
-                                            </button>
-                                        </div>
-                                    </form>
-                                ) : (
-                                    <p>Chargement ...</p>
-                                )}
+                                        </form>
+                                    ) : (
+                                        <p>Chargement ...</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

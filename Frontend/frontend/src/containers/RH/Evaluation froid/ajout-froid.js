@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 function FroidForm() {
   const [name, setName] = useState('');
@@ -88,19 +90,19 @@ function FroidForm() {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <>
+    <SubNavbarRH />
+    <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>   
+    <SidebarRH />   
       <div className="container ajout-form">
+       
+        <form onSubmit={handleSubmit} className="row">
         <div className="contact-image">
-          <img src="/images/add.png" alt="rocket_contact" />
           <div className="button-container">
-            <Link to="/DashboardEvaluationFroid ">
-              <button className="retour">Retour au tableau de bord</button>
-            </Link>
-            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter une évaluation à froid</button>
+            <button className="button-add" type="submit" onClick={handleSubmit}>Evaluer</button>
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="row">
-          <h4>Informations sur l'évaluation à froid</h4>
+           <h4>Ajout d'une évaluation à froid</h4>
           <div className="col-md-6">
             <div className="form-label">
               <label className="form-label">Nom <span className="required">*</span>:</label>
@@ -150,9 +152,9 @@ function FroidForm() {
               <input type="file" className="form-control" onChange={handleFileChange} />
             </div>
           </div>
-        </form>
+          </form>
       </div>
-    </main>
+    </main></>
   );
 }
 

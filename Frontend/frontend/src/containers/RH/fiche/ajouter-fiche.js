@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TimeZoneSelect from 'react-timezone-select';
 import './FicheForm.css';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 function FicheForm() {
     const [errors, setErrors] = useState({});
@@ -199,194 +201,196 @@ function FicheForm() {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div class="container ajout-form">
-                <div class="contact-image ">
-                    <img src="/images/add.png" alt="rocket_contact" />
-                    <div class="button-container">
-                        <Link to="/Dashboardfiche">
-                            <button className="retour">Retour au tableau de bord</button>
-                        </Link>   <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter une fiche</button>
-                    </div>
+        <>
+            <SubNavbarRH />
+            <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+            <SidebarRH />
+                <div class="container ajout-form">
+                    
+                    <form onSubmit={handleSubmit} className="row">
+                    <div class="contact-image ">
+                        <div class="button-container">
+                            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
+                        </div>
+                    </div> <h4>Ajout d'une fiche employé</h4>
+
+                        <div class="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Nom Fiche:</label>
+                                <input type="text" className="form-control" placeholder='Nom de la fiche*' value={name} onChange={(e) => setName(e.target.value)} />
+                                {errors.name && <p className="error">{errors.name}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Employé concerné :</label>
+                                <select className="form-control" value={employe_concerneID} onChange={(e) => setEmploye(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {employe_concernes.map(employe_concerne => (
+                                        <option key={employe_concerne.id} value={employe_concerne.id}>{employe_concerne.username}</option>
+                                    ))}
+                                </select>
+                                {errors.employe_concerne && <p className="error">{errors.employe_concerne}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Mobile :</label>
+                                <input type="text" className="form-control" placeholder='Mobile*' value={work_mobile} onChange={(e) => setWorkMobile(e.target.value)} />
+                                {errors.work_mobile && <p className="error">{errors.work_mobile}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Téléphone :</label>
+                                <input type="text" className="form-control" placeholder='Téléphone*' value={work_phone} onChange={(e) => setWorkPhone(e.target.value)} />
+                                {errors.work_phone && <p className="error">{errors.work_phone}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Email :</label>
+                                <input type="email" className="form-control" placeholder='Email*' value={work_email} onChange={(e) => setWorkEmail(e.target.value)} />
+                                {errors.work_email && <p className="error">{errors.work_email}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Adresse de travail :</label>
+                                <select className="form-control" value={work_addressID} onChange={(e) => setWorkAddress(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {addresss.map(address => (
+                                        <option key={address.id} value={address.id}>{address.name}</option>
+                                    ))}
+                                </select>
+                                {errors.work_address && <p className="error">{errors.work_address}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Localisation de travail :</label>
+                                <input type="text" className="form-control" placeholder='Localisation de travail*' value={work_location} onChange={(e) => setWorkLocation(e.target.value)} />
+                                {errors.work_location && <p className="error">{errors.work_location}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">CIN :</label>
+                                <input type="text" className="form-control" placeholder='CIN*' value={cin} onChange={(e) => setCin(e.target.value)} />
+                                {errors.cin && <p className="error">{errors.cin}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">CNSS :</label>
+                                <input type="text" className="form-control" placeholder='CNSS*' value={cnss} onChange={(e) => setCnss(e.target.value)} />
+                                {errors.cnss && <p className="error">{errors.cnss}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Domaine d'étude :</label>
+                                <input type="text" className="form-control" placeholder='Domaine étude*' value={field_of_study} onChange={(e) => setFieldOfStudy(e.target.value)} />
+                                {errors.field_of_study && <p className="error">{errors.field_of_study}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Distance domicile-travail :</label>
+                                <input type="text" className="form-control" placeholder='Distance domicile-travail*' value={home_work_distance} onChange={(e) => setHomeWorkDistance(e.target.value)} />
+                                {errors.home_work_distance && <p className="error">{errors.home_work_distance}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Établissement scolaire :</label>
+                                <input type="text" className="form-control" placeholder='Établissement scolaire*' value={school} onChange={(e) => setSchool(e.target.value)} />
+                                {errors.school && <p className="error">{errors.school}</p>}
+                            </div>
+
+                            <div className="form-label">
+                                <label className="form-label">Niveau de certificat :</label>
+                                <input type="text" className="form-control" placeholder='Niveau de certificat*' value={certificate_level} onChange={(e) => setCertificateLevel(e.target.value)} />
+                                {errors.certificate_level && <p className="error">{errors.certificate_level}</p>}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Contact d'urgence :</label>
+                                <input type="text" className="form-control" placeholder='Contact en cas urgence*' value={emergency_contact} onChange={(e) => setEmergencyContact(e.target.value)} />
+                                {errors.emergency_contact && <p className="error">{errors.emergency_contact}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Téléphone d'urgence :</label>
+                                <input type="text" className="form-control" placeholder='Téléphone en cas urgence*' value={emergency_phone} onChange={(e) => setEmergencyPhone(e.target.value)} />
+                                {errors.emergency_phone && <p className="error">{errors.emergency_phone}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Numéro de compte bancaire :</label>
+                                <input type="text" className="form-control" placeholder='Numéro de compte bancaire*' value={bank_account_number} onChange={(e) => setBankAccountNumber(e.target.value)} />
+                                {errors.bank_account_number && <p className="error">{errors.bank_account_number}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Heures de travail :</label>
+                                <input type="text" className="form-control" placeholder='Heures de travail*' value={working_hours} onChange={(e) => setWorkingHours(e.target.value)} />
+                                {errors.working_hours && <p className="error">{errors.working_hours}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Fuseau horaire :</label>
+                                {errors.timezone_field && <p className="error">{errors.timezone_field}</p>}
+
+                                <TimeZoneSelect className="form-control" value={timezone_field} onChange={(value) => setTimezoneField(value)} />
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">État civil :</label>
+                                <select className="form-control" value={martial_status} onChange={(e) => setMartialStatus(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="C">Célibataire</option>
+                                    <option value="M">Marié</option>
+                                    <option value="D">Divorcé</option>
+                                    <option value="V">Veuf</option>
+                                </select>
+                                {errors.martial_status && <p className="error">{errors.martial_status}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Poste :</label>
+                                <select className="form-control" value={job_positionID} onChange={(e) => setJobPosition(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {job_positions.map(job_position => (
+                                        <option key={job_position.id} value={job_position.id}>{job_position.title}</option>
+                                    ))}
+                                </select>
+                                {errors.job_position && <p className="error">{errors.job_position}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Manager :</label>
+                                <select className="form-control" value={managerID} onChange={(e) => setManager(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {managers.map(manager => (
+                                        <option key={manager.id} value={manager.id}>{manager.username}</option>
+                                    ))}
+                                </select>
+                                {errors.manager && <p className="error">{errors.manager}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Coach :</label>
+                                <select className="form-control" value={coachID} onChange={(e) => setCoach(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {coachs.map(coach => (
+                                        <option key={coach.id} value={coach.id}>{coach.username}</option>
+                                    ))}
+                                </select>
+                                {errors.coach && <p className="error">{errors.coach}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Adresse :</label>
+                                <select className="form-control" value={addressID} onChange={(e) => setAddress(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {addresss.map(address => (
+                                        <option key={address.id} value={address.id}>{address.name}</option>
+                                    ))}
+                                </select>
+                                {errors.address && <p className="error">{errors.address}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Départements :</label>
+                                <select className="form-control" multiple value={departmentID} onChange={(e) => setDepartment(Array.from(e.target.selectedOptions, option => option.value))}>
+                                    {departments.map(department => (
+                                        <option key={department.id} value={department.id}>{department.name}</option>
+                                    ))}
+                                </select>
+                                {errors.department && <p className="error">{errors.department}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Pièces jointes :</label>
+                                <input type="file" className="form-control" onChange={handleFileChange} />
+                                {errors.pieces_jointes && <p className="error">{errors.pieces_jointes}</p>}
+                            </div>
+                        </div>
+                        
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit} className="row">
-
-                    <div class="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Nom Fiche:</label>
-                            <input type="text" className="form-control" placeholder='Nom de la fiche*' value={name} onChange={(e) => setName(e.target.value)} />
-                            {errors.name && <p className="error">{errors.name}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Employé concerné :</label>
-                            <select className="form-control" value={employe_concerneID} onChange={(e) => setEmploye(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {employe_concernes.map(employe_concerne => (
-                                    <option key={employe_concerne.id} value={employe_concerne.id}>{employe_concerne.username}</option>
-                                ))}
-                            </select>
-                            {errors.employe_concerne && <p className="error">{errors.employe_concerne}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Mobile :</label>
-                            <input type="text" className="form-control" placeholder='Mobile*' value={work_mobile} onChange={(e) => setWorkMobile(e.target.value)} />
-                            {errors.work_mobile && <p className="error">{errors.work_mobile}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Téléphone :</label>
-                            <input type="text" className="form-control" placeholder='Téléphone*' value={work_phone} onChange={(e) => setWorkPhone(e.target.value)} />
-                            {errors.work_phone && <p className="error">{errors.work_phone}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Email :</label>
-                            <input type="email" className="form-control" placeholder='Email*' value={work_email} onChange={(e) => setWorkEmail(e.target.value)} />
-                            {errors.work_email && <p className="error">{errors.work_email}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Adresse de travail :</label>
-                            <select className="form-control" value={work_addressID} onChange={(e) => setWorkAddress(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {addresss.map(address => (
-                                    <option key={address.id} value={address.id}>{address.name}</option>
-                                ))}
-                            </select>
-                            {errors.work_address && <p className="error">{errors.work_address}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Localisation de travail :</label>
-                            <input type="text" className="form-control" placeholder='Localisation de travail*' value={work_location} onChange={(e) => setWorkLocation(e.target.value)} />
-                            {errors.work_location && <p className="error">{errors.work_location}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">CIN :</label>
-                            <input type="text" className="form-control" placeholder='CIN*' value={cin} onChange={(e) => setCin(e.target.value)} />
-                            {errors.cin && <p className="error">{errors.cin}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">CNSS :</label>
-                            <input type="text" className="form-control" placeholder='CNSS*' value={cnss} onChange={(e) => setCnss(e.target.value)} />
-                            {errors.cnss && <p className="error">{errors.cnss}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Domaine d'étude :</label>
-                            <input type="text" className="form-control" placeholder='Domaine étude*' value={field_of_study} onChange={(e) => setFieldOfStudy(e.target.value)} />
-                            {errors.field_of_study && <p className="error">{errors.field_of_study}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Distance domicile-travail :</label>
-                            <input type="text" className="form-control" placeholder='Distance domicile-travail*' value={home_work_distance} onChange={(e) => setHomeWorkDistance(e.target.value)} />
-                            {errors.home_work_distance && <p className="error">{errors.home_work_distance}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Établissement scolaire :</label>
-                            <input type="text" className="form-control" placeholder='Établissement scolaire*' value={school} onChange={(e) => setSchool(e.target.value)} />
-                            {errors.school && <p className="error">{errors.school}</p>}
-                        </div>
-
-                        <div className="form-label">
-                            <label className="form-label">Niveau de certificat :</label>
-                            <input type="text" className="form-control" placeholder='Niveau de certificat*' value={certificate_level} onChange={(e) => setCertificateLevel(e.target.value)} />
-                            {errors.certificate_level && <p className="error">{errors.certificate_level}</p>}
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Contact d'urgence :</label>
-                            <input type="text" className="form-control" placeholder='Contact en cas urgence*' value={emergency_contact} onChange={(e) => setEmergencyContact(e.target.value)} />
-                            {errors.emergency_contact && <p className="error">{errors.emergency_contact}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Téléphone d'urgence :</label>
-                            <input type="text" className="form-control" placeholder='Téléphone en cas urgence*' value={emergency_phone} onChange={(e) => setEmergencyPhone(e.target.value)} />
-                            {errors.emergency_phone && <p className="error">{errors.emergency_phone}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Numéro de compte bancaire :</label>
-                            <input type="text" className="form-control" placeholder='Numéro de compte bancaire*' value={bank_account_number} onChange={(e) => setBankAccountNumber(e.target.value)} />
-                            {errors.bank_account_number && <p className="error">{errors.bank_account_number}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Heures de travail :</label>
-                            <input type="text" className="form-control" placeholder='Heures de travail*' value={working_hours} onChange={(e) => setWorkingHours(e.target.value)} />
-                            {errors.working_hours && <p className="error">{errors.working_hours}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Fuseau horaire :</label>
-                            {errors.timezone_field && <p className="error">{errors.timezone_field}</p>}
-
-                            <TimeZoneSelect className="form-control" value={timezone_field} onChange={(value) => setTimezoneField(value)} />
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">État civil :</label>
-                            <select className="form-control" value={martial_status} onChange={(e) => setMartialStatus(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                <option value="C">Célibataire</option>
-                                <option value="M">Marié</option>
-                                <option value="D">Divorcé</option>
-                                <option value="V">Veuf</option>
-                            </select>
-                            {errors.martial_status && <p className="error">{errors.martial_status}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Poste :</label>
-                            <select className="form-control" value={job_positionID} onChange={(e) => setJobPosition(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {job_positions.map(job_position => (
-                                    <option key={job_position.id} value={job_position.id}>{job_position.title}</option>
-                                ))}
-                            </select>
-                            {errors.job_position && <p className="error">{errors.job_position}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Manager :</label>
-                            <select className="form-control" value={managerID} onChange={(e) => setManager(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {managers.map(manager => (
-                                    <option key={manager.id} value={manager.id}>{manager.username}</option>
-                                ))}
-                            </select>
-                            {errors.manager && <p className="error">{errors.manager}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Coach :</label>
-                            <select className="form-control" value={coachID} onChange={(e) => setCoach(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {coachs.map(coach => (
-                                    <option key={coach.id} value={coach.id}>{coach.username}</option>
-                                ))}
-                            </select>
-                            {errors.coach && <p className="error">{errors.coach}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Adresse :</label>
-                            <select className="form-control" value={addressID} onChange={(e) => setAddress(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {addresss.map(address => (
-                                    <option key={address.id} value={address.id}>{address.name}</option>
-                                ))}
-                            </select>
-                            {errors.address && <p className="error">{errors.address}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Départements :</label>
-                            <select className="form-control" multiple value={departmentID} onChange={(e) => setDepartment(Array.from(e.target.selectedOptions, option => option.value))}>
-                                {departments.map(department => (
-                                    <option key={department.id} value={department.id}>{department.name}</option>
-                                ))}
-                            </select>
-                            {errors.department && <p className="error">{errors.department}</p>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Pièces jointes :</label>
-                            <input type="file" className="form-control" onChange={handleFileChange} />
-                            {errors.pieces_jointes && <p className="error">{errors.pieces_jointes}</p>}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </main>
-
+            </main>
+        </>
     );
 }
 

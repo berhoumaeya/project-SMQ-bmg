@@ -1,6 +1,7 @@
 .navbar {
-    background-color: #fff;
+    background-color: #436b93;
     border-bottom: 1px solid #ddd;
+    
 }
 
 .navbar-brand {
@@ -9,17 +10,18 @@
 }
 
 .logo {
-    margin-right: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 .navbar-nav {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     width: 100%;
-    font-size: 17px;
+    font-size: 16px;
     font-family: Open Sans;
     font-weight: 400;
+    
 }
 
 .nav-link {
@@ -27,7 +29,6 @@
 }
 
 .nav-link.active {
-    color: #7322dd;
     font-weight: 400;
     
 }
@@ -47,13 +48,25 @@
 .dropdown-menu {
     border-radius: 0.25rem;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #3c4245;
+
 }
 
 .dropdown-item {
-    color: #333;
+    color: #fff;
 }
 
 .dropdown-item:hover {
-    background-color: #f8f9fa;
-    color: #007bff;
+    background-color: #87838358;
+    color: #ffffff;
+}
+
+.title-color-navbar {
+    color: #ffffff;
+    background-color: transparent;
+    margin-right: 10px;
+}
+.bmg{
+    color: #fff;
+    
 }

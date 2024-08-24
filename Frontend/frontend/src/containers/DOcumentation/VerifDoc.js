@@ -106,11 +106,11 @@ function VerifList() {
 export default VerifList;
 */
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
-import './listDoc.css'; // Make sure this CSS file includes the styles you need
-import {  FaListAlt, FaTh } from 'react-icons/fa';
+import './listDoc.css'; 
+import SidebarDoc from '../../components/SidebarDoc';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
 
 // Static data
 const sampleDocuments = [
@@ -163,53 +163,39 @@ function VerifList() {
     };
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+        <>
+        <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <SidebarDoc /> 
+                       <div className="container dashboard">
                 <div className="row">
                     <div>
-                        <br />
-                        <br />
                         <div className="table-container">
-                        <div className="view-toggle">
-                                    <button className={`view-btn-doc ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                        <FaListAlt /> 
-                                    </button>
-                                    <button className={`view-btn-doc ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                        <FaTh /> 
-                                    </button>
-                                </div>
                             <h3 className='doc-title'>Liste des documents à vérifier</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardDoc/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                            </div>
                             <br />
                             <div>
                             {viewMode === 'list' ? (
                                 <table className="table-header">
                                         <thead>
                                             <tr>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">ID</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Libelle</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Type de document</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Site</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Activité</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé par</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Vérificateur</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Approbateur</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Liste informée</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Créé à</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Statut</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Pièce jointe</th>
-                                            <th style={{backgroundColor:'#76ab78'}} scope="col">Actions</th>
+                                            <th scope="col">Libelle</th>
+                                            <th scope="col">Type de document</th>
+                                            <th scope="col">Site</th>
+                                            <th scope="col">Activité</th>
+                                            <th scope="col">Créé par</th>
+                                            <th scope="col">Vérificateur</th>
+                                            <th scope="col">Approbateur</th>
+                                            <th scope="col">Liste informée</th>
+                                            <th scope="col">Créé à</th>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Pièce jointe</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {documents.length > 0 ? (
                                             documents.map(document => (
-                                                <tr key={document.id}>
-                                                    <td>{document.id}</td>
+                                                <tr>
                                                     <td>{document.libelle}</td>
                                                     <td>{document.type}</td>
                                                     <td>{document.selection_site}</td>
@@ -222,14 +208,14 @@ function VerifList() {
                                                     <td>{document.statut}</td>
                                                     <td>
                                                         {document.fichier ? 
-                                                            <a href={`#`} target="_blank" rel="noopener noreferrer">Consulter</a> : 
+                                                            <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 
                                                             'Aucun'}
                                                     </td>
                                                     <td>
-                                                        <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success me-2">
                                                             <FcApproval /> 
                                                         </button>
-                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger btn-sm">
+                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
                                                             <RxCross2 /> 
                                                         </button>
                                                     </td>
@@ -254,7 +240,7 @@ function VerifList() {
                                                     <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
                                                     <td>
                                             <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
-                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm"> <RxCross2 /></button>
+                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
                                         </td>
                                                 </div>
                                             </div>
@@ -270,6 +256,7 @@ function VerifList() {
                 </div>
             </div>
         </main>
+        </>
     );
 }
 

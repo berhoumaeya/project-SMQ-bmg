@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 function ChaudForm() {
   const [name, setName] = useState('');
@@ -83,106 +85,107 @@ function ChaudForm() {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="container ajout-form">
-        <div className="contact-image">
-          <img src="/images/add.png" alt="rocket_contact" />
+    <>
+      <SubNavbarRH />
+      <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+        <SidebarRH />
+        <div class="container ajout-form">        
+          
+      
+          <form onSubmit={handleSubmit} className="row">
           <div className="button-container">
-            <Link to="/DashboardEvaluationChaud">
-              <button className="retour">Retour au tableau de bord</button>
-            </Link>
             <button className="button-add" type="submit" onClick={handleSubmit}>Evaluer</button>
           </div>
+          <h4>Ajout d'une évaluation à chaud</h4>
+          <div className="col-md-6">
+              <div className="form-label">
+                <label className="form-label">Nom de l'évaluation :</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Nom de l'évaluation*"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+                {errors.name && <span className="error">{errors.name}</span>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Date de réalisation :</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  placeholder="Date de réalisation*"
+                  name="date_realisation"
+                  value={date_realisation}
+                  onChange={(e) => setDate(e.target.value)}
+                  required
+                />
+                {errors.date_realisation && <span className="error">{errors.date_realisation}</span>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Critère d’évaluation :</label>
+                <select
+                  className="form-control"
+                  value={selectedCritere}
+                  onChange={(e) => setSelectedCritere(e.target.value)}
+                  required
+                >
+                  <option value="">Sélectionner un critère...</option>
+                  {criteres.map(criteres => (
+                    <option key={criteres} value={criteres}>{criteres}</option>
+                  ))}
+                </select>
+                {errors.criteres && <span className="error">{errors.criteres}</span>}
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-label">
+                <label className="form-label">Coefficients :</label>
+                <select
+                  className="form-control"
+                  value={coefficients}
+                  onChange={(e) => setCoefficients(e.target.value)}
+                  required
+                >
+                  <option value="">Sélectionner...</option>
+                  <option value="1">Évaluation insatisfaisante</option>
+                  <option value="2">Évaluation faible</option>
+                  <option value="3">Évaluation moyenne</option>
+                  <option value="4">Évaluation bonne</option>
+                  <option value="5">Évaluation satisfaisante</option>
+                </select>
+                {errors.coefficients && <span className="error">{errors.coefficients}</span>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Formation à Évaluer :</label>
+                <select
+                  className="form-control"
+                  value={formation}
+                  onChange={(e) => setFormation(e.target.value)}
+                  required
+                >
+                  <option value="">Sélectionner...</option>
+                  {formations.map(formation => (
+                    <option key={formation.id} value={formation.id}>{formation.intitule_formation}</option>
+                  ))}
+                </select>
+                {errors.formation && <span className="error">{errors.formation}</span>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Pièces jointes :</label>
+                <input
+                  className="form-control"
+                  type="file"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+            </form>     
         </div>
-        <form onSubmit={handleSubmit} className="row">
-          <div className="col-md-6">
-            <div className="form-label">
-              <label className="form-label">Nom de l'évaluation :</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                placeholder="Nom de l'évaluation*" 
-                name="name" 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
-                required 
-              />
-              {errors.name && <span className="error">{errors.name}</span>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Date de réalisation :</label>
-              <input 
-                type="date" 
-                className="form-control" 
-                placeholder="Date de réalisation*" 
-                name="date_realisation" 
-                value={date_realisation} 
-                onChange={(e) => setDate(e.target.value)} 
-                required 
-              />
-              {errors.date_realisation && <span className="error">{errors.date_realisation}</span>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Critère d’évaluation :</label>
-              <select 
-                className="form-control" 
-                value={selectedCritere} 
-                onChange={(e) => setSelectedCritere(e.target.value)} 
-                required
-              >
-                <option value="">Sélectionner un critère...</option>
-                {criteres.map(criteres => (
-                  <option key={criteres} value={criteres}>{criteres}</option>
-                ))}
-              </select>
-              {errors.criteres && <span className="error">{errors.criteres}</span>}
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="form-label">
-              <label className="form-label">Coefficients :</label>
-              <select 
-                className="form-control" 
-                value={coefficients} 
-                onChange={(e) => setCoefficients(e.target.value)} 
-                required
-              >
-                <option value="">Sélectionner...</option>
-                <option value="1">Évaluation insatisfaisante</option>
-                <option value="2">Évaluation faible</option>
-                <option value="3">Évaluation moyenne</option>
-                <option value="4">Évaluation bonne</option>
-                <option value="5">Évaluation satisfaisante</option>
-              </select>
-              {errors.coefficients && <span className="error">{errors.coefficients}</span>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Formation à Évaluer :</label>
-              <select 
-                className="form-control" 
-                value={formation} 
-                onChange={(e) => setFormation(e.target.value)} 
-                required
-              >
-                <option value="">Sélectionner...</option>
-                {formations.map(formation => (
-                  <option key={formation.id} value={formation.id}>{formation.intitule_formation}</option>
-                ))}
-              </select>
-              {errors.formation && <span className="error">{errors.formation}</span>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Pièces jointes :</label>
-              <input 
-                className="form-control" 
-                type="file" 
-                onChange={handleFileChange} 
-              />
-            </div>
-          </div>
-        </form>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 

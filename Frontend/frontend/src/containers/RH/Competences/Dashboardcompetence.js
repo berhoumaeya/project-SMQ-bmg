@@ -93,12 +93,12 @@ return (
 export default DashboardCompetence;
 */
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { GrTrash } from 'react-icons/gr';
-import { FaList, FaTh } from 'react-icons/fa';
 import '../Dashboard.css';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 const sampleCompetences = [
     {
@@ -130,7 +130,6 @@ const sampleCompetences = [
 ];
 
 const DashboardCompetence = () => {
-    const { id } = useParams();
     const [competences, setCompetences] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
@@ -167,103 +166,88 @@ const DashboardCompetence = () => {
         window.location.reload();
     }
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className='formation-title'>Liste des Évaluations de Compétence</h3>
-                            <div className="button-container">
-                                <Link to={`/employe/${id}/`}>
-                                    <button className="retour">Retour</button>
-                                </Link>  <Link to={`/ajouter-competence/${id}`}>
-                                    <button className="button-add">Évaluer</button>
-                                </Link>
-
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                  <table className="table-header">
-                                  <thead>
-                                      <tr>
-                                                <th>Nom évaluation</th>
-                                                <th>Commentaires</th>
-                                                <th>Créé par</th>
-                                                <th>Créé à</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH />
+                <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className='formation-title'>Liste des Évaluations de Compétence</h3>
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom évaluation</th>
+                                                    <th>Commentaires</th>
+                                                    <th>Créé par</th>
+                                                    <th>Créé à</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredCompetences.length > 0 ? (
+                                                    filteredCompetences.map(competence => (
+                                                        <tr>
+                                                            <td>{competence.name}</td>
+                                                            <td>{competence.commentaires}</td>
+                                                            <td>{competence.created_by}</td>
+                                                            <td>{competence.created_at}</td>
+                                                            <td>
+                                                                <div>
+                                                                    <button onClick={() => handleDelete(competence.id)} className="btn btn-danger"> <GrTrash /> </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6" className="text-center">Aucune évaluation disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {filteredCompetences.length > 0 ? (
                                                 filteredCompetences.map(competence => (
-                                                    <tr>
-                                                        <td>{competence.name}</td>
-                                                        <td>{competence.commentaires}</td>
-                                                        <td>{competence.created_by}</td>
-                                                        <td>{competence.created_at}</td>
-                                                        <td>
-                                                        <div>
-                                                            <button onClick={() => handleDelete(competence.id)} className="btn btn-danger"> <GrTrash /> </button>
-                                                        </div>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="6" className="text-center">Aucune évaluation disponible</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {filteredCompetences.length > 0 ? (
-                                            filteredCompetences.map(competence => (
-                                                <div key={competence.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={competence.name} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{competence.name}</h5>
-                                                        <p><strong className="responsable-text">Commentaires :</strong> {competence.commentaires}</p>
-                                                        <p><strong className="responsable-text">Créé par :</strong> {competence.created_by}</p>
-                                                        <p><strong className="responsable-text">Créé à :</strong> {competence.created_at}</p>
-                                                        <div>
-                                                            <button onClick={() => handleDelete(competence.id)} className="btn btn-danger"> <GrTrash /> </button>
+                                                    <div key={competence.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={competence.name} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{competence.name}</h5>
+                                                            <p><strong className="responsable-text">Commentaires :</strong> {competence.commentaires}</p>
+                                                            <p><strong className="responsable-text">Créé par :</strong> {competence.created_by}</p>
+                                                            <p><strong className="responsable-text">Créé à :</strong> {competence.created_at}</p>
+                                                            <div>
+                                                                <button onClick={() => handleDelete(competence.id)} className="btn btn-danger"> <GrTrash /> </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucune évaluation disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                                ))
+                                            ) : (
+                                                <p className="text-center">Aucune évaluation disponible</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

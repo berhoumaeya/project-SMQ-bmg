@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarDoc from '../../components/SubNavbarDOC';
+import SidebarDoc from '../../components/SidebarDoc';
 
 function ModifierDocExt() {
     const { id } = useParams();
@@ -105,12 +107,14 @@ function ModifierDocExt() {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <> <SubNavbarDoc />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <SidebarDoc />             
             <div className="container-xl px-4 mt-4">
                 <div className='row'>
                     <div className="col-xl-4">
                         <div className="card mb-4 mb-xl-0">
-                            <div className="card-header--">Profile Picture</div>
+                            <div className="card-header-">Profile Picture</div>
                             <div className="card-body text-center">
                                 <div className="img-container mb-2">
                                     <img
@@ -127,7 +131,7 @@ function ModifierDocExt() {
                     <div className="col-xl-8">
 
                         <div className="card mb-4">
-                            <div className="card-header--">Modifier le Document</div>
+                            <div className="card-header-">Modifier le Document</div>
                             <div className="card-body">
                                 <form onSubmit={handleSubmit}>
                                     <div className="mb-3">
@@ -235,6 +239,7 @@ function ModifierDocExt() {
                 </div>
             </div>
         </main>
+    </>
     );
 }
 

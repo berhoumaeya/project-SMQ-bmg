@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 function AddFormation() {
     const [responsablesFormations, setResponsablesFormations] = useState([]);
@@ -150,126 +152,128 @@ function AddFormation() {
     }
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="container ajout-form">
-                <div className="contact-image">
-                    <img src="/images/add.png" alt="rocket_contact" />
-                    <div className="button-container">
-                        <Link to="/Dashboardformation">
-                            <button className="retour">Retour au tableau de bord</button>
-                        </Link>
-                        <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter une formation</button>
-                    </div>
+
+        <>
+            <SubNavbarRH />
+            <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+                <SidebarRH />
+                <div className="container ajout-form">
+
+                    <form onSubmit={handleSubmit} className="row">
+                        <div className="contact-image">
+                            <div className="button-container">
+                                <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
+                            </div>
+                        </div>
+                        <h4>Ajout d'une Formation</h4>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Intitulé de la formation <span className="required">*</span>:</label>
+                                <input type="text" className="form-control" placeholder="Nom*" name="intitule_formation" value={intitule_formation} onChange={(e) => setIntitule_formation(e.target.value)} />
+                                {errors.intitule_formation && <div className="error">{errors.intitule_formation}</div>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Type de formation <span className="required">*</span>:</label>
+                                <select className="form-control" value={type_formation} onChange={(e) => setType_formation(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="interne">Formation en interne</option>
+                                    <option value="intra">Formation en intra</option>
+                                </select>
+                                {errors.type_formation && <div className="error">{errors.type_formation}</div>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Organisme de formation :</label>
+                                <select className="form-control" value={organisme_formation} onChange={(e) => setOrganisme_formation(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {organismes.map(organisme => (
+                                        <option key={organisme.id} value={organisme.id}>
+                                            {organisme.nom}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Thème de formation :</label>
+                                <input type="text" className="form-control" placeholder="Thème de formation*" name="theme_formation" value={theme_formation} onChange={(e) => setTheme_formation(e.target.value)} />
+                                {errors.theme_formation && <div className="error">{errors.theme_formation}</div>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Date prévue de la formation <span className="required">*</span>:</label>
+                                <input type="date" className="form-control" placeholder="Date de début de la formation" name="date_debut_formation" value={date_debut_formation} onChange={(e) => setDate_debut_formation(e.target.value)} />
+                                {errors.date_debut_formation && <div className="error">{errors.date_debut_formation}</div>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Date de fin de la formation <span className="required">*</span>:</label>
+                                <input type="date" className="form-control" placeholder="Date de fin de la formation" name="date_fin_formation" value={date_fin_formation} onChange={(e) => setDate_fin_formation(e.target.value)} />
+                                {errors.date_fin_formation && <div className="error">{errors.date_fin_formation}</div>}
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Responsable de la formation <span className="required">*</span>:</label>
+                                <select className="form-control" value={responsable_formationID} onChange={(e) => setResponsable_formation(Array.from(e.target.selectedOptions, option => option.value))} multiple>
+                                    <option value="">Sélectionner...</option>
+                                    {responsablesFormations.map(responsable => (
+                                        <option key={responsable.id} value={responsable.id}>
+                                            {responsable.nom} {responsable.prenom}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.responsable_formationID && <div className="error">{errors.responsable_formationID}</div>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Responsable de validation <span className="required">*</span>:</label>
+                                <select className="form-control" value={responsable_validation} onChange={(e) => setResponsable_validation(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {responsablesValidations.map(responsable => (
+                                        <option key={responsable.id} value={responsable.id}>
+                                            {responsable.nom} {responsable.prenom}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.responsable_validation && <div className="error">{errors.responsable_validation}</div>}
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Participants <span className="required">*</span>:</label>
+                                <select className="form-control" value={participantID} onChange={(e) => setParticipant(Array.from(e.target.selectedOptions, option => option.value))} multiple>
+                                    <option value="">Sélectionner...</option>
+                                    {participants.map(participant => (
+                                        <option key={participant.id} value={participant.id}>
+                                            {participant.nom} {participant.prenom}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.participantID && <div className="error">{errors.participantID}</div>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Paramètre de critères de validation <span className="required">*</span>:</label>
+                                <select className="form-control" value={parametre_validation} onChange={(e) => setParametre_validation(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="evaluation_chaud">Évaluation à chaud</option>
+                                    <option value="evaluation_froid">Évaluation à froid</option>
+                                </select>
+                                {errors.parametre_validation && <div className="error">{errors.parametre_validation}</div>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Date de clôture de la formation :</label>
+                                <input type="date" className="form-control" name="date_cloture_formation" value={date_cloture_formation} readOnly />
+                            </div>
+                        </div>
+                        <h4>Documents et Pièces Jointes</h4>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Pièces jointes :</label>
+                                <input type="file" className="form-control" onChange={handleFileChange} />
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit} className="row">
-                    <h4>Informations sur la Formation</h4>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Intitulé de la formation <span className="required">*</span>:</label>
-                            <input type="text" className="form-control" placeholder="Nom*" name="intitule_formation" value={intitule_formation} onChange={(e) => setIntitule_formation(e.target.value)} />
-                            {errors.intitule_formation && <div className="error">{errors.intitule_formation}</div>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Type de formation <span className="required">*</span>:</label>
-                            <select className="form-control" value={type_formation} onChange={(e) => setType_formation(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                <option value="interne">Formation en interne</option>
-                                <option value="intra">Formation en intra</option>
-                            </select>
-                            {errors.type_formation && <div className="error">{errors.type_formation}</div>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Organisme de formation :</label>
-                            <select className="form-control" value={organisme_formation} onChange={(e) => setOrganisme_formation(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {organismes.map(organisme => (
-                                    <option key={organisme.id} value={organisme.id}>
-                                        {organisme.nom}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Thème de formation :</label>
-                            <input type="text" className="form-control" placeholder="Thème de formation*" name="theme_formation" value={theme_formation} onChange={(e) => setTheme_formation(e.target.value)} />
-                      {errors.theme_formation && <div className="error">{errors.theme_formation}</div>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Date prévue de la formation <span className="required">*</span>:</label>
-                            <input type="date" className="form-control" placeholder="Date de début de la formation" name="date_debut_formation" value={date_debut_formation} onChange={(e) => setDate_debut_formation(e.target.value)} />
-                      {errors.date_debut_formation && <div className="error">{errors.date_debut_formation}</div>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Date de fin de la formation <span className="required">*</span>:</label>
-                            <input type="date" className="form-control" placeholder="Date de fin de la formation" name="date_fin_formation" value={date_fin_formation} onChange={(e) => setDate_fin_formation(e.target.value)} />
-{errors.date_fin_formation && <div className="error">{errors.date_fin_formation}</div>}
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Responsable de la formation <span className="required">*</span>:</label>
-                            <select className="form-control" value={responsable_formationID} onChange={(e) => setResponsable_formation(Array.from(e.target.selectedOptions, option => option.value))} multiple>
-                                <option value="">Sélectionner...</option>
-                                {responsablesFormations.map(responsable => (
-                                    <option key={responsable.id} value={responsable.id}>
-                                        {responsable.nom} {responsable.prenom}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.responsable_formationID && <div className="error">{errors.responsable_formationID}</div>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Responsable de validation <span className="required">*</span>:</label>
-                            <select className="form-control" value={responsable_validation} onChange={(e) => setResponsable_validation(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                {responsablesValidations.map(responsable => (
-                                    <option key={responsable.id} value={responsable.id}>
-                                        {responsable.nom} {responsable.prenom}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.responsable_validation && <div className="error">{errors.responsable_validation}</div>}
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Participants <span className="required">*</span>:</label>
-                            <select className="form-control" value={participantID} onChange={(e) => setParticipant(Array.from(e.target.selectedOptions, option => option.value))} multiple>
-                                <option value="">Sélectionner...</option>
-                                {participants.map(participant => (
-                                    <option key={participant.id} value={participant.id}>
-                                        {participant.nom} {participant.prenom}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.participantID && <div className="error">{errors.participantID}</div>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Paramètre de critères de validation <span className="required">*</span>:</label>
-                            <select className="form-control" value={parametre_validation} onChange={(e) => setParametre_validation(e.target.value)}>
-                                <option value="">Sélectionner...</option>
-                                <option value="evaluation_chaud">Évaluation à chaud</option>
-                                <option value="evaluation_froid">Évaluation à froid</option>
-                            </select>
-                            {errors.parametre_validation && <div className="error">{errors.parametre_validation}</div>}
-                        </div>
-                        <div className="form-label">
-                            <label className="form-label">Date de clôture de la formation :</label>
-                            <input type="date" className="form-control" name="date_cloture_formation" value={date_cloture_formation} readOnly />
-                        </div>
-                    </div>
-                    <h4>Documents et Pièces Jointes</h4>
-                    <div className="col-md-6">
-                        <div className="form-label">
-                            <label className="form-label">Pièces jointes :</label>
-                            <input type="file" className="form-control" onChange={handleFileChange} />
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </main>
+            </main>
+        </>
     );
 }
 

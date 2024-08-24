@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleFormations = [
     {
@@ -107,121 +109,106 @@ const DashboardFormation = () => {
     };
 
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className="formation-title">Liste des Formations</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to={`/ajouter-formation/`}>
-                                    <button className="button-add">Ajouter Formation</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                    <table className="table-header">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" onClick={() => requestSort('intitule_formation')}>
-                                                    Intitulé Formation {getSortArrow('intitule_formation')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('type_formation')}>
-                                                    Type Formation {getSortArrow('type_formation')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('theme_formation')}>
-                                                    Thème de formation {getSortArrow('theme_formation')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('responsable_validation')}>
-                                                    Responsable Validation {getSortArrow('responsable_validation')}
-                                                </th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH />
+                <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className="formation-title">Liste des Formations</h3>
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('intitule_formation')}>
+                                                        Intitulé Formation {getSortArrow('intitule_formation')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('type_formation')}>
+                                                        Type Formation {getSortArrow('type_formation')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('theme_formation')}>
+                                                        Thème de formation {getSortArrow('theme_formation')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('responsable_validation')}>
+                                                        Responsable Validation {getSortArrow('responsable_validation')}
+                                                    </th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredFormations.length > 0 ? (
+                                                    filteredFormations.map(formation => (
+                                                        <tr key={formation.id}>
+                                                            <td data-label="Intitulé Formation">
+                                                                <h6 className="font-weight-bold mb-0">{formation.intitule_formation}</h6>
+                                                                <span className="text-muted">{formation.theme_formation}</span>
+                                                            </td>
+                                                            <td data-label="Type Formation">
+                                                                <span className="text-muted">{formation.type_formation}</span>
+                                                            </td>
+                                                            <td data-label="Thème de formation">
+                                                                <span className="text-muted">{formation.theme_formation}</span>
+                                                            </td>
+                                                            <td data-label="Responsable Validation">
+                                                                <span className="text-muted">{formation.responsable_validation}</span>
+                                                            </td>
+                                                            <td data-label="Détails">
+                                                                <Link to={`/update-formation/${formation.id}`} className="btn btn-outline-info ">
+                                                                    <GrEdit />
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">Aucune formation disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+
+                                    ) : (
+                                        <div className="grid">
                                             {filteredFormations.length > 0 ? (
                                                 filteredFormations.map(formation => (
-                                                    <tr key={formation.id}>
-                                                        <td data-label="Intitulé Formation">
-                                                            <h6 className="font-weight-bold mb-0">{formation.intitule_formation}</h6>
-                                                            <span className="text-muted">{formation.theme_formation}</span>
-                                                        </td>
-                                                        <td data-label="Type Formation">
-                                                            <span className="text-muted">{formation.type_formation}</span>
-                                                        </td>
-                                                        <td data-label="Thème de formation">
-                                                            <span className="text-muted">{formation.theme_formation}</span>
-                                                        </td>
-                                                        <td data-label="Responsable Validation">
-                                                            <span className="text-muted">{formation.responsable_validation}</span>
-                                                        </td>
-                                                        <td data-label="Détails">
-                                                            <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                    <div key={formation.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={formation.intitule_formation} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{formation.intitule_formation}</h5>
+                                                            <p><strong className="responsable-text">Type :</strong> {formation.type_formation}</p>
+                                                            <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
+                                                            <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
+                                                            <Link to={`/update-formation/${formation.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrEdit />
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center">Aucune formation disponible</td>
-                                                </tr>
+                                                <p>Aucune formation disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-
-                                ) : (
-                                    <div className="grid">
-                                        {filteredFormations.length > 0 ? (
-                                            filteredFormations.map(formation => (
-                                                <div key={formation.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={formation.intitule_formation} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{formation.intitule_formation}</h5>
-                                                        <p><strong className="responsable-text">Type :</strong> {formation.type_formation}</p>
-                                                        <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
-                                                        <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
-                                                        <Link to={`/formation/${formation.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p>Aucune formation disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

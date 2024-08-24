@@ -46,11 +46,11 @@ return (
 <tbody>
 {chauds.map(chaud => (
 <tr key={chaud.id}>
-    <td>{chaud.id}</td>
-    <td>{chaud.name}</td>
-    <td>{chaud.created_by}</td>
-    <td>{chaud.created_at}</td>
-    <Link to={`/chaud/${chaud.id}`}>Détails</Link>
+<td>{chaud.id}</td>
+<td>{chaud.name}</td>
+<td>{chaud.created_by}</td>
+<td>{chaud.created_at}</td>
+<Link to={`/chaud/${chaud.id}`}>Détails</Link>
 </tr>
 ))}
 </tbody>
@@ -67,8 +67,10 @@ export default DashboardChaud;
 */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import '../list.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
+import { GrEdit } from 'react-icons/gr';
 
 const sampleChauds = [
     { id: 1, name: 'Chaud 1', created_by: 'User A', created_at: '2024-01-01' },
@@ -125,106 +127,91 @@ const DashboardChaud = () => {
         return '↕️';
     };
     return (
-        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="container dashboard">
+        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH /> 
+                <div className="container dashboard">
                 <div className="row">
                     <div>
-                        <br />
-                        <br />
                         <div className="table-container">
-                            <div className="view-toggle">
-                                <button className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
-                            <h3 className="formation-title">Liste des Évaluations Chaud</h3>
-                            <div className="button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="retour">Retour</button>
-                                </Link>
-                                <Link to={`/ajouter-chaud/`}>
-                                    <button className="button-add">Ajouter Évaluation</button>
-                                </Link>
-                            </div>
-                            <br />
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                  <table className="table-header">
-                                  <thead>
-                                      <tr>
-                                                <th scope="col" onClick={() => requestSort('name')}>
-                                                    Nom {getSortArrow('name')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('created_by')}>
-                                                    Créé par {getSortArrow('created_by')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('created_at')}>
-                                                    Créé à {getSortArrow('created_at')}
-                                                </th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h3 className="formation-title">Liste des Évaluations Chaud</h3>
+                                <br />
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('name')}>
+                                                        Nom {getSortArrow('name')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('created_by')}>
+                                                        Créé par {getSortArrow('created_by')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('created_at')}>
+                                                        Créé à {getSortArrow('created_at')}
+                                                    </th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {sortedChauds.length > 0 ? (
+                                                    sortedChauds.map(chaud => (
+                                                        <tr key={chaud.id}>
+                                                            <td>{chaud.name}</td>
+                                                            <td>{chaud.created_by}</td>
+                                                            <td>{chaud.created_at}</td>
+                                                            <td>
+                                                                <Link to={`/update-chaud/${chaud.id}`} className="btn btn-outline-info ">
+                                                                    <GrEdit />
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="4" className="text-center">Aucune évaluation disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {sortedChauds.length > 0 ? (
                                                 sortedChauds.map(chaud => (
-                                                    <tr key={chaud.id}>
-                                                        <td>{chaud.name}</td>
-                                                        <td>{chaud.created_by}</td>
-                                                        <td>{chaud.created_at}</td>
-                                                        <td>
-                                                            <Link to={`/chaud/${chaud.id}`} className="btn btn-outline-info btn-sm">
-                                                                <FaEdit />
+                                                    <div key={chaud.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={chaud.name} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className="responsable-title">{chaud.name}</h5>
+                                                            <p><strong className="responsable-text">Créé par :</strong> {chaud.created_by}</p>
+                                                            <p><strong className="responsable-text">Créé à :</strong> {chaud.created_at}</p>
+                                                            <Link to={`/update-chaud/${chaud.id}`} className="btn btn-outline-info btn-sm">
+                                                                <GrEdit />
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="4" className="text-center">Aucune évaluation disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucune évaluation disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {sortedChauds.length > 0 ? (
-                                            sortedChauds.map(chaud => (
-                                                <div key={chaud.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={chaud.name} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{chaud.name}</h5>
-                                                        <p><strong className="responsable-text">Créé par :</strong> {chaud.created_by}</p>
-                                                        <p><strong className="responsable-text">Créé à :</strong> {chaud.created_at}</p>
-                                                        <Link to={`/chaud/${chaud.id}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucune évaluation disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

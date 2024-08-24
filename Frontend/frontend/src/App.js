@@ -16,31 +16,26 @@ import DashboardDoc from './containers/DOcumentation/DashboardDoc';
 
 import Formation from './containers/RH/formation/formation';
 import AddFormation from './containers/RH/formation/ajouter-formation';
-import UpdateFormation from './containers/RH/formation/update-formation';
 
 import DashboardEmploye from './containers/RH/Employe/Dashboardemploye';
 import EmployeDetail from './containers/RH/Employe/employe';
 import AddEmploye from './containers/RH/Employe/ajouter-employe';
-import UpdateEmploye from './containers/RH/Employe/update-employe';
 
 import DashboardParticipant from './containers/RH/participant/Dashboardparticipant';
 import ParticipantDetail from './containers/RH/participant/participant';
 import ParticipantForm from './containers/RH/participant/ajouter-participant';
-import UpdateParticipant from './containers/RH/participant/update-participant';
 
 import DashboardResponsable from './containers/RH/Responsable/Dashboardresponsable';
 import ResponsableForm from './containers/RH/Responsable/ajouter-responsable';
 import ResponsableDetail from './containers/RH/Responsable/responsable';
-import UpdateResponsable from './containers/RH/Responsable/update-responsable';
 
 import DashboardCompetence from './containers/RH/Competences/Dashboardcompetence';
 import CompetenceForm from './containers/RH/Competences/ajouter-competence';
 
 
 import DashboardFiche from './containers/RH/fiche/Dashboardfiche';
-import FicheDetail from './containers/RH/fiche/fiche';
 import FicheForm from './containers/RH/fiche/ajouter-fiche';
-import UpdateFiche from './containers/RH/fiche/update-fiche';
+import FicheDetail from './containers/RH/fiche/fiche';
 
 import DashboardChaud from './containers/RH/Evaluation chaud/DashboardEvaluationChaud';
 import ChaudDetail from './containers/RH/Evaluation chaud/chaud';
@@ -53,7 +48,6 @@ import FroidForm from './containers/RH/Evaluation froid/ajout-froid';
 import DashboardPost from './containers/RH/position/Dashboardposition';
 import AddPost from './containers/RH/position/ajouter-position';
 import PostDetail from './containers/RH/position/position';
-import UpdatePost from './containers/RH/position/update-position';
 import UserProfile from './containers/Profile';
 
 import DemandList from './containers/DOcumentation/ListeDemande';
@@ -191,45 +185,47 @@ const App = () => (
           <Route path="/dashboardDoc" element={<DashboardDoc />} />
 
           <Route path="/dashboardformation" element={<Dashboardformation />} />
-          <Route path="/formation/:id" element={<Formation />} />
+          <Route path="/update-formation/:id" element={<Formation />} />
           <Route path="/ajouter-formation/" element={<AddFormation />} />
-          <Route path="/update-formation/:id" element={<UpdateFormation />} />
+          {/*<Route path="/update-formation/:id" element={<UpdateFormation />} />
+          <Route path="/update-employe/:id" element={<UpdateEmploye />} />
+          <Route path="/update-position/:id" element={<UpdatePost />} />
+          <Route path="/update-responsable/:id" element={<UpdateResponsable />} />
+          <Route path="/update-participant/:id" element={<UpdateParticipant />} />
+          <Route path="/update-fiche/:id" element={<FicheDetail />} />
+
+          */}
 
           <Route path="/dashboardemploye" element={<DashboardEmploye />} />
-          <Route path="/employe/:id" element={<EmployeDetail />} />
+          <Route path="/update-employe/:id" element={<EmployeDetail />} />
           <Route path="/ajouter-employe/" element={<AddEmploye />} />
-          <Route path="/update-employe/:id" element={<UpdateEmploye />} />
 
-          <Route path="/Dashboardposition" element={<DashboardPost />} />
-          <Route path="/position/:id" element={<PostDetail />} />
+          <Route path="/dashboardposition" element={<DashboardPost />} />
+          <Route path="/update-position/:id" element={<PostDetail />} />
           <Route path="/ajouter-position/" element={<AddPost />} />
-          <Route path="/update-position/:id" element={<UpdatePost />} />
 
 
           <Route path="/dashboardresponsable" element={<DashboardResponsable />} />
-          <Route path="/responsable/:id" element={<ResponsableDetail />} />
+          <Route path="/update-responsable/:id" element={<ResponsableDetail />} />
           <Route path="/ajouter-responsable/" element={<ResponsableForm />} />
-          <Route path="/update-responsable/:id" element={<UpdateResponsable />} />
 
           <Route path="/dashboardcompetence/:id/" element={<DashboardCompetence />} />
           <Route path="/ajouter-competence/:id/" element={<CompetenceForm />} />
 
-          <Route path="/participant/:id" element={<ParticipantDetail />} />
+          <Route path="/update-participant/:id" element={<ParticipantDetail />} />
           <Route path="/ajouter-participant/" element={<ParticipantForm />} />
-          <Route path="/Dashboardparticipant" element={<DashboardParticipant />} />
-          <Route path="/update-participant/:id" element={<UpdateParticipant />} />
+          <Route path="/dashboardparticipant" element={<DashboardParticipant />} />
 
           <Route path="/dashboardfiche/" element={<DashboardFiche />} />
           <Route path="/ajouter-fiche/" element={<FicheForm />} />
-          <Route path="/update-fiche/:id" element={<UpdateFiche />} />
-          <Route path="/fiche/:id" element={<FicheDetail />} />
+          <Route path="/update-fiche/:id" element={<FicheDetail />} />
 
           <Route path="/DashboardEvaluationChaud/" element={<DashboardChaud />} />
-          <Route path="/chaud/:id" element={<ChaudDetail />} />
+          <Route path="/update-chaud/:id" element={<ChaudDetail />} />
           <Route path="/ajouter-chaud/" element={<ChaudForm />} />
 
           <Route path="/DashboardEvaluationFroid/" element={<DashboardFroid />} />
-          <Route path="/froid/:id" element={<FroidDetail />} />
+          <Route path="/update-froid/:id" element={<FroidDetail />} />
           <Route path="/ajouter-froid/" element={<FroidForm />} />
 
           {/* Clients : */}

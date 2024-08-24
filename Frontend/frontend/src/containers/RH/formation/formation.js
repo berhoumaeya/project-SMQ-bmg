@@ -5,6 +5,8 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { GrEdit, GrTrash } from 'react-icons/gr';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import '../Detail.css';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 const sampleFormations = [
   {
@@ -156,7 +158,7 @@ const FormationDetail = () => {
   const handleParametreChange = (event) => {
     setParametreValidation(event.target.value);
   };
-  
+
   if (deleteReussi) {
     return <Navigate to="/Dashboardformation" />;
   }
@@ -166,103 +168,106 @@ const FormationDetail = () => {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="container-xl px-4 mt-4">
-        <div className="row">
-          <div className="col-xl-4">
-            <div className="card mb-4 mb-xl-0">
-              <div className="card-header-">Profile Picture</div>
-              <div className="card-body text-center">
-                <div className="img-container mb-2">
-                  <img
-                    className="img-account-profile rounded-circle"
-                    src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
-                    alt="Profile"
-                    style={{ width: '150px', height: '150px' }}
+
+    <><SubNavbarRH />
+      <main style={{ display: 'flex', minHeight: '100vh' }}>
+        <SidebarRH />
+        <div className="container-xl px-4 mt-4">
+          <div className="row">
+            <div className="col-xl-4">
+              <div className="card mb-4 mb-xl-0">
+                <div className="card-header-">Profile Picture</div>
+                <div className="card-body text-center">
+                  <div className="img-container mb-2">
+                    <img
+                      className="img-account-profile rounded-circle"
+                      src={piecesJointes ? URL.createObjectURL(piecesJointes) : "http://bootdey.com/img/Content/avatar/avatar1.png"}
+                      alt="Profile"
+                      style={{ width: '150px', height: '150px' }}
+                    />
+                  </div>
+                  <div className="small font-italic text-muted mb-4">
+                    JPG or PNG no larger than 5 MB
+                  </div>
+                  <input
+                    type="file"
+                    className="form-control mb-2"
+                    onChange={handleFileChange}
+                    accept=".jpg, .png"
                   />
                 </div>
-                <div className="small font-italic text-muted mb-4">
-                  JPG or PNG no larger than 5 MB
-                </div>
-                <input
-                  type="file"
-                  className="form-control mb-2"
-                  onChange={handleFileChange}
-                  accept=".jpg, .png"
-                />
               </div>
             </div>
-          </div>
-          <div className="col-xl-8">
-            <div className="card mb-4">
-              <div className="card-header-">Formation Details</div>
-              <div className="card-body">
-                {formation ? (
-                  <form className="row" onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                      <label className="small mb-1">Intitulé de la formation</label>
-                      <input className="form-control" type="text" value={formation.intitule_formation} readOnly />
-                    </div>
-                    <div className="mb-3">
-                       <label className="small mb-1">Type de formation</label>
-                       <select  className="form-control" value={formation.type_formation} onChange={(e) =>
-                                setFormation((prev) => ({ ...prev, type_formation: e.target.value })) }>
-                                  {typeFormationOptions.map((option) => (
-                              <option key={option} value={option}> {option}</option>))}
+            <div className="col-xl-8">
+              <div className="card mb-4">
+                <div className="card-header-">Formation Details</div>
+                <div className="card-body">
+                  {formation ? (
+                    <form className="row" onSubmit={handleSubmit}>
+                      <div className="mb-3">
+                        <label className="small mb-1">Intitulé de la formation</label>
+                        <input className="form-control" type="text" value={formation.intitule_formation} readOnly />
+                      </div>
+                      <div className="mb-3">
+                        <label className="small mb-1">Type de formation</label>
+                        <select className="form-control" value={formation.type_formation} onChange={(e) =>
+                          setFormation((prev) => ({ ...prev, type_formation: e.target.value }))}>
+                          {typeFormationOptions.map((option) => (
+                            <option key={option} value={option}> {option}</option>))}
                         </select>
-                    </div>
+                      </div>
 
-                    <div className="mb-3">
-                      <label className="small mb-1">Organisme de formation</label>
-                      <input className="form-control" type="text" value={formation.organisme_formation} readOnly />
-                    </div>
-                    <div className="mb-3">
-                      <label className="small mb-1">Thème de formation</label>
-                      <input className="form-control" type="text" value={formation.theme_formation} readOnly />
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Date de début de la formation</label>
-                        <input className="form-control" type="text" value={formation.date_debut_formation} readOnly />
+                      <div className="mb-3">
+                        <label className="small mb-1">Organisme de formation</label>
+                        <input className="form-control" type="text" value={formation.organisme_formation} readOnly />
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Date de fin de la formation</label>
-                        <input className="form-control" type="text" value={formation.date_fin_formation} readOnly />
+                      <div className="mb-3">
+                        <label className="small mb-1">Thème de formation</label>
+                        <input className="form-control" type="text" value={formation.theme_formation} readOnly />
                       </div>
-                    </div>
-                    <div className="mb-3">
-                      <label className="small mb-1">Responsable de la validation</label>
-                      <input className="form-control" type="text" value={responsableValidationName} readOnly />
-                    </div>
-                    <div className="mb-3">
-                      <label className="small mb-1">Responsable de la Formation</label>
-                      <input className="form-control" type="text" value={responsableFormationName.join(', ')} readOnly />
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Date de création</label>
-                        <input className="form-control" type="text" value={formation.created_at} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Date de début de la formation</label>
+                          <input className="form-control" type="text" value={formation.date_debut_formation} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Date de fin de la formation</label>
+                          <input className="form-control" type="text" value={formation.date_fin_formation} readOnly />
+                        </div>
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Créé par</label>
-                        <input className="form-control" type="text" value={formation.created_by} readOnly />
+                      <div className="mb-3">
+                        <label className="small mb-1">Responsable de la validation</label>
+                        <input className="form-control" type="text" value={responsableValidationName} readOnly />
                       </div>
-                    </div>
-                    <div className="row gx-3 mb-3">
-                      <div className="col-md-6">
-                        <label className="small mb-1">Modifié par</label>
-                        <input className="form-control" type="text" value={formation.updated_by} readOnly />
+                      <div className="mb-3">
+                        <label className="small mb-1">Responsable de la Formation</label>
+                        <input className="form-control" type="text" value={responsableFormationName.join(', ')} readOnly />
                       </div>
-                      <div className="col-md-6">
-                        <label className="small mb-1">Date de modification</label>
-                        <input className="form-control" type="text" value={formation.updated_at} readOnly />
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Date de création</label>
+                          <input className="form-control" type="text" value={formation.created_at} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Créé par</label>
+                          <input className="form-control" type="text" value={formation.created_by} readOnly />
+                        </div>
                       </div>
-                    </div>
-                    <div className="mb-3">
-                      <label className="small mb-1">Participants</label>
-                      <input className="form-control" type="text" value={participantsNames.join(', ')} readOnly />
-                    </div>
-                    <div className="mb-3">
+                      <div className="row gx-3 mb-3">
+                        <div className="col-md-6">
+                          <label className="small mb-1">Modifié par</label>
+                          <input className="form-control" type="text" value={formation.updated_by} readOnly />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="small mb-1">Date de modification</label>
+                          <input className="form-control" type="text" value={formation.updated_at} readOnly />
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <label className="small mb-1">Participants</label>
+                        <input className="form-control" type="text" value={participantsNames.join(', ')} readOnly />
+                      </div>
+                      <div className="mb-3">
                         <label className="small mb-1">Paramètre de critères de validation</label>
                         <select className="form-control" value={parametreValidation} onChange={handleParametreChange}>
                           {parametresValidation.map((parametre, index) => (
@@ -272,35 +277,35 @@ const FormationDetail = () => {
                           ))}
                         </select>
                       </div>
-                    <div className="mb-3">
-                      <label className="small mb-1">Date de clôture de la formation</label>
-                      <input className="form-control" type="text" value={formation.date_cloture_formation} readOnly />
-                    </div>
-                    <div className="d-flex justify-content-end mt-3">
-                      <Link to={`/Dashboardformation`} className="btn btn-secondary me-2">
-                        <IoMdArrowRoundBack /> Retour
-                      </Link>
-                      <button type="submit" className="btn btn-primary me-2">
-                        <GrEdit /> Modifier
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={handleDelete}
-                      >
-                        <GrTrash /> Supprimer
-                      </button>
-                    </div>
-                  </form>
-                ) : (
-                  <p>Loading...</p>
-                )}
+                      <div className="mb-3">
+                        <label className="small mb-1">Date de clôture de la formation</label>
+                        <input className="form-control" type="text" value={formation.date_cloture_formation} readOnly />
+                      </div>
+                      <div className="d-flex justify-content-end mt-3">
+                        <Link to={`/Dashboardformation`} className="btn btn-secondary me-2">
+                          <IoMdArrowRoundBack /> Retour
+                        </Link>
+                        <button type="submit" className="btn btn-primary me-2">
+                          <GrEdit /> Modifier
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleDelete}
+                        >
+                          <GrTrash /> Supprimer
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    <p>Loading...</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main></>
   );
 };
 

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../fiche/FicheForm.css';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarRH from '../../../components/SubNavbarRH';
+import SidebarRH from '../../../components/SidebarRH';
 
 function ParticipantForm() {
   const [employes, setEmployes] = useState([]);
@@ -92,66 +94,68 @@ function ParticipantForm() {
   }
 
   return (
-    <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="container ajout-form">
-        <div className="contact-image">
-          <img src="/images/add.png" alt="rocket_contact" />
-          <div className="button-container">
-            <Link to="/Dashboardparticipant">
-              <button className="retour">Retour au tableau de bord</button>
-            </Link>
-            <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter un participant</button>
-          </div>
-        </div>
+    <>
+      <SubNavbarRH />
+      <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+        <SidebarRH />
+        <div className="container ajout-form">
 
-        <form onSubmit={handleSubmit} className="row">
-          <div className="col-md-6">
-            <div className="form-label">
-              <label className="form-label">Nom :</label>
-              <input type="text" className="form-control" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
-              {errors.nom && <div className="error">{errors.nom}</div>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Prénom :</label>
-              <input type="text" className="form-control" placeholder='Prénom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-              {errors.prenom && <div className="error">{errors.prenom}</div>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Email :</label>
-              <input type="email" className="form-control" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
-              {errors.email && <div className="error">{errors.email}</div>}
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="form-label">
-              <label className="form-label">Nom d'utilisateur :</label>
-              <input type="text" className="form-control" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
-              {errors.username && <div className="error">{errors.username}</div>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Employé :</label>
-              <select className="form-control" value={employeId} onChange={(e) => setEmployeId(e.target.value)}>
-                <option value="">Sélectionner...</option>
-                {employes.map(employe => (
-                  <option key={employe.id} value={employe.id}>{employe.nom}</option>
-                ))}
-              </select>
-              {errors.employeId && <div className="error">{errors.employeId}</div>}
-            </div>
-            <div className="form-label">
-              <label className="form-label">Pièces jointes :</label>
-              <input type="file" className="form-control" onChange={handleFileChange} />
-            </div>
-            <div className="form-label">
-              <div className="checkbox-container">
-                <label className="form-label">Est un utilisateur : </label>
-                <input type="checkbox" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+          <form onSubmit={handleSubmit} className="row">
+            <div className="contact-image">
+              <div className="button-container">
+                <button className="button-add" type="submit" onClick={handleSubmit}>Ajouter</button>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-    </main>
+            <h4>Ajout d'un participant</h4>
+            <div className="col-md-6">
+              <div className="form-label">
+                <label className="form-label">Nom :</label>
+                <input type="text" className="form-control" placeholder='Nom*' value={nom} onChange={(e) => setNom(e.target.value)} />
+                {errors.nom && <div className="error">{errors.nom}</div>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Prénom :</label>
+                <input type="text" className="form-control" placeholder='Prénom*' value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                {errors.prenom && <div className="error">{errors.prenom}</div>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Email :</label>
+                <input type="email" className="form-control" placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} />
+                {errors.email && <div className="error">{errors.email}</div>}
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-label">
+                <label className="form-label">Nom d'utilisateur :</label>
+                <input type="text" className="form-control" placeholder='Nom utilisateur*' value={username} onChange={(e) => setUsername(e.target.value)} />
+                {errors.username && <div className="error">{errors.username}</div>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Employé :</label>
+                <select className="form-control" value={employeId} onChange={(e) => setEmployeId(e.target.value)}>
+                  <option value="">Sélectionner...</option>
+                  {employes.map(employe => (
+                    <option key={employe.id} value={employe.id}>{employe.nom}</option>
+                  ))}
+                </select>
+                {errors.employeId && <div className="error">{errors.employeId}</div>}
+              </div>
+              <div className="form-label">
+                <label className="form-label">Pièces jointes :</label>
+                <input type="file" className="form-control" onChange={handleFileChange} />
+              </div>
+              <div className="form-label">
+                <div className="checkbox-container">
+                  <label className="form-label">Est un utilisateur : </label>
+                  <input type="checkbox" checked={is_user} onChange={e => setIs_user(e.target.checked)} />
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </main>
+    </>
   );
 }
 
