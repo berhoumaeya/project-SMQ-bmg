@@ -107,6 +107,7 @@ import './consulterfou.css';
 import { GrTrash } from 'react-icons/gr';
 import { IoMdArrowRoundBack} from 'react-icons/io';
 import { CiSaveDown2 } from "react-icons/ci";
+
 const sampleFournisseur = {
     id: 1,
     nom: 'Fournisseur A',
@@ -124,6 +125,12 @@ const sampleFournisseur = {
     created_by: 'Admin',
     created_at: '2024-01-15',
     pieces_jointes: true,
+    historique: [
+        { date: '2024-07-28', action: 'Modification des détails', utilisateur: 'Admin' },
+        { date: '2024-06-15', action: 'Ajout de la pièce jointe', utilisateur: 'User2' },
+        { date: '2024-05-20', action: 'Validation du fournisseur', utilisateur: 'Admin' },
+        { date: '2024-01-15', action: 'Création du fournisseur', utilisateur: 'Admin' }
+    ]
 };
 
 const Fournisseur = () => {
@@ -169,15 +176,14 @@ const Fournisseur = () => {
     return (
         <div className="container-fournisseur px-4 mt-4">
             <nav className="nav-fournisseur">
-            <div className="nav-items-container">
-                <Link className="nav-item active ms-0" to="#">Profile</Link>
-                <Link className="nav-item" to={`/AllReclamationFournisseur/${fournisseurData.id}`}>Reclamations</Link>
-                <Link className="nav-item" to={`/AllEvaluationFournisseur/${fournisseurData.id}`}>Evaluations</Link>
+                <div className="nav-items-container">
+                    <Link className="nav-item active ms-0" to="#">Profile</Link>
+                    <Link className="nav-item" to={`/AllReclamationFournisseur/${fournisseurData.id}`}>Reclamations</Link>
+                    <Link className="nav-item" to={`/AllEvaluationFournisseur/${fournisseurData.id}`}>Evaluations</Link>
                 </div>
                 <Link className="btn btn-return" to={`/fournisseurs`}><IoMdArrowRoundBack /> Retour</Link>
-                </nav>
+            </nav>
            
-          
             <hr className="divider" />
             <div className="row">
                 <div className="col-lg-4">
@@ -187,10 +193,26 @@ const Fournisseur = () => {
                             <img className="img-fournisseur rounded-circle mb-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Fournisseur" />
                             <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                             <input className="form-control mb-2" type="file" accept="image/*" />
-                          
                         </div>
                     </div>
-                </div>
+
+                    {/* Section Historique */}
+                    <div className="card-fournisseur mb-4">
+                        <div className="card-header-fournisseur">Historique</div>
+                        <div className="card-body-fournisseur">
+                            <ul className="list-group list-group-flush">
+                                {fournisseurData.historique.map((entry, index) => (
+                                    <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{entry.action}</strong><br />
+                                            <small>{entry.date} - {entry.utilisateur}</small>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
                 <div className="col-lg-8">
                     <div className="card-fournisseur mb-4">
                         <div className="card-header-fournisseur">Account Details</div>
@@ -374,7 +396,7 @@ const Fournisseur = () => {
                                 <div className="text-end">
                                     <button type="submit" className="btn btn-primary"><CiSaveDown2 /> Sauvgarder</button>
                                     <button type="button" className="btn btn-danger ms-2" onClick={handleDelete}><GrTrash /> Supprimer</button>
-                                    <Link className="btn btn-secondary ms-2" to={`/DashboardProduit`}><IoMdArrowRoundBack /> Retour</Link>
+
                                 </div>
                             </form>
                         </div>
