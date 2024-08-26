@@ -60,28 +60,32 @@ const AllClients = () => {
 };
 
 export default AllClients;*/
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaList, FaTh } from 'react-icons/fa';
-import { FaEdit } from 'react-icons/fa';
+import { FaList, FaTh, FaEdit } from 'react-icons/fa';
 import './client.css';
 
 const AllClients = () => {
     const [view, setView] = useState('list');
     const [searchTerm, setSearchTerm] = useState('');
+    const [filterType, setFilterType] = useState('all'); 
+    const [filterValue, setFilterValue] = useState(''); 
 
     const clients = [
         { firstName: 'Aya', nom: 'Majerdi', code: '01', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'majerdiaya@gmail.com' },
         { firstName: 'Ba', nom: 'By', code: '02', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'ba.by@example.com' },
     ];
 
-    const filteredClients = clients.filter(client =>
-        client.nom.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        client.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredClients = clients.filter(client => {
+        const matchesSearch = client.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            client.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            client.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            client.email.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesFilter = filterType === 'all' || (client[filterType] && client[filterType].toLowerCase().includes(filterValue.toLowerCase()));
+
+        return matchesSearch && matchesFilter;
+    });
 
     return (
         <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
@@ -119,6 +123,28 @@ const AllClients = () => {
                                 />
                             </div>
                             <br />
+                            <div className="client-filter-container">
+                                <select
+                                    value={filterType}
+                                    onChange={(e) => setFilterType(e.target.value)}
+                                    className="client-filter-select"
+                                >
+                                    <option value="all">Tous les filtres</option>
+                                    <option value="code">Code client</option>
+                                    <option value="nom">Nom client</option>
+                                    <option value="firstName">Prénom client</option>
+                                    <option value="email">Email client</option>
+                                    
+                                </select>
+                                <input
+                                    type="text"
+                                    placeholder="Filtrer..."
+                                    value={filterValue}
+                                    onChange={(e) => setFilterValue(e.target.value)}
+                                    className="client-filter-input"
+                                />
+                            </div>
+                            <br />
                             <div>
                                 {view === 'list' ? (
                                     <table className="client-styled-table">
@@ -140,8 +166,8 @@ const AllClients = () => {
                                                         <td>{client.firstName}</td>
                                                         <td>{client.email}</td>
                                                         <td>
-                                                            <Link to={`/consulterclient/${client.code}`} className="btn btn-outline-info btn-sm">
-                                                            <FaEdit /> 
+                                                            <Link to={`/consulterclient/${client.code}`} className="client-btn">
+                                                                <FaEdit /> 
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -164,7 +190,7 @@ const AllClients = () => {
                                                         <p><strong className="client-responsable-text">Code :</strong> {client.code}</p>
                                                         <p><strong className="client-responsable-text">Email :</strong> {client.email}</p>
                                                         <Link to={`/client/${client.code}`} className="btn btn-outline-info btn-sm">
-                                                        <FaEdit /> 
+                                                            <FaEdit /> 
                                                         </Link>
                                                     </div>
                                                 </div>

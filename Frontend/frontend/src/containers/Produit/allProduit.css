@@ -1,17 +1,17 @@
-.fournisseur-dashboard {
+.produit-dashboard {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.fournisseur-view-toggle {
+.produit-view-toggle {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
 }
 
-.fournisseur-view-btn {
+.produit-view-btn {
     border: none;
     background: none;
     font-size: 1.2em;
@@ -19,54 +19,64 @@
     margin-right: 10px;
 }
 
-.fournisseur-active {
+.produit-active {
     color: #5585b5;
 }
 
-.fournisseur-formation-title {
+.produit-formation-title {
     font-size: 24px;
     color: #5585b5;
     text-align: left;
     margin-bottom: 20px;
 }
 
-.fournisseur-button-container {
+.produit-button-container {
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.fournisseur-button-add, .fournisseur-retour {
+.produit-button-add, .produit-retour {
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
     margin-right: 10px;
-    border: 1px solid ;
+    border: 1px solid;
     background: none;
 }
 
-.fournisseur-button-add {
+.produit-button-add {
     color: #5585b5;
 }
 
-.fournisseur-retour {
+.produit-retour {
     color: #ccc;
 }
 
-.fournisseur-search-container {
-    text-align: center;
+.produit-search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-.fournisseur-search-input {
+.produit-search-input {
     padding: 10px;
     width: 90%;
     border: 1px solid #ccc;
     border-radius: 10px;
+    font-size: 1em;
+}
+.produit-filter-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
 }
 
-.fournisseur-styled-table {
+.produit-styled-table {
     width: 100%;
     border-collapse: collapse;
     margin: 25px 0;
@@ -76,27 +86,27 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.fournisseur-styled-table thead tr {
+.produit-styled-table thead tr {
     background-color: #5585b5;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
 }
 
-.fournisseur-styled-table th, .fournisseur-styled-table td {
-    border: 1px solid #ddd;
+.produit-styled-table th, .produit-styled-table td {
+   
     padding: 8px;
 }
 
-.fournisseur-styled-table tbody tr {
+.produit-styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
 
-.fournisseur-styled-table tbody tr:nth-of-type(even) {
+.produit-styled-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
 
-.fournisseur-styled-table tbody tr:hover {
+.produit-styled-table tbody tr:hover {
     background-color: #f1f1f1;
 }
 
@@ -104,14 +114,14 @@
     text-align: center;
 }
 
-.fournisseur-grid {
+.produit-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
 }
 
-.fournisseur-responsable-item {
+.produit-responsable-item {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -121,24 +131,22 @@
     align-items: center;
 }
 
-.fournisseur-responsable-info {
+.produit-responsable-info {
     flex: 1;
     text-align: center;
 }
 
-.fournisseur-responsable-title {
+.produit-responsable-title {
     font-size: 1.2em;
     margin-bottom: 10px;
     font-family: 'Apple Chancery', cursive, sans-serif;
-    margin-top: 1rem;
     color: rgb(70, 68, 169);
 }
 
-.fournisseur-responsable-text {
+.produit-responsable-text {
     margin-bottom: 10px;
     font-size: 0.9em;
     font-family: 'Apple Chancery', cursive, sans-serif;
-    margin-top: 1rem;
     color: #011830;
 }
 
@@ -147,11 +155,13 @@
     background: none;
     cursor: pointer;
     color: #5585b5;
-    
 }
 
-.fournisseur-responsable-img {
+.produit-responsable-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+}
+.produit-btn{
+    color:#5585b5;
 }

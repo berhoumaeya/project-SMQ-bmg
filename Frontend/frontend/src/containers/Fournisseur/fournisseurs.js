@@ -61,6 +61,9 @@ export default AllFournisseurs;*/
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+
+
 import { FaList, FaTh, FaEdit } from 'react-icons/fa';
 import './fournisseur.css'; 
 
@@ -137,7 +140,7 @@ const AllFournisseurs = () => {
                                                         <td>{fournisseur.prénom}</td>
                                                         <td>{fournisseur.email}</td>
                                                         <td>
-                                                            <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="btn btn-outline-info btn-sm">
+                                                            <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="client-btn">
                                                                 <FaEdit />
                                                             </Link>
                                                         </td>
@@ -160,7 +163,7 @@ const AllFournisseurs = () => {
                                                         <h5 className="fournisseur-responsable-title">{fournisseur.nom} {fournisseur.prénom}</h5>
                                                         <p><strong className="fournisseur-responsable-text">Code :</strong> {fournisseur.code_fournisseur}</p>
                                                         <p><strong className="fournisseur-responsable-text">Email</strong> {fournisseur.email}</p>
-                                                        <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="btn btn-outline-info btn-sm">
+                                                        <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="client-btn">
                                                             <FaEdit />
                                                         </Link>
                                                     </div>

@@ -1,0 +1,180 @@
+/* Container principal */
+.container-fournisseur {
+    margin-top: 20px;
+    padding: 0 15px;
+}
+
+/* Navigation */
+.nav-fournisseur {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f9f9fb;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-fournisseur .nav-item {
+    padding: 10px 15px;
+    color: #5585b5;
+    text-decoration: none;
+}
+
+.nav-fournisseur .nav-item.active {
+    border-bottom: 3px solid #5585b5;
+    color: #5585b5;
+}
+
+.btn-return {
+    margin-left: auto;
+    background-color: #5585b5;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Séparateur */
+.divider {
+    margin: 10px 0;
+    border-top: 1px solid #ddd;
+}
+
+/* Cards */
+.card-fournisseur {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-header-fournisseur {
+    background-color: #5585b5;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card-body-fournisseur {
+    padding: 15px;
+}
+
+.img-fournisseur {
+    max-width: 40%;
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #f6d164;
+}
+
+/* Formulaire */
+.form-label-fournisseur {
+    font-weight: bold;
+    color: #5585b5;
+}
+
+.form-control-fournisseur {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.form-control-fournisseur.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.875em;
+}
+
+.text-end {
+    text-align: end;
+}
+
+/* Commentaires */
+.commentaire-section {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.commentaire-card-header {
+    background-color: #f6d164;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.commentaire-card-body {
+    padding: 15px;
+}
+
+textarea.form-control-fournisseur {
+    width: 100%;
+    resize: vertical;
+    min-height: 150px;
+}
+
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-lg-4, .col-lg-8 {
+    padding: 0 15px;
+}
+
+.col-lg-4 {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+}
+
+.col-lg-8 {
+    flex: 0 0 66.666%;
+    max-width: 66.666%;
+}
+
+.col-lg-4 .card-body-fournisseur,
+.col-lg-4 .commentaire-section {
+    margin-bottom: 20px;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.ms-2 {
+    margin-left: 0.5rem;
+}
+
+/* Boutons */
+.btn {
+    margin-top: 10px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #5585b5;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+.list-group-item{
+    justify-content: space-between;
+    align-items: center;
+    align-items: d-flex;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,7 @@ const DashboardConformite = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/conformite/dashboard_Exigence/`, {
                     headers: {
-                        'Accept': '*/*',
+                        'Accept': '*//*',
                     }
                 });
                 setrisks(response.data);
@@ -29,7 +29,7 @@ const DashboardConformite = () => {
 
     const handleDelete = async (id) => {
         const headers = {
-            'Accept': '*/*',
+            'Accept': '*//*',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
         };
@@ -94,6 +94,148 @@ const DashboardConformite = () => {
                 <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>
+    );
+};
+
+export default DashboardConformite;*/
+
+
+
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaList, FaTh, FaEdit } from 'react-icons/fa';
+import './allConformite.css'; // Updated to match the new component
+
+const DashboardConformite = () => {
+    const [conformites, setConformites] = useState([
+        {
+            id: 1,
+            nom: "Conformité A",
+            type_fiche: "Type 1",
+            type_decideur: "Decideur A",
+        },
+        {
+            id: 2,
+            nom: "Conformité B",
+            type_fiche: "Type 2",
+            type_decideur: "Decideur B",
+        },
+        // Add more mock conformity objects as needed
+    ]);
+
+    const [viewMode, setViewMode] = useState('list');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterBy, setFilterBy] = useState('id');
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleFilterChange = (e) => {
+        setFilterBy(e.target.value);
+    };
+
+    const handleDelete = (id) => {
+        const updatedConformites = conformites.filter(conformite => conformite.id !== id);
+        setConformites(updatedConformites);
+    };
+
+    const filteredConformites = conformites.filter((conformite) => {
+        const value = conformite[filterBy]?.toString().toLowerCase();
+        return value.includes(searchTerm.toLowerCase());
+    });
+
+    return (
+        <main className="conformite-dashboard">
+            <div className="container conformite-dashboard-container">
+                <div className="conformite-view-toggle">
+                    <button
+                        className={`conformite-view-btn ${viewMode === 'list' ? 'conformite-active' : ''}`}
+                        onClick={() => setViewMode('list')}
+                    >
+                        <FaList />
+                    </button>
+                    <button
+                        className={`conformite-view-btn ${viewMode === 'grid' ? 'conformite-active' : ''}`}
+                        onClick={() => setViewMode('grid')}
+                    >
+                        <FaTh />
+                    </button>
+                </div>
+                <h3 className="conformite-formation-title">Liste des Conformités</h3>
+                <div className="conformite-button-container">
+                    <Link to="/Dashboard/">
+                        <button className="conformite-retour">Retour</button>
+                    </Link>
+                    <Link to="/AjouterConformite/">
+                        <button className="conformite-button-add">Ajouter Conformité</button>
+                    </Link>
+                </div>
+                <div className="conformite-search-container">
+                    <select
+                        onChange={handleFilterChange}
+                        value={filterBy}
+                        className="conformite-filter-select"
+                    >
+                        <option value="id">Numéro</option>
+                        <option value="nom">Nom</option>
+                        <option value="type_fiche">Type de Fiche</option>
+                        <option value="type_decideur">Type de Decideur</option>
+                    </select>
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Rechercher..."
+                        className="conformite-search-input"
+                    />
+                </div>
+                {viewMode === 'list' ? (
+                    <table className="conformite-styled-table">
+                        <thead>
+                            <tr>
+                                <th>Numéro</th>
+                                <th>Nom</th>
+                                <th>Type de Fiche</th>
+                                <th>Type de Decideur</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredConformites.map((conformite) => (
+                                <tr key={conformite.id}>
+                                    <td>{conformite.id}</td>
+                                    <td>{conformite.nom}</td>
+                                    <td>{conformite.type_fiche}</td>
+                                    <td>{conformite.type_decideur}</td>
+                                    <td>
+                                        <Link to={`/ModifierConformite/${conformite.id}`} className="conformite-btn">
+                                            <FaEdit />
+                                        </Link>
+                                       
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="conformite-grid">
+                        {filteredConformites.map((conformite) => (
+                            <div key={conformite.id} className="conformite-responsable-item">
+                                <h4>{conformite.nom}</h4>
+                                <p>Type: {conformite.type_fiche}</p>
+                                <p>Decideur: {conformite.type_decideur}</p>
+                                <Link to={`/ModifierConformite/${conformite.id}`} className="conformite-btn">
+                                    <FaEdit />
+                                </Link>
+                              
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </main>
     );
 };
 

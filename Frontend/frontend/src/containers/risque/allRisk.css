@@ -1,17 +1,18 @@
-.fournisseur-dashboard {
+.risk-dashboard {
     background: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+   
 }
 
-.fournisseur-view-toggle {
+.risk-view-toggle {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
 }
 
-.fournisseur-view-btn {
+
+.risk-view-btn {
     border: none;
     background: none;
     font-size: 1.2em;
@@ -19,54 +20,64 @@
     margin-right: 10px;
 }
 
-.fournisseur-active {
+.risk-active {
     color: #5585b5;
 }
 
-.fournisseur-formation-title {
+.risk-formation-title {
     font-size: 24px;
     color: #5585b5;
     text-align: left;
     margin-bottom: 20px;
 }
 
-.fournisseur-button-container {
+.risk-button-container {
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.fournisseur-button-add, .fournisseur-retour {
+.risk-button-add,
+.risk-retour {
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
     margin-right: 10px;
-    border: 1px solid ;
+    border: 1px solid;
     background: none;
 }
 
-.fournisseur-button-add {
+.risk-button-add {
     color: #5585b5;
 }
 
-.fournisseur-retour {
+.risk-retour {
     color: #ccc;
 }
 
-.fournisseur-search-container {
-    text-align: center;
-    margin-bottom: 20px;
+.risk-search-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;;
 }
 
-.fournisseur-search-input {
-    padding: 10px;
-    width: 90%;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+.risk-search-input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 300px;
 }
 
-.fournisseur-styled-table {
+.risk-filter-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+}
+
+.risk-styled-table {
     width: 100%;
     border-collapse: collapse;
     margin: 25px 0;
@@ -76,57 +87,52 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.fournisseur-styled-table thead tr {
+.risk-styled-table thead tr {
     background-color: #5585b5;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
 }
 
-.fournisseur-styled-table th, .fournisseur-styled-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+.risk-styled-table th,
+.risk-styled-table td {
+    padding: 12px 15px;
 }
 
-.fournisseur-styled-table tbody tr {
+.risk-styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
 
-.fournisseur-styled-table tbody tr:nth-of-type(even) {
+.risk-styled-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
 
-.fournisseur-styled-table tbody tr:hover {
+.risk-styled-table tbody tr:hover {
     background-color: #f1f1f1;
 }
 
-.text-center {
-    text-align: center;
-}
-
-.fournisseur-grid {
+.risk-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
 }
 
-.fournisseur-responsable-item {
+.risk-responsable-item {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
+    flex-direction: column;
     align-items: center;
+  
+    
+    
 }
 
-.fournisseur-responsable-info {
-    flex: 1;
-    text-align: center;
-}
-
-.fournisseur-responsable-title {
+.risk-responsable-title {
     font-size: 1.2em;
     margin-bottom: 10px;
     font-family: 'Apple Chancery', cursive, sans-serif;
@@ -134,7 +140,7 @@
     color: rgb(70, 68, 169);
 }
 
-.fournisseur-responsable-text {
+.risk-responsable-text {
     margin-bottom: 10px;
     font-size: 0.9em;
     font-family: 'Apple Chancery', cursive, sans-serif;
@@ -142,16 +148,19 @@
     color: #011830;
 }
 
+.risk-responsable-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
 .btn {
     border: none;
     background: none;
     cursor: pointer;
     color: #5585b5;
-    
 }
 
-.fournisseur-responsable-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+.risk-btn {
+    color: #5585b5;
 }

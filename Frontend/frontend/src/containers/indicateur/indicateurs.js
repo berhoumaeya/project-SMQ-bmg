@@ -66,8 +66,7 @@ export default DashboardIndicateurs;*/
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaList, FaTh, FaEdit } from 'react-icons/fa';
-import { RiUserFollowLine } from "react-icons/ri";
-import './indicateur.css';
+import { RiChatFollowUpLine } from "react-icons/ri";import './indicateur.css';
 
 const DashboardIndicateurs = () => {
     const indicateurs = [
@@ -142,12 +141,9 @@ const DashboardIndicateurs = () => {
                                     <table className="indicateur-styled-table">
                                         <thead className="indicateur-table-header">
                                             <tr>
-                                                <th scope="col">ID</th>
+                                                <th scope="col">Indicateur N° </th>
                                                 <th scope="col">Libellé</th>
                                                 <th scope="col">Type Indicateur</th>
-                                                <th scope="col">Processus Lié</th>
-                                                <th scope="col">Axe Politique Qualité</th>
-                                                <th scope="col">Type Résultat Attendu</th>
                                                 <th scope="col">Consulter</th>
                                                 <th scope="col">Suivre Indicateur</th>
                                             </tr>
@@ -159,9 +155,7 @@ const DashboardIndicateurs = () => {
                                                         <td>{indicateur.id}</td>
                                                         <td>{indicateur.Libelle}</td>
                                                         <td>{indicateur.type_indicateur}</td>
-                                                        <td>{indicateur.processus_lie}</td>
-                                                        <td>{indicateur.axe_politique_qualite}</td>
-                                                        <td>{indicateur.type_resultat_attendu}</td>
+                                                      
                                                         <td>
                                                             <Link to={`/ConsulterIndicateur/${indicateur.id}`} className="btn-view-details">
                                                                 <FaEdit /> 
@@ -169,7 +163,7 @@ const DashboardIndicateurs = () => {
                                                         </td>
                                                         <td>
                                                             <Link to={`/AjouterSuiviIndicateur/${indicateur.id}`} className="btn btn btn-sm ml-2">
-                                                            <RiUserFollowLine />
+                                                            <RiChatFollowUpLine />
                                                             </Link>
                                                         </td>
                                                     </tr>
@@ -188,19 +182,19 @@ const DashboardIndicateurs = () => {
                                                 <div key={indicateur.id} className="indicateur-responsable-item">
                                                     <div className="indicateur-responsable-info">
                                                         <h5 className="indicateur-responsable-title">{indicateur.Libelle}</h5>
-                                                        <p><strong className="indicateur-responsable-text">Type Indicateur:</strong> {indicateur.type_indicateur}</p>
-                                                        <p><strong className="indicateur-responsable-text">Processus Lié:</strong> {indicateur.processus_lie}</p>
-                                                        <p><strong className="indicateur-responsable-text">Axe Politique Qualité:</strong> {indicateur.axe_politique_qualite}</p>
-                                                        <p><strong className="indicateur-responsable-text">Type Résultat Attendu:</strong> {indicateur.type_resultat_attendu}</p>
+                                                        <p><strong className="indicateur-responsable-text">Indicateur N° : </strong>{indicateur.id}</p>
+
+                                                        <p><strong className="indicateur-responsable-text">Type Indicateur :</strong> {indicateur.type_indicateur}</p>
+
                                                         <div>
                                                             <Link to={`/ConsulterIndicateur/${indicateur.id}`} className="btn-view-details">
-                                                                <FaEdit /> Consulter
+                                                                <FaEdit /> 
                                                             </Link>
                                                         </div>
                                                         <div>
                                                             <Link to={`/AjouterSuiviIndicateur/${indicateur.id}`} className="btn btn-primary btn-sm ml-2">
                                                                
-                                                                <RiUserFollowLine />
+                                                            <RiChatFollowUpLine />
                                                             </Link>
                                                         </div>
                                                     </div>

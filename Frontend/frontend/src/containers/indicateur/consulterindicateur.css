@@ -1,15 +1,11 @@
-
-body {
-    background: #f9f9fb;
+.container-indicateur {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.container-client {
-    margin-top: 20px;
-    background: #FFFFFF;
-    padding: 30px;
-}
-
-.nav-client {
+.nav-indicateur {
     display: flex;
     margin-bottom: 15px;
     background-color: #f9f9fb;
@@ -17,30 +13,30 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.nav-client .nav-item-client {
+.nav-indicateur .nav-item {
     padding: 10px 15px;
     color: #5585b5;
     text-decoration: none;
     cursor: pointer;
 }
 
-.nav-client .nav-item-client.active {
-    color:#5585b5;
-    border-bottom: 2px solid#5585b5;
+.nav-indicateur .nav-item.active {
+    border-bottom: 3px solid #5585b5;
+    color: #5585b5;
 }
 
-.divider-client {
+.divider-indicateur {
     margin: 10px 0;
     border-top: 1px solid #ddd;
 }
 
-.card-client {
+.card-indicateur {
     border: none;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.card-header-client {
+.card-header-indicateur {
     background-color: #5585b5;
     color: #fff;
     font-weight: bold;
@@ -49,51 +45,54 @@ body {
     border-top-right-radius: 8px;
 }
 
-.img-client {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 15px;
-    border-radius: 50%;
+.card-body-indicateur {
+    padding: 15px;
 }
 
-.form-label-client {
+.img-indicateur {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #f6d164;
+}
+
+.form-label-indicateur {
     font-weight: bold;
     color: #5585b5;
 }
 
-.form-control-client {
+.form-control-indicateur {
     border-radius: 10px;
     padding: 10px;
     width: 100%;
     border: 1px solid #ccc;
 }
 
-.form-control-client.is-invalid {
-    border-color: #e47a85;
+.form-control-indicateur.is-invalid {
+    border-color: #5585b5;
 }
 
-.invalid-feedback {
-    color: #e47a85;
+.invalid-feedback-indicateur {
+    color: #f6d164;
     font-size: 0.875em;
 }
 
-.form-check-client {
+.form-check-indicateur {
     display: flex;
     align-items: center;
     margin-top: 10px;
 }
 
-.form-check-input-client {
+.form-check-input-indicateur {
     margin-right: 10px;
 }
 
-.form-check-label-client {
+.form-check-label-indicateur {
     color: #5585b5;
 }
 
-
-.btn-save-fournisseur {
-    background-color: #0663c1;
+.btn-save-indicateur {
+    background-color: #5585b5;
     color: #fff;
     padding: 10px 20px;
     border-radius: 8px;
@@ -101,28 +100,11 @@ body {
     cursor: pointer;
 }
 
-.btn-delete-fournisseur {
+.btn-delete-indicateur {
     background-color: #e51010;
     color: #fff;
     padding: 10px 20px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-}
-
-
-.d-flex {
-    display: flex;
-}
-
-.justify-content-end {
-    justify-content: flex-end;
-}
-
-.mt-4 {
-    margin-top: 1.5rem;
-}
-
-.ms-3 {
-    margin-left: 1rem;
 }

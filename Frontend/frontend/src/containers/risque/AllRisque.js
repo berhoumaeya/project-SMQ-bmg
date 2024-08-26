@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ const DashboardRisk = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/risk/risques/`, {
                     headers: {
-                        'Accept': '*/*',
+                        'Accept': '*//*',
                     }
                 });
                 setRisks(response.data);
@@ -35,7 +35,7 @@ const DashboardRisk = () => {
 
     const handleDelete = async (id) => {
         const headers = {
-            'Accept': '*/*',
+            'Accept': '*//*',
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
         };
@@ -95,6 +95,129 @@ const DashboardRisk = () => {
                 <Link to={`/Dashboard/`} className="btn btn-secondary">Retour</Link>
             </div>
         </div>
+    );
+};
+
+export default DashboardRisk;*/
+
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaList, FaTh, FaEdit } from 'react-icons/fa';
+import './allRisk.css';
+
+const DashboardRisk = () => {
+    const [risks, setRisks] = useState([
+        { id: 1, nom: 'Risque A', date_declaration: '2024-01-10', declencheur: 'Déclencheur A' },
+        { id: 2, nom: 'Risque B', date_declaration: '2024-02-15', declencheur: 'Déclencheur B' },
+        { id: 3, nom: 'Risque C', date_declaration: '2024-03-20', declencheur: 'Déclencheur C' },
+    ]);
+
+    const [viewMode, setViewMode] = useState('list');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterBy, setFilterBy] = useState('id');
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleFilterChange = (e) => {
+        setFilterBy(e.target.value);
+    };
+
+    const filteredRisks = risks.filter((risk) => {
+        const value = risk[filterBy]?.toString().toLowerCase();
+        return value.includes(searchTerm.toLowerCase());
+    });
+
+    return (
+        <main className="risk-dashboard">
+            <div className="container risk-dashboard-container">
+                <div className="risk-view-toggle">
+                    <button
+                        className={`risk-view-btn ${viewMode === 'list' ? 'risk-active' : ''}`}
+                        onClick={() => setViewMode('list')}
+                    >
+                        <FaList />
+                    </button>
+                    <button
+                        className={`risk-view-btn ${viewMode === 'grid' ? 'risk-active' : ''}`}
+                        onClick={() => setViewMode('grid')}
+                    >
+                        <FaTh />
+                    </button>
+                </div>
+                <h3 className="risk-formation-title">Liste des Risques</h3>
+                <div className="risk-button-container">
+                    <Link to="/Dashboard/">
+                        <button className="risk-retour">Retour</button>
+                    </Link>
+                    <Link to="/AjouterRisk/">
+                        <button className="risk-button-add">Ajouter Risque</button>
+                    </Link>
+                </div>
+                <div className="risk-search-container">
+                    <select
+                        onChange={handleFilterChange}
+                        value={filterBy}
+                        className="risk-filter-select"
+                    >
+                        <option value="id">Numéro</option>
+                        <option value="nom">Nom</option>
+                        <option value="date_declaration">Date</option>
+                        <option value="declencheur">Déclencheur</option>
+                    </select>
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Rechercher..."
+                        className="risk-search-input"
+                    />
+                </div>
+                {viewMode === 'list' ? (
+                    <table className="risk-styled-table">
+                        <thead>
+                            <tr>
+                                <th>Numéro</th>
+                                <th>Nom</th>
+                                <th>Date</th>
+                                <th>Déclencheur</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredRisks.map((risk) => (
+                                <tr key={risk.id}>
+                                    <td>{risk.id}</td>
+                                    <td>{risk.nom}</td>
+                                    <td>{risk.date_declaration}</td>
+                                    <td>{risk.declencheur}</td>
+                                    <td>
+                                                            <Link to={`/ModifierRisk/${risk.id}`} className="produit-btn">
+                                                                <FaEdit />
+                                                            </Link>
+                                                        </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="risk-grid">
+                        {filteredRisks.map((risk) => (
+                            <div key={risk.id} className="risk-responsable-item">
+                                <h4>{risk.nom}</h4>
+                                <p>Date: {risk.date_declaration}</p>
+                                <p>Déclencheur: {risk.declencheur}</p>
+                                <p>   <Link to={`/ModifierRisk/${risk.id}`} className="produit-btn">
+                                                                <FaEdit />
+                                                            </Link></p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </main>
     );
 };
 
