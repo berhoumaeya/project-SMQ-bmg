@@ -31,7 +31,6 @@ const sampleResponsables = [
 
 const DashboardResponsable = () => {
     const [responsables, setResponsables] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'nom', direction: 'asc' });
 
@@ -40,12 +39,6 @@ const DashboardResponsable = () => {
     }, []);
 
     const filteredResponsables = responsables
-        .filter(responsable =>
-            responsable.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            responsable.prenom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            responsable.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            responsable.email.toLowerCase().includes(searchQuery.toLowerCase())
-        )
         .sort((a, b) => {
             if (a[sortConfig.key] < b[sortConfig.key]) {
                 return sortConfig.direction === 'asc' ? -1 : 1;
@@ -72,27 +65,15 @@ const DashboardResponsable = () => {
     };
 
     return (
-
-        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
-        <SidebarRH /> 
-                    <div className="container dashboard">
+        <>
+            <SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
+                <div className="container dashboard">
                     <div className="row">
                         <div>
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des Responsables</h3>
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
-
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">
@@ -105,7 +86,7 @@ const DashboardResponsable = () => {
                                                         Prénom Responsable {getSortArrow('prenom')}
                                                     </th>
                                                     <th scope="col" onClick={() => requestSort('username')}>
-                                                        Nom d' Utilisateur {getSortArrow('username')}
+                                                        Nom d'Utilisateur {getSortArrow('username')}
                                                     </th>
                                                     <th scope="col" onClick={() => requestSort('email')}>
                                                         Email Responsable {getSortArrow('email')}

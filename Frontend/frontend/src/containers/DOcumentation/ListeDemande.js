@@ -125,7 +125,7 @@ const sampleDemands = [
 
 const DemandList = () => {
     const [demands, setDemands] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -171,18 +171,6 @@ const DemandList = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className='doc-title'>Liste des Demandes</h3>
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input-doc"
-                                    />
-                                </div>
-                                <br />
-                                <br />
-
                                 {viewMode === 'list' ? (
 
                                     <table className="table-header">

@@ -102,13 +102,11 @@ const CreateDocumentForm = () => {
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarDoc />
                 <div className="container ajout-form">
-                    <div className="contact-image ">
-                        <div className="button-container">
-                            <button className="button-add-" type="submit" onClick={handleSubmit}>Rédiger</button>
-                        </div>
-                    </div>
+                     
                     <form onSubmit={handleSubmit} className="row">
-                        <p className='p-doc'>Création un document interne</p>
+                    <div className="button-container">
+                            <button className="button-add" type="submit" onClick={handleSubmit}>Rédiger</button>
+                        </div> <h4>Création un document interne</h4>
                         <div className="col-md-6">
                             <div className="form-label">
                                 <label className="form-label">Libellé :</label>

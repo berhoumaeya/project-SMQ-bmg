@@ -61,7 +61,6 @@ const sampleFormations = [
 
 const DashboardFormation = () => {
     const [formations, setFormations] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -86,11 +85,6 @@ const DashboardFormation = () => {
         return sortableFormations;
     }, [formations, sortConfig]);
 
-    const filteredFormations = sortedFormations.filter(formation =>
-        formation.intitule_formation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        formation.theme_formation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        formation.type_formation.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
 
     const requestSort = (key) => {
@@ -117,17 +111,6 @@ const DashboardFormation = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des Formations</h3>
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">
@@ -149,8 +132,8 @@ const DashboardFormation = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredFormations.length > 0 ? (
-                                                    filteredFormations.map(formation => (
+                                                {sortedFormations.length > 0 ? (
+                                                    sortedFormations.map(formation => (
                                                         <tr key={formation.id}>
                                                             <td data-label="Intitulé Formation">
                                                                 <h6 className="font-weight-bold mb-0">{formation.intitule_formation}</h6>
@@ -182,8 +165,8 @@ const DashboardFormation = () => {
 
                                     ) : (
                                         <div className="grid">
-                                            {filteredFormations.length > 0 ? (
-                                                filteredFormations.map(formation => (
+                                            {sortedFormations.length > 0 ? (
+                                                sortedFormations.map(formation => (
                                                     <div key={formation.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={formation.intitule_formation} className="responsable-img" />
                                                         <div className="responsable-info">

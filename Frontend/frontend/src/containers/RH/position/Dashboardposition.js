@@ -13,7 +13,6 @@ const samplePosts = [
 
 const DashboardPost = () => {
     const [posts, setPosts] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -37,12 +36,6 @@ const DashboardPost = () => {
         return sortablePosts;
     }, [posts, sortConfig]);
 
-    const filteredPosts = sortedPosts.filter(post =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.main_mission.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -62,23 +55,12 @@ const DashboardPost = () => {
         <>
             <SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
             <main style={{ display: 'flex', minHeight: '100vh' }}>
-            <SidebarRh /> 
+                <SidebarRh /> 
                 <div className="container dashboard">
                     <div className="row">
                         <div>
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des Posts</h3>    
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">
@@ -97,8 +79,8 @@ const DashboardPost = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredPosts.length > 0 ? (
-                                                    filteredPosts.map(post => (
+                                                {sortedPosts.length > 0 ? (
+                                                    sortedPosts.map(post => (
                                                         <tr key={post.id}>
                                                             <td>{post.title}</td>
                                                             <td>{post.position}</td>
@@ -112,15 +94,15 @@ const DashboardPost = () => {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="5" className="text-center">Aucun post disponible</td>
+                                                        <td colSpan="4" className="text-center">Aucun post disponible</td>
                                                     </tr>
                                                 )}
                                             </tbody>
                                         </table>
                                     ) : (
                                         <div className="grid">
-                                            {filteredPosts.length > 0 ? (
-                                                filteredPosts.map(post => (
+                                            {sortedPosts.length > 0 ? (
+                                                sortedPosts.map(post => (
                                                     <div key={post.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={post.title} className="responsable-img" />
                                                         <div className="responsable-info">

@@ -8,11 +8,10 @@ const staticDemandes = [
     { id: 1, type: 'Type A', document_object: 'Objet A', statut: 'Accepté' },
     { id: 2, type: 'Type B', document_object: 'Objet B', statut: 'Accepté' },
     { id: 3, type: 'Type C', document_object: 'Objet C', statut: 'Accepté' },
-    // Add more static data as needed
 ];
 
 const DemandeAcc = () => {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
 
     const filteredDemandes = staticDemandes.filter(demande =>
@@ -28,19 +27,7 @@ const DemandeAcc = () => {
                     <div className="row">
                         <div>
                             <div className="table-container">
-                                <h3 className='doc-title'>Liste des Demandes Acceptées</h3>                
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input-doc"
-                                    />
-                                </div>
-                                <br />
-                                
+                                <h3 className='doc-title'>Liste des Demandes Acceptées</h3>
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">
@@ -62,7 +49,7 @@ const DemandeAcc = () => {
                                                             <td>{demande.document_object}</td>
                                                             <td>{demande.statut}</td>
                                                             <td>
-                                                                <Link to={`/CréerDocInt/${demande.id}`} ><button className="button-add-" style={{marginTop:'10px'}}>Créer document</button></Link>
+                                                                <Link to={`/CréerDocInt/${demande.id}`} ><button className="button-add" style={{marginTop:'10px'}}>Créer document</button></Link>
                                                             </td>
                                                         </tr>
                                                     ))

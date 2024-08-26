@@ -1,51 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import SubNavbarAudit from '../../components/SubNavbarAudit';
 
 const AddReunion = () => {
-    const { id } = useParams();
-
-    const [errors, setErrors] = useState({});
-
-
-    const [date_previsionnelle, setdate_previsionnelle] = useState('');
-    const [lieu, setlieu] = useState('');
-    const [commentaire, setcommentaire] = useState('');
+    const [datePrevisionnelle, setDatePrevisionnelle] = useState('');
+    const [lieu, setLieu] = useState('');
+    const [commentaire, setCommentaire] = useState('');
     const [type_reunion, settype_reunion] = useState('');
-    const [ordre_du_jour, setordre_du_jour] = useState('');
-    const [participantsID, setparticipants] = useState([]);
-    const [participantss, setparticipantss] = useState([]);
-    const [piece_jointe, setPiecesJointes] = useState(null);
-
+    const [ordreDuJour, setOrdreDuJour] = useState('');
+    const [participantsID, setParticipantsID] = useState([]);
+    const [participantss, setParticipantss] = useState([]);
+    const [pieceJointe, setPieceJointe] = useState(null);
     const [ajoutReussi, setAjoutReussi] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState('');
 
     useEffect(() => {
-
-
         axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_participant/`)
-            .then(response => setparticipantss(response.data))
+            .then(response => setParticipantss(response.data))
             .catch(error => console.error('Error fetching participants:', error));
-        
-    }, [id]);
+    }, []);
 
-    const handleFileChange = (event, setFile) => {
+    const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
-        setFile(selectedFile);
+        setPieceJointe(selectedFile);
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!datePrevisionnelle) newErrors.datePrevisionnelle = 'La date prévisionnelle est requise.';
+        if (!lieu) newErrors.lieu = 'Le lieu est requis.';
+        if (!commentaire) newErrors.commentaire = 'Le commentaire est requis.';
+        if (!type_reunion) newErrors.type_reunion = 'Le type de réunion est requis.';
+        if (!ordreDuJour) newErrors.ordreDuJour = 'L\'ordre du jour est requis.';
+        if (participantsID.length === 0) newErrors.participantsID = 'Au moins un participant est requis.';
+        if (pieceJointe && !pieceJointe.name.match(/\.(pdf|doc|docx)$/)) {
+            newErrors.pieceJointe = 'Le fichier doit être un PDF, DOC ou DOCX.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            return;
+        }
 
         const formData = new FormData();
+        formData.append('date_previsionnelle', datePrevisionnelle);
         formData.append('lieu', lieu);
         formData.append('commentaire', commentaire);
         formData.append('type_reunion', type_reunion);
-        formData.append('date_previsionnelle', date_previsionnelle);
-        formData.append('ordre_du_jour', ordre_du_jour);
-        participantsID.forEach(id => { formData.append('participants', id)});
-            if (piece_jointe) {
-            formData.append('piece_jointe', piece_jointe);
+        formData.append('ordre_du_jour', ordreDuJour);
+        participantsID.forEach(id => formData.append('participants', id));
+        if (pieceJointe) {
+            formData.append('piece_jointe', pieceJointe);
         }
 
         const headers = {
@@ -56,79 +68,93 @@ const AddReunion = () => {
 
         axios.post(`${process.env.REACT_APP_API_URL}/reunion/create_Meet/`, formData, { headers })
             .then(response => {
-                console.log('meet créé avec succès:', response.data);
-                setcommentaire('');
-                setlieu('');
-                setdate_previsionnelle('');
-                setparticipants([]);
+                console.log('Réunion ajoutée avec succès :', response.data);
+                setDatePrevisionnelle('');
+                setLieu('');
+                setCommentaire('');
+                settype_reunion('');
+                setOrdreDuJour('');
+                setParticipantsID([]);
+                setPieceJointe(null);
                 setAjoutReussi(true);
             })
             .catch(error => {
-                console.error('Error creating meet:', error);
-                setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création du meet.' });
+                console.error('Erreur lors de l\'ajout de la réunion :', error);
+                setApiError('Erreur lors de l\'ajout de la réunion. Veuillez réessayer.');
             });
     };
 
     if (ajoutReussi) {
-        return <Navigate to={`/allreunion/`} />;
+        return <Navigate to="/allreunion/" />;
     }
 
     return (
-        <div className="form-container">
-            <div className="form-card">
-                <h3>Ajouter Réunion</h3>
-                <form onSubmit={handleSubmit} className="form">
-                <div className="form-group">
-                        <label>date previsionnelle :</label>
-                        <input type="date" name="date_previsionnelle" value={date_previsionnelle} onChange={(e) => setdate_previsionnelle(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>lieu:</label>
-                        {errors.lieu && <p className="error-text">{errors.lieu}</p>}
-                        <input type="text" name="lieu" value={lieu} onChange={(e) => setlieu(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Commentaires:</label>
-                        {errors.commentaire && <p className="error-text">{errors.commentaire}</p>}
-                        <input type="text" name="commentaire" value={commentaire} onChange={(e) => setcommentaire(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Type reunion:</label>
-                        {errors.type_reunion && <p className="error-text">{errors.type_reunion}</p>}
-                        <select value={type_reunion} onChange={(e) => settype_reunion(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Team Meeting">Team Meeting</option>
-                            <option value="Client Meeting">Client Meeting</option>
-                            <option value="Project Meeting">Project Meeting</option>
-                            <option value="One-on-One'">One-on-One'</option>
-                            <option value="Brainstorming">Brainstorming</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                                <label>Ordre de jour</label>
-                                {errors.ordre_du_jour && <p className="error-text">{errors.ordre_du_jour}</p>}
-                                <input type="text" name="ordre_du_jour" value={ordre_du_jour} onChange={(e) => setordre_du_jour(e.target.value)} required />
+        <>
+            <SubNavbarAudit />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <div className="container ajout-form">
+                    {apiError && <p className="error">{apiError}</p>}
+                    <form onSubmit={handleSubmit} className="row">
+                        <div className="button-container">
+                            <button className="button-add" type="submit">Ajouter</button>
+                        </div>
+                        <h4>Ajout d'une réunion</h4>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Date prévisionnelle :</label>
+                                <input type="date" className="form-control" placeholder="Date prévisionnelle*" name="date_previsionnelle" value={datePrevisionnelle} onChange={(e) => setDatePrevisionnelle(e.target.value)} />
+                                {errors.datePrevisionnelle && <p className="error">{errors.datePrevisionnelle}</p>}
                             </div>
-                            <div className="form-group">
-                                <label>Participants :</label>
-                                {errors.participants && <p className="error-text">{errors.participants}</p>}
-                                <select multiple value={participantsID} onChange={(e) => setparticipants(Array.from(e.target.selectedOptions, option => option.value))}>
-                                    {participantss.map(participants => (
-                                        <option key={participants.id} value={participants.id}>{participants.username}</option>
+                            <div className="form-label">
+                                <label className="form-label">Lieu :</label>
+                                <input type="text" className="form-control" placeholder="Lieu*" name="lieu" value={lieu} onChange={(e) => setLieu(e.target.value)} />
+                                {errors.lieu && <p className="error">{errors.lieu}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Commentaires :</label>
+                                <input type="text" className="form-control" placeholder="Commentaires*" name="commentaire" value={commentaire} onChange={(e) => setCommentaire(e.target.value)} />
+                                {errors.commentaire && <p className="error">{errors.commentaire}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Type de réunion :</label>
+                                
+                                    <select  className="form-control" value={type_reunion} onChange={(e) => settype_reunion(e.target.value)}>
+                                        <option value="">Sélectionner...</option>
+                                        <option value="Team Meeting">Team Meeting</option>
+                                        <option value="Client Meeting">Client Meeting</option>
+                                        <option value="Project Meeting">Project Meeting</option>
+                                        <option value="One-on-One'">One-on-One'</option>
+                                        <option value="Brainstorming">Brainstorming</option>
+                                    </select>
+                                {errors.type_reunion && <p className="error">{errors.type_reunion}</p>}
+                            </div>
+                            <div className="form-label">
+                                <label className="form-label">Ordre du jour :</label>
+                                <input type="text" className="form-control" placeholder="Ordre du jour*" name="ordre_du_jour" value={ordreDuJour} onChange={(e) => setOrdreDuJour(e.target.value)} />
+                                {errors.ordreDuJour && <p className="error">{errors.ordreDuJour}</p>}
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Pièces jointes :</label>
+                                <input type="file" className="form-control" onChange={handleFileChange} />
+                                {errors.pieceJointe && <p className="error">{errors.pieceJointe}</p>}
+                            </div>
+                            <br />
+                            <div className="form-label">
+                                <label className="form-label">Participants :</label>
+                                <select multiple className="form-control" value={participantsID} onChange={(e) => setParticipantsID([...e.target.selectedOptions].map(option => option.value))}>
+                                    {participantss.map(participant => (
+                                        <option key={participant.id} value={participant.id}>{participant.username}</option>
                                     ))}
                                 </select>
+                                {errors.participantsID && <p className="error">{errors.participantsID}</p>}
                             </div>
-                            <div className="form-group">
-                        <label>Pièces jointes :</label>
-                        <input type="file" onChange={(e) => handleFileChange(e, setPiecesJointes)} />
-                    </div>
-                    <div className="button-group">
-                        <button className="btn btn-success mt-3" type="submit">Ajouter réunion</button>
-                        <Link to={`/allreunion/`} className="btn btn-gray mt-3">Retour au tableau de bord</Link>
-                    </div>
-                </form>
-            </div>
-        </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </>
     );
 };
 

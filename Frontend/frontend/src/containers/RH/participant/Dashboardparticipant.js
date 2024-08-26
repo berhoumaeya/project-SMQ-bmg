@@ -32,7 +32,6 @@ const sampleParticipants = [
 
 const DashboardParticipant = () => {
     const [participants, setParticipants] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -56,13 +55,7 @@ const DashboardParticipant = () => {
         return sortableParticipants;
     }, [participants, sortConfig]);
 
-    const filteredParticipants = sortedParticipants.filter(participant =>
-        participant.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        participant.prenom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        participant.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        participant.email.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
+  
 
     const requestSort = (key) => {
         let direction = 'ascending';
@@ -88,17 +81,6 @@ const DashboardParticipant = () => {
                     <div>
                         <div className="table-container">
                                 <h3 className="formation-title">Liste des Participants</h3>
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">
@@ -120,8 +102,8 @@ const DashboardParticipant = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredParticipants.length > 0 ? (
-                                                    filteredParticipants.map(participant => (
+                                                {sortedParticipants.length > 0 ? (
+                                                    sortedParticipants.map(participant => (
                                                         <tr >
                                                             <td>{participant.nom}</td>
                                                             <td>{participant.prenom}</td>
@@ -143,8 +125,8 @@ const DashboardParticipant = () => {
                                         </table>
                                     ) : (
                                         <div className="grid">
-                                            {filteredParticipants.length > 0 ? (
-                                                filteredParticipants.map(participant => (
+                                            {sortedParticipants.length > 0 ? (
+                                                sortedParticipants.map(participant => (
                                                     <div key={participant.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={participant.nom} className="responsable-img" />
                                                         <div className="responsable-info">

@@ -78,7 +78,7 @@ const sampleFroids = [
 
 const DashboardFroid = () => {
     const [froids, setFroids] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -135,17 +135,6 @@ const DashboardFroid = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des Évaluations Froid</h3>
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">

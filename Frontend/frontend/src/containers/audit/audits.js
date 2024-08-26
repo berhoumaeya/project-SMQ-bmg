@@ -34,7 +34,7 @@ const Audits = () => {
     const [audits, setAudits] = useState([]);
     const [setError] = useState(null);
     const [deleteReussi, setDeleteReussi] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -107,15 +107,6 @@ const Audits = () => {
                     <div>
                         <div className="table-container">
                             <h3 className='formation-title'>Liste des Audits</h3>
-                            <div className="search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
                             <div>
                                 {viewMode === 'list' ? (
                                     <table className="table-header">

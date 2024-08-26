@@ -108,7 +108,7 @@ export default ApprouveList;
 import React, { useState, useEffect } from 'react';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
-import './listDoc.css'; 
+import './listDoc.css';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 
@@ -172,7 +172,6 @@ function ApprouveList() {
                         <div>
                             <div className="table-container">
                                 <h3 className='doc-title'>Liste des documents à approuver</h3>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
 
