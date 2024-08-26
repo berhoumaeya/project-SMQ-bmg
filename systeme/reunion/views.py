@@ -42,6 +42,7 @@ class DashboardMeetAPIView(APIView):
                 'type_reunion': meet.type_reunion,
                 'lieu': meet.lieu,
                 'ordre_du_jour': meet.ordre_du_jour,
+                'date_previsionnelle': meet.date_previsionnelle.strftime('%Y-%m-%d'), 
                 'piece_jointe':meet.piece_jointe.url if meet.piece_jointe else None
             }
             data.append(meet_data)
