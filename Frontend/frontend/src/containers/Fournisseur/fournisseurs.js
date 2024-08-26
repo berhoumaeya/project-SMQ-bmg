@@ -61,7 +61,7 @@ export default AllFournisseurs;*/
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import SubNavbarfou from './SubNavbarfou';
 
 
 import { FaList, FaTh, FaEdit } from 'react-icons/fa';
@@ -84,21 +84,16 @@ const AllFournisseurs = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <>
+    < SubNavbarfou viewMode={viewMode} setViewMode={setViewMode} />
+        <main >
             <div className="container fournisseur-dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
                         <div className="fournisseur-table-container">
-                            <div className="fournisseur-view-toggle">
-                                <button className={`fournisseur-view-btn ${viewMode === 'list' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList /> 
-                                </button>
-                                <button className={`fournisseur-view-btn ${viewMode === 'grid' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh /> 
-                                </button>
-                            </div>
+                         
                             <h3 className='fournisseur-formation-title'>Liste des Fournisseurs</h3>
                             <div className="fournisseur-button-container">
                                 <Link to="/DashboardRH/">
@@ -180,6 +175,7 @@ const AllFournisseurs = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

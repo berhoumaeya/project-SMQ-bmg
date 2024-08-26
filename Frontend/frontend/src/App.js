@@ -147,6 +147,7 @@ import ConsulterProduit from './containers/Produit/ConsulterProduit';
 import AuditDetail from './containers/audit/auditDetail';
 import AddAudit from './containers/audit/ajouteraudit';
 import Allreclamations from './containers/Client/AllReclamations';
+import SubNavbarfou from './containers/Fournisseur/SubNavbarfou';
 
 
 const App = () => (
@@ -310,6 +311,9 @@ const App = () => (
           <Route path="/valideraudit/" element={<ValidAudit />} />
           <Route path="/audit/:id" element={<AuditDetail />} />
           <Route path="/ajouteraudit/" element={<AddAudit />} />
+
+
+          <Route path="/SubNavbarfou/" element={<SubNavbarfou/>} />
 
 
 
