@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { GrTrash } from 'react-icons/gr';
-import { IoMdArrowRoundBack} from 'react-icons/io';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import { CiSaveDown2 } from "react-icons/ci";
 import './consulterfou.css';
 
@@ -22,8 +22,12 @@ const sampleReclamations = [
         updated_by: 'Utilisateur Z',
         updated_at: '2024-08-12',
         pieces_jointes: true,
+        historique: [
+            { date: '2024-08-10', action: 'Création de la réclamation', utilisateur: 'Utilisateur Y' },
+            { date: '2024-08-12', action: 'Modification de la réclamation', utilisateur: 'Utilisateur Z' },
+            { date: '2024-06-15', action: 'Ajout de la pièce jointe', utilisateur: 'User2' },
+        ]
     },
-    // Add more static data as needed
 ];
 
 const ReclamationfouDetails = () => {
@@ -42,11 +46,9 @@ const ReclamationfouDetails = () => {
             [name]: value,
         }));
     };
-      
-       const handleDelete = () => {
-      //delete logique 
+
+    const handleDelete = () => {
         alert("Réclamation supprimée");
-        
     };
 
     if (!reclamation) {
@@ -56,27 +58,58 @@ const ReclamationfouDetails = () => {
     return (
         <div className="container-fournisseur px-4 mt-4">
             <nav className="nav-fournisseur">
-
-                <Link className="nav-item active ms-0" to="#">Réclamation</Link>
+                <div className="nav-items-container">
+                    <Link className="nav-item active ms-0" to="#">Reclamation</Link>
+                </div>
+                <Link className="btn btn-return" to={`/AllReclamationFournisseur/:id`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
+
             <hr className="divider" />
             <div className="row">
+                {/* Historique et Description à gauche */}
                 <div className="col-lg-4">
-                    <div className="card-fournisseur mb-4">
-                        <div className="card-header-fournisseur">Profile Picture</div>
-                        <div className="card-body-fournisseur text-center">
-                            <img className="img-fournisseur rounded-circle mb-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Reclamation" />
-          
+                <div className="card-fournisseur mb-4">
+                        <div className="card-header-fournisseur">Description</div>
+                        <div className="card-body-fournisseur">
+                            <div className="mb-3">
+                                <textarea
+                                    className="form-control-fournisseur"
+                                    id="description"
+                                    name="description"
+                                    value={reclamation.description}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
                     </div>
+                    
+                    <div className="card-fournisseur mb-4">
+                    <div className="commentaire-card-header">Historique</div>
+                        <div className="card-body-fournisseur">
+                            <ul className="list-group list-group-flush">
+                                {reclamation.historique.map((entry, index) => (
+                                    <li key={index} className="list-group-item">
+                                        <div>
+                                            <strong>{entry.action}</strong><br />
+                                            <small>{entry.date} - {entry.utilisateur}</small>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                   
+                   
                 </div>
+
+                {/* Détails de la Réclamation à droite */}
                 <div className="col-lg-8">
                     <div className="card-fournisseur mb-4">
                         <div className="card-header-fournisseur">Détails de la Réclamation</div>
                         <div className="card-body-fournisseur">
                             <form>
-                                <div className="mb-3">
-                                    <label className="form-label-fournisseur" htmlFor="numero_sequentiel">N° Réclamation</label>
+                                <div className="row gx-3 mb-3">
+                                    <label className="form-label-fournisseur mb-1" htmlFor="numero_sequentiel">N° Réclamation</label>
                                     <input
                                         className="form-control-fournisseur"
                                         id="numero_sequentiel"
@@ -94,16 +127,6 @@ const ReclamationfouDetails = () => {
                                         name="date_reclamation"
                                         type="date"
                                         value={reclamation.date_reclamation}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label-fournisseur" htmlFor="description">Description</label>
-                                    <textarea
-                                        className="form-control-fournisseur"
-                                        id="description"
-                                        name="description"
-                                        value={reclamation.description}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -162,78 +185,26 @@ const ReclamationfouDetails = () => {
                                         onChange={handleChange}
                                     />
                                 </div>
-                                <div className="row gx-3 mb-3">
-                                    <div className="col-md-6">
-                                        <label className="form-label-fournisseur" htmlFor="created_by">Créé par</label>
-                                        <input
-                                            className="form-control-fournisseur"
-                                            id="created_by"
-                                            name="created_by"
-                                            type="text"
-                                            value={reclamation.created_by}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label-fournisseur" htmlFor="created_at">Créé à</label>
-                                        <input
-                                            className="form-control-fournisseur"
-                                            id="created_at"
-                                            name="created_at"
-                                            type="date"
-                                            value={reclamation.created_at}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="row gx-3 mb-3">
-                                    <div className="col-md-6">
-                                        <label className="form-label-fournisseur" htmlFor="updated_by">Modifié par</label>
-                                        <input
-                                            className="form-control-fournisseur"
-                                            id="updated_by"
-                                            name="updated_by"
-                                            type="text"
-                                            value={reclamation.updated_by}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label-fournisseur" htmlFor="updated_at">Modifié à</label>
-                                        <input
-                                            className="form-control-fournisseur"
-                                            id="updated_at"
-                                            name="updated_at"
-                                            type="date"
-                                            value={reclamation.updated_at}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </div>
+                          
+                                
                                 <div className="mb-3">
-                                    <label className="form-label-fournisseur">Pièces jointes</label>
-                                    <div className="form-check-fournisseur">
-                                        <input
-                                            className="form-check-input-fournisseur"
-                                            id="pieces_jointes"
-                                            name="pieces_jointes"
-                                            type="checkbox"
-                                            checked={reclamation.pieces_jointes}
-                                            onChange={() => setReclamation((prevData) => ({ ...prevData, pieces_jointes: !prevData.pieces_jointes }))}
-                                        />
-                                        <label className="form-check-label-fournisseur" htmlFor="pieces_jointes">
-                                            {reclamation.pieces_jointes ? "Consulter" : "Aucune"}
-                                        </label>
-                                    </div>
-                                </div>
-                                <div className="d-flex justify-content-end mt-4">
-                                <button className="btn-save-fournisseur" type="submit"> <CiSaveDown2 /> save </button>
-                                <button className="btn-delete-fournisseur ms-2" type="button" onClick={handleDelete}>     <GrTrash /> Delete</button>
-                                <Link to="/Clients" className="btn btn-secondary ms-2">  <IoMdArrowRoundBack />Retour 
-                      </Link>
+                                    <label className="form-label-fournisseur" htmlFor="pieces_jointes">Pièces Jointes</label>
+                                    <input
+                                        className="form-control-fournisseur"
+                                        id="pieces_jointes"
+                                        name="pieces_jointes"
+                                        type="checkbox"
+                                        checked={reclamation.pieces_jointes}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                             </form>
                         </div>
+                    </div>
+
+                    <div className="button-group-fournisseur">
+                        <button className="btn btn-save"><CiSaveDown2 /> Enregistrer</button>
+                        <button className="btn btn-delete" onClick={handleDelete}><GrTrash /> Supprimer</button>
                     </div>
                 </div>
             </div>

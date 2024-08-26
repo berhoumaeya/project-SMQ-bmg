@@ -198,7 +198,7 @@ const Fournisseur = () => {
 
                     {/* Section Historique */}
                     <div className="card-fournisseur mb-4">
-                        <div className="card-header-fournisseur">Historique</div>
+                    <div className="commentaire-card-header">Historique</div>
                         <div className="card-body-fournisseur">
                             <ul className="list-group list-group-flush">
                                 {fournisseurData.historique.map((entry, index) => (

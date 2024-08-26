@@ -232,7 +232,7 @@ const ModifierRisk = () => {
         if (window.confirm('Êtes-vous sûr de vouloir supprimer ce risque ?')) {
             // Add delete logic here, e.g., API call to delete the risk
             console.log('Risque supprimé');
-            navigate('/AllRisque'); // Navigate away after deletion
+            navigate('/AllRisque'); 
         }
     };
 
