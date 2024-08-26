@@ -63,7 +63,7 @@
 }
 
 .img-fournisseur {
-    max-width: 50%;
+    max-width: 40%;
     height: auto;
     border-radius: 50%;
     border: 3px solid #f6d164;
@@ -172,4 +172,9 @@ textarea.form-control-fournisseur {
 .btn-danger {
     background-color: #dc3545;
     color: white;
+}
+.list-group-item{
+    justify-content: space-between;
+    align-items: center;
+    align-items: d-flex;
 }

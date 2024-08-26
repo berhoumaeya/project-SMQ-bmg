@@ -202,7 +202,7 @@ const Fournisseur = () => {
                         <div className="card-body-fournisseur">
                             <ul className="list-group list-group-flush">
                                 {fournisseurData.historique.map((entry, index) => (
-                                    <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                                    <li key={index} className="list-group-item ">
                                         <div>
                                             <strong>{entry.action}</strong><br />
                                             <small>{entry.date} - {entry.utilisateur}</small>
