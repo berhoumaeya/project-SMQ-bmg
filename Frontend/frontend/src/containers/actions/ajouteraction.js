@@ -154,7 +154,6 @@ const CreateActionForm = () => {
                                     <option value="Improvement">Improvement</option>
                                 </select>
                             </div>
-
                             <div className="form-label">
                                 <label className="form-label">Source Action:</label>
                                 <select
@@ -168,7 +167,7 @@ const CreateActionForm = () => {
                                     <option value="Internal Review">Internal Review</option>
                                 </select>
                             </div>
-
+                       
                             <div className="form-label">
                                 <label className="form-label">Cause Action:</label>
                                 <select
@@ -182,7 +181,8 @@ const CreateActionForm = () => {
                                     <option value="Process Gap">Process Gap</option>
                                 </select>
                             </div>
-
+                            </div>
+                            <div className="col-md-6">
                             <div className="form-label">
                                 <label className="form-label">Gravité Action:</label>
                                 <select

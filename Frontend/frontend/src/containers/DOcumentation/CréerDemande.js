@@ -70,13 +70,12 @@ const CreateDemande = () => {
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarDoc />
                 <div className="container ajout-form">
-                    <div className="contact-image ">
-                        <div className="button-container">
-                            <button className="button-add-" type="submit" onClick={handleSubmit}>Envoyer</button>
-                        </div>
-                    </div>
+               
                     <form onSubmit={handleSubmit} className="row">
-                    <p className='p-doc'>Création une demande</p>
+                      
+                    <div className="button-container">
+                            <button className="button-add" type="submit" onClick={handleSubmit}>Envoyer</button>
+                        </div>   <h4>Création une demande</h4>
                         <div className="col-md-6">
                             <div className="form-label">
                                 <label className="form-label">Document object :</label>

@@ -49,28 +49,28 @@ return <Navigate to="/Dashboardresponsable"/>
 return (
 <div>
 {responsable ? (
-    <div className="card" >
-        <div className="card-body">
-            <p><strong>ID :</strong> {responsable.id}</p>
-            <p><strong>Nom responsable :</strong> {responsable.nom}</p>
-            <p><strong>Prenom responsable :</strong> {responsable.prenom}</p>
-            <p><strong>Nom d'utilisateur responsable  :</strong> {responsable.username}</p>
-            <p><strong>Formation concernée responsable  :</strong>{formationsnames.join(', ')}</p>
-            <p><strong>Email de responsable :</strong> {responsable.email}</p>
-            <p><strong>Est un utilisateur :</strong> {responsable.is_user ? 'Oui' : 'Non'}</p>
-            <p><strong>Date de création :</strong> {responsable.created_at}</p>
-            <p><strong>Créé par :</strong> {responsable.created_by}</p>
-            <p><strong>Pièces jointes :</strong> {responsable.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_responsable/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-            <p><strong>Modifié par :</strong> {responsable.updated_by}</p>
-            <p><strong>Date de modification :</strong> {responsable.updated_at}</p>
-        </div>
-        <br />
-        <a href="/Dashboardresponsable"><button className="btn-gray">Retour</button></a>&nbsp;
-        <Link to={`/update-responsable/${responsable.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
-        <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-    </div>
+<div className="card" >
+<div className="card-body">
+<p><strong>ID :</strong> {responsable.id}</p>
+<p><strong>Nom responsable :</strong> {responsable.nom}</p>
+<p><strong>Prenom responsable :</strong> {responsable.prenom}</p>
+<p><strong>Nom d'utilisateur responsable  :</strong> {responsable.username}</p>
+<p><strong>Formation concernée responsable  :</strong>{formationsnames.join(', ')}</p>
+<p><strong>Email de responsable :</strong> {responsable.email}</p>
+<p><strong>Est un utilisateur :</strong> {responsable.is_user ? 'Oui' : 'Non'}</p>
+<p><strong>Date de création :</strong> {responsable.created_at}</p>
+<p><strong>Créé par :</strong> {responsable.created_by}</p>
+<p><strong>Pièces jointes :</strong> {responsable.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_responsable/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+<p><strong>Modifié par :</strong> {responsable.updated_by}</p>
+<p><strong>Date de modification :</strong> {responsable.updated_at}</p>
+</div>
+<br />
+<a href="/Dashboardresponsable"><button className="btn-gray">Retour</button></a>&nbsp;
+<Link to={`/update-responsable/${responsable.id}`}><button className="btn-blue">Modifier</button></Link>&nbsp;
+<button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+</div>
 ):(
-    <p>chargement ... </p>
+<p>chargement ... </p>
 )}
 </div>
 );
@@ -236,7 +236,7 @@ const ResponsableDetail = () => {
   return (
     <>
       <SubNavbarRH />
-      <main style={{ display: 'flex', minHeight: '100vh'}}>
+      <main style={{ display: 'flex', minHeight: '100vh' }}>
         <SidebarRH />
         <div className="container-xl px-4 mt-4">
           <div className="row">
@@ -261,6 +261,30 @@ const ResponsableDetail = () => {
                     onChange={handleFileChange}
                     accept=".jpg, .png"
                   />
+                </div>
+              </div>
+              <br />
+              <div className="card mb-4">
+                <div className="card-header-">Historique</div>
+                <div className="card-body">
+                  <ul className="list-group list-group-flush">
+                    {responsable ? (                  
+              <>      
+                  <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong>Date de modification</strong><br />
+                      <small>{responsable.updated_at} - {responsable.updated_by}</small>
+                     </div>
+                  </li>
+                     <li className="list-group-item d-flex justify-content-between align-items-center">
+                     <div> <strong>Date de création</strong><br />
+                      <small>{responsable.created_at} - {responsable.created_by}</small>
+                    </div>
+                    
+                  </li>
+                  </> 
+                    ) : (<div>Chargement...</div>)}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -345,8 +369,8 @@ const ResponsableDetail = () => {
             </div>
           </div>
 
-        </div>
-      </main>
+        </div >
+      </main >
     </>
   );
 };

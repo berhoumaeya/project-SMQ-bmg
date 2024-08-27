@@ -3,6 +3,8 @@ import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
 import SubNavbarAudit from '../../components/SubNavbarAudit';
 import SidebarAudit from '../../components/SidebarAudit';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import HistorySidebar from '../../components/HistorySidebar';
 
 // Static data
 const sampleDemands = [
@@ -35,12 +37,15 @@ const sampleDemands = [
 function ValidAudit() {
     const [demands, setDemands] = useState([]);
     const [viewMode, setViewMode] = useState('list');
+    const [isHistoryVisible, setIsHistoryVisible] = useState(true); // State for sidebar visibility
 
     useEffect(() => {
         // Simulating data fetch
         setDemands(sampleDemands);
     }, []);
-
+    const toggleHistorySidebar = () => {
+        setIsHistoryVisible(prevState => !prevState);
+    };
     const handleStatusChange = (demandId, newStatus) => {
         const updatedDemands = demands.map(demand => {
             if (demand.id === demandId) {
@@ -55,6 +60,8 @@ function ValidAudit() {
         <> <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} />
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarAudit />
+                <div className={`container dashboard ${isHistoryVisible ? 'history-visible' : ''}`}>
+
                 <div className="container dashboard">
                     <div className="row">
                         <div>
@@ -132,6 +139,11 @@ function ValidAudit() {
                         </div>
                     </div>
                 </div>
+                </div>
+                {isHistoryVisible && <HistorySidebar />}
+                <button className="toggle-button" onClick={toggleHistorySidebar}>
+                    {isHistoryVisible ? <FaArrowLeft /> : <FaArrowRight />}
+                </button>
             </main>
         </>
     );

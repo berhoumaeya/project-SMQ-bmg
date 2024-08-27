@@ -1,20 +1,23 @@
-.table-container {
-    padding: 1rem;
-    background-color: #ffffff;
-    border-radius: 0.5rem;
-    
-}
+
+
 .dashboard {
     width: 100%;
- 
- }
-.table-responsive {
+
+}
+
+.container.dashboard {
+    width: 100%;
+    padding: 0;
+}
+
+.table-container {
+    width: 100%;
+    margin: 0 auto;
     overflow-x: auto;
 }
 
 .table-header {
     width: 100%;
-    margin: 20px 0;
     border-collapse: collapse;
 }
 
@@ -124,6 +127,7 @@
     justify-content: right;
 
 }
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -173,4 +177,28 @@
     padding: 10px 20px;
     margin-top: none;
     justify-items: center;
+}
+
+/* Styles for HistorySidebar */
+.history-sidebar {
+    width: 400px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-left: 1px solid #ddd;
+    position: left;
+    margin-top: 10px;
+    height: 100vh;
+}
+
+.toggle-button {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 40%;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
 }

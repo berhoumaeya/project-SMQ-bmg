@@ -1,51 +1,57 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import {useParams, Navigate ,Link} from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
+import SubNavbarAudit from '../../components/SubNavbarAudit';
 
 const AddDecision = () => {
-
     const { id } = useParams();
-
     const [errors, setErrors] = useState({});
-    const [actions, setactions] = useState([]);
-    const [action_prise, setaction_prise] = useState('');
-    const [decision_text, setdecision_text] = useState('');
+    const [actions, setActions] = useState([]);
+    const [actionPrise, setActionPrise] = useState('');
+    const [decisionText, setDecisionText] = useState('');
     const [ajoutReussi, setAjoutReussi] = useState(false);
-
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/action/dashboard_action/`)
-            .then(response => setactions(response.data))
-            .catch(error => console.error('Error fetching responsables:', error));
+            .then(response => setActions(response.data))
+            .catch(error => console.error('Error fetching actions:', error));
     }, [id]);
 
-
-   
-
+    const validateForm = () => {
+        const newErrors = {};
+        if (!decisionText) newErrors.decisionText = 'La décision est requise.';
+        if (!actionPrise) newErrors.actionPrise = 'L\'action est requise.';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return;
+        }
 
         const formData = new FormData();
-        formData.append('action_prise', action_prise);
-        formData.append('decision_text', decision_text);
+        formData.append('action_prise', actionPrise);
+        formData.append('decision_text', decisionText);
+
         axios.post(`${process.env.REACT_APP_API_URL}/reunion/create_Decision/${id}/`, formData, {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': Cookies.get('csrftoken'),
             }
         })
-        .then(response => {
-            console.log('réunion added successfully:', response.data);
-            setAjoutReussi(true);
-            setaction_prise('');
-            setdecision_text('');
-        })
-        .catch(error => {
-            console.error('There was an error adding the réunion:', error.response.data);
-            setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création du réunion.' });
-        });
+            .then(response => {
+                console.log('Décision ajoutée avec succès:', response.data);
+                setAjoutReussi(true);
+                setActionPrise('');
+                setDecisionText('');
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'ajout de la décision:', error.response.data);
+                setErrors({ message: 'Une erreur s\'est produite lors de l\'ajout de la décision.' });
+            });
     };
 
     if (ajoutReussi) {
@@ -53,33 +59,44 @@ const AddDecision = () => {
     }
 
     return (
-        <div className="form-container">
-        <div className="form-card">
-            <h3>Ajouter risque</h3>
-            <form onSubmit={handleSubmit} className="form">
-                <div className="form-group">
-                    <label>decision :</label>
-                    {errors.decision_text && <p className="error-text">{errors.decision_text}</p>}
-                    <input type="text" name="decision_text" value={decision_text} onChange={(e) => setdecision_text(e.target.value)} />
+        <>
+            <SubNavbarAudit />
+            <main style={{ display: 'flex', minHeight: '100vh' }}> <div className="container ajout-form">
+                <div className="container ajout-form">
+                    <form onSubmit={handleSubmit} className="row">
+                        <div className="button-container">
+                            <button className="button-add" type="submit">Prendre décision</button>
+                            <Link to="/allreunion" ><button className="retour me-2">Retour au tableau de bord</button></Link>
+                        </div>
+                        <h4>Ajouter une décision</h4>
+
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Décision :</label>
+                                <input type="text" className="form-control" placeholder="Décision*" name="decisionText" value={decisionText} onChange={(e) => setDecisionText(e.target.value)} />
+                                {errors.decisionText && <p className="error">{errors.decisionText}</p>}
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+
+                            <div className="form-label">
+                                <label className="form-label">Plan Actions :</label>
+                                <select className="form-control" value={actionPrise} onChange={(e) => setActionPrise(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {actions.map(action => (
+                                        <option key={action.id} value={action.id}>{action.nom_action}</option>
+                                    ))}
+                                </select>
+                                {errors.actionPrise && <p className="error">{errors.actionPrise}</p>}
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
-                <div className="form-group">
-                        <label>Plan Actions:</label>
-                        {errors.action_prise && <p className="error-text">{errors.action_prise}</p>}
-                        <select value={action_prise} onChange={(e) => setaction_prise(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {actions.map(action_prise => (
-                                <option key={action_prise.id} value={action_prise.id}>{action_prise.nom_action}</option>
-                            ))}
-                        </select>
-                    </div>
-                <div className="button-group">
-                    <button className="btn btn-primary" type="submit">Prendre décision</button>
-                    <Link to="/allreunion" className="btn btn-secondary">Retour au tableau de bord</Link>
-                </div>
-            </form>
-        </div>
-    </div>
-);
+            </div>
+            </main>
+        </>
+    );
 };
 
 export default AddDecision;

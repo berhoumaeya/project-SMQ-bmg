@@ -1,11 +1,25 @@
+import React from 'react';
 import { IoIosAddCircleOutline, IoIosArrowBack } from "react-icons/io";
+import { FaList, FaTh, FaCalendar } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import { FaList, FaTh } from "react-icons/fa";
 
 const SubNavbarAudit = ({ viewMode, setViewMode }) => {
     const location = useLocation();
     const isOnActionsPage = location.pathname.includes('/Actions');
-    const showRetourButton = location.pathname.includes('/ajouter') || isOnActionsPage;
+    const isOnReunionsPage = location.pathname.includes('/allreunion');
+    const isOnAjouterPage = location.pathname.includes('/ajouter') || 
+    location.pathname.includes('/Ajouter') || 
+    location.pathname.includes('/PrendreDecision') ||
+    location.pathname.includes('/ConsulterReunion')  ;
+    const showRetourButton = location.pathname.includes('/valideraudit') ||
+        location.pathname.includes('/Audits') ||
+        location.pathname.includes('/ajouter') ||
+        location.pathname.includes('/Ajouter') ||
+        location.pathname.includes('/PrendreDecision') ||
+        location.pathname.includes('/audit') ||
+        location.pathname.includes('/ConsulterReunion') ||
+        isOnActionsPage ||
+        isOnReunionsPage;
 
     return (
         <div className="sub-navbar-container">
@@ -18,7 +32,7 @@ const SubNavbarAudit = ({ viewMode, setViewMode }) => {
                         </button>
                     </Link>
                 )}
-                
+
                 {isOnActionsPage && (
                     <Link to='/ajouteraction'>
                         <button className="sub-navbar-link">
@@ -28,20 +42,43 @@ const SubNavbarAudit = ({ viewMode, setViewMode }) => {
                     </Link>
                 )}
 
-                <button
-                    className={`sub-navbar-link ${viewMode === 'list' ? 'active' : ''}`}
-                    onClick={() => setViewMode('list')}
-                >
-                    <FaList />
-                    <span className="tooltip">List</span>
-                </button>
-                <button
-                    className={`sub-navbar-link ${viewMode === 'grid' ? 'active' : ''}`}
-                    onClick={() => setViewMode('grid')}
-                >
-                    <FaTh />
-                    <span className="tooltip">Kanban</span>
-                </button>
+                {isOnReunionsPage && (
+                    <Link to='/AjouterReunion'>
+                        <button className="sub-navbar-link">
+                            <IoIosAddCircleOutline />
+                            <span className="tooltip">Ajouter Réunion</span>
+                        </button>
+                    </Link>
+                )}
+
+                {isOnReunionsPage && !isOnAjouterPage && (
+                    <button
+                        className={`sub-navbar-link ${viewMode === 'calendar' ? 'active' : ''}`}
+                        onClick={() => setViewMode('calendar')}
+                    >
+                        <FaCalendar />
+                        <span className="tooltip">Calendar</span>
+                    </button>
+                )}
+
+                {!isOnAjouterPage && (
+                    <>
+                        <button
+                            className={`sub-navbar-link ${viewMode === 'list' ? 'active' : ''}`}
+                            onClick={() => setViewMode('list')}
+                        >
+                            <FaList />
+                            <span className="tooltip">List</span>
+                        </button>
+                        <button
+                            className={`sub-navbar-link ${viewMode === 'grid' ? 'active' : ''}`}
+                            onClick={() => setViewMode('grid')}
+                        >
+                            <FaTh />
+                            <span className="tooltip">Kanban</span>
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );

@@ -131,7 +131,7 @@ const sampleCompetences = [
 
 const DashboardCompetence = () => {
     const [competences, setCompetences] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [deleteReussi, setDeleteReussi] = useState(false);
     const [error, setError] = useState(null);
@@ -174,17 +174,6 @@ const DashboardCompetence = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className='formation-title'>Liste des Évaluations de Compétence</h3>
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">

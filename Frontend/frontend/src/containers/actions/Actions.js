@@ -54,7 +54,7 @@ const actions = [
 ];
 const Actions = () => {
     const [risks, setRisks] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -116,23 +116,12 @@ const Actions = () => {
     return (
         <>
             <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <main style={{ display: 'flex', minHeight: '100vh' ,flex:' '}}>
                 <div className="container dashboard">
                     <div className="row">
                         <div>
                             <div className="table-container">
                                 <h3 className='formation-title'>Liste des Actions</h3>
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">

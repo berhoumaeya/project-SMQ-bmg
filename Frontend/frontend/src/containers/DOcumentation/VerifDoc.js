@@ -172,7 +172,6 @@ function VerifList() {
                     <div>
                         <div className="table-container">
                             <h3 className='doc-title'>Liste des documents à vérifier</h3>
-                            <br />
                             <div>
                             {viewMode === 'list' ? (
                                 <table className="table-header">

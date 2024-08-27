@@ -197,6 +197,30 @@ const FormationDetail = () => {
                   />
                 </div>
               </div>
+              <br />
+              <div className="card mb-4">
+                <div className="card-header-">Historique</div>
+                <div className="card-body">
+                  <ul className="list-group list-group-flush">
+                    {formation ? (
+                      <>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                          <div>
+                            <strong>Date de modification</strong><br />
+                            <small>{formation.updated_at} - {formation.updated_by}</small>
+                          </div>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                          <div> <strong>Date de création</strong><br />
+                            <small>{formation.created_at} - {formation.created_by}</small>
+                          </div>
+
+                        </li>
+                      </>
+                    ) : (<div>Chargement...</div>)}
+                  </ul>
+                </div>
+              </div>
             </div>
             <div className="col-xl-8">
               <div className="card mb-4">

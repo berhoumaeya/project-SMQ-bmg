@@ -42,7 +42,7 @@ const sampleDocumentsExt = [
 
 const DashboardDocExt = () => {
     const [documents, setDocuments] = useState(sampleDocumentsExt);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -132,17 +132,6 @@ const DashboardDocExt = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className="doc-title">Liste des documents Externes</h3>
-                                <div className="search-container" style={{ marginBottom: '20px' }}>
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input-doc"
-                                    />
-                                </div>
-                                <br />
-
                                 {viewMode === 'list' ? (
                                     <table className="table-header">
                                         <thead>

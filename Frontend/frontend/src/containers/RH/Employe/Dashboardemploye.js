@@ -102,7 +102,7 @@ const sampleEmployes = [
 const DashboardEmploye = () => {
     const [employes, setEmployes] = useState([]);
     const [error] = useState(null);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
@@ -144,17 +144,6 @@ const DashboardEmploye = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className='formation-title'>Liste des Employés</h3>
-                                <br />
-                                <div className="search-container">
-                                    <input
-                                        type="text"
-                                        placeholder="Rechercher..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="search-input"
-                                    />
-                                </div>
-                                <br />
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">
