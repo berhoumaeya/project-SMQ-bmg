@@ -217,20 +217,16 @@ const ModifierRisk = () => {
             criteres: updatedCriteres
         }));
     };
-
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission locally, e.g., update local state or navigate away
         console.log('Form data:', formData);
         navigate('/AllRisque');
     };
 
-    // Handle delete action
     const handleDelete = () => {
-        // Confirm before deleting
+
         if (window.confirm('Êtes-vous sûr de vouloir supprimer ce risque ?')) {
-            // Add delete logic here, e.g., API call to delete the risk
+            
             console.log('Risque supprimé');
             navigate('/AllRisque'); 
         }
@@ -248,21 +244,22 @@ const ModifierRisk = () => {
             <div className="row">
                 <div className="col-lg-4">
                     <div className="card-fournisseur mb-4">
-                        <div className="card-header-fournisseur">Image du produit</div>
+                        <div className="card-header-fournisseur">Description</div>
+                        <div className="commentaire-card-body">
+                            <textarea
+                                className="form-control-fournisseur"
+                                placeholder="Ajouter une description "
+                            />
+                        </div>
+                    </div>
+                    <div className="commentaire-section">
+                        <div className="commentaire-card-header">Historique</div>
                         <div className="card-body-fournisseur text-center">
                             <ul className="meta list list-unstyled">
                                 <li className="activity">Dernière connexion : Aujourd'hui à 14h18</li>
                             </ul>
                         </div>
-                    </div>
-                    <div className="commentaire-section">
-                        <div className="commentaire-card-header">Commentaires</div>
-                        <div className="commentaire-card-body">
-                            <textarea
-                                className="form-control-fournisseur"
-                                placeholder="Ajouter un commentaire"
-                            />
-                        </div>
+                        
                     </div>
                 </div>
 

@@ -196,7 +196,7 @@ const Fournisseur = () => {
                         </div>
                     </div>
 
-                    {/* Section Historique */}
+
                     <div className="card-fournisseur mb-4">
                     <div className="commentaire-card-header">Historique</div>
                         <div className="card-body-fournisseur">

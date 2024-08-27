@@ -1,46 +1,48 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import './SubNavbarfou.css';
-import { IoIosArrowBack } from "react-icons/io";
-import { FaList, FaTh } from 'react-icons/fa';
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { VscGitPullRequestNewChanges } from "react-icons/vsc";
- 
+import { IoIosArrowBack, IoIosAddCircleOutline } from "react-icons/io";
+import { FaFile, FaList, FaTh } from 'react-icons/fa';
+
 const SubNavbarfou = ({ viewMode, setViewMode }) => {
     const location = useLocation();
- 
+    const { id } = useParams();
+
     const getDashboardLink = () => {
-        if (location.pathname.includes('/CréerDocExt') || location.pathname.includes('/modifierDocExt')) {
-            return '/DashboardDocExt';
-        } else if (location.pathname.includes('/CréerDemande')) {
-            return '/demandeAccepte';
-        } else if (location.pathname.includes('/demandeAccepte')) {
-            return '/DashboardDocInt';
-        } else if (location.pathname.includes('/CréerDocInt') || location.pathname.includes('/modifierDocInt')) {
-            return '/DashboardDocInt';
-        } else {
-            return '/Dashboard';  
-        }
-    };
- 
-    const getAjouterLink = () => {
-        if (location.pathname.includes('/DashboardDocExt')) {
-            return '/CréerFournisseur';
-        } else if (location.pathname.includes('/demandeAccepte')) {
-            return '/CréerDemande';
+        if (location.pathname.startsWith('/ajouter-responsable') || location.pathname.startsWith('/update-responsable')) {
+            return '/Dashboard';
+        } else if (location.pathname.startsWith('/ajouter-position') || location.pathname.startsWith('/update-position')) {
+            return '/dashboardposition';
+        } else if (location.pathname.startsWith('/ajouter-participant') || location.pathname.startsWith('/update-participant')) {
+            return '/dashboardparticipant';
+        } else if (location.pathname.startsWith('/ajouter-employe') || location.pathname.startsWith('/update-employe')) {
+            return '/dashboardemploye';
+        } else if (location.pathname.startsWith('/ajouter-fiche') || location.pathname.startsWith('/update-fiche')) {
+            return '/dashboardfiche';
+        } else if (location.pathname.startsWith('/ajouter-formation') || location.pathname.startsWith('/update-formation')) {
+            return '/dashboardformation';
         } else {
             return null;
         }
     };
- 
-    const showRetourButton = location.pathname.includes('/Créer') || location.pathname.includes('/modifier');
+
+    const getFormLink = () => {
+        if (location.pathname.startsWith('/AllEvaluationFournisseur')) {
+            return '/CréerEvaluationFournisseur/:static';
+        } else if (location.pathname.startsWith('/AllReclamationFournisseur')) {
+            return '/CréerRéclamationFournisseur';
+        } else {
+            return '/CréerFournisseur'; 
+        }
+    };
+
+    const showRetourButton = location.pathname.startsWith('/ajouter') || location.pathname.startsWith('/update');
     const dashboardLink = getDashboardLink();
- 
-    const showListGridButtons = !showRetourButton;
-    const ajouterLink = getAjouterLink();
- 
-    const isDashboardDocIntPage = location.pathname === '/DashboardDocInt';
- 
+    const formLink = getFormLink();
+
+    const isDashboardEmployePage = location.pathname === '/dashboardemploye';
+    const showConsulteButton = location.pathname.startsWith('/update-employe/') && id;
+
     return (
         <div className="sub-navbar-container">
             <div className="sub-navbar-links">
@@ -52,23 +54,22 @@ const SubNavbarfou = ({ viewMode, setViewMode }) => {
                         </button>
                     </Link>
                 )}
-                {showListGridButtons && (
+
+                {!showRetourButton && (
                     <>
-                        <Link to='/Dashboard'>
-                            <button className="sub-navbar-link" style={{ marginRight: "1250px", display: 'flex' }}>
+                        <Link to='/ConsulterFournisseur/:id'>
+                            <button className="sub-navbar-link">
                                 <IoIosArrowBack />
                                 <span className="tooltip">Retour</span>
                             </button>
                         </Link>
-                     
-                        {ajouterLink && (
-                            <Link to={ajouterLink}>
-                                <button className="sub-navbar-link">
-                                    <IoIosAddCircleOutline />
-                                    <span className="tooltip">Ajouter</span>
-                                </button>
-                            </Link>
-                        )}
+                       
+                        <Link to={formLink}>
+                            <button className="sub-navbar-link">
+                                <IoIosAddCircleOutline />
+                                <span className="tooltip">Ajouter</span>
+                            </button>
+                        </Link>
                         <button
                             className={`sub-navbar-link ${viewMode === 'list' ? 'active' : ''}`}
                             onClick={() => setViewMode('list')}
@@ -89,5 +90,5 @@ const SubNavbarfou = ({ viewMode, setViewMode }) => {
         </div>
     );
 };
- 
+
 export default SubNavbarfou;

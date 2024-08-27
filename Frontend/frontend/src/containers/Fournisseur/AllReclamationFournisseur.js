@@ -104,6 +104,7 @@ export default AllReclamation;*/
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaList, FaTh, FaEdit } from 'react-icons/fa';
+import SubNavbarfou from './SubNavbarfou';
 import './fournisseur.css'; 
 
 const sampleReclamations = [
@@ -137,6 +138,8 @@ const AllReclamations = () => {
     );
 
     return (
+        <>
+        <SubNavbarfou viewMode={viewMode} setViewMode={setViewMode} />
         <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container fournisseur-dashboard">
                 <div className="row">
@@ -144,23 +147,9 @@ const AllReclamations = () => {
                         <br />
                         <br />
                         <div className="fournisseur-table-container">
-                            <div className="fournisseur-view-toggle">
-                                <button className={`fournisseur-view-btn ${viewMode === 'list' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`fournisseur-view-btn ${viewMode === 'grid' ? 'fournisseur-active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
+                           
                             <h3 className='fournisseur-formation-title'>Liste des Réclamations</h3>
-                            <div className="fournisseur-button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="fournisseur-retour">Retour</button>
-                                </Link>
-                                <Link to="/CréerRéclamationFournisseur/">
-                                    <button className="fournisseur-button-add">Ajouter Réclamation</button>
-                                </Link>
-                            </div>
+                           
                             <br />
                             <div className="fournisseur-search-container">
                                 <input
@@ -241,6 +230,7 @@ const AllReclamations = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

@@ -58,123 +58,155 @@ const AllFournisseurs = () => {
 };
 
 export default AllFournisseurs;*/
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SubNavbarfou from './SubNavbarfou';
-
-
-import { FaList, FaTh, FaEdit } from 'react-icons/fa';
-import './fournisseur.css'; 
+import { FaEdit } from 'react-icons/fa';
+import './fournisseur.css';
 
 const sampleFournisseurs = [
-    { id: 1, nom: 'Fournisseur A', prénom:'ca', code_fournisseur: 'FA123', email:'a@gmail.com', },
-    { id: 2, nom: 'Fournisseur B',prénom:'ca', code_fournisseur: 'FB456', email:'b@gmail.com',  },
-    
+    { id: 1, nom: 'Fournisseur A', prénom: 'ca', code_fournisseur: 'FA123', email: 'a@gmail.com' },
+    { id: 2, nom: 'Fournisseur B', prénom: 'ca', code_fournisseur: 'FB456', email: 'b@gmail.com' },
 ];
 
 const AllFournisseurs = () => {
     const [fournisseurs, setFournisseurs] = useState(sampleFournisseurs);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [sortConfig, setSortConfig] = useState({ key: 'nom', direction: 'ascending' });
+    const [filterBy, setFilterBy] = useState('nom');
 
-    const filteredFournisseurs = fournisseurs.filter(fournisseur =>
-        fournisseur.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fournisseur.code_fournisseur.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value); // Updated here
+    };
+
+    const handleFilterChange = (e) => {
+        setFilterBy(e.target.value);
+    };
+
+    const filteredFournisseurs = fournisseurs
+        .filter(fournisseur => {
+            const value = fournisseur[filterBy]?.toString().toLowerCase();
+            return value.includes(searchQuery.toLowerCase());
+        })
+        .sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? 1 : -1;
+            }
+            return 0;
+        });
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
 
     return (
         <>
-    < SubNavbarfou viewMode={viewMode} setViewMode={setViewMode} />
-        <main >
-            <div className="container fournisseur-dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="fournisseur-table-container">
-                         
-                            <h3 className='fournisseur-formation-title'>Liste des Fournisseurs</h3>
-                            <div className="fournisseur-button-container">
-                                <Link to="/DashboardRH/">
-                                    <button className="fournisseur-retour">Retour</button>
-                                </Link>
-                                <Link to="/CréerFournisseur/">
-                                    <button className="fournisseur-button-add">Ajouter Fournisseur</button>
-                                </Link>
-                            </div>
+            <SubNavbarfou viewMode={viewMode} setViewMode={setViewMode} />
+            <main>
+                <div className="container fournisseur-dashboard">
+                    <div className="row">
+                        <div>
                             <br />
-                            <div className="fournisseur-search-container">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="fournisseur-search-input"
-                                />
-                            </div>
                             <br />
-                            <div>
-                                {viewMode === 'list' ? (
-                                    <table className="fournisseur-styled-table">
-                                        <thead className="fournisseur-table-header">
-                                            <tr>
-                                                <th scope="col">Code Fournisseur</th>
-                                                <th scope="col">Nom Fournisseur</th>
-                                                <th scope="col">Prénom Fournisseur</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                            <div className="fournisseur-table-container">
+                                <h3 className='fournisseur-formation-title'>Liste des Fournisseurs</h3>
+                                <br />
+                                <div className="risk-search-container">
+                                    <select
+                                        onChange={handleFilterChange}
+                                        value={filterBy}
+                                        className="risk-filter-select"
+                                    >
+                                        <option value="id">Numéro</option>
+                                        <option value="nom">Nom</option>
+                                        <option value="code_fournisseur">Code</option>
+                                        <option value="email">Email</option>
+                                    </select>
+                                    <input
+                                        type="text"
+                                        value={searchQuery} // Updated here
+                                        onChange={handleSearchChange}
+                                        placeholder="Rechercher..."
+                                        className="risk-search-input"
+                                    />
+                                </div>
+                                <br />
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="fournisseur-styled-table">
+                                            <thead className="fournisseur-table-header">
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('code_fournisseur')}>Code Fournisseur {getSortArrow('code_fournisseur')}</th>
+                                                    <th scope="col" onClick={() => requestSort('nom')}>Nom Fournisseur {getSortArrow('nom')}</th>
+                                                    <th scope="col" onClick={() => requestSort('prénom')}>Prénom Fournisseur {getSortArrow('prénom')}</th>
+                                                    <th scope="col" onClick={() => requestSort('email')}>Email {getSortArrow('email')}</th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredFournisseurs.length > 0 ? (
+                                                    filteredFournisseurs.map(fournisseur => (
+                                                        <tr key={fournisseur.id}>
+                                                            <td>{fournisseur.code_fournisseur}</td>
+                                                            <td>{fournisseur.nom}</td>
+                                                            <td>{fournisseur.prénom}</td>
+                                                            <td>{fournisseur.email}</td>
+                                                            <td>
+                                                                <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="client-btn">
+                                                                    <FaEdit />
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">Aucun fournisseur disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="fournisseur-grid">
                                             {filteredFournisseurs.length > 0 ? (
                                                 filteredFournisseurs.map(fournisseur => (
-                                                    <tr key={fournisseur.id}>
-                                                       <td>{fournisseur.code_fournisseur}</td>
-                                                        <td>{fournisseur.nom}</td>
-                                                        <td>{fournisseur.prénom}</td>
-                                                        <td>{fournisseur.email}</td>
-                                                        <td>
+                                                    <div key={fournisseur.id} className="fournisseur-responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={`${fournisseur.nom}`} className="fournisseur-responsable-img" />
+                                                        <div className="fournisseur-responsable-info">
+                                                            <h5 className="fournisseur-responsable-title">{fournisseur.nom} {fournisseur.prénom}</h5>
+                                                            <p><strong className="fournisseur-responsable-text">Code :</strong> {fournisseur.code_fournisseur}</p>
+                                                            <p><strong className="fournisseur-responsable-text">Email</strong> {fournisseur.email}</p>
                                                             <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="client-btn">
                                                                 <FaEdit />
                                                             </Link>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="4" className="text-center">Aucun fournisseur disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucun fournisseur disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="fournisseur-grid">
-                                        {filteredFournisseurs.length > 0 ? (
-                                            filteredFournisseurs.map(fournisseur => (
-                                                <div key={fournisseur.id} className="fournisseur-responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={`${fournisseur.nom}`} className="fournisseur-responsable-img" />
-                                                    <div className="fournisseur-responsable-info">
-                                                        <h5 className="fournisseur-responsable-title">{fournisseur.nom} {fournisseur.prénom}</h5>
-                                                        <p><strong className="fournisseur-responsable-text">Code :</strong> {fournisseur.code_fournisseur}</p>
-                                                        <p><strong className="fournisseur-responsable-text">Email</strong> {fournisseur.email}</p>
-                                                        <Link to={`/ConsulterFournisseur/${fournisseur.id}`} className="client-btn">
-                                                            <FaEdit />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucun fournisseur disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
         </>
     );
 };
