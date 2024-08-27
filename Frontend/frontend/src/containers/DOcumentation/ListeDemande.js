@@ -88,11 +88,13 @@ return (
 export default DemandList;
 */
 import React, { useState, useEffect } from 'react';
-import './listDoc.css';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
+import HistorySidebar from '../../components/HistorySidebar';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
 const sampleDemands = [
     {
         id: 1,
@@ -128,11 +130,14 @@ const DemandList = () => {
     const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
+    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
     useEffect(() => {
         setDemands(sampleDemands);
     }, []);
-
+    const toggleHistorySidebar = () => {
+        setIsHistoryVisible(prevState => !prevState);
+    };
     const handleStatusChange = (demandId, newStatus) => {
         const updatedDemands = demands.map(demand => {
             if (demand.id === demandId) {
@@ -166,78 +171,84 @@ const DemandList = () => {
         <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarDoc />
-                <div className="container dashboard">
-                    <div className="row">
-                        <div>
-                            <div className="table-container">
-                                <h3 className='doc-title'>Liste des Demandes</h3>
-                                {viewMode === 'list' ? (
+                <div className={`container dashboard ${isHistoryVisible ? 'history-visible' : ''}`}>
+                    <div className="container dashboard">
+                        <div className="row">
+                            <div>
+                                <div className="table-container">
+                                    <h3 className='formation-title'>Liste des Demandes</h3>
+                                    {viewMode === 'list' ? (
 
-                                    <table className="table-header">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" onClick={() => requestSort('type')}>Type de demande {getSortArrow('type')}</th>
-                                                <th scope="col" onClick={() => requestSort('document_object')}>Objet de demande {getSortArrow('document_object')}</th>
-                                                <th scope="col" onClick={() => requestSort('created_by')}>Créé par {getSortArrow('created_by')}</th>
-                                                <th scope="col" onClick={() => requestSort('created_at')}>Créé à {getSortArrow('created_at')}</th>
-                                                <th scope="col" >Pièces jointes</th>
-                                                <th scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
-                                                <th scope="col">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('type')}>Type de demande {getSortArrow('type')}</th>
+                                                    <th scope="col" onClick={() => requestSort('document_object')}>Objet de demande {getSortArrow('document_object')}</th>
+                                                    <th scope="col" onClick={() => requestSort('created_by')}>Créé par {getSortArrow('created_by')}</th>
+                                                    <th scope="col" onClick={() => requestSort('created_at')}>Créé à {getSortArrow('created_at')}</th>
+                                                    <th scope="col" >Pièces jointes</th>
+                                                    <th scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredDemands.length > 0 ? (
+                                                    filteredDemands.map(demand => (
+                                                        <tr >
+                                                            <td>{demand.type}</td>
+                                                            <td>{demand.document_object}</td>
+                                                            <td>{demand.created_by}</td>
+                                                            <td>{new Date(demand.created_at).toLocaleString()}</td>
+                                                            <td>
+                                                                {demand.attached_file ?
+                                                                    <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
+                                                                    'Aucun'}
+                                                            </td>
+                                                            <td>{demand.statut}</td>
+                                                            <td>
+                                                                <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success me-2"> <FcApproval /> </button>
+                                                                <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger me-2"> <RxCross2 /></button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="8" className="text-center">Aucune demande disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
                                             {filteredDemands.length > 0 ? (
                                                 filteredDemands.map(demand => (
-                                                    <tr >
-                                                        <td>{demand.type}</td>
-                                                        <td>{demand.document_object}</td>
-                                                        <td>{demand.created_by}</td>
-                                                        <td>{new Date(demand.created_at).toLocaleString()}</td>
-                                                        <td>
-                                                            {demand.attached_file ?
-                                                                <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
-                                                                'Aucun'}
-                                                        </td>
-                                                        <td>{demand.statut}</td>
-                                                        <td>
-                                                            <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success me-2"> <FcApproval /> </button>
-                                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger me-2"> <RxCross2 /></button>
-                                                        </td>
-                                                    </tr>
+                                                    <div key={demand.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={`${demand.type}`} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 > {demand.type}</h5>
+                                                            <p><strong>Document object :</strong> {demand.document_object}</p>
+                                                            <p><strong>Statut :</strong> {demand.statut}</p>
+                                                            <td>
+                                                                <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
+                                                                <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
+                                                            </td>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="8" className="text-center">Aucune demande disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucun demand disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {filteredDemands.length > 0 ? (
-                                            filteredDemands.map(demand => (
-                                                <div key={demand.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={`${demand.type}`} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title"> {demand.type}</h5>
-                                                        <p><strong className="responsable-text">Document object :</strong> {demand.document_object}</p>
-                                                        <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
-                                                        <td>
-                                                            <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
-                                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
-                                                        </td>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucun demand disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {isHistoryVisible && <HistorySidebar />}
+                <button className="toggle-button" onClick={toggleHistorySidebar}>
+                    {isHistoryVisible ? <FaArrowLeft /> : <FaArrowRight />}
+                </button>
             </main>
         </>
     );

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './listDoc.css';  
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import { Link } from 'react-router-dom';
@@ -27,7 +26,7 @@ const DemandeAcc = () => {
                     <div className="row">
                         <div>
                             <div className="table-container">
-                                <h3 className='doc-title'>Liste des Demandes Acceptées</h3>
+                                <h3 className='formation-title'>Liste des Demandes Acceptées</h3>
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">

@@ -108,7 +108,6 @@ export default ApprouveList;
 import React, { useState, useEffect } from 'react';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
-import './listDoc.css';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 
@@ -171,7 +170,7 @@ function ApprouveList() {
                     <div className="row">
                         <div>
                             <div className="table-container">
-                                <h3 className='doc-title'>Liste des documents à approuver</h3>
+                                <h3 className='formation-title'>Liste des documents à approuver</h3>
                                 <div>
                                     {viewMode === 'list' ? (
 
@@ -235,9 +234,9 @@ function ApprouveList() {
                                                     <div key={demand.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
                                                         <div className="responsable-info">
-                                                            <h5 className="responsable-title"> {demand.type}</h5>
-                                                            <p><strong className="responsable-text">Document object :</strong> {demand.document_object}</p>
-                                                            <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
+                                                            <h5> {demand.type}</h5>
+                                                            <p><strong>Document object :</strong> {demand.document_object}</p>
+                                                            <p><strong>Statut :</strong> {demand.statut}</p>
                                                             <td>
                                                                 <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success  btn-sm me-2"> <FcApproval /> </button>
                                                                 <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger  btn-sm me-2"> <RxCross2 /></button>

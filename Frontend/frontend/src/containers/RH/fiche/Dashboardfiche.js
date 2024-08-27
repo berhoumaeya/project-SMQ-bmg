@@ -184,8 +184,8 @@ const DashboardFiche = () => {
                                                         <img src="https://via.placeholder.com/100" alt={fiche.name} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{fiche.name}</h5>
-                                                            <p><strong className="responsable-text">Poste :</strong> {fiche.job_position}</p>
-                                                            <p><strong className="responsable-text">Employé Concerné :</strong> {fiche.employe_concerne}</p>
+                                                            <p><strong >Poste :</strong> {fiche.job_position}</p>
+                                                            <p><strong >Employé Concerné :</strong> {fiche.employe_concerne}</p>
                                                             <Link to={`/update-fiche/${fiche.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
                                                             </Link>

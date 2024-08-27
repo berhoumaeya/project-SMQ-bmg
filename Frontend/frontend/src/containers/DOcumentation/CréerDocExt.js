@@ -90,12 +90,12 @@ const DocExtForm = () => {
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarDoc />
                 <div className="container ajout-form">
-                     
+
                     <form onSubmit={handleSubmit} className="row">
-                    <div className="button-container">
+                        <div className="button-container">
                             <button className="button-add" type="submit" onClick={handleSubmit}>Rédiger</button>
                         </div>
-                    <h4>Création un document externe</h4>
+                        <h4>Création un document externe</h4>
                         <div className="col-md-6">
                             <div className="form-label">
                                 <label className="form-label">Désignation :</label>

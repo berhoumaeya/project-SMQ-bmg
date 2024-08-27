@@ -124,8 +124,8 @@ const DashboardResponsable = () => {
                                                         <img src="https://via.placeholder.com/100" alt={`${responsable.nom} ${responsable.prenom}`} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{responsable.nom} {responsable.prenom}</h5>
-                                                            <p><strong className="responsable-text">Nom d'utilisateur :</strong> {responsable.username}</p>
-                                                            <p><strong className="responsable-text">Email :</strong> {responsable.email}</p>
+                                                            <p><strong>Nom d'utilisateur :</strong> {responsable.username}</p>
+                                                            <p><strong>Email :</strong> {responsable.email}</p>
                                                             <Link to={`/update-responsable/${responsable.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
                                                             </Link>

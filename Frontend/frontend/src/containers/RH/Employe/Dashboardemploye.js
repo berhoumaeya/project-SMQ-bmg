@@ -197,8 +197,8 @@ const DashboardEmploye = () => {
 
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-name">{employe.nom} {employe.prenom}</h5>
-                                                            <p><strong className="responsable-text">Username :</strong> {employe.username}</p>
-                                                            <p><strong className="responsable-text">Email :</strong> {employe.email}</p>
+                                                            <p><strong >Username :</strong> {employe.username}</p>
+                                                            <p><strong >Email :</strong> {employe.email}</p>
                                                             <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
 

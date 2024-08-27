@@ -67,7 +67,7 @@ const localizer = momentLocalizer(moment);
 const DashboardMeetings = () => {
     const [meetings, setMeetings] = useState([]);
     const [searchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list');
+    const [viewMode, setViewMode] = useState('calendar');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
     const [selectedMeeting, setSelectedMeeting] = useState(null);
     const [isBubbleVisible, setIsBubbleVisible] = useState(false);

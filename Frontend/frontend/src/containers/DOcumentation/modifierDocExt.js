@@ -127,7 +127,30 @@ function ModifierDocExt() {
 
                             </div>
                         </div>
-                        
+                        <br />
+                            <div className="card mb-4">
+                                <div className="card-header-">Historique</div>
+                                <div className="card-body">
+                                    <ul className="list-group list-group-flush">
+                                        {document ? (
+                                            <>
+                                                <li className="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <strong>Date de modification</strong><br />
+                                                        <small>{document.updated_at} - {document.updated_by}</small>
+                                                    </div>
+                                                </li>
+                                                <li className="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div> <strong>Date de création</strong><br />
+                                                        <small>{document.created_at} - {document.created_by}</small>
+                                                    </div>
+
+                                                </li>
+                                            </>
+                                        ) : (<div>Chargement...</div>)}
+                                    </ul>
+                                </div>
+                            </div>
                     </div>
                     <div className="col-xl-8">
 

@@ -216,9 +216,9 @@ const DashboardCompetence = () => {
                                                         <img src="https://via.placeholder.com/100" alt={competence.name} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{competence.name}</h5>
-                                                            <p><strong className="responsable-text">Commentaires :</strong> {competence.commentaires}</p>
-                                                            <p><strong className="responsable-text">Créé par :</strong> {competence.created_by}</p>
-                                                            <p><strong className="responsable-text">Créé à :</strong> {competence.created_at}</p>
+                                                            <p><strong >Commentaires :</strong> {competence.commentaires}</p>
+                                                            <p><strong >Créé par :</strong> {competence.created_by}</p>
+                                                            <p><strong >Créé à :</strong> {competence.created_at}</p>
                                                             <div>
                                                                 <button onClick={() => handleDelete(competence.id)} className="btn btn-danger"> <GrTrash /> </button>
                                                             </div>

@@ -131,9 +131,7 @@ const Audits = () => {
                                                             <Link to={`/audit/${audit.id}`} className="btn btn-outline-info  me-2">
                                                             <GrEdit />
                                                             </Link>
-                                                            <button className="btn btn-outline-danger" onClick={() => handleDelete(audit.id)}>
-                                                                <FaTrashAlt />
-                                                            </button>
+                                                           
                                                         </td>
                                                     </tr>
                                                 ))
@@ -151,15 +149,12 @@ const Audits = () => {
                                                 <div key={audit.id} className="responsable-item">
                                                     <img src="https://via.placeholder.com/100" alt={audit.reference} className="responsable-img" />
                                                     <div className="responsable-info">
-                                                        <h5 className="responsable-title">{audit.designation}</h5>
-                                                        <p><strong className="responsable-text">Type :</strong> {audit.type_audit}</p>
-                                                        <p><strong className="responsable-text">Statut :</strong> {audit.statut}</p>
+                                                        <h5>{audit.designation}</h5>
+                                                        <p><strong >Type :</strong> {audit.type_audit}</p>
+                                                        <p><strong >Statut :</strong> {audit.statut}</p>
                                                         <Link to={`/audit/${audit.id}`} className="btn btn-outline-info btn-sm me-2">
                                                             <GrEdit />
                                                         </Link>
-                                                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(audit.id)}>
-                                                            <FaTrashAlt />
-                                                        </button>
                                                     </div>
                                                 </div>
                                             ))

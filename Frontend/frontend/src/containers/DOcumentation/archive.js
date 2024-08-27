@@ -30,7 +30,7 @@ const Archive = () => {
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarDoc />
                 <div className="dashboard-doc-int" style={{ backgroundColor: '#ffffff', minHeight: '100vh', padding: '20px' }}>
-                    <div className="doc-title">
+                    <div className="formation-title">
                         <h3>Liste d'archive du document</h3>
                     </div>
                     <div className="documents-list">
