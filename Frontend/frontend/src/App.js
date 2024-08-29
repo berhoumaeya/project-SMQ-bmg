@@ -132,6 +132,7 @@ import DashboardMeetingsGuest from './containers/Reunionguest';
 import DashboardProduit from './containers/Produit/allProduit';
 import AuditDetail from './containers/audit/auditDetail';
 import AddAudit from './containers/audit/ajouteraudit';
+import ActionDetail from './containers/actions/actionDetails';
 
 
 const App = () => (
@@ -284,6 +285,7 @@ const App = () => (
           {/* actions : */}
           <Route path="/ajouteraction/" element={<CreateActionForm />} />
           <Route path="/Actions/" element={<Actions />} />
+          <Route path="/update-action/:id" element={<ActionDetail />} />
 
           {/* audits : */}
           <Route path="/Audits/" element={<Audits />} />

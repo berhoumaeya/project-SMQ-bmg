@@ -4,6 +4,8 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import SidebarDoc from '../../components/SidebarDoc';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { GrEdit } from 'react-icons/gr';
 
 function ModifierDocExt() {
     const { id } = useParams();
@@ -18,7 +20,7 @@ function ModifierDocExt() {
     const [liste_informeeID, setListeInformee] = useState([]);
     const [piecesJointesUrl, setPiecesJointesUrl] = useState('');
     const [updateReussi, setUpdateReussi] = useState(false);
-
+    const [commentaire, setCommentaire] = useState('');
     useEffect(() => {
         const fetchDoc = async () => {
             try {
@@ -58,6 +60,7 @@ function ModifierDocExt() {
         if (!duree_classement) formErrors.duree_classement = 'Durée de classement est requis.';
         if (liste_informeeID.length === 0) formErrors.liste_informee = 'Liste informée est requis.';
         if (!fichier && piecesJointesUrl === '') formErrors.fichier = 'Pièces jointes est requis.';
+        if (!commentaire) formErrors.commentaire = 'Commentaire est requis.';
         return formErrors;
     };
     const handleSubmit = (event) => {
@@ -71,6 +74,7 @@ function ModifierDocExt() {
         const formData = new FormData();
         formData.append('designation', designation);
         formData.append('lieu_classement', lieu_classement);
+        formData.append('commentaire', commentaire);
         formData.append('type', type);
         formData.append('duree_classement', duree_classement);
         liste_informeeID.forEach(id => { formData.append('liste_informee', id) });
@@ -91,6 +95,7 @@ function ModifierDocExt() {
                 console.log('Document modifié avec succès:', response.data);
                 setDesignation('');
                 setType('');
+                setCommentaire('');
                 setLieuClassement('');
                 setDureeClassement('');
                 setPiecesJointes(null);
@@ -108,26 +113,40 @@ function ModifierDocExt() {
 
     return (
         <> <SubNavbarDoc />
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
-            <SidebarDoc />             
-            <div className="container-xl px-4 mt-4">
-                <div className='row'>
-                    <div className="col-xl-4">
-                        <div className="card mb-4 mb-xl-0">
-                            <div className="card-header-">Profile Picture</div>
-                            <div className="card-body text-center">
-                                <div className="img-container mb-2">
-                                    <img
-                                        className="img-account-profile rounded-circle"
-                                        src="http://bootdey.com/img/Content/avatar/avatar1.png"
-                                        alt="Profile"
-                                        style={{ width: '150px', height: '150px' }}
-                                    />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarDoc />
+                <div className="container-xl px-4 mt-4">
+                    <div className='row'>
+                        <div className="col-xl-4">
+                            <div className="card mb-4 mb-xl-0">
+                                <div className="card-header-">Commentaire</div>
+                                <div className="card-body text-center">
+                                    {updateReussi ? (
+                                        <div className="small font-italic text-muted mb-4">
+                                            {commentaire ? commentaire : "Aucun commentaire disponible"}
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <input
+                                                className="form-control mb-3"
+                                                rows="3"
+                                                placeholder="Entrez un commentaire"
+                                                value={commentaire}
+                                                onChange={(e) => setCommentaire(e.target.value)}
+                                            />
+                                            <button
+                                                className="btn btn-primary" style={{ backgroundColor: '#5585b5' }}
+                                                onClick={() => {
+                                                    setUpdateReussi(true);
+                                                }}
+                                            >
+                                                Sauvegarder
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
-
                             </div>
-                        </div>
-                        <br />
+                            <br />
                             <div className="card mb-4">
                                 <div className="card-header-">Historique</div>
                                 <div className="card-body">
@@ -151,119 +170,126 @@ function ModifierDocExt() {
                                     </ul>
                                 </div>
                             </div>
-                    </div>
-                    <div className="col-xl-8">
+                        </div>
+                        <div className="col-xl-8">
 
-                        <div className="card mb-4">
-                            <div className="card-header-">Modifier le Document</div>
-                            <div className="card-body">
-                                <form onSubmit={handleSubmit}>
-                                    <div className="mb-3">
-                                        <label className="small mb-1" htmlFor="inputDesignation">Désignation</label>
-                                        <input
-                                            className="form-control"
-                                            id="inputDesignation"
-                                            type="text"
-                                            placeholder="Entrez la désignation"
-                                            value={designation}
-                                            onChange={(e) => setDesignation(e.target.value)}
-                                        />
-                                        {errors.designation && <p className="error">{errors.designation}</p>}
-                                    </div>
-                                    <div className="row gx-3 mb-3">
-                                        <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="inputType">Type</label>
-                                            <select
-                                                className="form-control"
-                                                id="inputType"
-                                                value={type}
-                                                onChange={(e) => setType(e.target.value)}
-                                            >
-                                                <option value="">Sélectionner...</option>
-                                                <option value="numerique">Numérique</option>
-                                                <option value="papier">Papier</option>
-                                            </select>
-                                            {errors.type && <p className="error">{errors.type}</p>}
+                            <div className="card mb-4">
+                                <div className="card-header-">Modifier le Document</div>
+                                <div className="card-body">
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="row gx-3 mb-3">
+                                            <div className="col-md-6">
+                                                <label className="small mb-1" htmlFor="inputDesignation">Désignation</label>
+                                                <input
+                                                    className="form-control"
+                                                    id="inputDesignation"
+                                                    type="text"
+                                                    placeholder="Entrez la désignation"
+                                                    value={designation}
+                                                    onChange={(e) => setDesignation(e.target.value)}
+                                                />
+                                                {errors.designation && <p className="error">{errors.designation}</p>}
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="small mb-1" htmlFor="inputType">Type</label>
+                                                <select
+                                                    className="form-control"
+                                                    id="inputType"
+                                                    value={type}
+                                                    onChange={(e) => setType(e.target.value)}
+                                                >
+                                                    <option value="">Sélectionner...</option>
+                                                    <option value="numerique">Numérique</option>
+                                                    <option value="papier">Papier</option>
+                                                </select>
+                                                {errors.type && <p className="error">{errors.type}</p>}
+                                            </div>
                                         </div>
-                                        <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="inputLieuClassement">Lieu de Classement</label>
-                                            <select
-                                                className="form-control"
-                                                id="inputLieuClassement"
-                                                value={lieu_classement}
-                                                onChange={(e) => setLieuClassement(e.target.value)}
-                                            >
-                                                <option value="">Sélectionner...</option>
-                                                <option value="Archives">Archives</option>
-                                                <option value="Bureau">Bureau</option>
-                                                <option value="Entrepôt">Entrepôt</option>
-                                                <option value="Cloud">Cloud</option>
-                                            </select>
-                                            {errors.lieu_classement && <p className="error">{errors.lieu_classement}</p>}
+                                        <div className="row gx-3 mb-3">
+
+                                            <div className="col-md-6">
+                                                <label className="small mb-1" htmlFor="inputLieuClassement">Lieu de Classement</label>
+                                                <select
+                                                    className="form-control"
+                                                    id="inputLieuClassement"
+                                                    value={lieu_classement}
+                                                    onChange={(e) => setLieuClassement(e.target.value)}
+                                                >
+                                                    <option value="">Sélectionner...</option>
+                                                    <option value="Archives">Archives</option>
+                                                    <option value="Bureau">Bureau</option>
+                                                    <option value="Entrepôt">Entrepôt</option>
+                                                    <option value="Cloud">Cloud</option>
+                                                </select>
+                                                {errors.lieu_classement && <p className="error">{errors.lieu_classement}</p>}
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="small mb-1" htmlFor="inputDureeClassement">Durée de Classement</label>
+                                                <input
+                                                    className="form-control"
+                                                    id="inputDureeClassement"
+                                                    type="text"
+                                                    placeholder="Entrez la durée de classement"
+                                                    value={duree_classement}
+                                                    onChange={(e) => setDureeClassement(e.target.value)}
+                                                />
+                                                {errors.duree_classement && <p className="error">{errors.duree_classement}</p>}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="small mb-1" htmlFor="inputDureeClassement">Durée de Classement</label>
-                                        <input
-                                            className="form-control"
-                                            id="inputDureeClassement"
-                                            type="text"
-                                            placeholder="Entrez la durée de classement"
-                                            value={duree_classement}
-                                            onChange={(e) => setDureeClassement(e.target.value)}
-                                        />
-                                        {errors.duree_classement && <p className="error">{errors.duree_classement}</p>}
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="small mb-1" htmlFor="inputListeInformee">Liste Informée</label>
-                                        <select
-                                            multiple
-                                            className="form-control"
-                                            id="inputListeInformee"
-                                            value={liste_informeeID}
-                                            onChange={(e) => setListeInformee([...e.target.selectedOptions].map(option => option.value))}
-                                        >
-                                            {liste_informees.map(informee => (
-                                                <option key={informee.id} value={informee.id}>{informee.username}</option>
-                                            ))}
-                                        </select>
-                                        {errors.liste_informee && <p className="error">{errors.liste_informee}</p>}
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="small mb-1" htmlFor="inputFichier">Pièces Jointes</label>
-                                        {piecesJointesUrl ? (
-                                            <div>
+                                        <div className="mb-3">
+                                            <label className="small mb-1" htmlFor="inputListeInformee">Liste Informée</label>
+                                            <select
+                                                multiple
+                                                className="form-control"
+                                                id="inputListeInformee"
+                                                value={liste_informeeID}
+                                                onChange={(e) => setListeInformee([...e.target.selectedOptions].map(option => option.value))}
+                                            >
+                                                {liste_informees.map(informee => (
+                                                    <option key={informee.id} value={informee.id}>{informee.username}</option>
+                                                ))}
+                                            </select>
+                                            {errors.liste_informee && <p className="error">{errors.liste_informee}</p>}
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="small mb-1" htmlFor="inputFichier">Pièces Jointes</label>
+                                            {piecesJointesUrl ? (
+                                                <div>
+                                                    <input
+                                                        className="form-control"
+                                                        id="inputFichier"
+                                                        type="text"
+                                                        value={piecesJointesUrl}
+                                                        onChange={(e) => setPiecesJointesUrl(e.target.value)}
+                                                    />
+                                                    <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
+                                                </div>
+                                            ) : (
                                                 <input
                                                     className="form-control"
                                                     id="inputFichier"
-                                                    type="text"
-                                                    value={piecesJointesUrl}
-                                                    onChange={(e) => setPiecesJointesUrl(e.target.value)}
+                                                    type="file"
+                                                    onChange={handleFileChange}
                                                 />
-                                                <a href={piecesJointesUrl} target="_blank" rel="noopener noreferrer">Consulter</a>
-                                            </div>
-                                        ) : (
-                                            <input
-                                                className="form-control"
-                                                id="inputFichier"
-                                                type="file"
-                                                onChange={handleFileChange}
-                                            />
-                                        )}
-                                        {errors.fichier && <p className="error">{errors.fichier}</p>}
-                                    </div>
-                                    <div className="text-center">
-                                        <button className="button-add-" type="submit">Modifier</button>
-                                        <Link to="/DashboardDocExt"><button className="retour ms-2">Annuler </button></Link>
-                                    </div>
-                                </form>
+                                            )}
+                                            {errors.fichier && <p className="error">{errors.fichier}</p>}
+                                        </div>
+                                        <div className="d-flex justify-content-end mt-3">
+                                            <Link to="/DashboardDocExt" className="btn btn-secondary me-2">
+                                                <IoMdArrowRoundBack /> Retour
+                                            </Link>
+                                            <button type="submit" className="btn btn-primary me-2">
+                                                <GrEdit /> Modifier
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </main>
-    </>
+                </div >
+            </main >
+        </>
     );
 }
 

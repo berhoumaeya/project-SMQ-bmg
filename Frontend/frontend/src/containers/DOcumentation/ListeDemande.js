@@ -86,157 +86,160 @@ return (
 };
 
 export default DemandList;
-*/
-import React, { useState, useEffect } from 'react';
+*/import React, { useState, useEffect } from 'react';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
-import HistorySidebar from '../../components/HistorySidebar';
+import History from '../../components/History'; // Import the History component
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
-const sampleDemands = [
+// Static data
+const sampleDocuments = [
     {
         id: 1,
-        type: 'Demande A',
-        document_object: 'Document 1',
-        created_by: 'Jean Dupont',
-        created_at: '2024-07-25T08:00:00Z',
-        attached_file: true,
-        statut: 'En attente'
+        libelle: 'Document A',
+        type: 'Type 1',
+        selection_site: 'Site 1',
+        selection_activite: 'Activité 1',
+        selection_redacteur: 'Rédacteur A',
+        selection_verificateur: 'Vérificateur A',
+        selection_approbateur: 'Approbateur A',
+        liste_informee: 'Liste A',
+        created_at: '2024-07-24T12:00:00Z',
+        statut: 'En attente',
+        fichier: 'fileA.pdf'
     },
     {
         id: 2,
-        type: 'Demande B',
-        document_object: 'Document 2',
-        created_by: 'Marie Martin',
-        created_at: '2024-07-25T09:00:00Z',
-        attached_file: false,
-        statut: 'En attente'
-    },
-    {
-        id: 3,
-        type: 'Demande C',
-        document_object: 'Document 3',
-        created_by: 'Paul Durand',
-        created_at: '2024-07-25T10:00:00Z',
-        attached_file: true,
-        statut: 'En attente'
+        libelle: 'Document B',
+        type: 'Type 2',
+        selection_site: 'Site 2',
+        selection_activite: 'Activité 2',
+        selection_redacteur: 'Rédacteur B',
+        selection_verificateur: 'Vérificateur B',
+        selection_approbateur: 'Approbateur B',
+        liste_informee: 'Liste B',
+        created_at: '2024-07-25T09:30:00Z',
+        statut: 'En attente',
+        fichier: 'fileB.pdf'
     }
 ];
 
-const DemandList = () => {
-    const [demands, setDemands] = useState([]);
-    const [searchQuery] = useState('');
+// Sample history data
+const documentHistory = sampleDocuments.map(document => ({
+    id: document.id,
+    date: document.created_at,
+    reference: document.libelle,
+    created_by: document.selection_redacteur,
+    created_at: document.created_at,
+    additional_field_1: 'Value 1', // Replace with real data
+    additional_field_2: 'Value 2'  // Replace with real data
+}));
+
+function VerifList() {
+    const [documents, setDocuments] = useState([]);
     const [viewMode, setViewMode] = useState('list');
-    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
     const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
     useEffect(() => {
-        setDemands(sampleDemands);
+        setDocuments(sampleDocuments);
     }, []);
+
+    const handleStatusChange = (documentId, newStatus) => {
+        const updatedDocuments = documents.map(document => {
+            if (document.id === documentId) {
+                return { ...document, statut: newStatus };
+            }
+            return document;
+        });
+        setDocuments(updatedDocuments);
+    };
+
     const toggleHistorySidebar = () => {
         setIsHistoryVisible(prevState => !prevState);
     };
-    const handleStatusChange = (demandId, newStatus) => {
-        const updatedDemands = demands.map(demand => {
-            if (demand.id === demandId) {
-                return { ...demand, statut: newStatus };
-            }
-            return demand;
-        });
-        setDemands(updatedDemands);
-    };
 
-    const filteredDemands = demands.filter(demand =>
-        demand.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        demand.document_object.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        demand.created_by.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    const requestSort = (key) => {
-        let direction = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
-        }
-        setSortConfig({ key, direction });
-    };
-
-    const getSortArrow = (key) => {
-        if (sortConfig.key === key) {
-            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
-        }
-        return '↕️';
-    };
     return (
-        <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
+        <>
+            <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarDoc />
                 <div className={`container dashboard ${isHistoryVisible ? 'history-visible' : ''}`}>
-                    <div className="container dashboard">
-                        <div className="row">
-                            <div>
-                                <div className="table-container">
-                                    <h3 className='formation-title'>Liste des Demandes</h3>
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className='formation-title'>Liste des documents à vérifier</h3>
+                                <div>
                                     {viewMode === 'list' ? (
-
                                         <table className="table-header">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" onClick={() => requestSort('type')}>Type de demande {getSortArrow('type')}</th>
-                                                    <th scope="col" onClick={() => requestSort('document_object')}>Objet de demande {getSortArrow('document_object')}</th>
-                                                    <th scope="col" onClick={() => requestSort('created_by')}>Créé par {getSortArrow('created_by')}</th>
-                                                    <th scope="col" onClick={() => requestSort('created_at')}>Créé à {getSortArrow('created_at')}</th>
-                                                    <th scope="col" >Pièces jointes</th>
-                                                    <th scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
+                                                    <th scope="col">Libelle</th>
+                                                    <th scope="col">Type de document</th>
+                                                    <th scope="col">Site</th>
+                                                    <th scope="col">Activité</th>
+                                                    <th scope="col">Vérificateur</th>
+                                                    <th scope="col">Approbateur</th>
+                                                    <th scope="col">Liste informée</th>
+                                                    <th scope="col">Statut</th>
+                                                    <th scope="col">Pièce jointe</th>
                                                     <th scope="col">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredDemands.length > 0 ? (
-                                                    filteredDemands.map(demand => (
-                                                        <tr >
-                                                            <td>{demand.type}</td>
-                                                            <td>{demand.document_object}</td>
-                                                            <td>{demand.created_by}</td>
-                                                            <td>{new Date(demand.created_at).toLocaleString()}</td>
+                                                {documents.length > 0 ? (
+                                                    documents.map(document => (
+                                                        <tr key={document.id}>
+                                                            <td>{document.libelle}</td>
+                                                            <td>{document.type}</td>
+                                                            <td>{document.selection_site}</td>
+                                                            <td>{document.selection_activite}</td>
+                                                            <td>{document.selection_verificateur}</td>
+                                                            <td>{document.selection_approbateur}</td>
+                                                            <td>{document.liste_informee}</td>
+                                                            <td>{document.statut}</td>
                                                             <td>
-                                                                {demand.attached_file ?
+                                                                {document.fichier ?
                                                                     <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
                                                                     'Aucun'}
                                                             </td>
-                                                            <td>{demand.statut}</td>
                                                             <td>
-                                                                <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success me-2"> <FcApproval /> </button>
-                                                                <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger me-2"> <RxCross2 /></button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success me-2">
+                                                                    <FcApproval />
+                                                                </button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
+                                                                    <RxCross2 />
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="8" className="text-center">Aucune demande disponible</td>
+                                                        <td colSpan="13" className="text-center">Aucun document disponible</td>
                                                     </tr>
                                                 )}
                                             </tbody>
                                         </table>
                                     ) : (
                                         <div className="grid">
-                                            {filteredDemands.length > 0 ? (
-                                                filteredDemands.map(demand => (
-                                                    <div key={demand.id} className="responsable-item">
-                                                        <img src="https://via.placeholder.com/100" alt={`${demand.type}`} className="responsable-img" />
+                                            {documents.length > 0 ? (
+                                                documents.map(document => (
+                                                    <div key={document.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={`${document.libelle}`} className="responsable-img" />
                                                         <div className="responsable-info">
-                                                            <h5 > {demand.type}</h5>
-                                                            <p><strong>Document object :</strong> {demand.document_object}</p>
-                                                            <p><strong>Statut :</strong> {demand.statut}</p>
+                                                            <h5>{document.libelle}</h5>
+                                                            <p><strong>Type :</strong> {document.type}</p>
+                                                            <p><strong>Statut :</strong> {document.statut}</p>
                                                             <td>
-                                                                <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
-                                                                <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
                                                             </td>
                                                         </div>
                                                     </div>
                                                 ))
                                             ) : (
-                                                <p className="text-center">Aucun demand disponible</p>
+                                                <p className="text-center">Aucun document disponible</p>
                                             )}
                                         </div>
                                     )}
@@ -245,13 +248,13 @@ const DemandList = () => {
                         </div>
                     </div>
                 </div>
-                {isHistoryVisible && <HistorySidebar />}
+                {isHistoryVisible && <History historyData={documentHistory} title="Historique des Documents" viewMode={viewMode} />}
                 <button className="toggle-button" onClick={toggleHistorySidebar}>
                     {isHistoryVisible ? <FaArrowLeft /> : <FaArrowRight />}
                 </button>
             </main>
         </>
     );
-};
+}
 
-export default DemandList;
+export default VerifList;

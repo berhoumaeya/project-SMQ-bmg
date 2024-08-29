@@ -196,7 +196,7 @@ const DashboardEmploye = () => {
                                                         <img src="https://via.placeholder.com/100" alt={employe.nom} className="responsable-img" />
 
                                                         <div className="responsable-info">
-                                                            <h5 className="responsable-name">{employe.nom} {employe.prenom}</h5>
+                                                            <h5 className="responsable-title">{employe.nom} {employe.prenom}</h5>
                                                             <p><strong >Username :</strong> {employe.username}</p>
                                                             <p><strong >Email :</strong> {employe.email}</p>
                                                             <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info btn-sm">

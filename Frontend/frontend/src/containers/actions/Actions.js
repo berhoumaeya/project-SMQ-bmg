@@ -173,8 +173,8 @@ const Actions = () => {
                                                 filteredRisks.map(risk => (
                                                     <div key={risk.id} className="responsable-item">
                                                         <div className="responsable-info">
-                                                            <h5 className="responsable-title">{risk.nom_action}</h5>
-                                                            <p><strong className="responsable-text">Designation:</strong> {risk.designation}</p>
+                                                            <h5 className='responsable-title'>{risk.nom_action}</h5>
+                                                            <p><strong>Designation:</strong> {risk.designation}</p>
                                                             <p>
                                                                 <span className={getTypeActionLabelClass(risk.type_action)}>
                                                                     {risk.type_action}

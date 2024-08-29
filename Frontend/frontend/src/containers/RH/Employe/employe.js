@@ -170,7 +170,7 @@ const EmployeDetail = () => {
                                             <>
                                                 <li className="list-group-item d-flex justify-content-between align-items-center">
                                                     <div>
-                                                        <strong>Date de modification</strong><br />
+                                                        <strong>Date de mise à jour</strong><br />
                                                         <small>{employe.updated_at} - {employe.updated_by}</small>
                                                     </div>
                                                 </li>

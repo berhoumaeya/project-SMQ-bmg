@@ -44,25 +44,25 @@ return <Navigate to="/Dashboardfiche"/>
 return (    
 <div>
 {froid ? (
-    <div className="card" >
-        <div className="card-body">
-            <p><strong>ID :</strong> {froid.id}</p>
-            <p><strong>name evaluation :</strong> {froid.name}</p>
-            <p><strong>Formation :</strong> {formation}</p>
-            <p><strong>Date de réalisation :</strong> {froid.date_realisation}</p>
-            <p><strong>criteres   :</strong> {froid.criteres}</p>
-            <p><strong>coefficients  :</strong> {froid.coefficients}</p>
-            <p><strong>Pièces jointes :</strong> {froid.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_froid/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-            <p><strong>crée par  :</strong> {froid.created_by}</p>
-            <p><strong>crée à :</strong> {froid.created_at}</p>
+<div className="card" >
+  <div className="card-body">
+      <p><strong>ID :</strong> {froid.id}</p>
+      <p><strong>name evaluation :</strong> {froid.name}</p>
+      <p><strong>Formation :</strong> {formation}</p>
+      <p><strong>Date de réalisation :</strong> {froid.date_realisation}</p>
+      <p><strong>criteres   :</strong> {froid.criteres}</p>
+      <p><strong>coefficients  :</strong> {froid.coefficients}</p>
+      <p><strong>Pièces jointes :</strong> {froid.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/RH/piece_jointe_froid/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
+      <p><strong>crée par  :</strong> {froid.created_by}</p>
+      <p><strong>crée à :</strong> {froid.created_at}</p>
 
-        </div>
-        <br />
-        <a href="/DashboardEvaluationFroid"><button className="btn-gray">Retour</button></a>&nbsp;
-        <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
-    </div>
+  </div>
+  <br />
+  <a href="/DashboardEvaluationFroid"><button className="btn-gray">Retour</button></a>&nbsp;
+  <button className="btn btn-danger" onClick={handleDelete}>Supprimer</button>
+</div>
 ):(
-    <p>chargement ... </p>
+<p>chargement ... </p>
 )}
 </div>
 );
@@ -233,29 +233,35 @@ const FroidDetail = () => {
                                 <div className="card-body">
                                     {froid ? (
                                         <form className="row" onSubmit={handleSubmit}>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Nom évaluation</label>
-                                                <input className="form-control" type="text" value={froid.name} readOnly />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Nom évaluation</label>
+                                                    <input className="form-control" type="text" value={froid.name} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Formation</label>
+                                                    <input className="form-control" type="text" value={formation} readOnly />
+                                                </div>
                                             </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Formation</label>
-                                                <input className="form-control" type="text" value={formation} readOnly />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Date de réalisation</label>
+                                                    <input className="form-control" type="text" value={froid.date_realisation} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Critères</label>
+                                                    <input className="form-control" type="text" value={froid.criteres} readOnly />
+                                                </div>
                                             </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Date de réalisation</label>
-                                                <input className="form-control" type="text" value={froid.date_realisation} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Critères</label>
-                                                <input className="form-control" type="text" value={froid.criteres} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Coefficients</label>
-                                                <input className="form-control" type="text" value={froid.coefficients} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Pièces jointes</label>
-                                                <input className="form-control" type="text" value={froid.pieces_jointes ? 'Oui' : 'Non'} readOnly />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Coefficients</label>
+                                                    <input className="form-control" type="text" value={froid.coefficients} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Pièces jointes</label>
+                                                    <input className="form-control" type="text" value={froid.pieces_jointes ? 'Oui' : 'Non'} readOnly />
+                                                </div>
                                             </div>
                                             <div className="row gx-3 mb-3">
                                                 <div className="col-md-6">

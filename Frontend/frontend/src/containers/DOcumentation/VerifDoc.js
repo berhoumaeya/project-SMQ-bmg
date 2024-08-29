@@ -1,122 +1,17 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './demande.css'
-import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
-
-function VerifList() {
-    const [documents, setdocuments] = useState([]);
-
-    
-
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/doc/documents/verification/`)
-            .then(response => {
-                setdocuments(response.data);
-            })
-            .catch(error => {
-                console.error('Erreur lors de la récupération des documents:', error);
-            });
-    }, []);
-
-    const handleStatusChange = (demandId, newStatus) => {
-        
-        const headers = {
-            'Accept': '*//*',
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken') 
-        };
-    
-        axios.put(
-            `${process.env.REACT_APP_API_URL}/doc/documents/verification/${demandId}/`, 
-            { 
-                statut: newStatus
-            },  
-            { headers: headers }  
-        )
-        .then(response => {
-            const updateddocuments = documents.map(demand => {
-                if (demand.id === demandId) {
-                    return { ...demand, statut: newStatus };
-                }
-                return demand;
-            });
-            setdocuments(updateddocuments);
-            window.location.reload();
-        })
-        .catch(error => {
-            console.error('Erreur lors de la mise à jour du statut de la demande:', error);
-        });
-    };
-    
-
-    return (
-        <div className="demand-list">
-        <h2>Liste des documents à vérifier</h2>
-        <ul>
-            {documents.map(demand => (
-                <li key={demand.id} className="demand-item">
-                    <div>
-                        <strong>Libelle :</strong> {demand.libelle}
-                    </div>
-                    <div>
-                        <strong>Type de document :</strong> {demand.type}
-                    </div>
-                    <div>
-                        <strong>Site :</strong> {demand.selection_site}
-                    </div>
-                    <div>
-                        <strong>Activité :</strong> {demand.selection_activite}
-                    </div>
-                    <div>
-                        <strong>Créé par :</strong> {demand.selection_redacteur}
-                    </div>
-                    <div>
-                        <strong>Vérificateur :</strong> {demand.selection_verificateur}
-                    </div>
-                    <div>
-                        <strong>Approbateur :</strong> {demand.selection_approbateur}
-                    </div>
-                    <div>
-                        <strong>liste informee :</strong> {demand.liste_informee}
-                    </div>
-                    <div>
-                        <strong>Créé à :</strong> {new Date(demand.created_at).toLocaleString()}
-                    </div>
-                    <div>
-                        <strong>Statut :</strong> {demand.statut}
-                    </div>
-                            <div>
-                                <strong>Pièce jointe:</strong>
-                                {demand.fichier ? <a href={`${process.env.REACT_APP_API_URL}/doc/documents/${demand.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}
-                            </div>
-
-                    <button className="accept-button" onClick={() => handleStatusChange(demand.id, 'Vérifié')}>Accepter</button>
-                    <button className="reject-button" onClick={() => handleStatusChange(demand.id, 'En attente')}>Refuser</button>
-                </li>
-            ))}
-        </ul>
-        <div className="dashboard-buttons">
-                <Link to={`/DashboardDoc/`} className="btn btn-secondary">Retour</Link>
-        </div>
-    </div>
-);
-};
-
-export default VerifList;
-*/
 import React, { useState, useEffect } from 'react';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
+import History from '../../components/History'; // Import the History component
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 // Static data
 const sampleDocuments = [
     {
         id: 1,
         libelle: 'Document A',
-        type: 'Type 1',
+        type: 'Manuel',
         selection_site: 'Site 1',
         selection_activite: 'Activité 1',
         selection_redacteur: 'Rédacteur A',
@@ -129,8 +24,8 @@ const sampleDocuments = [
     },
     {
         id: 2,
-        libelle: 'Document B',
-        type: 'Type 2',
+        libelle: 'Employés 2023',
+        type: 'Numerique',
         selection_site: 'Site 2',
         selection_activite: 'Activité 2',
         selection_redacteur: 'Rédacteur B',
@@ -143,11 +38,24 @@ const sampleDocuments = [
     }
 ];
 
+// Sample history data
+const documentHistory = sampleDocuments.map(document => ({
+    id: document.id,
+    date: document.created_at,
+    reference: document.libelle,
+    created_by: document.selection_redacteur,
+    created_at: document.created_at,
+    selection_verificateur: document.selection_verificateur,
+    selection_approbateur: document.selection_approbateur
+}));
+
 function VerifList() {
     const [documents, setDocuments] = useState([]);
-    const [viewMode, setViewMode] = useState('list'); 
+    const [viewMode, setViewMode] = useState('list');
+    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+    const [isVerifDoc, setIsVerifDoc] = useState(false); 
+
     useEffect(() => {
-        // Simulating data fetch
         setDocuments(sampleDocuments);
     }, []);
 
@@ -161,99 +69,107 @@ function VerifList() {
         setDocuments(updatedDocuments);
     };
 
+    const toggleHistorySidebar = () => {
+        setIsHistoryVisible(prevState => !prevState);
+    };
+
+    useEffect(() => {
+        if (window.location.pathname.includes('/VerifDoc')) {
+            setIsVerifDoc(true);
+        } else {
+            setIsVerifDoc(false);
+        }
+    }, []);
+
     return (
         <>
-        <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
-            <SidebarDoc /> 
-                       <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <div className="table-container">
-                            <h3 className='formation-title'>Liste des documents à vérifier</h3>
-                            <div>
-                            {viewMode === 'list' ? (
-                                <table className="table-header">
-                                        <thead>
-                                            <tr>
-                                            <th scope="col">Libelle</th>
-                                            <th scope="col">Type de document</th>
-                                            <th scope="col">Site</th>
-                                            <th scope="col">Activité</th>
-                                            <th scope="col">Créé par</th>
-                                            <th scope="col">Vérificateur</th>
-                                            <th scope="col">Approbateur</th>
-                                            <th scope="col">Liste informée</th>
-                                            <th scope="col">Créé à</th>
-                                            <th scope="col">Statut</th>
-                                            <th scope="col">Pièce jointe</th>
-                                            <th scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {documents.length > 0 ? (
-                                            documents.map(document => (
+            <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarDoc />
+                <div className={`container dashboard ${isHistoryVisible ? 'history-visible' : ''}`}>
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className='formation-title'>Liste des documents à vérifier</h3>
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
                                                 <tr>
-                                                    <td>{document.libelle}</td>
-                                                    <td>{document.type}</td>
-                                                    <td>{document.selection_site}</td>
-                                                    <td>{document.selection_activite}</td>
-                                                    <td>{document.selection_redacteur}</td>
-                                                    <td>{document.selection_verificateur}</td>
-                                                    <td>{document.selection_approbateur}</td>
-                                                    <td>{document.liste_informee}</td>
-                                                    <td>{new Date(document.created_at).toLocaleString()}</td>
-                                                    <td>{document.statut}</td>
-                                                    <td>
-                                                        {document.fichier ? 
-                                                            <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 
-                                                            'Aucun'}
-                                                    </td>
-                                                    <td>
-                                                        <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success me-2">
-                                                            <FcApproval /> 
-                                                        </button>
-                                                        <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
-                                                            <RxCross2 /> 
-                                                        </button>
-                                                    </td>
+                                                    <th scope="col">Libelle</th>
+                                                    <th scope="col">Type de document</th>
+                                                    <th scope="col">Site</th>
+                                                    <th scope="col">Activité</th>
+                                                    <th scope="col">Liste informée</th>
+                                                    <th scope="col">Statut</th>
+                                                    <th scope="col">Pièce jointe</th>
+                                                    <th scope="col">Actions</th>
                                                 </tr>
-                                            ))
-                                        ) : (
-                                            <tr>
-                                                <td colSpan="13" className="text-center">Aucun document disponible</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                                   ) : (
-                                    <div className="grid">
-                                    {documents.length > 0 ? (
-                                        documents.map(demand => (
-                                            <div key={demand.id} className="responsable-item">
-                                                <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
-                                                <div className="responsable-info">
-                                                    <h5> {demand.type}</h5>
-                                                    <p><strong>Document object :</strong> {demand.document_object}</p>
-                                                    <p><strong>Statut :</strong> {demand.statut}</p>
-                                                    <td>
-                                            <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
-                                            <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
-                                        </td>
-                                                </div>
-                                            </div>
-                                        ))
-                                    )  : (
-                                            <p className="text-center">Aucun demand disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                            </thead>
+                                            <tbody>
+                                                {documents.length > 0 ? (
+                                                    documents.map(document => (
+                                                        <tr key={document.id}>
+                                                            <td>{document.libelle}</td>
+                                                            <td>{document.type}</td>
+                                                            <td>{document.selection_site}</td>
+                                                            <td>{document.selection_activite}</td>
+                                                            <td>{document.liste_informee}</td>
+                                                            <td>{document.statut}</td>
+                                                            <td>
+                                                                {document.fichier ?
+                                                                    <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
+                                                                    'Aucun'}
+                                                            </td>
+                                                            <td>
+                                                                <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success me-2">
+                                                                    <FcApproval />
+                                                                </button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
+                                                                    <RxCross2 />
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="13" className="text-center">Aucun document disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
+                                            {documents.length > 0 ? (
+                                                documents.map(document => (
+                                                    <div key={document.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={`${document.libelle}`} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className='responsable-title'>{document.libelle}</h5>
+                                                            <p><strong>Type :</strong> {document.type}</p>
+                                                            <p><strong>Statut :</strong> {document.statut}</p>
+                                                            <td>
+                                                                <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
+                                                            </td>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-center">Aucun document disponible</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+                {isHistoryVisible && <History historyData={documentHistory} title="Historique des Documents" isVerifDoc={isVerifDoc} />}
+                <button className="toggle-button" onClick={toggleHistorySidebar}>
+                    {isHistoryVisible ? <FaArrowLeft /> : <FaArrowRight />}
+                </button>
+            </main>
         </>
     );
 }

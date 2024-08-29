@@ -104,7 +104,6 @@ const CreateActionForm = () => {
 
                         <div className="button-container">
                             <button className="button-add me-2" type="submit" onClick={handleSubmit}>Ajouter</button>
-                            <Link to="/Actions" ><button className="retour me-2">Annuler</button></Link>
                         </div>
                         <h4>Ajouter action</h4>
                         <div className="col-md-6">

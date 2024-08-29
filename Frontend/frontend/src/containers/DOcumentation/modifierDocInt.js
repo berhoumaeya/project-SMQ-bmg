@@ -4,6 +4,8 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import SidebarDoc from '../../components/SidebarDoc';
+import { GrEdit } from 'react-icons/gr';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 function ModifierDoc() {
     const { id } = useParams();
@@ -11,6 +13,7 @@ function ModifierDoc() {
     const [errors, setErrors] = useState({});
     const [fichier, setPiecesJointes] = useState(null);
     const [code, setCode] = useState('');
+    const [type_doc, setTypeDoc] = useState('');
     const [libelle, setLibelle] = useState('');
     const [selection_site, setSelectionSite] = useState('');
     const [selection_activite, setSelectionActivite] = useState('');
@@ -18,9 +21,12 @@ function ModifierDoc() {
     const [selection_verificateurs, setSelectionVerificateurs] = useState([]);
     const [selection_approbateurID, setSelectionApprobateur] = useState('');
     const [selection_approbateurs, setSelectionApprobateurs] = useState([]);
+    const [selection_redacteurID, setSelectionRedacteur] = useState('');
+    const [selection_redacteurs, setSelectionRedacteurs] = useState([]);
     const [liste_informeeID, setListeInformee] = useState([]);
     const [liste_informees, setListeInformees] = useState([]);
     const [piecesJointesUrl, setPiecesJointesUrl] = useState('');
+    const [commentaire, setCommentaire] = useState('');
 
     const [updateReussi, setupdateReussi] = useState(false);
 
@@ -31,14 +37,17 @@ function ModifierDoc() {
                 const data = response.data;
                 setLibelle(data.libelle);
                 setCode(data.code);
+                setTypeDoc(data.type_doc);
                 setSelectionSite(data.selection_site);
                 setSelectionActivite(data.selection_activite);
                 setSelectionVerificateur(data.selection_verificateur);
                 setSelectionApprobateur(data.selection_approbateur);
+                setSelectionRedacteur(data.selection_redacteur);
                 setListeInformee(data.liste_informee);
                 if (data.fichier) {
                     setPiecesJointesUrl(`${data.fichier}`);
                 }
+                setCommentaire(data.commentaire);
             } catch (error) {
                 console.error('Erreur lors de la récupération des données de document:', error);
             }
@@ -57,6 +66,10 @@ function ModifierDoc() {
         axios.get(`${process.env.REACT_APP_API_URL}/user/verif/`)
             .then(response => { setSelectionVerificateurs(response.data); })
             .catch(error => console.error('Error fetching verificateurs:', error));
+
+        axios.get(`${process.env.REACT_APP_API_URL}/user/redact/`)
+            .then(response => { setSelectionRedacteurs(response.data); })
+            .catch(error => console.error('Error fetching redacteurs:', error));
     }, [id]);
 
     const handleFileChange = (event) => {
@@ -69,12 +82,14 @@ function ModifierDoc() {
         const formErrors = {};
         if (!libelle) formErrors.libelle = 'Libellé est requis.';
         if (!selection_site) formErrors.selection_site = 'Site est requis.';
-        if (!code) formErrors.code = 'Code est requis'
+        if (!code) formErrors.code = 'Code est requis';
+        if (!type_doc) formErrors.type_doc = 'Type de document est requis.';
         if (!selection_activite) formErrors.selection_activite = 'Activité est requis.';
         if (!selection_verificateurID) formErrors.selection_verificateur = 'Vérificateur est requis.';
         if (!selection_approbateurID) formErrors.selection_approbateur = 'Approbateur est requis.';
         if (liste_informeeID.length === 0) formErrors.liste_informee = 'Liste informée est requis.';
         if (!fichier && piecesJointesUrl === '') formErrors.fichier = 'Pièces jointes est requis.';
+        if (!commentaire) formErrors.commentaire = 'Commentaire est requis.';
         return formErrors;
     };
 
@@ -89,10 +104,13 @@ function ModifierDoc() {
         const formData = new FormData();
         formData.append('libelle', libelle);
         formData.append('code', code);
+        formData.append('type_doc', type_doc);
         formData.append('selection_site', selection_site);
         formData.append('selection_activite', selection_activite);
         formData.append('selection_verificateur', selection_verificateurID);
         formData.append('selection_approbateur', selection_approbateurID);
+        formData.append('selection_redacteur', selection_redacteurID);
+        formData.append('commentaire', commentaire);
         liste_informeeID.forEach(id => { formData.append('liste_informee', id) });
         if (fichier) {
             formData.append('fichier', fichier);
@@ -111,13 +129,17 @@ function ModifierDoc() {
                 console.log('Document modifié avec succès:', response.data);
                 setLibelle('');
                 setCode('');
+                setTypeDoc('');
+                setCommentaire('');
                 setSelectionSite('');
                 setSelectionActivite('');
                 setSelectionVerificateur('');
                 setSelectionApprobateur('');
+                setSelectionRedacteur('');
                 setListeInformee([]);
                 setPiecesJointes(null);
                 setupdateReussi(true);
+
             })
             .catch(error => {
                 console.error('Error updating document:', error);
@@ -137,17 +159,30 @@ function ModifierDoc() {
                     <div className='row'>
                         <div className="col-xl-4">
                             <div className="card mb-4 mb-xl-0">
-                                <div className="card-header-">Profile Picture</div>
+                                <div className="card-header-">Commentaire</div>
                                 <div className="card-body text-center">
-                                    <div className="img-container mb-2">
-                                        <img
-                                            className="img-account-profile rounded-circle"
-                                            src="http://bootdey.com/img/Content/avatar/avatar1.png"
-                                            alt="Profile"
-                                            style={{ width: '150px', height: '150px' }}
-                                        />
-                                    </div>
-
+                                    {updateReussi ? (
+                                        <div className="small font-italic text-muted mb-4">
+                                            {commentaire ? commentaire : "Aucun commentaire disponible"}
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <input
+                                                className="form-control mb-3"
+                                                placeholder="Entrez un commentaire"
+                                                value={commentaire}
+                                                onChange={(e) => setCommentaire(e.target.value)}
+                                            />
+                                            <button
+                                                className="btn btn-primary" style={{ backgroundColor: '#5585b5' }}
+                                                onClick={() => {
+                                                    setupdateReussi(true);
+                                                }}
+                                            >
+                                                Sauvegarder
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                             <br />
@@ -180,29 +215,31 @@ function ModifierDoc() {
                                 <div className="card-header-">Modifier le Document</div>
                                 <div className="card-body">
                                     <form onSubmit={handleSubmit}>
-                                        <div className="mb-3">
-                                            <label className="small mb-1" htmlFor="inputCode">Code</label>
-                                            <input
-                                                className="form-control"
-                                                id="inputCode"
-                                                type="text"
-                                                placeholder="Entrez le code"
-                                                value={code}
-                                                onChange={(e) => setCode(e.target.value)}
-                                            />
-                                            {errors.code && <p className="error">{errors.code}</p>}
-                                        </div>
-                                        <div className="mb-3">
-                                            <label className="small mb-1" htmlFor="inputLibelle">Libellé</label>
-                                            <input
-                                                className="form-control"
-                                                id="inputLibelle"
-                                                type="text"
-                                                placeholder="Entrez le libellé"
-                                                value={libelle}
-                                                onChange={(e) => setLibelle(e.target.value)}
-                                            />
-                                            {errors.libelle && <p className="error">{errors.libelle}</p>}
+                                        <div className="row gx-3 mb-3">
+                                            <div className="col-md-6">
+                                                <label className="small mb-1" htmlFor="inputCode">Code</label>
+                                                <input
+                                                    className="form-control"
+                                                    id="inputCode"
+                                                    type="text"
+                                                    placeholder="Entrez le code"
+                                                    value={code}
+                                                    onChange={(e) => setCode(e.target.value)}
+                                                />
+                                                {errors.code && <p className="error">{errors.code}</p>}
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="small mb-1" htmlFor="inputLibelle">Libellé</label>
+                                                <input
+                                                    className="form-control"
+                                                    id="inputLibelle"
+                                                    type="text"
+                                                    placeholder="Entrez le libellé"
+                                                    value={libelle}
+                                                    onChange={(e) => setLibelle(e.target.value)}
+                                                />
+                                                {errors.libelle && <p className="error">{errors.libelle}</p>}
+                                            </div>
                                         </div>
                                         <div className="row gx-3 mb-3">
                                             <div className="col-md-6">
@@ -271,6 +308,38 @@ function ModifierDoc() {
                                                 {errors.selection_approbateur && <p className="error">{errors.selection_approbateur}</p>}
                                             </div>
                                         </div>
+                                        <div className="row gx-3 mb-3">
+                                            <div className="mb-3">
+                                                <label className="small mb-1" htmlFor="inputTypeDoc">Type de Document</label>
+                                                <select
+                                                    className="form-control"
+                                                    id="inputTypeDoc"
+                                                    value={type_doc}
+                                                    onChange={(e) => setTypeDoc(e.target.value)}
+                                                >
+                                                    <option value="">Sélectionner...</option>
+                                                    <option value="Interne">Manuel</option>
+                                                    <option value="Externe">Procédure</option>
+                                                    <option value="Externe">Politique</option>
+                                                </select>
+                                                {errors.type_doc && <p className="error">{errors.type_doc}</p>}
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="small mb-1" htmlFor="inputRedacteur">Rédacteur</label>
+                                                <select
+                                                    className="form-control"
+                                                    id="inputRedacteur"
+                                                    value={selection_redacteurID}
+                                                    onChange={(e) => setSelectionRedacteur(e.target.value)}
+                                                >
+                                                    <option value="">Sélectionner...</option>
+                                                    {selection_redacteurs.map(redacteur => (
+                                                        <option key={redacteur.id} value={redacteur.id}>{redacteur.username}</option>
+                                                    ))}
+                                                </select>
+                                                {errors.selection_redacteur && <p className="error">{errors.selection_redacteur}</p>}
+                                            </div>
+                                        </div>
                                         <div className="mb-3">
                                             <label className="small mb-1" htmlFor="inputListeInformee">Liste Informée</label>
                                             <select
@@ -296,9 +365,14 @@ function ModifierDoc() {
                                             />
                                             {errors.fichier && <p className="error">{errors.fichier}</p>}
                                         </div>
-                                        <div className="text-center">
-                                            <button className="button-add-" type="submit">Modifier</button>
-                                            <Link to="/DashboardDocInt" > <button className="retour ms-2">Annuler </button></Link>
+                                        <div className="d-flex justify-content-end mt-3">
+                                            <Link to="/DashboardDocInt" className="btn btn-secondary me-2">
+                                                <IoMdArrowRoundBack /> Retour
+                                            </Link>
+                                            <button type="submit" className="btn btn-primary me-2">
+                                                <GrEdit /> Modifier
+                                            </button>
+
                                         </div>
                                     </form>
                                 </div>

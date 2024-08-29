@@ -310,7 +310,7 @@ const DashboardDocInt = () => {
                                                                     <small>Selection d'activité : {doc.selection_activite} <span className="date text-muted">{doc.date}</span></small>
 
                                                                     <div className="actions mt-2">
-                                                                        <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
+                                                                        <Link to={`/modifierDocInt/${doc.id}`} className="btn btn-outline-success me-2">
                                                                             <GrEdit />
                                                                         </Link>
                                                                         <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>

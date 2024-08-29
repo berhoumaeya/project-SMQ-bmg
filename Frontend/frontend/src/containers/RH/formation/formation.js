@@ -128,6 +128,7 @@ const FormationDetail = () => {
     formData.append('date_debut_formation', formation.date_debut_formation);
     formData.append('date_fin_formation', formation.date_fin_formation);
     formData.append('responsable_validation', formation.responsable_validation);
+    formData.append('date_cloture', formation.date_cloture);
     formation.participants.forEach(id => {
       formData.append('participants', id);
     });
@@ -214,7 +215,11 @@ const FormationDetail = () => {
                           <div> <strong>Date de création</strong><br />
                             <small>{formation.created_at} - {formation.created_by}</small>
                           </div>
-
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                          <div> <strong>Date de clôture de la formation</strong><br />
+                            <small>{formation.date_cloture}</small>
+                          </div>
                         </li>
                       </>
                     ) : (<div>Chargement...</div>)}
@@ -303,7 +308,7 @@ const FormationDetail = () => {
                       </div>
                       <div className="mb-3">
                         <label className="small mb-1">Date de clôture de la formation</label>
-                        <input className="form-control" type="text" value={formation.date_cloture_formation} readOnly />
+                        <input className="form-control" type="text" value={formation.date_cloture} readOnly />
                       </div>
                       <div className="d-flex justify-content-end mt-3">
                         <Link to={`/Dashboardformation`} className="btn btn-secondary me-2">
