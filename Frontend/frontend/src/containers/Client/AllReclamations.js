@@ -119,6 +119,10 @@ import './client.css';
 import NavbarCli from './NavbarCli';
 import { FaEdit } from 'react-icons/fa';
 
+import SidbarCli from './SidbarCli'; 
+
+
+
 const Allreclamations = () => {
     const { id } = useParams();
 
@@ -161,6 +165,7 @@ const Allreclamations = () => {
         <>
             <NavbarCli viewMode={view} setViewMode={setView} />
             <main style={{ backgroundColor: '#ffff', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+            <SidbarCli />
                 <div className="client-dashboard">
                     <div className="row">
                         <div>

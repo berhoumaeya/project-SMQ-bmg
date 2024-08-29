@@ -85,6 +85,8 @@ import NavbarCli from './containers/Client/NavbarCli.js';
 import CreateReclamation from './containers/Client/CréerReclamationClient';
 import AllReclamations  from './containers/Client/AllReclamations';
 import ModifierReclamation from './containers/Client/ModifierReclamation';
+import SidbarCli from './containers/Client/SidbarCli.js';
+
 // Enquetes
 import AllEnquetes from './containers/Client/AllEnquete';
 import AddEnquete from './containers/Client/CréerEnquete';
@@ -253,7 +255,7 @@ const App = () => (
           <Route path="/ModifierReclamation/:reclamationId/" element={<ModifierReclamation />} />
           <Route path="/AllReclamations" element={<AllReclamations />} />
           <Route path="/ReclamationDetails/:id" element={<ReclamationDetails />} />
-          
+          <Route path="/SidbarCli" element={<SidbarCli/>} />
 
           {/* Enquetes Clients : */}
           <Route path="/AllEnquete/" element={<AllEnquetes />} />
