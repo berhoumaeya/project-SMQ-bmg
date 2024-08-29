@@ -164,10 +164,13 @@ const Client = () => {
     return (
         <div className="container-client px-4 mt-4">
             <nav className="nav-client">
+                <div className="nav-items-container">
                 <Link className="nav-item-client active ms-0" to="#">Profile</Link>
                 <Link className="nav-item-client" to="/AllReclamations">Reclamations</Link>
                 <Link className="nav-item-client" to="/AllSuggestion">Suggestion</Link>
                 <Link className="nav-item-client" to="/AllEnquete">Enquete</Link>
+                </div>
+                <Link className="btn btn-return" to={`/Clients`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider-client" />
             <div className="row">
@@ -347,11 +350,10 @@ const Client = () => {
                                         <label className="form-check-label-client" htmlFor="inputPiecesJointes">Pièces jointes</label>
                                     </div>
                                 </div>
-                                <div className="d-flex justify-content-end mt-4">
-                                <button className="btn-save-fournisseur" type="submit"> <CiSaveDown2 /> save </button>
-                                <button className="btn-delete-fournisseur ms-2" type="button" onClick={handleDelete}>     <GrTrash /> Delete</button>
-                                <Link to="/Clients" className="btn btn-secondary ms-2">  <IoMdArrowRoundBack />Retour 
-                      </Link>
+                                <div className="text-end">
+                                    <button type="submit" className="btn btn-primary"><CiSaveDown2 /> Sauvgarder</button>
+                                    <button type="button" className="btn btn-danger ms-2" onClick={handleDelete}><GrTrash /> Supprimer</button>
+
                                 </div>
                             </form>
                         </div>

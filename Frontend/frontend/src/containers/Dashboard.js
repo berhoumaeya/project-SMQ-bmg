@@ -18,7 +18,7 @@ function Dashboard() {
     const [modules] = useState([
         { title: "Ressources Humaines", url: "/dashboardRH", icon: <FaUser />, className: "bg-color-1" },
         { title: "Documentation", url: "/DashboardDoc", icon: <FaBook />, className: "bg-color-2" },
-        { title: "Client", url: "/DashboardClient", icon: <FaUserFriends />, className: "bg-color-3" },
+        { title: "Client", url: "/Clients", icon: <FaUserFriends />, className: "bg-color-3" },
         { title: "Fournisseur", url: "/fournisseurs", icon: <FaBuilding />, className: "bg-color-4" },
         { title: "Indicateur", url: "/indicateurs", icon: <FaChartBar />, className: "bg-color-5" },
         { title: "Audit", url: "/Audits", icon: <FaClipboardList />, className: "bg-color-6" },

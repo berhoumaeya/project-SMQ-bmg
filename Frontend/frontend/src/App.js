@@ -80,7 +80,7 @@ import Client from './containers/Client/ConsulterClient';
 import AddClient from './containers/Client/CréerClient';
 import ModifierClient from './containers/Client/modifierclient';
 import ReclamationDetails from './containers/Client/ReclamationDetails';
-
+import NavbarCli from './containers/Client/NavbarCli.js';
 //Réclamation Client
 import CreateReclamation from './containers/Client/CréerReclamationClient';
 import AllReclamations  from './containers/Client/AllReclamations';
@@ -246,6 +246,7 @@ const App = () => (
           <Route path="/ConsulterClient/:id" element={<Client />} />
           <Route path="/CréerClient" element={<AddClient />} />
           <Route path="/modifierclient/:id" element={<ModifierClient />} />
+          <Route path="/NavbarCli/" element={<NavbarCli />} />
 
           {/* Réclamation Clients : */}
           <Route path="/CréerReclamationClient/:id" element={<CreateReclamation />} />

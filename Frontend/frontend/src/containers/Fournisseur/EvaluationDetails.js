@@ -65,7 +65,7 @@ const EvaluationDetails = () => {
                         <div className="card-header-fournisseur">Description</div>
                         <div className="card-body-fournisseur">
                             <div className="mb-3">
-                                <textarea
+                                <input
                                     className="form-control-fournisseur"
                                     id="description"
                                     name="description"

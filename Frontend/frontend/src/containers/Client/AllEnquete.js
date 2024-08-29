@@ -97,7 +97,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 import './client.css';
-
+import NavbarCli from './NavbarCli';
 const AllEnquetes = () => {
     const { id } = useParams();
 
@@ -143,30 +143,18 @@ const AllEnquetes = () => {
     }
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <>
+            <NavbarCli viewMode={view} setViewMode={setView} />
+        <main style={{ backgroundColor: '#ffff', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="client-dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
                         <div className="client-table-container">
-                            <div className="client-view-toggle">
-                                <button className={`client-view-btn ${view === 'list' ? 'client-active' : ''}`} onClick={() => setView('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`client-view-btn ${view === 'grid' ? 'client-active' : ''}`} onClick={() => setView('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
+                            
                             <h3 className='client-formation-title'>Liste des Enquêtes</h3>
-                            <div className="client-button-container">
-                                <Link to={`/CréerEnquete/`}>
-                                    <button className="client-button-add">Ajouter Enquête</button>
-                                </Link>
-                                <Link to={`/consulterclient/01/`}>
-                                    <button className="client-retour">Retour</button>
-                                </Link>
-                            </div>
+                           
                             <div className="client-search-container">
                                 <input
                                     type="text"
@@ -242,6 +230,7 @@ const AllEnquetes = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

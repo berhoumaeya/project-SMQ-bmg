@@ -365,6 +365,17 @@ const Fournisseur = () => {
                                         />
                                     </div>
                                 </div>
+                                <div className="col-md-6">
+                                        <label className="form-label-fournisseur mb-1" htmlFor="inputPeriodiciteEvaluation">Périodicité d'évaluation</label>
+                                        <input
+                                            className="form-control-fournisseur"
+                                            id="inputPeriodiciteEvaluation"
+                                            name="periodicite_evaluation"
+                                            type="text"
+                                            value={fournisseurData.periodicite_evaluation}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
                                         <div className="form-check-fournisseur">
@@ -381,17 +392,16 @@ const Fournisseur = () => {
                                             </label>
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label-fournisseur mb-1" htmlFor="inputPeriodiciteEvaluation">Périodicité d'évaluation</label>
-                                        <input
-                                            className="form-control-fournisseur"
-                                            id="inputPeriodiciteEvaluation"
-                                            name="periodicite_evaluation"
-                                            type="text"
-                                            value={fournisseurData.periodicite_evaluation}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
+                                   
+                                    <div className="form-group">
+                                    <label>Pièces jointes :</label>
+                                    <input
+                                        type="file"
+                                        onChange={handleChange}
+                                        className="form-check-fournisseur"
+                                    />
+                                </div>
+
                                 </div>
                                 <div className="text-end">
                                     <button type="submit" className="btn btn-primary"><CiSaveDown2 /> Sauvgarder</button>

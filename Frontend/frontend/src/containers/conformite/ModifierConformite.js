@@ -269,11 +269,23 @@ const ModifierConformite = () => {
             <div className="row">
                 <div className="col-lg-4">
                     <div className="card-fournisseur mb-4">
-                        <div className="card-header-fournisseur">information supllimetaire </div>
+                        <div className="card-header-fournisseur">commentaire </div>
                         <div className="card-body-fournisseur text-center">
                            
                             <div className="mt-3">
-                                <div>
+                              
+                            <textarea
+                                className="form-control-fournisseur"
+                                placeholder="Ajouter un commentaire"
+                            />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="commentaire-section">
+                        <div className="commentaire-card-header">Historique</div>
+                        <div className="commentaire-card-body">
+
+                        <div>
                                     <label>Modifié le:</label>
                                     <p>{formData.modifie_le}</p>
                                 </div>
@@ -281,16 +293,7 @@ const ModifierConformite = () => {
                                     <label>Modifié par:</label>
                                     <p>{formData.modifie_par}</p>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="commentaire-section">
-                        <div className="commentaire-card-header">Commentaires</div>
-                        <div className="commentaire-card-body">
-                            <textarea
-                                className="form-control-fournisseur"
-                                placeholder="Ajouter un commentaire"
-                            />
+
                         </div>
                     </div>
                 </div>

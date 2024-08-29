@@ -5,9 +5,9 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { CiSaveDown2 } from "react-icons/ci";
 import './consulterfou.css';
 
-// Sample reclamations data, replace this with real API call in production
 const sampleReclamations = [
     {
+        
         id: 1,
         numero_sequentiel: '12345',
         date_reclamation: '2024-08-13',
@@ -66,16 +66,17 @@ const ReclamationfouDetails = () => {
 
             <hr className="divider" />
             <div className="row">
-                {/* Historique et Description à gauche */}
+
                 <div className="col-lg-4">
                 <div className="card-fournisseur mb-4">
                         <div className="card-header-fournisseur">Description</div>
                         <div className="card-body-fournisseur">
                             <div className="mb-3">
-                                <textarea
+                                <input
                                     className="form-control-fournisseur"
                                     id="description"
                                     name="description"
+                                    
                                     value={reclamation.description}
                                     onChange={handleChange}
                                 />
@@ -202,10 +203,11 @@ const ReclamationfouDetails = () => {
                         </div>
                     </div>
 
-                    <div className="button-group-fournisseur">
-                        <button className="btn btn-save"><CiSaveDown2 /> Enregistrer</button>
-                        <button className="btn btn-delete" onClick={handleDelete}><GrTrash /> Supprimer</button>
-                    </div>
+                    <div className="text-end">
+                                    <button type="submit" className="btn btn-primary"><CiSaveDown2 /> Sauvgarder</button>
+                                    <button type="button" className="btn btn-danger ms-2" onClick={handleDelete}><GrTrash /> Supprimer</button>
+
+                                </div>
                 </div>
             </div>
         </div>

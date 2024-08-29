@@ -69,13 +69,6 @@
     margin-right: 10px;
 }
 
-.fournisseur-search-input {
-    padding: 10px;
-    width: 90%;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-}
-
 .fournisseur-styled-table {
     width: 100%;
     border-collapse: collapse;
@@ -91,6 +84,7 @@
     color: #ffffff;
     text-align: left;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .fournisseur-styled-table th, .fournisseur-styled-table td {

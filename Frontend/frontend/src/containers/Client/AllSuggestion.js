@@ -98,6 +98,7 @@ export default AllSuggestions;*/
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './client.css';
+import NavbarCli from './NavbarCli';
 import { FaEdit, FaList, FaTh } from 'react-icons/fa';
 
 const AllSuggestions = () => {
@@ -143,29 +144,17 @@ const AllSuggestions = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <>
+            <NavbarCli viewMode={view} setViewMode={setView} />
+            <main style={{ backgroundColor: '#ffff', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="client-dashboard">
                 <div className="row">
                     <div>
                         <br />
-                        <div className="table-container">
-                            <div className="client-view-toggle">
-                                <button className={`client-view-btn ${view === 'list' ? 'client-active' : ''}`} onClick={() => setView('list')}>
-                                    <FaList /> 
-                                </button>
-                                <button className={`client-view-btn ${view === 'grid' ? 'client-active' : ''}`} onClick={() => setView('grid')}>
-                                    <FaTh /> 
-                                </button>
-                            </div>
+                        <div className="client-table-container">
+                         
                             <h3 className='client-formation-title'>Liste des Suggestions</h3>
-                            <div className="client-button-container">
-                                <Link to={`/CréerSuggestionClient/`}>
-                                    <button className="client-button-add">Ajouter</button>
-                                </Link>
-                                <Link to={`/ConsulterClient/:id/`}>
-                                    <button className="client-retour">Retour</button>
-                                </Link>
-                            </div>
+                           
                             <div className="client-search-container">
                                 <input
                                     type="text"
@@ -235,6 +224,7 @@ const AllSuggestions = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

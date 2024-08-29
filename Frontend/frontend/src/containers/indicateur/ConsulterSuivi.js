@@ -6,7 +6,6 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { CiSaveDown2 } from 'react-icons/ci';
 
 const Indicateur = () => {
-    // Initialisez les données statiques
     const [indicateurs, setIndicateurs] = useState({
         Libelle: 'Exemple Libelle',
         type_indicateur: 'Exemple Type',
@@ -25,7 +24,6 @@ const Indicateur = () => {
         updated_by: '',
     });
 
-    // Fonction de gestion des changements
     const handleChange = (e) => {
         const { name, value } = e.target;
         setIndicateurs((prevData) => ({
@@ -34,7 +32,6 @@ const Indicateur = () => {
         }));
     };
 
-    // Fonction de sauvegarde
     const handleSave = () => {
         console.log('Indicateur data updated:', indicateurs);
     };
@@ -42,7 +39,12 @@ const Indicateur = () => {
     return (
         <div className="container-indicateur px-4 mt-4">
             <nav className="nav-indicateur">
-                <Link className="nav-item active ms-0" to="#">Détails</Link>
+            <div className="nav-items-container">
+                <Link className="nav-item"to="#">Détails</Link>
+                         
+            
+                </div>
+                <Link className="btn btn-return" to={`/SuiviIndicateur/:id`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">

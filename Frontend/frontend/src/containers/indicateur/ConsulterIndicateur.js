@@ -133,8 +133,13 @@ const Indicateur = () => {
     return (
         <div className="container-indicateur px-4 mt-4">
             <nav className="nav-indicateur">
-                <Link className="nav-item active ms-0" to="#">Détails</Link>
-                <Link className="nav-item active ms-0" to="/SuiviIndicateur/:id">suivie</Link>            </nav>
+            <div className="nav-items-container">
+                <Link className="nav-item"to="#">Détails</Link>
+                <Link className="nav-item" to="/SuiviIndicateur/:id">suivie</Link>            
+            
+                </div>
+                <Link className="btn btn-return" to={`/indicateurs`}><IoMdArrowRoundBack /> Retour</Link>
+            </nav>
             <hr className="divider" />
             <div className="row">
                 <div className="col-lg-12">
@@ -311,9 +316,7 @@ const Indicateur = () => {
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-end mt-4">
-                                    <button type="button" className="btn btn-secondary me-2" onClick={() => { /* logic for returning */ }}>
-                                        <IoMdArrowRoundBack /> Retour
-                                    </button>
+                                    
                                     <button type="button" className="btn btn-primary me-2" onClick={handleSave}>
                                         <CiSaveDown2 /> Sauvegarder
                                     </button>

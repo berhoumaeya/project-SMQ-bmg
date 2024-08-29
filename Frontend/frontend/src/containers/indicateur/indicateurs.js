@@ -86,7 +86,7 @@ const DashboardIndicateurs = () => {
             axe_politique_qualite: "Axe 2",
             type_resultat_attendu: "Resultat 2"
         },
-        // Add more static data as needed
+       
     ];
 
     const [viewMode, setViewMode] = useState('list');
@@ -101,7 +101,7 @@ const DashboardIndicateurs = () => {
     );
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <main style={{ backgroundColor: '#ffff', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container indicateur-dashboard">
                 <div className="row">
                     <div>
@@ -145,7 +145,7 @@ const DashboardIndicateurs = () => {
                                                 <th scope="col">Libellé</th>
                                                 <th scope="col">Type Indicateur</th>
                                                 <th scope="col">Consulter</th>
-                                                <th scope="col">Suivre Indicateur</th>
+                                              
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -161,11 +161,7 @@ const DashboardIndicateurs = () => {
                                                                 <FaEdit /> 
                                                             </Link>
                                                         </td>
-                                                        <td>
-                                                            <Link to={`/AjouterSuiviIndicateur/${indicateur.id}`} className="btn btn btn-sm ml-2">
-                                                            <RiChatFollowUpLine />
-                                                            </Link>
-                                                        </td>
+                                                        
                                                     </tr>
                                                 ))
                                             ) : (
@@ -191,12 +187,7 @@ const DashboardIndicateurs = () => {
                                                                 <FaEdit /> 
                                                             </Link>
                                                         </div>
-                                                        <div>
-                                                            <Link to={`/AjouterSuiviIndicateur/${indicateur.id}`} className="btn btn-primary btn-sm ml-2">
-                                                               
-                                                            <RiChatFollowUpLine />
-                                                            </Link>
-                                                        </div>
+                                                       
                                                     </div>
                                                 </div>
                                             ))

@@ -113,11 +113,11 @@ const Allreclamations = () => {
 };
 
 export default Allreclamations;*/
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './client.css';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
+import NavbarCli from './NavbarCli';
+import { FaEdit } from 'react-icons/fa';
 
 const Allreclamations = () => {
     const { id } = useParams();
@@ -126,6 +126,8 @@ const Allreclamations = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState('list'); 
+    const [filterType, setFilterType] = useState('all');
+    const [filterValue, setFilterValue] = useState(''); // Define filterValue and setFilterValue
 
     useEffect(() => {
         const mockReclamations = [
@@ -135,7 +137,6 @@ const Allreclamations = () => {
                 description: 'Description for reclamation 1',
                 type_reclamation: 'Type 1',
             },
-            
         ];
 
         setReclamations(mockReclamations);
@@ -143,7 +144,6 @@ const Allreclamations = () => {
     }, [id]);
 
     const handleDelete = (reclamationId) => {
-
         setReclamations(prevReclamations => prevReclamations.filter(reclamation => reclamation.id !== reclamationId));
     };
 
@@ -158,96 +158,93 @@ const Allreclamations = () => {
     }
 
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="client-dashboard">
-                <div className="row">
-                    <div>
-                        <br />
-                        <br />
-                        <div className="table-container">
-                            <div className="client-view-toggle">
-                                <button className={`client-view-btn ${view === 'list' ? 'client-active' : ''}`} onClick={() => setView('list')}>
-                                    <FaList /> 
-                                </button>
-                                <button className={`client-view-btn ${view === 'grid' ? 'client-active' : ''}`} onClick={() => setView('grid')}>
-                                    <FaTh /> 
-                                </button>
-                            </div>
-                            <h3 className='client-formation-title'>Liste des Réclamations</h3>
-                            <div className="client-button-container">
-                                <Link to={`/CréerReclamationClient/${id}/`}>
-                                    <button className="client-button-add">Ajouter Réclamation</button>
-                                </Link>
-                                <Link to={`/ConsulterClient/${id}`}>
-                                    <button className="client-retour">Retour</button>
-                                </Link>
-                            </div>
-                            <div className="client-search-container">
-                                <input
-                                    type="text"
-                                    className="client-search-input"
-                                    placeholder="Rechercher..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
+        <>
+            <NavbarCli viewMode={view} setViewMode={setView} />
+            <main style={{ backgroundColor: '#ffff', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+                <div className="client-dashboard">
+                    <div className="row">
+                        <div>
                             <br />
-                            {view === 'list' ? (
-                                <table className="client-styled-table">
-                                    <thead className="table-header">
-                                        <tr>
-                                            <th scope="col">Code Réclamation</th>
-                                            <th scope="col">Description</th>
-                                            <th scope="col">Type Réclamation</th>
-                                            <th scope="col">Détails</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                            <br />
+                            <div className="client-table-container">
+                                <h3 className="client-formation-title">Liste des Réclamations</h3>
+                                <div className="client-filter-container">
+                                    <select
+                                        value={filterType}
+                                        onChange={(e) => setFilterType(e.target.value)}
+                                        className="client-filter-select"
+                                    >
+                                        <option value="all">Tous les filtres</option>
+                                        <option value="code">Code Réclamation</option>
+                                        <option value="nom">Description</option>
+                                        <option value="firstName">Type Réclamation</option>
+                                    </select>
+                                    <input
+                                        type="text"
+                                        placeholder="Filtrer..."
+                                        value={filterValue}
+                                        onChange={(e) => setFilterValue(e.target.value)}
+                                        className="client-filter-input"
+                                    />
+                                </div>
+                                <br />
+                                {view === 'list' ? (
+                                    <table className="client-styled-table">
+                                        <thead className="table-header">
+                                            <tr>
+                                                <th scope="col">Code Réclamation</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Type Réclamation</th>
+                                                <th scope="col">Détails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredReclamations.length > 0 ? (
+                                                filteredReclamations.map((reclamation, index) => (
+                                                    <tr key={index}>
+                                                        <td>{reclamation.code}</td>
+                                                        <td>{reclamation.description}</td>
+                                                        <td>{reclamation.type_reclamation}</td>
+                                                        <td>
+                                                            <Link to={`/ModifierReclamation/${reclamation.code}`} className="btn-view-details">
+                                                                <FaEdit />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="4" className="text-center">Aucune réclamation disponible</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="client-grid">
                                         {filteredReclamations.length > 0 ? (
                                             filteredReclamations.map((reclamation, index) => (
-                                                <tr key={index}>
-                                                    <td>{reclamation.code}</td>
-                                                    <td>{reclamation.description}</td>
-                                                    <td>{reclamation.type_reclamation}</td>
-                                                    <td>
-                                                        <Link to={`/ModifierReclamation/${reclamation.code}`} className="btn-view-details">
+                                                <div key={index} className="client-responsable-item">
+                                                    <div className="client-responsable-info">
+                                                        <h5 className="client-responsable-title">{reclamation.code}</h5>
+                                                        <p><strong className="client-responsable-text">Description :</strong> {reclamation.description}</p>
+                                                        <p><strong className="client-responsable-text">Type :</strong> {reclamation.type_reclamation}</p>
+                                                        <Link to={`/ModifierReclamation/${reclamation.code}`} className="btn btn-outline-info btn-sm">
                                                             <FaEdit />
                                                         </Link>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
                                             ))
                                         ) : (
-                                            <tr>
-                                                <td colSpan="4" className="text-center">Aucune réclamation disponible</td>
-                                            </tr>
+                                            <p className="text-center">Aucune réclamation disponible</p>
                                         )}
-                                    </tbody>
-                                </table>
-                            ) : (
-                                <div className="client-grid">
-                                    {filteredReclamations.length > 0 ? (
-                                        filteredReclamations.map((reclamation, index) => (
-                                            <div key={index} className="client-responsable-item">
-                                                <div className="client-responsable-info">
-                                                    <h5 className="client-responsable-title">{reclamation.code}</h5>
-                                                    <p><strong className="client-responsable-text">Description :</strong> {reclamation.description}</p>
-                                                    <p><strong className="client-responsable-text">Type :</strong> {reclamation.type_reclamation}</p>
-                                                    <Link to={`/ModifierReclamation/${reclamation.code}`} className="btn btn-outline-info btn-sm">
-                                                        <FaEdit />
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p className="text-center">Aucune réclamation disponible</p>
-                                    )}
-                                </div>
-                            )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

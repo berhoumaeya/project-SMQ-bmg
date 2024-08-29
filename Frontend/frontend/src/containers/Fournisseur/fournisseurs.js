@@ -139,7 +139,7 @@ const AllFournisseurs = () => {
                                     </select>
                                     <input
                                         type="text"
-                                        value={searchQuery} // Updated here
+                                        value={searchQuery} 
                                         onChange={handleSearchChange}
                                         placeholder="Rechercher..."
                                         className="risk-search-input"
