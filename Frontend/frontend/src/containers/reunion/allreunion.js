@@ -67,7 +67,7 @@ const localizer = momentLocalizer(moment);
 const DashboardMeetings = () => {
     const [meetings, setMeetings] = useState([]);
     const [searchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list');
+    const [viewMode, setViewMode] = useState('calendar');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
     const [selectedMeeting, setSelectedMeeting] = useState(null);
     const [isBubbleVisible, setIsBubbleVisible] = useState(false);
@@ -152,128 +152,135 @@ const DashboardMeetings = () => {
         <><main style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
 
             <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} />
-                <div className="container dashboard">
-                    <div className="row">
-                        <div>
-                            <div className="table-container">
-                                <div>
-                                    {viewMode === 'list' ? (
-                                        <div>
-                                            <h3 className="formation-title">Liste des Réunions</h3>
-                                            <table className="table-header">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" onClick={() => requestSort('created_by')}>
-                                                            Créé par {getSortArrow('created_by')}
-                                                        </th>
-                                                        <th scope="col" onClick={() => requestSort('type_reunion')}>
-                                                            Type {getSortArrow('type_reunion')}
-                                                        </th>
-                                                        <th scope="col" onClick={() => requestSort('lieu')}>
-                                                            Lieu {getSortArrow('lieu')}
-                                                        </th>
-                                                        <th scope="col" onClick={() => requestSort('ordre_du_jour')}>
-                                                            Ordre du jour {getSortArrow('ordre_du_jour')}
-                                                        </th>
-                                                        <th scope="col">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {filteredMeetings.length > 0 ? (
-                                                        filteredMeetings.map(meeting => (
-                                                            <tr key={meeting.id}>
-                                                                <td>{meeting.created_by}</td>
-                                                                <td>{meeting.type_reunion}</td>
-                                                                <td>{meeting.lieu}</td>
-                                                                <td>{meeting.ordre_du_jour}</td>
-                                                                <td>
-                                                                    <Link to={`/ConsulterReunion/${meeting.id}/`} className="btn btn-outline-info me-2 sub-navbar-link">
-                                                                        <FaBullseye />
-                                                                        <span className="tooltip">Consulter réunion</span>
-                                                                    </Link>
-                                                                    <Link to={`/PrendreDecision/${meeting.id}/`} className="btn btn-outline-secondary me-2 sub-navbar-link">
-                                                                        <FaRegQuestionCircle />
-                                                                        <span className="tooltip">Prendre décision</span>
-                                                                    </Link>
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                    ) : (
-                                                        <tr>
-                                                            <td colSpan="5" className="text-center">Aucune réunion disponible</td>
+            <div className="container dashboard">
+                <div className="row">
+                    <div>
+                        <div className="table-container">
+                            <div>
+                                {viewMode === 'list' ? (
+                                    <div>
+                                        <h3 className="formation-title">Liste des Réunions</h3>
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('created_by')}>
+                                                        Créé par {getSortArrow('created_by')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('type_reunion')}>
+                                                        Type {getSortArrow('type_reunion')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('lieu')}>
+                                                        Lieu {getSortArrow('lieu')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('ordre_du_jour')}>
+                                                        Ordre du jour {getSortArrow('ordre_du_jour')}
+                                                    </th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredMeetings.length > 0 ? (
+                                                    filteredMeetings.map(meeting => (
+                                                        <tr key={meeting.id}>
+                                                            <td>{meeting.created_by}</td>
+                                                            <td>{meeting.type_reunion}</td>
+                                                            <td>{meeting.lieu}</td>
+                                                            <td>{meeting.ordre_du_jour}</td>
+                                                            <td>
+                                                                <Link to={`/ConsulterReunion/${meeting.id}/`} className="btn btn-outline-info me-2 sub-navbar-link">
+                                                                    <FaBullseye />
+                                                                    <span className="tooltip">Consulter réunion</span>
+                                                                </Link>
+                                                                <Link to={`/PrendreDecision/${meeting.id}/`} className="btn btn-outline-secondary me-2 sub-navbar-link">
+                                                                    <FaRegQuestionCircle />
+                                                                    <span className="tooltip">Prendre décision</span>
+                                                                </Link>
+                                                            </td>
                                                         </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    ) : viewMode === 'calendar' ? (
-                                        <div className="calendar-container">
-                                            <Calendar
-                                                localizer={localizer}
-                                                events={events}
-                                                startAccessor="start"
-                                                endAccessor="end"
-                                                style={{ height: 600, width: '100%' }}
-                                                onSelectEvent={handleDateClick}
-                                                eventPropGetter={(event) => ({
-                                                    style: {
-                                                        backgroundColor: event.backgroundColor,
-                                                        borderColor: event.borderColor
-                                                    }
-                                                })}
-                                            />
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">Aucune réunion disponible</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : viewMode === 'calendar' ? (
+                                    <div className="calendar-container">
+                                        <Calendar
+                                            localizer={localizer}
+                                            events={events}
+                                            startAccessor="start"
+                                            endAccessor="end"
+                                            style={{ height: 600, width: '100%' }}
+                                            onSelectEvent={handleDateClick}
+                                            eventPropGetter={(event) => ({
+                                                style: {
+                                                    backgroundColor: event.backgroundColor,
+                                                    borderColor: event.borderColor
+                                                }
+                                            })}
+                                        />
 
-                                            {isBubbleVisible && selectedMeeting && (
-                                                <div className="meeting-detail-bubble">
-                                                    <div
-                                                        className="card-header-1"
-                                                        style={{ backgroundColor: getColorForMeeting(selectedMeeting.id) }}
+                                        {isBubbleVisible && selectedMeeting && (
+                                            <div className="meeting-detail-bubble">
+                                                <div
+                                                    className="card-header-1"
+                                                    style={{ backgroundColor: getColorForMeeting(selectedMeeting.id) }}
 
-                                                    >
-                                                        Réunion N° {selectedMeeting.id}
-                                                    </div>
-                                                    <div className='text'>
-                                                        <p><span><FaUser /></span> {selectedMeeting.created_by}</p>
-                                                        <p><span><FaClipboardList /></span> {selectedMeeting.type_reunion}</p>
-                                                        <p><span><FaMapMarkerAlt /></span> {selectedMeeting.lieu}</p>
-                                                        <p><span><FaClipboardList /></span> {selectedMeeting.ordre_du_jour}</p>
-                                                        <p><span><FaCalendarAlt /></span> {selectedMeeting.created_at}</p>
-                                                        <p><span><FaFileAlt /></span> {selectedMeeting.piece_jointe ? <a href="/" target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}</p>
-                                                    </div>
-
-                                                    <div className='ligne'></div>
-                                                    <div className="meeting-detail-buttons">
-                                                        <Link to={`/ConsulterReunion/${selectedMeeting.id}/`} className="btn btn-outline-info me-2 sub-navbar-link">
-                                                            <FaBullseye />
-                                                            <span className="tooltip">Consulter réunion</span>
-                                                        </Link>
-                                                        <Link to={`/PrendreDecision/${selectedMeeting.id}/`} className="btn btn-outline-secondary me-2 sub-navbar-link">
-                                                            <FaRegQuestionCircle />
-                                                            <span className="tooltip">Prendre décision</span>       
-                                                        </Link>
-                                                    </div>
+                                                >
+                                                    Réunion N° {selectedMeeting.id}
                                                 </div>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <div>
+                                                <div className='text'>
+                                                    <p><span><FaUser /></span> {selectedMeeting.created_by}</p>
+                                                    <p><span><FaClipboardList /></span> {selectedMeeting.type_reunion}</p>
+                                                    <p><span><FaMapMarkerAlt /></span> {selectedMeeting.lieu}</p>
+                                                    <p><span><FaClipboardList /></span> {selectedMeeting.ordre_du_jour}</p>
+                                                    <p><span><FaCalendarAlt /></span> {selectedMeeting.created_at}</p>
+                                                    <p><span><FaFileAlt /></span> {selectedMeeting.piece_jointe ? <a href="/" target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}</p>
+                                                </div>
+
+                                                <div className='ligne'></div>
+                                                <div className="meeting-detail-buttons">
+                                                    <Link to={`/ConsulterReunion/${selectedMeeting.id}/`} className="btn btn-outline-info me-2 sub-navbar-link">
+                                                        <FaBullseye />
+                                                        <span className="tooltip">Consulter réunion</span>
+                                                    </Link>
+                                                    <Link to={`/PrendreDecision/${selectedMeeting.id}/`} className="btn btn-outline-secondary me-2 sub-navbar-link">
+                                                        <FaRegQuestionCircle />
+                                                        <span className="tooltip">Prendre décision</span>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div>
                                         <h3 className="formation-title">Liste des Réunions</h3>
                                         <div className="grid">
-                                    
+
                                             {filteredMeetings.length > 0 ? (
                                                 filteredMeetings.map(meeting => (
                                                     <div key={meeting.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={`${meeting.id}`} className="responsable-img" />
+
                                                         <div className="responsable-info">
-                                                        <h5 className="responsable-name">Réunion N° {meeting.id}</h5>
+                                                            <h5 className="responsable-title">Réunion N° {meeting.id}</h5>
                                                             <p><strong>Créé par:</strong> {meeting.created_by}</p>
                                                             <p><strong>Type:</strong> {meeting.type_reunion}</p>
                                                             <p><strong>Lieu:</strong> {meeting.lieu}</p>
                                                             <p><strong>Ordre du jour:</strong> {meeting.ordre_du_jour}</p>
-                                                            <p><strong>Créé à:</strong> {meeting.created_at}</p>
                                                             <p><strong>Pièces jointes:</strong> {meeting.piece_jointe ? <a href="#" target="_blank" rel="noopener noreferrer">Consulter</a> : 'Aucune'}</p>
                                                             <div className="meeting-card-buttons">
-                                                                <Link to={`/ConsulterReunion/${meeting.id}/`} className="btn btn-primary">Consulter</Link>
-                                                                <Link to={`/PrendreDecision/${meeting.id}/`} className="btn btn-secondary">Prendre décision</Link>
+                                                                <Link to={`/ConsulterReunion/${meeting.id}/`} className="btn btn-outline-info me-2 sub-navbar-link">
+                                                                    <FaBullseye />
+                                                                    <span className="tooltip">Consulter réunion</span>
+                                                                </Link>
+                                                                <Link to={`/PrendreDecision/${meeting.id}/`} className="btn btn-outline-secondary me-2 sub-navbar-link">
+                                                                    <FaRegQuestionCircle />
+                                                                    <span className="tooltip">Prendre décision</span>
+                                                                </Link>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -281,18 +288,18 @@ const DashboardMeetings = () => {
                                             ) : (
                                                 <p>Aucune réunion disponible</p>
                                             )}
-                                    
+
                                         </div>
                                     </div>
-                                    
 
-                                    )}
-                                </div>
+
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
+        </main>
         </>
     );
 };

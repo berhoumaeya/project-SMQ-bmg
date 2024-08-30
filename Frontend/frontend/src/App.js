@@ -141,6 +141,7 @@ import ConsulterProduit from './containers/Produit/ConsulterProduit';
 import AuditDetail from './containers/audit/auditDetail';
 import AddAudit from './containers/audit/ajouteraudit';
 import Allreclamations from './containers/Client/AllReclamations';
+import ActionDetail from './containers/actions/actionDetails';
 
 
 const App = () => (
@@ -300,6 +301,7 @@ const App = () => (
           {/* actions : */}
           <Route path="/ajouteraction/" element={<CreateActionForm />} />
           <Route path="/Actions/" element={<Actions />} />
+          <Route path="/update-action/:id" element={<ActionDetail />} />
 
           {/* audits : */}
           <Route path="/Audits/" element={<Audits />} />

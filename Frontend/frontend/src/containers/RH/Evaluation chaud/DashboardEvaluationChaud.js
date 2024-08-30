@@ -181,8 +181,8 @@ const DashboardChaud = () => {
                                                         <img src="https://via.placeholder.com/100" alt={chaud.name} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{chaud.name}</h5>
-                                                            <p><strong className="responsable-text">Créé par :</strong> {chaud.created_by}</p>
-                                                            <p><strong className="responsable-text">Créé à :</strong> {chaud.created_at}</p>
+                                                            <p><strong >Créé par :</strong> {chaud.created_by}</p>
+                                                            <p><strong >Créé à :</strong> {chaud.created_at}</p>
                                                             <Link to={`/update-chaud/${chaud.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
                                                             </Link>

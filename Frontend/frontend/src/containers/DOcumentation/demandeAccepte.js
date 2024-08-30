@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import './listDoc.css';  
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import { Link } from 'react-router-dom';
+import { HiOutlineDocumentAdd } from "react-icons/hi";
 
 const staticDemandes = [
-    { id: 1, type: 'Type A', document_object: 'Objet A', statut: 'Accepté' },
-    { id: 2, type: 'Type B', document_object: 'Objet B', statut: 'Accepté' },
-    { id: 3, type: 'Type C', document_object: 'Objet C', statut: 'Accepté' },
+    { id: 1, type: 'Manuel', document_object: 'Objet A', statut: 'Accepté' },
+    { id: 2, type: 'Procédure', document_object: 'Objet B', statut: 'Accepté' },
+    { id: 3, type: 'Politique', document_object: 'Objet C', statut: 'Accepté' },
 ];
 
 const DemandeAcc = () => {
@@ -27,7 +27,7 @@ const DemandeAcc = () => {
                     <div className="row">
                         <div>
                             <div className="table-container">
-                                <h3 className='doc-title'>Liste des Demandes Acceptées</h3>
+                                <h3 className='formation-title'>Liste des Demandes Acceptées</h3>
                                 <div>
                                     {viewMode === 'list' ? (
                                         <table className="table-header">
@@ -49,7 +49,8 @@ const DemandeAcc = () => {
                                                             <td>{demande.document_object}</td>
                                                             <td>{demande.statut}</td>
                                                             <td>
-                                                                <Link to={`/CréerDocInt/${demande.id}`} ><button className="button-add" style={{marginTop:'10px'}}>Créer document</button></Link>
+                                                                <Link to={`/CréerDocInt/${demande.id}`} ><button className="btn btn-outline-info" style={{ marginTop: '10px' }}><HiOutlineDocumentAdd />
+                                                                </button> </Link>
                                                             </td>
                                                         </tr>
                                                     ))
@@ -65,16 +66,15 @@ const DemandeAcc = () => {
                                             {filteredDemandes.length > 0 ? (
                                                 filteredDemandes.map(demande => (
                                                     <div key={demande.id} className="responsable-item">
-                                                        <img src="https://via.placeholder.com/100" alt={`${demande.tyoe}`} className="responsable-img" />
-
+                                                       <img src="https://via.placeholder.com/100" alt={`${demande.type}`} className="responsable-img" />
                                                         <div className="responsable-info">
-                                                            <p className="responsable-text">Demande N°: {demande.id}</p>
-                                                            <p className="responsable-text">Type document: {demande.type}</p>
-                                                            <p className="responsable-text">Objet: {demande.document_object}</p>
-                                                            <p className="responsable-text">Statut: {demande.statut}</p>
+                                                            <h5 className='responsable-title'> Demande N°: {demande.id}</h5>
+                                                              <p><strong>Type document: </strong>{demande.type}</p>
+                                                              <p><strong>Objet: </strong>{demande.document_object}</p>
+                                                              <p><strong>Statut: </strong>{demande.statut}</p>
 
                                                             <td>
-                                                                <Link to={`/CréerDocInt/${demande.id}`} ><button className="button-add-">Créer document</button></Link>
+                                                                <Link to={`/CréerDocInt/${demande.id}`} ><button className="btn  btn-outline-info"><HiOutlineDocumentAdd /></button></Link>
                                                             </td>
                                                         </div>
                                                     </div>

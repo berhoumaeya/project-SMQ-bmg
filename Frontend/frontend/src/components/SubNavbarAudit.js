@@ -1,16 +1,29 @@
 import React from 'react';
 import { IoIosAddCircleOutline, IoIosArrowBack } from "react-icons/io";
-import { FaList, FaTh, FaCalendar } from "react-icons/fa";
+import { FaList, FaTh } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { IoCalendarNumberOutline } from "react-icons/io5";
 
 const SubNavbarAudit = ({ viewMode, setViewMode }) => {
     const location = useLocation();
     const isOnActionsPage = location.pathname.includes('/Actions');
     const isOnReunionsPage = location.pathname.includes('/allreunion');
-    const isOnAjouterPage = location.pathname.includes('/ajouter') || 
-    location.pathname.includes('/Ajouter') || 
-    location.pathname.includes('/PrendreDecision') ||
-    location.pathname.includes('/ConsulterReunion')  ;
+    const isOnAjouterPage = location.pathname.includes('/ajouter') ||
+        location.pathname.includes('/Ajouter') ||
+        location.pathname.includes('/PrendreDecision') ||
+        location.pathname.includes('/ConsulterReunion');
+
+    const getRetourLink = () => {
+        if (location.pathname.includes('/ajouteraction') || location.pathname.includes('/update-action')
+        ) {
+            return '/Actions';
+        } else if (location.pathname.includes('/AjouterReunion')) {
+            return '/allreunion';
+        } else {
+            return '/Dashboard'; // Default fallback
+        }
+    };
+
     const showRetourButton = location.pathname.includes('/valideraudit') ||
         location.pathname.includes('/Audits') ||
         location.pathname.includes('/ajouter') ||
@@ -18,6 +31,8 @@ const SubNavbarAudit = ({ viewMode, setViewMode }) => {
         location.pathname.includes('/PrendreDecision') ||
         location.pathname.includes('/audit') ||
         location.pathname.includes('/ConsulterReunion') ||
+        location.pathname.includes('/Actions') ||
+        location.pathname.includes('/update-action') ||
         isOnActionsPage ||
         isOnReunionsPage;
 
@@ -25,7 +40,7 @@ const SubNavbarAudit = ({ viewMode, setViewMode }) => {
         <div className="sub-navbar-container">
             <div className="sub-navbar-links">
                 {showRetourButton && (
-                    <Link to='/Dashboard'>
+                    <Link to={getRetourLink()}>
                         <button className="sub-navbar-link">
                             <IoIosArrowBack />
                             <span className="tooltip">Retour</span>
@@ -56,7 +71,7 @@ const SubNavbarAudit = ({ viewMode, setViewMode }) => {
                         className={`sub-navbar-link ${viewMode === 'calendar' ? 'active' : ''}`}
                         onClick={() => setViewMode('calendar')}
                     >
-                        <FaCalendar />
+                        <IoCalendarNumberOutline />
                         <span className="tooltip">Calendar</span>
                     </button>
                 )}

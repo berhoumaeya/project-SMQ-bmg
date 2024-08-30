@@ -192,7 +192,7 @@ const ParticipantDetail = () => {
                                             <>
                                                 <li className="list-group-item d-flex justify-content-between align-items-center">
                                                     <div>
-                                                        <strong>Date de modification</strong><br />
+                                                        <strong>Date de mise à jour</strong><br />
                                                         <small>{participant.updated_at} - {participant.updated_by}</small>
                                                     </div>
                                                 </li>
@@ -235,27 +235,24 @@ const ParticipantDetail = () => {
                                                     <input className="form-control" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                                 </div>
                                             </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Formations concernées</label>
-                                                <input className="form-control" type="text" value={formationsnames.join(', ')} readOnly />
+                                            <div className="row gx-3 mb-3">
+
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Formations concernées</label>
+                                                    <input className="form-control" type="text" value={formationsnames.join(', ')} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Date de création</label>
+                                                    <input className="form-control" type="text" value={participant.created_at} readOnly />
+                                                </div>
                                             </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Date de création</label>
-                                                <input className="form-control" type="text" value={participant.created_at} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Date de mise à jour</label>
-                                                <input className="form-control" type="text" value={participant.updated_at} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Est un utilisateur</label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={is_user}
-                                                    onChange={(e) => setIsUser(e.target.checked)}
-                                                />
-                                            </div>
-                                            <div className="mb-3">
+                                            <div className="row gx-3 mb-3">
+
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Date de mise à jour</label>
+                                                    <input className="form-control" type="text" value={participant.updated_at} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
                                                 <label className="small mb-1">Employé concerné</label>
                                                 <select
                                                     className="form-control"
@@ -267,7 +264,16 @@ const ParticipantDetail = () => {
                                                         <option key={emp.id} value={emp.id}>{emp.username}</option>
                                                     ))}
                                                 </select>
+                                            </div>  
                                             </div>
+                                            <div className="col-md-6">
+                                                    <label className="small mb-1">Est un utilisateur</label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={is_user}
+                                                        onChange={(e) => setIsUser(e.target.checked)}
+                                                    />
+                                                </div>
                                             <div className="d-flex justify-content-end mt-3">
                                                 <Link to={`/DashboardParticipant`} className="btn btn-secondary me-2">
                                                     <IoMdArrowRoundBack /> Retour

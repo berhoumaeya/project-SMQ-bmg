@@ -233,29 +233,37 @@ const ChaudDetail = () => {
                                 <div className="card-body">
                                     {chaud ? (
                                         <form className="row" onSubmit={handleSubmit}>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Nom évaluation</label>
-                                                <input className="form-control" type="text" value={chaud.name} readOnly />
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Nom évaluation</label>
+                                                    <input className="form-control" type="text" value={chaud.name} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Formation</label>
+                                                    <input className="form-control" type="text" value={formation} readOnly />
+                                                </div>
                                             </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Formation</label>
-                                                <input className="form-control" type="text" value={formation} readOnly />
+                                            <div className="row gx-3 mb-3">
+
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Date de réalisation</label>
+                                                    <input className="form-control" type="text" value={chaud.date_realisation} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Critères</label>
+                                                    <input className="form-control" type="text" value={chaud.criteres} readOnly />
+                                                </div>
                                             </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Date de réalisation</label>
-                                                <input className="form-control" type="text" value={chaud.date_realisation} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Critères</label>
-                                                <input className="form-control" type="text" value={chaud.criteres} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Coefficients</label>
-                                                <input className="form-control" type="text" value={chaud.coefficients} readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="small mb-1">Pièces jointes</label>
-                                                <input className="form-control" type="text" value={chaud.pieces_jointes ? 'Oui' : 'Non'} readOnly />
+                                            <div className="row gx-3 mb-3">
+
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Coefficients</label>
+                                                    <input className="form-control" type="text" value={chaud.coefficients} readOnly />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1">Pièces jointes</label>
+                                                    <input className="form-control" type="text" value={chaud.pieces_jointes ? 'Oui' : 'Non'} readOnly />
+                                                </div>
                                             </div>
                                             <div className="row gx-3 mb-3">
                                                 <div className="col-md-6">

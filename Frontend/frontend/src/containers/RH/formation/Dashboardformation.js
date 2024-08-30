@@ -171,9 +171,9 @@ const DashboardFormation = () => {
                                                         <img src="https://via.placeholder.com/100" alt={formation.intitule_formation} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{formation.intitule_formation}</h5>
-                                                            <p><strong className="responsable-text">Type :</strong> {formation.type_formation}</p>
-                                                            <p><strong className="responsable-text">Thème :</strong> {formation.theme_formation}</p>
-                                                            <p><strong className="responsable-text">Responsable :</strong> {formation.responsable_validation}</p>
+                                                            <p><strong >Type :</strong> {formation.type_formation}</p>
+                                                            <p><strong >Thème :</strong> {formation.theme_formation}</p>
+                                                            <p><strong >Responsable :</strong> {formation.responsable_validation}</p>
                                                             <Link to={`/update-formation/${formation.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
                                                             </Link>

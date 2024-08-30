@@ -131,8 +131,8 @@ const DashboardParticipant = () => {
                                                         <img src="https://via.placeholder.com/100" alt={participant.nom} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{participant.nom} {participant.prenom}</h5>
-                                                            <p><strong className="responsable-text">Nom d'utilisateur :</strong> {participant.username}</p>
-                                                            <p><strong className="responsable-text">Email :</strong> {participant.email}</p>
+                                                            <p><strong>Nom d'utilisateur :</strong> {participant.username}</p>
+                                                            <p><strong>Email :</strong> {participant.email}</p>
                                                             <Link to={`/update-participant/${participant.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
                                                             </Link>

@@ -8,7 +8,7 @@ const AddReunion = () => {
     const [datePrevisionnelle, setDatePrevisionnelle] = useState('');
     const [lieu, setLieu] = useState('');
     const [commentaire, setCommentaire] = useState('');
-    const [type_reunion, settype_reunion] = useState('');
+    const [type_reunion, setType_reunion] = useState('');
     const [ordreDuJour, setOrdreDuJour] = useState('');
     const [participantsID, setParticipantsID] = useState([]);
     const [participantss, setParticipantss] = useState([]);
@@ -16,11 +16,17 @@ const AddReunion = () => {
     const [ajoutReussi, setAjoutReussi] = useState(false);
     const [errors, setErrors] = useState({});
     const [apiError, setApiError] = useState('');
+    const [employeID, setEmployeID] = useState('');
+    const [employes, setEmployes] = useState([]);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_participant/`)
             .then(response => setParticipantss(response.data))
             .catch(error => console.error('Error fetching participants:', error));
+        
+        axios.get(`${process.env.REACT_APP_API_URL}/employe/`)
+            .then(response => setEmployes(response.data))
+            .catch(error => console.error('Error fetching employees:', error));
     }, []);
 
     const handleFileChange = (event) => {
@@ -35,6 +41,7 @@ const AddReunion = () => {
         if (!commentaire) newErrors.commentaire = 'Le commentaire est requis.';
         if (!type_reunion) newErrors.type_reunion = 'Le type de réunion est requis.';
         if (!ordreDuJour) newErrors.ordreDuJour = 'L\'ordre du jour est requis.';
+        if (!employeID) newErrors.employeID = 'Le demandeur de la réunion est requis.';
         if (participantsID.length === 0) newErrors.participantsID = 'Au moins un participant est requis.';
         if (pieceJointe && !pieceJointe.name.match(/\.(pdf|doc|docx)$/)) {
             newErrors.pieceJointe = 'Le fichier doit être un PDF, DOC ou DOCX.';
@@ -55,6 +62,7 @@ const AddReunion = () => {
         formData.append('commentaire', commentaire);
         formData.append('type_reunion', type_reunion);
         formData.append('ordre_du_jour', ordreDuJour);
+        formData.append('demandeur_id', employeID); // Add demandeur de la réunion
         participantsID.forEach(id => formData.append('participants', id));
         if (pieceJointe) {
             formData.append('piece_jointe', pieceJointe);
@@ -72,10 +80,11 @@ const AddReunion = () => {
                 setDatePrevisionnelle('');
                 setLieu('');
                 setCommentaire('');
-                settype_reunion('');
+                setType_reunion('');
                 setOrdreDuJour('');
                 setParticipantsID([]);
                 setPieceJointe(null);
+                setEmployeID('');
                 setAjoutReussi(true);
             })
             .catch(error => {
@@ -117,24 +126,33 @@ const AddReunion = () => {
                             </div>
                             <div className="form-label">
                                 <label className="form-label">Type de réunion :</label>
-                                
-                                    <select  className="form-control" value={type_reunion} onChange={(e) => settype_reunion(e.target.value)}>
-                                        <option value="">Sélectionner...</option>
-                                        <option value="Team Meeting">Team Meeting</option>
-                                        <option value="Client Meeting">Client Meeting</option>
-                                        <option value="Project Meeting">Project Meeting</option>
-                                        <option value="One-on-One'">One-on-One'</option>
-                                        <option value="Brainstorming">Brainstorming</option>
-                                    </select>
+                                <select className="form-control" value={type_reunion} onChange={(e) => setType_reunion(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="Team Meeting">Team Meeting</option>
+                                    <option value="Client Meeting">Client Meeting</option>
+                                    <option value="Project Meeting">Project Meeting</option>
+                                    <option value="One-on-One">One-on-One</option>
+                                    <option value="Brainstorming">Brainstorming</option>
+                                </select>
                                 {errors.type_reunion && <p className="error">{errors.type_reunion}</p>}
                             </div>
-                            <div className="form-label">
+                            </div>
+                            <div className="col-md-6">  <div className="form-label">
                                 <label className="form-label">Ordre du jour :</label>
                                 <input type="text" className="form-control" placeholder="Ordre du jour*" name="ordre_du_jour" value={ordreDuJour} onChange={(e) => setOrdreDuJour(e.target.value)} />
                                 {errors.ordreDuJour && <p className="error">{errors.ordreDuJour}</p>}
                             </div>
-                        </div>
-                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Demandeur de la réunion :</label>
+                                <select className="form-control" value={employeID} onChange={(e) => setEmployeID(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    {employes.map(employe => (
+                                        <option key={employe.id} value={employe.id}>{employe.username}</option>
+                                    ))}
+                                </select>
+                                {errors.employeID && <p className="error">{errors.employeID}</p>}
+                            </div>
+                     
                             <div className="form-label">
                                 <label className="form-label">Pièces jointes :</label>
                                 <input type="file" className="form-control" onChange={handleFileChange} />

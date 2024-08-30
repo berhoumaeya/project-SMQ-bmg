@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaTrashAlt } from 'react-icons/fa';
 import SubNavbarAudit from '../../components/SubNavbarAudit';
 import SidebarAudit from '../../components/SidebarAudit';
 import { GrEdit } from 'react-icons/gr';
@@ -12,28 +11,32 @@ const sampleAudits = [
         reference: 'A001',
         designation: 'Audit 1',
         type_audit: 'Interne',
-        statut: 'Complété'
+        statut: 'Complété',
+        created_at: '2024-01-01T12:00:00Z'
+        , created_by: 'Michael Brown'
     },
     {
         id: 2,
         reference: 'A002',
         designation: 'Audit 2',
         type_audit: 'Externe',
-        statut: 'En cours'
+        statut: 'En cours',
+        created_at: '2024-02-01T12:00:00Z',
+        created_by: 'Michael Christopher'
     },
     {
         id: 3,
         reference: 'A003',
         designation: 'Audit 3',
         type_audit: 'Interne',
-        statut: 'Planifié'
+        statut: 'Planifié',
+        created_at: '2024-03-01T12:00:00Z',
+        created_by: 'Michael Chris'
     }
 ];
 
 const Audits = () => {
     const [audits, setAudits] = useState([]);
-    const [setError] = useState(null);
-    const [deleteReussi, setDeleteReussi] = useState(false);
     const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
@@ -47,19 +50,7 @@ const Audits = () => {
         }
     }, []);
 
-    const handleDelete = async (id) => {
-        try {
-            setAudits(audits.filter(audit => audit.id !== id));
-            setDeleteReussi(true);
-        } catch (error) {
-            console.error('Error deleting audit:', error);
-            setError(error.message || 'Une erreur s\'est produite lors de la suppression de l\'audit.');
-        }
-    };
 
-    if (deleteReussi) {
-        window.location.reload();
-    }
 
     const filteredAudits = audits.filter(audit =>
         audit.reference.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -99,81 +90,76 @@ const Audits = () => {
         }
         return '↕️';
     }; return (
-      <> <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} /> 
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
-            <SidebarAudit />
-        <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <div className="table-container">
-                            <h3 className='formation-title'>Liste des Audits</h3>
-                            <div>
-                                {viewMode === 'list' ? (
-                                    <table className="table-header">
-                                    <thead>
-                                        <tr>
-                                                <th scope="col" onClick={() => requestSort('reference')}>Référence {getSortArrow('reference')}</th>
-                                                <th scope="col" onClick={() => requestSort('designation')}>Désignation  {getSortArrow('designation')}</th>
-                                                <th scope="col" onClick={() => requestSort('type_audit')}>Type d'Audit {getSortArrow('type_audit')}</th>
-                                                <th scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
-                                                <th scope="col">Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {filteredAudits.length > 0 ? (
-                                                filteredAudits.map(audit => (
-                                                    <tr >
-                                                        <td>{audit.reference}</td>
-                                                        <td>{audit.designation}</td>
-                                                        <td>{audit.type_audit}</td>
-                                                        <td>{audit.statut}</td>
-                                                        <td>
-                                                            <Link to={`/audit/${audit.id}`} className="btn btn-outline-info  me-2">
-                                                            <GrEdit />
-                                                            </Link>
-                                                            <button className="btn btn-outline-danger" onClick={() => handleDelete(audit.id)}>
-                                                                <FaTrashAlt />
-                                                            </button>
-                                                        </td>
+        <> <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarAudit />
+                <div className="container dashboard">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
+                                <h3 className='formation-title'>Liste des Audits</h3>
+                                <div>
+                                    {viewMode === 'list' ? (
+                                        <table className="table-header">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" onClick={() => requestSort('reference')}>Référence {getSortArrow('reference')}</th>
+                                                    <th scope="col" onClick={() => requestSort('designation')}>Désignation  {getSortArrow('designation')}</th>
+                                                    <th scope="col" onClick={() => requestSort('type_audit')}>Type d'Audit {getSortArrow('type_audit')}</th>
+                                                    <th scope="col" onClick={() => requestSort('statut')}>Statut {getSortArrow('statut')}</th>
+                                                    <th scope="col">Détails</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredAudits.length > 0 ? (
+                                                    filteredAudits.map(audit => (
+                                                        <tr >
+                                                            <td>{audit.reference}</td>
+                                                            <td>{audit.designation}</td>
+                                                            <td>{audit.type_audit}</td>
+                                                            <td>{audit.statut}</td>
+                                                            <td>
+                                                                <Link to={`/audit/${audit.id}`} className="btn btn-outline-info  me-2">
+                                                                    <GrEdit />
+                                                                </Link>
+
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6" className="text-center">Aucun audit disponible</td>
                                                     </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="grid">
+                                            {sortedAudits.length > 0 ? (
+                                                sortedAudits.map(audit => (
+                                                    <div key={audit.id} className="responsable-item">
+                                                        <img src="https://via.placeholder.com/100" alt={audit.reference} className="responsable-img" />
+                                                        <div className="responsable-info">
+                                                            <h5 className='responsable-title'>{audit.designation}</h5>
+                                                            <p><strong >Type :</strong> {audit.type_audit}</p>
+                                                            <p><strong >Statut :</strong> {audit.statut}</p>
+                                                            <Link to={`/audit/${audit.id}`} className="btn btn-outline-info btn-sm me-2">
+                                                                <GrEdit />
+                                                            </Link>
+                                                        </div>
+                                                    </div>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td colSpan="6" className="text-center">Aucun audit disponible</td>
-                                                </tr>
+                                                <p className="text-center">Aucun audit disponible</p>
                                             )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="grid">
-                                        {sortedAudits.length > 0 ? (
-                                            sortedAudits.map(audit => (
-                                                <div key={audit.id} className="responsable-item">
-                                                    <img src="https://via.placeholder.com/100" alt={audit.reference} className="responsable-img" />
-                                                    <div className="responsable-info">
-                                                        <h5 className="responsable-title">{audit.designation}</h5>
-                                                        <p><strong className="responsable-text">Type :</strong> {audit.type_audit}</p>
-                                                        <p><strong className="responsable-text">Statut :</strong> {audit.statut}</p>
-                                                        <Link to={`/audit/${audit.id}`} className="btn btn-outline-info btn-sm me-2">
-                                                            <GrEdit />
-                                                        </Link>
-                                                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(audit.id)}>
-                                                            <FaTrashAlt />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-center">Aucun audit disponible</p>
-                                        )}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
         </>
     );
 };

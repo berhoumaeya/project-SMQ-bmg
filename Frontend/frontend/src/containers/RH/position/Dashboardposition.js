@@ -107,8 +107,8 @@ const DashboardPost = () => {
                                                         <img src="https://via.placeholder.com/100" alt={post.title} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{post.title}</h5>
-                                                            <p><strong className="responsable-text">Position :</strong> {post.position}</p>
-                                                            <p><strong className="responsable-text">Mission principale :</strong> {post.main_mission}</p>
+                                                            <p><strong>Position :</strong> {post.position}</p>
+                                                            <p><strong>Mission principale :</strong> {post.main_mission}</p>
                                                             <Link to={`/update-position/${post.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
                                                             </Link>

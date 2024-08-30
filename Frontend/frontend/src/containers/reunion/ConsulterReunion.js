@@ -7,30 +7,34 @@ import Cookies from 'js-cookie';
 import '../RH/Detail.css';
 import SubNavbarAudit from '../../components/SubNavbarAudit';
 
-
 const sampleMeets = [
-    {
-      id: 1,
-      header: 'Project Kickoff',
-      date: '2024-09-01',
-      lieu: 'Conference Room A',
-      demandeur: 'John Doe',
-      participants: ['John Doe', 'Jane Smith'],
-      ordre_du_jour: 'Discuss project milestones and deliverables.',
-      decisions_prises: ['Set deadlines for each milestone', 'Assign team leads']
-    },
-    {
-      id: 2,
-      header: 'Sprint Review',
-      date: '2024-09-10',
-      lieu: 'Conference Room B',
-      demandeur: 'Paul Brown',
-      participants: ['Paul Brown', 'Emily Davis'],
-      ordre_du_jour: 'Review progress and plan next sprint.',
-      decisions_prises: ['Approve completed tasks', 'Plan next sprint goals']
-    }
-  ];
-
+  {
+    id: 1,
+    created_by: 'Michael Brown',
+    created_at: '2024-08-01T12:00:00Z',
+    header: 'Project Kickoff',
+    date: '2024-09-01',
+    lieu: 'Conference Room A',
+    demandeur: 'John Doe',
+    participants: ['John Doe', 'Jane Smith'],
+    ordre_du_jour: 'Discuter des jalons et des livrables du projet.',
+    decisions_prises: ['Fixer des délais pour chaque jalon', 'Assigner des chefs d\'équipe'],
+    commentaire: 'Cette réunion a été très productive. Nous avons pu examiner les progrès et planifier les prochaines étapes.'
+  },
+  {
+    id: 2,
+    created_by: 'Michael Christopher',
+    created_at: '2024-08-05T12:00:00Z',
+    header: 'Sprint Review',
+    date: '2024-09-10',
+    lieu: 'Conference Room B',
+    demandeur: 'Paul Brown',
+    participants: ['Paul Brown', 'Emily Davis'],
+    ordre_du_jour: 'Évaluer les progrès et planifier le prochain sprint',
+    decisions_prises: ['Approuver les tâches terminées', 'Planifier les objectifs du prochain sprint'],
+    commentaire: 'Cette réunion a été très productive. Nous avons pu examiner les progrès et planifier les prochaines étapes..'
+  }
+];
 
 const Meet = () => {
   const { id } = useParams();
@@ -58,12 +62,6 @@ const Meet = () => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle update logic here
-    setUpdateReussi(true);
-  };
-
   if (deleteReussi) {
     return <Navigate to="/DashboardMeet" />;
   }
@@ -80,15 +78,36 @@ const Meet = () => {
           <div className="row">
             <div className="col-xl-4">
               <div className="card mb-4 mb-xl-0">
-                <div className="card-header-">Meeting Details</div>
+                <div className="card-header-">Commentaire</div>
                 <div className="card-body text-center">
+                  <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Commentaire : </strong>
+                  </li>
+                  <br />
                   <div className="small font-italic text-muted mb-4">
-                    Meeting information
+                    {meet?.commentaire || "Aucun commentaire disponible"}
                   </div>
                 </div>
               </div>
-              <br />
-        
+
+              <br /><br />
+              <div className="card mb-4">
+                <div className="card-header-">Historique</div>
+                <div className="card-body">
+                  <ul className="list-group list-group-flush">
+                    {meet ? (
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                          <strong>Date de création</strong><br />
+                          <small>{meet.created_at} - {meet.created_by}</small>
+                        </div>
+                      </li>
+                    ) : (
+                      <div>Chargement...</div>
+                    )}
+                  </ul>
+                </div>
+              </div>
             </div>
             <div className="col-xl-8">
               <div className="card mb-4">
@@ -100,17 +119,14 @@ const Meet = () => {
                       <p className="document-card-text"><strong>Date:</strong> {meet.date}</p>
                       <p className="document-card-text"><strong>Lieu:</strong> {meet.lieu}</p>
                       <p className="document-card-text"><strong>Demandeur:</strong> {meet.demandeur}</p>
-                      <p className="document-card-text"><strong>Participants:</strong> {meet.participants && meet.participants.join(', ')}</p>
+                      <p className="document-card-text"><strong>Participants:</strong> {meet.participants.join(', ')}</p>
                       <p className="document-card-text"><strong>Ordre du jour:</strong> {meet.ordre_du_jour}</p>
-                      <p className="document-card-text"><strong>Décisions prises:</strong> {meet.decisions_prises && meet.decisions_prises.join(', ') ? meet.decisions_prises : 'Pas de décision'}</p>
+                      <p className="document-card-text"><strong>Décisions prises:</strong> {meet.decisions_prises.length > 0 ? meet.decisions_prises.join(', ') : 'Pas de décision'}</p>
 
                       <div className="d-flex justify-content-end mt-3">
                         <Link to="/allreunion" className="btn btn-secondary me-2">
                           <IoMdArrowRoundBack /> Retour
                         </Link>
-                        <button type="button" className="btn btn-primary me-2" onClick={handleSubmit}>
-                          <GrEdit /> Modifier
-                        </button>
                         <button type="button" className="btn btn-danger" onClick={handleDelete}>
                           <GrTrash /> Supprimer
                         </button>

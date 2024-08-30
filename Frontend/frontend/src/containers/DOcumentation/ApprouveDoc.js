@@ -108,21 +108,21 @@ export default ApprouveList;
 import React, { useState, useEffect } from 'react';
 import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
-import './listDoc.css';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import History from '../../components/History';
 
-// Static data
 const sampleDocuments = [
     {
         id: 1,
         libelle: 'Document A',
-        type: 'Type 1',
+        type: 'Numerique',
         selection_site: 'Site 1',
         selection_activite: 'Activité 1',
         selection_redacteur: 'Rédacteur A',
         selection_verificateur: 'Vérificateur A',
-        selection_approbateur: 'Approbateur A',
+        selection_approbateur: 'John',
         liste_informee: 'Liste A',
         created_at: '2024-07-24T12:00:00Z',
         statut: 'En attente',
@@ -131,26 +131,46 @@ const sampleDocuments = [
     {
         id: 2,
         libelle: 'Document B',
-        type: 'Type 2',
+        type: 'Papier',
         selection_site: 'Site 2',
         selection_activite: 'Activité 2',
         selection_redacteur: 'Rédacteur B',
         selection_verificateur: 'Vérificateur B',
-        selection_approbateur: 'Approbateur B',
+        selection_approbateur: 'Mike',
         liste_informee: 'Liste B',
         created_at: '2024-07-25T09:30:00Z',
         statut: 'En attente',
         fichier: 'fileB.pdf'
     }
 ];
-
+const documentHistory = sampleDocuments.map(document => ({
+    id: document.id,
+    date: document.created_at,
+    reference: document.libelle,
+    created_by: document.selection_redacteur,
+    created_at: document.created_at,
+    selection_verificateur: document.selection_verificateur,
+    selection_approbateur: document.selection_approbateur
+}));
 function ApprouveList() {
     const [documents, setDocuments] = useState([]);
     const [viewMode, setViewMode] = useState('list');
+    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+    const [isVerifDoc, setIsVerifDoc] = useState(false);
 
     useEffect(() => {
-        // Simulating data fetch
         setDocuments(sampleDocuments);
+    }, []);
+
+    const toggleHistorySidebar = () => {
+        setIsHistoryVisible(prevState => !prevState);
+    };
+    useEffect(() => {
+        if (window.location.pathname.includes('/ApprouveDoc')) {
+            setIsVerifDoc(true);
+        } else {
+            setIsVerifDoc(false);
+        }
     }, []);
 
     const handleStatusChange = (documentId, newStatus) => {
@@ -171,7 +191,7 @@ function ApprouveList() {
                     <div className="row">
                         <div>
                             <div className="table-container">
-                                <h3 className='doc-title'>Liste des documents à approuver</h3>
+                                <h3 className='formation-title'>Liste des documents à approuver</h3>
                                 <div>
                                     {viewMode === 'list' ? (
 
@@ -182,11 +202,7 @@ function ApprouveList() {
                                                     <th scope="col">Type de document</th>
                                                     <th scope="col">Site</th>
                                                     <th scope="col">Activité</th>
-                                                    <th scope="col">Créé par</th>
-                                                    <th scope="col">Vérificateur</th>
-                                                    <th scope="col">Approbateur</th>
                                                     <th scope="col">Liste informée</th>
-                                                    <th scope="col">Créé à</th>
                                                     <th scope="col">Statut</th>
                                                     <th scope="col">Pièce jointe</th>
                                                     <th scope="col">Actions</th>
@@ -200,11 +216,7 @@ function ApprouveList() {
                                                             <td>{document.type}</td>
                                                             <td>{document.selection_site}</td>
                                                             <td>{document.selection_activite}</td>
-                                                            <td>{document.selection_redacteur}</td>
-                                                            <td>{document.selection_verificateur}</td>
-                                                            <td>{document.selection_approbateur}</td>
                                                             <td>{document.liste_informee}</td>
-                                                            <td>{new Date(document.created_at).toLocaleString()}</td>
                                                             <td>{document.statut}</td>
                                                             <td>
                                                                 {document.fichier ?
@@ -212,7 +224,7 @@ function ApprouveList() {
                                                                     'Aucun'}
                                                             </td>
                                                             <td>
-                                                                <button onClick={() => handleStatusChange(document.id, 'Approuvé')} className="btn btn-outline-succes me-2">
+                                                                <button onClick={() => handleStatusChange(document.id, 'Approuvé')} className="btn btn-outline-success me-2">
                                                                     <FcApproval />
                                                                 </button>
                                                                 <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
@@ -235,9 +247,9 @@ function ApprouveList() {
                                                     <div key={demand.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
                                                         <div className="responsable-info">
-                                                            <h5 className="responsable-title"> {demand.type}</h5>
-                                                            <p><strong className="responsable-text">Document object :</strong> {demand.document_object}</p>
-                                                            <p><strong className="responsable-text">Statut :</strong> {demand.statut}</p>
+                                                            <h5 className='responsable-title'> {demand.type}</h5>
+                                                            <p><strong>Document object :</strong> {demand.document_object}</p>
+                                                            <p><strong>Statut :</strong> {demand.statut}</p>
                                                             <td>
                                                                 <button onClick={() => handleStatusChange(demand.id, 'Validé')} className="btn btn-outline-success  btn-sm me-2"> <FcApproval /> </button>
                                                                 <button onClick={() => handleStatusChange(demand.id, 'Refusé')} className="btn btn-outline-danger  btn-sm me-2"> <RxCross2 /></button>
@@ -255,6 +267,10 @@ function ApprouveList() {
                         </div>
                     </div>
                 </div>
+                {isHistoryVisible && <History historyData={documentHistory} title="Historique des Documents" isVerifDoc={isVerifDoc} />}
+                <button className="toggle-button" onClick={toggleHistorySidebar}>
+                    {isHistoryVisible ? <FaArrowLeft /> : <FaArrowRight />}
+                </button>
             </main>
         </>
     );

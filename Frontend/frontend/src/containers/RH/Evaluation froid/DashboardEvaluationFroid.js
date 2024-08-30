@@ -181,8 +181,8 @@ const DashboardFroid = () => {
                                                         <img src="https://via.placeholder.com/100" alt={froid.name} className="responsable-img" />
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{froid.name}</h5>
-                                                            <p><strong className="responsable-text">Créé par :</strong> {froid.created_by}</p>
-                                                            <p><strong className="responsable-text">Créé à :</strong> {froid.created_at}</p>
+                                                            <p><strong >Créé par :</strong> {froid.created_by}</p>
+                                                            <p><strong >Créé à :</strong> {froid.created_at}</p>
                                                             <Link to={`/update-froid/${froid.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
                                                             </Link>
