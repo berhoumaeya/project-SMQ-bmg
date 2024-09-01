@@ -91,8 +91,9 @@ import { FcApproval } from 'react-icons/fc';
 import { RxCross2 } from 'react-icons/rx';
 import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
-import History from '../../components/History'; // Import the History component
+import History from '../../components/History';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import ReactPaginate from 'react-paginate';
 
 // Static data
 const sampleDocuments = [
@@ -126,26 +127,38 @@ const sampleDocuments = [
     }
 ];
 
-// Sample history data
 const documentHistory = sampleDocuments.map(document => ({
     id: document.id,
     date: document.created_at,
     reference: document.libelle,
     created_by: document.selection_redacteur,
     created_at: document.created_at,
-    additional_field_1: 'Value 1', // Replace with real data
-    additional_field_2: 'Value 2'  // Replace with real data
+    additional_field_1: 'Value 1', 
+    additional_field_2: 'Value 2'  
 }));
 
 function VerifList() {
     const [documents, setDocuments] = useState([]);
+    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 4;
 
     useEffect(() => {
         setDocuments(sampleDocuments);
     }, []);
-
+    const filteredDemandes = sampleDocuments.filter(document =>
+        document.libelle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        document.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        document.selection_site.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        document.selection_activite.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        document.selection_verificateur.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        document.selection_approbateur.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        document.liste_informee.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        document.statut.toLowerCase().includes(searchQuery.toLowerCase())       
+        
+    );
     const handleStatusChange = (documentId, newStatus) => {
         const updatedDocuments = documents.map(document => {
             if (document.id === documentId) {
@@ -159,6 +172,26 @@ function VerifList() {
     const toggleHistorySidebar = () => {
         setIsHistoryVisible(prevState => !prevState);
     };
+    const getTypeActionLabelClass = (statut) => {
+        switch (statut.trim().toLowerCase()) {
+            case 'en attente':  
+                return 'label label-warning';
+            case 'validé':
+                return 'label label-success';
+            case 'refusé':
+                return 'label label-danger';
+            default:
+                return 'label';
+        }
+    };
+    const indexOfLastDocument = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstDocument = indexOfLastDocument - meetingsPerPage;
+    const currentDocuments = filteredDemandes.slice(indexOfFirstDocument, indexOfLastDocument);
+
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+        const pageCount = Math.ceil(filteredDemandes.length / meetingsPerPage);
 
     return (
         <>
@@ -169,10 +202,10 @@ function VerifList() {
                     <div className="row">
                         <div>
                             <div className="table-container">
-                                <h3 className='formation-title'>Liste des documents à vérifier</h3>
+                                <h3 className='formation-title'>Liste des demandes à vérifier</h3>
                                 <div>
                                     {viewMode === 'list' ? (
-                                        <table className="table-header">
+                                    <>    <table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Libelle</th>
@@ -188,8 +221,8 @@ function VerifList() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {documents.length > 0 ? (
-                                                    documents.map(document => (
+                                                {currentDocuments.length > 0 ? (
+                                                    currentDocuments.map(document => (
                                                         <tr key={document.id}>
                                                             <td>{document.libelle}</td>
                                                             <td>{document.type}</td>
@@ -198,17 +231,20 @@ function VerifList() {
                                                             <td>{document.selection_verificateur}</td>
                                                             <td>{document.selection_approbateur}</td>
                                                             <td>{document.liste_informee}</td>
-                                                            <td>{document.statut}</td>
                                                             <td>
+                                                                <span className={getTypeActionLabelClass(document.statut)}>
+                                                                    {document.statut}
+                                                                </span>
+                                                            </td>                                                            <td>
                                                                 {document.fichier ?
                                                                     <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
                                                                     'Aucun'}
                                                             </td>
                                                             <td>
-                                                                <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success me-2">
+                                                                <button onClick={() => handleStatusChange(document.id, 'Validé')} className="btn btn-outline-success me-2">
                                                                     <FcApproval />
                                                                 </button>
-                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger me-2">
+                                                                <button onClick={() => handleStatusChange(document.id, 'Refusé')} className="btn btn-outline-danger me-2">
                                                                     <RxCross2 />
                                                                 </button>
                                                             </td>
@@ -221,10 +257,30 @@ function VerifList() {
                                                 )}
                                             </tbody>
                                         </table>
+                                         <ReactPaginate
+                                         previousLabel={'Précédent'}
+                                         nextLabel={'Suivant'}
+                                         breakLabel={'...'}
+                                         pageCount={pageCount}
+                                         marginPagesDisplayed={2}
+                                         pageRangeDisplayed={5}
+                                         onPageChange={handlePageClick}
+                                         containerClassName={'pagination'}
+                                         pageClassName={'page-item'}
+                                         pageLinkClassName={'page-link'}
+                                         previousClassName={'page-item'}
+                                         previousLinkClassName={'page-link'}
+                                         nextClassName={'page-item'}
+                                         nextLinkClassName={'page-link'}
+                                         breakClassName={'page-item'}
+                                         breakLinkClassName={'page-link'}
+                                         activeClassName={'active'}
+                                     />
+                                     </>
                                     ) : (
-                                        <div className="grid">
-                                            {documents.length > 0 ? (
-                                                documents.map(document => (
+                                        <><div className="grid">
+                                            {currentDocuments.length > 0 ? (
+                                                currentDocuments.map(document => (
                                                     <div key={document.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={`${document.libelle}`} className="responsable-img" />
                                                         <div className="responsable-info">
@@ -232,8 +288,8 @@ function VerifList() {
                                                             <p><strong>Type :</strong> {document.type}</p>
                                                             <p><strong>Statut :</strong> {document.statut}</p>
                                                             <td>
-                                                                <button onClick={() => handleStatusChange(document.id, 'Vérifié')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
-                                                                <button onClick={() => handleStatusChange(document.id, 'En attente')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'Validé')} className="btn btn-outline-success btn-sm me-2"> <FcApproval /> </button>
+                                                                <button onClick={() => handleStatusChange(document.id, 'Refusé')} className="btn btn-outline-danger btn-sm me-2"> <RxCross2 /></button>
                                                             </td>
                                                         </div>
                                                     </div>
@@ -242,6 +298,26 @@ function VerifList() {
                                                 <p className="text-center">Aucun document disponible</p>
                                             )}
                                         </div>
+                                        <ReactPaginate
+                                             previousLabel={'Précédent'}
+                                             nextLabel={'Suivant'}
+                                             breakLabel={'...'}
+                                             pageCount={pageCount}
+                                             marginPagesDisplayed={2}
+                                             pageRangeDisplayed={5}
+                                             onPageChange={handlePageClick}
+                                             containerClassName={'pagination'}
+                                             pageClassName={'page-item'}
+                                             pageLinkClassName={'page-link'}
+                                             previousClassName={'page-item'}
+                                             previousLinkClassName={'page-link'}
+                                             nextClassName={'page-item'}
+                                             nextLinkClassName={'page-link'}
+                                             breakClassName={'page-item'}
+                                             breakLinkClassName={'page-link'}
+                                             activeClassName={'active'}
+                                         />
+                                         </>
                                     )}
                                 </div>
                             </div>

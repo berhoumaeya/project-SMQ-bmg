@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
 import { GrEdit } from 'react-icons/gr';
+import ReactPaginate from 'react-paginate';
 
 const sampleResponsables = [
     {
@@ -32,13 +33,23 @@ const sampleResponsables = [
 const DashboardResponsable = () => {
     const [responsables, setResponsables] = useState([]);
     const [viewMode, setViewMode] = useState('list');
-    const [sortConfig, setSortConfig] = useState({ key: 'nom', direction: 'asc' });
-
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'asc' });
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchField, setSearchField] = useState('');
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 5;
     useEffect(() => {
         setResponsables(sampleResponsables);
     }, []);
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
-    const filteredResponsables = responsables
+    const handleSearchFieldChange = (e) => {
+        setSearchField(e.target.value);
+    };
+
+    const sortedResponsables = responsables
         .sort((a, b) => {
             if (a[sortConfig.key] < b[sortConfig.key]) {
                 return sortConfig.direction === 'asc' ? -1 : 1;
@@ -48,6 +59,15 @@ const DashboardResponsable = () => {
             }
             return 0;
         });
+
+    const filteredResponsables = useMemo(() => {
+        if (!searchField) {
+            return sortedResponsables;
+        }
+        return sortedResponsables.filter(responsable =>
+            responsable[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedResponsables, searchField, searchTerm]);
 
     const requestSort = (key) => {
         let direction = 'ascending';
@@ -63,6 +83,13 @@ const DashboardResponsable = () => {
         }
         return '↕️';
     };
+    const indexOfLastMeeting = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstMeeting = indexOfLastMeeting - meetingsPerPage;
+    const currentMeetings = filteredResponsables.slice(indexOfFirstMeeting, indexOfLastMeeting);
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredResponsables.length / meetingsPerPage);
 
     return (
         <>
@@ -74,9 +101,25 @@ const DashboardResponsable = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des Responsables</h3>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        disabled={!searchField}
+                                    />
+                                    <select onChange={handleSearchFieldChange} value={searchField}>
+                                        <option value="">Sélectionner un champ</option>
+                                        <option value="nom">  Nom Responsable</option>
+                                        <option value="prenom">Prénom Responsable</option>
+                                        <option value="username"> Nom d'utilisateur</option>
+                                        <option value="Email">email</option>
+                                    </select>
+                                </div>
                                 <div>
                                     {viewMode === 'list' ? (
-                                        <table className="table-header">
+                                        <><table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" onClick={() => requestSort('nom')}>
@@ -95,8 +138,8 @@ const DashboardResponsable = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredResponsables.length > 0 ? (
-                                                    filteredResponsables.map(responsable => (
+                                                {currentMeetings.length > 0 ? (
+                                                    currentMeetings.map(responsable => (
                                                         <tr key={responsable.id}>
                                                             <td>{responsable.nom}</td>
                                                             <td>{responsable.prenom}</td>
@@ -116,10 +159,30 @@ const DashboardResponsable = () => {
                                                 )}
                                             </tbody>
                                         </table>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     ) : (
-                                        <div className="grid">
-                                            {filteredResponsables.length > 0 ? (
-                                                filteredResponsables.map(responsable => (
+                                        <>  <div className="grid">
+                                            {currentMeetings.length > 0 ? (
+                                                currentMeetings.map(responsable => (
                                                     <div key={responsable.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={`${responsable.nom} ${responsable.prenom}`} className="responsable-img" />
                                                         <div className="responsable-info">
@@ -136,6 +199,26 @@ const DashboardResponsable = () => {
                                                 <p className="text-center">Aucun responsable disponible</p>
                                             )}
                                         </div>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     )}
                                 </div>
                             </div>

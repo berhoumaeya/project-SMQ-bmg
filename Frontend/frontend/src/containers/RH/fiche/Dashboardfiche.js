@@ -1,77 +1,10 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import "../formation/Dashboard.css"
-
-const DashboardFiche = () => {
-    const [fiche_employes, setFormations] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchFormations = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_fiche_employe/`, {
-                    headers: {
-                        'Accept': '*//*', 
-}
-});
-setFormations(response.data);
-} catch (error) {
-console.error('Error fetching formations:', error);
-setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-}
-};
-
-fetchFormations();
-}, []);
-
-if (error) {
-return <div>Erreur : {error}</div>;
-}
-
-return (
-<div>
-<div className="employes-header">
-<h3>Liste des fiches Employes</h3>
-</div>
-<table className="table table-bordered" id="dataTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Nom fiche</th>
-<th>Post Employe</th>
-<th>Fiche de l'employe</th>
-<th>Détails</th>
-</tr>
-</thead>
-<tbody>
-{fiche_employes.map(fiche => (
-<tr key={fiche.id}>
-<td>{fiche.id}</td>
-<td>{fiche.name}</td>
-<td>{fiche.job_position}</td>
-<td>{fiche.employe_concerne}</td>
-<Link to={`/fiche/${fiche.id}`}>Détails</Link>
-</tr>
-))}
-</tbody>
-</table>
-<div className="button-group">
-<Link to={`/ajouter-fiche/`} className="btn btn-primary">Ajouter fiche Employe</Link>
-<Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
-</div>
-</div>
-);
-};
-
-export default DashboardFiche;
-*/
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
 import { GrEdit } from 'react-icons/gr';
+import ReactPaginate from 'react-paginate';
 
 const sampleFiches = [
     { id: 1, name: 'Fiche 1', job_position: 'Position A', employe_concerne: 'Employe 1' },
@@ -80,38 +13,44 @@ const sampleFiches = [
 
 const DashboardFiche = () => {
     const [fiches, setFiches] = useState([]);
-    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchField, setSearchField] = useState(''); 
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 5;
     useEffect(() => {
-        // Simulate data fetch
         setFiches(sampleFiches);
     }, []);
 
-    const filteredFiches = useMemo(() => {
-        return fiches.filter(fiche =>
-            fiche.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            fiche.job_position.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            fiche.employe_concerne.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-    }, [fiches, searchQuery]);
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
-    const sortedFiches = useMemo(() => {
-        const sortableFiches = [...filteredFiches];
-        if (sortConfig !== null) {
-            sortableFiches.sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? -1 : 1;
-                }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? 1 : -1;
-                }
-                return 0;
-            });
+    const handleSearchFieldChange = (e) => {
+        setSearchField(e.target.value);
+    };
+
+
+
+    const sortedFiches = fiches
+        .sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    const filteredFiches = useMemo(() => {
+        if (!searchField) {
+            return sortedFiches;
         }
-        return sortableFiches;
-    }, [filteredFiches, sortConfig]);
+        return sortedFiches.filter(fiche =>
+            fiche[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedFiches, searchField, searchTerm]);
 
 
     const requestSort = (key) => {
@@ -128,19 +67,40 @@ const DashboardFiche = () => {
         }
         return '↕️';
     };
+    const indexOfLastMeeting = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstMeeting = indexOfLastMeeting - meetingsPerPage;
+    const currentMeetings = filteredFiches.slice(indexOfFirstMeeting, indexOfLastMeeting);
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredFiches.length / meetingsPerPage);
 
     return (
         <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
-        <SidebarRH />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
                 <div className="container dashboard">
                     <div className="row">
                         <div>
                             <div className="table-container" >
                                 <h3 className="formation-title" >Liste des Fiches Employés</h3>
-                                <div>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        disabled={!searchField}
+                                    />
+                                    <select onChange={handleSearchFieldChange} value={searchField}>
+                                        <option value="">Sélectionner un champ</option>
+                                        <option value="name">  Nom Fiche</option>
+                                        <option value="job_position"> Poste Employé</option>
+                                        <option value="employe_concerne"> Fiche de l'Employé</option>
+                                    </select>
+                                </div>  <div>
                                     {viewMode === 'list' ? (
-                                        <table className="table-header">
+                                       <> <table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" onClick={() => requestSort('name')}>
@@ -156,8 +116,8 @@ const DashboardFiche = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {sortedFiches.length > 0 ? (
-                                                    sortedFiches.map(fiche => (
+                                                {currentMeetings.length > 0 ? (
+                                                    currentMeetings.map(fiche => (
                                                         <tr>
                                                             <td>{fiche.name}</td>
                                                             <td>{fiche.job_position}</td>
@@ -176,10 +136,30 @@ const DashboardFiche = () => {
                                                 )}
                                             </tbody>
                                         </table>
+                                        <ReactPaginate
+                                        previousLabel={'Précédent'}
+                                        nextLabel={'Suivant'}
+                                        breakLabel={'...'}
+                                        pageCount={pageCount}
+                                        marginPagesDisplayed={2}
+                                        pageRangeDisplayed={5}
+                                        onPageChange={handlePageClick}
+                                        containerClassName={'pagination'}
+                                        pageClassName={'page-item'}
+                                        pageLinkClassName={'page-link'}
+                                        previousClassName={'page-item'}
+                                        previousLinkClassName={'page-link'}
+                                        nextClassName={'page-item'}
+                                        nextLinkClassName={'page-link'}
+                                        breakClassName={'page-item'}
+                                        breakLinkClassName={'page-link'}
+                                        activeClassName={'active'}
+                                    />
+                                    </>
                                     ) : (
-                                        <div className="grid">
-                                            {sortedFiches.length > 0 ? (
-                                                sortedFiches.map(fiche => (
+                                      <> <div className="grid">
+                                            {currentMeetings.length > 0 ? (
+                                                currentMeetings.map(fiche => (
                                                     <div key={fiche.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={fiche.name} className="responsable-img" />
                                                         <div className="responsable-info">
@@ -196,6 +176,26 @@ const DashboardFiche = () => {
                                                 <p className="text-center">Aucune fiche disponible</p>
                                             )}
                                         </div>
+                                        <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                            </>
                                     )}
                                 </div>
                             </div>

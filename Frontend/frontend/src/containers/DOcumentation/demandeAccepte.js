@@ -3,21 +3,43 @@ import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import { Link } from 'react-router-dom';
 import { HiOutlineDocumentAdd } from "react-icons/hi";
+import ReactPaginate from 'react-paginate';
 
 const staticDemandes = [
-    { id: 1, type: 'Manuel', document_object: 'Objet A', statut: 'Accepté' },
-    { id: 2, type: 'Procédure', document_object: 'Objet B', statut: 'Accepté' },
-    { id: 3, type: 'Politique', document_object: 'Objet C', statut: 'Accepté' },
+    { id: 1, type: 'Manuel', document_object: 'Objet A', statut: 'Validé' },
+    { id: 2, type: 'Procédure', document_object: 'Objet B', statut: 'Validé' },
+    { id: 3, type: 'Politique', document_object: 'Objet C', statut: 'Terminé' },
 ];
 
 const DemandeAcc = () => {
     const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 4;
 
     const filteredDemandes = staticDemandes.filter(demande =>
         demande.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
         demande.document_object.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const getTypeActionLabelClass = (statut) => {
+        switch (statut.trim().toLowerCase()) {
+            case 'validé':  
+                return 'label label-success';
+            case 'terminé':
+                return 'label label-success';
+            default:
+                return 'label';
+        }
+    };
+    const indexOfLastDocument = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstDocument = indexOfLastDocument - meetingsPerPage;
+    const currentDocuments = filteredDemandes.slice(indexOfFirstDocument, indexOfLastDocument);
+
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredDemandes.length / meetingsPerPage);
 
     return (
         <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
@@ -30,7 +52,7 @@ const DemandeAcc = () => {
                                 <h3 className='formation-title'>Liste des Demandes Acceptées</h3>
                                 <div>
                                     {viewMode === 'list' ? (
-                                        <table className="table-header">
+                                    <>    <table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID</th>
@@ -41,13 +63,17 @@ const DemandeAcc = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredDemandes.length > 0 ? (
-                                                    filteredDemandes.map(demande => (
+                                                {currentDocuments.length > 0 ? (
+                                                    currentDocuments.map(demande => (
                                                         <tr key={demande.id}>
                                                             <td>{demande.id}</td>
                                                             <td>{demande.type}</td>
                                                             <td>{demande.document_object}</td>
-                                                            <td>{demande.statut}</td>
+                                                            <td>
+                                                                <span className={getTypeActionLabelClass(demande.statut)}>
+                                                                    {demande.statut}
+                                                                </span>
+                                                            </td>
                                                             <td>
                                                                 <Link to={`/CréerDocInt/${demande.id}`} ><button className="btn btn-outline-info" style={{ marginTop: '10px' }}><HiOutlineDocumentAdd />
                                                                 </button> </Link>
@@ -61,10 +87,30 @@ const DemandeAcc = () => {
                                                 )}
                                             </tbody>
                                         </table>
+                                             <ReactPaginate
+                                             previousLabel={'Précédent'}
+                                             nextLabel={'Suivant'}
+                                             breakLabel={'...'}
+                                             pageCount={pageCount}
+                                             marginPagesDisplayed={2}
+                                             pageRangeDisplayed={5}
+                                             onPageChange={handlePageClick}
+                                             containerClassName={'pagination'}
+                                             pageClassName={'page-item'}
+                                             pageLinkClassName={'page-link'}
+                                             previousClassName={'page-item'}
+                                             previousLinkClassName={'page-link'}
+                                             nextClassName={'page-item'}
+                                             nextLinkClassName={'page-link'}
+                                             breakClassName={'page-item'}
+                                             breakLinkClassName={'page-link'}
+                                             activeClassName={'active'}
+                                         />
+                                         </>
                                     ) : (
-                                        <div className="grid">
-                                            {filteredDemandes.length > 0 ? (
-                                                filteredDemandes.map(demande => (
+                                        <><div className="grid">
+                                            {currentDocuments.length > 0 ? (
+                                                currentDocuments.map(demande => (
                                                     <div key={demande.id} className="responsable-item">
                                                        <img src="https://via.placeholder.com/100" alt={`${demande.type}`} className="responsable-img" />
                                                         <div className="responsable-info">
@@ -83,6 +129,26 @@ const DemandeAcc = () => {
                                                 <p className="text-center">Aucune demande disponible</p>
                                             )}
                                         </div>
+                                             <ReactPaginate
+                                             previousLabel={'Précédent'}
+                                             nextLabel={'Suivant'}
+                                             breakLabel={'...'}
+                                             pageCount={pageCount}
+                                             marginPagesDisplayed={2}
+                                             pageRangeDisplayed={5}
+                                             onPageChange={handlePageClick}
+                                             containerClassName={'pagination'}
+                                             pageClassName={'page-item'}
+                                             pageLinkClassName={'page-link'}
+                                             previousClassName={'page-item'}
+                                             previousLinkClassName={'page-link'}
+                                             nextClassName={'page-item'}
+                                             nextLinkClassName={'page-link'}
+                                             breakClassName={'page-item'}
+                                             breakLinkClassName={'page-link'}
+                                             activeClassName={'active'}
+                                         />
+                                         </>
                                     )}
                                 </div>
                             </div>

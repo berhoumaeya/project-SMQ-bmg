@@ -97,6 +97,19 @@
     max-width: 400px;
     width: 100%;
     z-index: 100;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.meeting-detail-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
 }
 
 .text {
@@ -208,3 +221,62 @@
     display: inline-block;
 }
 
+
+.pagination {
+    display: flex;
+    justify-content:right;
+    margin: 20px 0;
+    list-style: none;
+    padding: 0;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    display: block;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #75beda;
+    text-decoration: none;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    
+}
+
+.page-link:hover,
+.page-link:focus {
+    background-color: #e9ecef;
+    color: #6c757d ;
+}
+
+.active .page-link {
+    background-color: #75beda;
+    color: #fff;
+    border: 1px solid #75beda;
+}
+
+.page-item .page-link {
+    font-weight: bold;
+}
+
+.page-item .page-link {
+    color: #6c757d;
+}
+
+.disabled .page-link {
+    color: #6c757d;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    .pagination {
+        font-size: 12px;
+    }
+    .page-link {
+        padding: 6px 10px;
+    }
+}

@@ -4,6 +4,7 @@ import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
 import { GrEdit } from 'react-icons/gr';
+import ReactPaginate from 'react-paginate';
 
 
 const sampleParticipants = [
@@ -34,10 +35,20 @@ const DashboardParticipant = () => {
     const [participants, setParticipants] = useState([]);
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchField, setSearchField] = useState('');
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 5;
     useEffect(() => {
         setParticipants(sampleParticipants);
     }, []);
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleSearchFieldChange = (e) => {
+        setSearchField(e.target.value);
+    };
 
     const sortedParticipants = useMemo(() => {
         let sortableParticipants = [...participants];
@@ -55,7 +66,14 @@ const DashboardParticipant = () => {
         return sortableParticipants;
     }, [participants, sortConfig]);
 
-  
+    const filteredParticipants = useMemo(() => {
+        if (!searchField) {
+            return sortedParticipants;
+        }
+        return sortedParticipants.filter(formation =>
+            formation[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedParticipants, searchField, searchTerm]);
 
     const requestSort = (key) => {
         let direction = 'ascending';
@@ -71,19 +89,42 @@ const DashboardParticipant = () => {
         }
         return '↕️';
     };
+    const indexOfLastMeeting = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstMeeting = indexOfLastMeeting - meetingsPerPage;
+    const currentMeetings = filteredParticipants.slice(indexOfFirstMeeting, indexOfLastMeeting);
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredParticipants.length / meetingsPerPage);
 
     return (
         <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
-        <SidebarRH /> 
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
                 <div className="container dashboard">
-                <div className="row">
-                    <div>
-                        <div className="table-container">
+                    <div className="row">
+                        <div>
+                            <div className="table-container">
                                 <h3 className="formation-title">Liste des Participants</h3>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        disabled={!searchField}
+                                    />
+                                    <select onChange={handleSearchFieldChange} value={searchField}>
+                                        <option value="">Sélectionner un champ</option>
+                                        <option value="nom">Nom</option>
+                                        <option value="prenom">Prénom</option>
+                                        <option value="username"> Nom d'utilisateur</option>
+                                        <option value="Email">email</option>
+                                    </select>
+                                </div>
                                 <div>
                                     {viewMode === 'list' ? (
-                                        <table className="table-header">
+                                        <>   <table className="table-header">
                                             <thead >
                                                 <tr>
                                                     <th scope="col" onClick={() => requestSort('nom')}>
@@ -102,8 +143,8 @@ const DashboardParticipant = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {sortedParticipants.length > 0 ? (
-                                                    sortedParticipants.map(participant => (
+                                                {currentMeetings.length > 0 ? (
+                                                    currentMeetings.map(participant => (
                                                         <tr >
                                                             <td>{participant.nom}</td>
                                                             <td>{participant.prenom}</td>
@@ -123,10 +164,30 @@ const DashboardParticipant = () => {
                                                 )}
                                             </tbody>
                                         </table>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     ) : (
-                                        <div className="grid">
-                                            {sortedParticipants.length > 0 ? (
-                                                sortedParticipants.map(participant => (
+                                        <> <div className="grid">
+                                            {currentMeetings.length > 0 ? (
+                                                currentMeetings.map(participant => (
                                                     <div key={participant.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={participant.nom} className="responsable-img" />
                                                         <div className="responsable-info">
@@ -143,6 +204,26 @@ const DashboardParticipant = () => {
                                                 <p className="text-center">Aucun participant disponible</p>
                                             )}
                                         </div>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     )}
                                 </div>
                             </div>

@@ -112,6 +112,7 @@ import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import History from '../../components/History';
+import ReactPaginate from 'react-paginate';
 
 const sampleDocuments = [
     {
@@ -157,6 +158,8 @@ function ApprouveList() {
     const [viewMode, setViewMode] = useState('list');
     const [isHistoryVisible, setIsHistoryVisible] = useState(false);
     const [isVerifDoc, setIsVerifDoc] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 4;
 
     useEffect(() => {
         setDocuments(sampleDocuments);
@@ -172,7 +175,14 @@ function ApprouveList() {
             setIsVerifDoc(false);
         }
     }, []);
-
+    const filteredDemandes = sampleDocuments.filter(document =>
+        document.libelle.toLowerCase().includes('') ||
+        document.type.toLowerCase().includes('') ||
+        document.selection_site.toLowerCase().includes('') ||
+        document.selection_activite.toLowerCase().includes('') ||
+        document.liste_informee.toLowerCase().includes('') ||
+        document.statut.toLowerCase().includes('')
+    );
     const handleStatusChange = (documentId, newStatus) => {
         const updatedDocuments = documents.map(document => {
             if (document.id === documentId) {
@@ -182,6 +192,24 @@ function ApprouveList() {
         });
         setDocuments(updatedDocuments);
     };
+    const getTypeActionLabelClass = (statut) => {
+        switch (statut.trim().toLowerCase()) {
+            case 'en attente':  
+                return 'label label-warning';
+            case 'approuvé':
+                return 'label label-success';    
+            default:
+                return 'label';
+        }
+    };
+    const indexOfLastDocument = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstDocument = indexOfLastDocument - meetingsPerPage;
+    const currentDocuments = filteredDemandes.slice(indexOfFirstDocument, indexOfLastDocument);
+
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredDemandes.length / meetingsPerPage);
 
     return (
         <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
@@ -195,7 +223,7 @@ function ApprouveList() {
                                 <div>
                                     {viewMode === 'list' ? (
 
-                                        <table className="table-header">
+                                       <> <table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Libelle</th>
@@ -209,16 +237,19 @@ function ApprouveList() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {documents.length > 0 ? (
-                                                    documents.map(document => (
+                                                {currentDocuments.length > 0 ? (
+                                                    currentDocuments.map(document => (
                                                         <tr>
                                                             <td>{document.libelle}</td>
                                                             <td>{document.type}</td>
                                                             <td>{document.selection_site}</td>
                                                             <td>{document.selection_activite}</td>
                                                             <td>{document.liste_informee}</td>
-                                                            <td>{document.statut}</td>
                                                             <td>
+                                                                <span className={getTypeActionLabelClass(document.statut)}>
+                                                                    {document.statut}
+                                                                </span>
+                                                            </td>                                                            <td>
                                                                 {document.fichier ?
                                                                     <a href={`/`} target="_blank" rel="noopener noreferrer">Consulter</a> :
                                                                     'Aucun'}
@@ -240,10 +271,30 @@ function ApprouveList() {
                                                 )}
                                             </tbody>
                                         </table>
+                                         <ReactPaginate
+                                         previousLabel={'Précédent'}
+                                         nextLabel={'Suivant'}
+                                         breakLabel={'...'}
+                                         pageCount={pageCount}
+                                         marginPagesDisplayed={2}
+                                         pageRangeDisplayed={5}
+                                         onPageChange={handlePageClick}
+                                         containerClassName={'pagination'}
+                                         pageClassName={'page-item'}
+                                         pageLinkClassName={'page-link'}
+                                         previousClassName={'page-item'}
+                                         previousLinkClassName={'page-link'}
+                                         nextClassName={'page-item'}
+                                         nextLinkClassName={'page-link'}
+                                         breakClassName={'page-item'}
+                                         breakLinkClassName={'page-link'}
+                                         activeClassName={'active'}
+                                     />
+                                     </>
                                     ) : (
-                                        <div className="grid">
-                                            {documents.length > 0 ? (
-                                                documents.map(demand => (
+                                     <>   <div className="grid">
+                                            {currentDocuments.length > 0 ? (
+                                                currentDocuments.map(demand => (
                                                     <div key={demand.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={`${demand.tyoe}`} className="responsable-img" />
                                                         <div className="responsable-info">
@@ -261,6 +312,26 @@ function ApprouveList() {
                                                 <p className="text-center">Aucun demand disponible</p>
                                             )}
                                         </div>
+                                         <ReactPaginate
+                                         previousLabel={'Précédent'}
+                                         nextLabel={'Suivant'}
+                                         breakLabel={'...'}
+                                         pageCount={pageCount}
+                                         marginPagesDisplayed={2}
+                                         pageRangeDisplayed={5}
+                                         onPageChange={handlePageClick}
+                                         containerClassName={'pagination'}
+                                         pageClassName={'page-item'}
+                                         pageLinkClassName={'page-link'}
+                                         previousClassName={'page-item'}
+                                         previousLinkClassName={'page-link'}
+                                         nextClassName={'page-item'}
+                                         nextLinkClassName={'page-link'}
+                                         breakClassName={'page-item'}
+                                         breakLinkClassName={'page-link'}
+                                         activeClassName={'active'}
+                                     />
+                                     </>
                                     )}
                                 </div>
                             </div>

@@ -1,97 +1,3 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {useParams, Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-
-
-const DashboardCompetence = () => {
-    const { id } = useParams();
-
-    const [competences, setFormations] = useState([]);
-    const [deleteReussi, setDeleteReussi] = useState(false);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchFormations = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_evaluation_competence/${id}/`, {
-                    headers: {
-                        'Accept': '*//*', 
-}
-});
-setFormations(response.data);
-} catch (error) {
-console.error('Error fetching formations:', error);
-setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-}
-};
-
-fetchFormations();
-}, [id]);
-const handleDelete = async (id) => {
-const headers = {
-'Accept': '*//*',
-'Content-Type': 'application/json',
-'X-CSRFToken': Cookies.get('csrftoken'),
-};
-try {
-await axios.delete(`${process.env.REACT_APP_API_URL}/RH/delete_evaluation_competence/${id}/`, { headers: headers });
-setDeleteReussi(true);
-} catch (error) {
-console.error('Error deleting document:', error);
-setError(error.message || 'Une erreur s\'est produite lors de la suppression du document.');
-}
-};
-
-if (error) {
-return <div>Erreur : {error}</div>;
-}
-if (deleteReussi) {
-window.location.reload();
-}
-
-return (
-<div className="dashboard-doc-int">
-<div className="header">
-<h3>Evaluations :</h3>
-</div>
-<div className="documents-container">
-{competences.map(risk => (
-    <div key={risk.id} className="document-card">
-        <div className="document-card-body">
-            <p className="document-card-text"><strong>nom evaluation:</strong> {risk.name}</p>
-            <p className="document-card-text"><strong>commentaires:</strong> {risk.commentaires}</p>
-            <p className="document-card-text"><strong>Competences:</strong></p>
-            <ul>
-                {risk.criteres.map((critere, index) => (
-                    <li key={`${risk.id}-critere-${index}`}>
-                        <strong>Nom:</strong> {critere.skills_acquis}, <strong>Note acquis:</strong> {critere.note_acquis} , <strong>Note requis:</strong> {critere.note_requis}
-                    </li>
-                ))}
-            </ul>
-            <p className="document-card-text"><strong>total_acquis:</strong> {risk.total_acquis}</p>
-            <p className="document-card-text"><strong>total_requis:</strong> {risk.total_requis}</p>
-            <p className="document-card-text"><strong>Crée par:</strong> {risk.created_by}</p>
-            <p className="document-card-text"><strong>Crée à:</strong> {risk.created_at}</p>
-            <div className="document-card-buttons">
-                <button onClick={() => handleDelete(risk.id)} className="btn btn-danger">Supprimer</button>
-            </div>
-        </div>
-    </div>
-))}
-</div>
-<div className="dashboard-buttons">
-<Link to={`/ajouter-competence/${id}`} className="btn btn-primary">Evaluer</Link>
-</div>
-<div className="dashboard-buttons">
-<Link to={`/employe/${id}/`} className="btn btn-secondary">Retour</Link>
-</div>
-</div>
-);
-};
-
-export default DashboardCompetence;
-*/
 import React, { useState, useEffect } from 'react';
 import { GrTrash } from 'react-icons/gr';
 import '../Dashboard.css';
@@ -99,6 +5,8 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
+import { GoDotFill } from "react-icons/go";
+import ReactPaginate from 'react-paginate';
 
 const sampleCompetences = [
     {
@@ -131,20 +39,15 @@ const sampleCompetences = [
 
 const DashboardCompetence = () => {
     const [competences, setCompetences] = useState([]);
-    const [searchQuery] = useState('');
-    const [viewMode, setViewMode] = useState('list');
     const [deleteReussi, setDeleteReussi] = useState(false);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 5;
 
     useEffect(() => {
         setCompetences(sampleCompetences);
     }, []);
 
-    const filteredCompetences = competences.filter(competence =>
-        competence.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        competence.created_by.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        competence.created_at.includes(searchQuery)
-    );
     const handleDelete = async (id) => {
         const headers = {
             'Accept': '*/*',
@@ -159,80 +62,85 @@ const DashboardCompetence = () => {
             setError(error.message || 'Une erreur s\'est produite lors de la suppression du document.');
         }
     };
+    const filteredCompetences = sampleCompetences.filter(competence =>
+        competence.name.toLowerCase().includes('') ||
+        competence.commentaires.toLowerCase().includes('') ||
+        competence.criteres.some(critere => critere.skills_acquis.toLowerCase().includes(''))
+    );
     if (error) {
         return <div>Erreur : {error}</div>;
     }
     if (deleteReussi) {
         window.location.reload();
     }
+    const indexOfLastMeeting = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstMeeting = indexOfLastMeeting - meetingsPerPage;
+    const currentMeetings = filteredCompetences.slice(indexOfFirstMeeting, indexOfLastMeeting);
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredCompetences.length / meetingsPerPage);
+
     return (
-        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-        <main style={{ display: 'flex', minHeight: '100vh' }}>
-        <SidebarRH />
+        <>
+            <SubNavbarRH />
+            <main style={{ display: 'flex', minHeight: '100vh' }}>
+                <SidebarRH />
                 <div className="container dashboard">
-                    <div className="row">
-                        <div>
-                            <div className="table-container">
-                                <h3 className='formation-title'>Liste des Évaluations de Compétence</h3>
-                                <div>
-                                    {viewMode === 'list' ? (
-                                        <table className="table-header">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nom évaluation</th>
-                                                    <th>Commentaires</th>
-                                                    <th>Créé par</th>
-                                                    <th>Créé à</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {filteredCompetences.length > 0 ? (
-                                                    filteredCompetences.map(competence => (
-                                                        <tr>
-                                                            <td>{competence.name}</td>
-                                                            <td>{competence.commentaires}</td>
-                                                            <td>{competence.created_by}</td>
-                                                            <td>{competence.created_at}</td>
-                                                            <td>
-                                                                <div>
-                                                                    <button onClick={() => handleDelete(competence.id)} className="btn btn-danger"> <GrTrash /> </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="6" className="text-center">Aucune évaluation disponible</td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    ) : (
-                                        <div className="grid">
-                                            {filteredCompetences.length > 0 ? (
-                                                filteredCompetences.map(competence => (
-                                                    <div key={competence.id} className="responsable-item">
-                                                        <img src="https://via.placeholder.com/100" alt={competence.name} className="responsable-img" />
-                                                        <div className="responsable-info">
-                                                            <h5 className="responsable-title">{competence.name}</h5>
-                                                            <p><strong >Commentaires :</strong> {competence.commentaires}</p>
-                                                            <p><strong >Créé par :</strong> {competence.created_by}</p>
-                                                            <p><strong >Créé à :</strong> {competence.created_at}</p>
-                                                            <div>
-                                                                <button onClick={() => handleDelete(competence.id)} className="btn btn-danger"> <GrTrash /> </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <p className="text-center">Aucune évaluation disponible</p>
-                                            )}
-                                        </div>
-                                    )}
+                    <h3 className='formation-title'>Liste des Évaluations de Compétence</h3>
+                    <div className="cards-container">
+                        {currentMeetings.length > 0 ? (
+                            currentMeetings.map((competence) => (
+                                <div key={competence.id} className="competence-card">
+                                    <span className="side-stick"></span>
+                                    <h4 >
+                                        {competence.name}
+                                        <GoDotFill style={{ marginRight: '200px', color: '#97d8ec', fontSize: '35px' }} />
+                                    </h4>
+                                    <p>{competence.created_at} - {competence.created_by}</p>
+                                    <p><strong>Commentaires:</strong> {competence.commentaires}</p>
+                                    <div className="card-content">
+                                        <p><strong>Critères:</strong></p>
+                                        <ul>
+                                            {competence.criteres.map((critere, index) => (
+                                                <li key={index}>
+                                                    {critere.skills_acquis} - Acquis: {critere.note_acquis} / Requis: {critere.note_requis}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <p><strong>Total Acquis:</strong> {competence.total_acquis}</p>
+                                    <p><strong>Total Requis:</strong> {competence.total_requis}</p>
+                                    <div className="card-actions">
+                                        <button onClick={() => handleDelete(competence.id)} className="btn">
+                                            <GrTrash />
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            ))
+                        ) : (
+                            <div>Aucune évaluation disponible</div>
+                        )}
+                        <ReactPaginate
+                            previousLabel={'Précédent'}
+                            nextLabel={'Suivant'}
+                            breakLabel={'...'}
+                            pageCount={pageCount}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={5}
+                            onPageChange={handlePageClick}
+                            containerClassName={'pagination'}
+                            pageClassName={'page-item'}
+                            pageLinkClassName={'page-link'}
+                            previousClassName={'page-item'}
+                            previousLinkClassName={'page-link'}
+                            nextClassName={'page-item'}
+                            nextLinkClassName={'page-link'}
+                            breakClassName={'page-item'}
+                            breakLinkClassName={'page-link'}
+                            activeClassName={'active'}
+                        />
+
                     </div>
                 </div>
             </main>

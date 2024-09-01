@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PDFDownloadLink, Document, Page, Text, View } from '@react-pdf/renderer';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import { IoMdArchive } from "react-icons/io";
 import { MdPictureAsPdf } from "react-icons/md";
+import ReactPaginate from 'react-paginate';
 
 const sampleDocuments = [
     {
@@ -158,29 +159,54 @@ const sampleDocuments = [
 
 const DashboardDocInt = () => {
     const [documents, setDocuments] = useState(sampleDocuments);
-    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('grid');
     const [sortConfig, setSortConfig] = useState({ key: 'created_at', direction: 'ascending' });
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchField, setSearchField] = useState('');
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 4;
 
     const handleDelete = (id) => {
         setDocuments(documents.filter(doc => doc.id !== id));
     };
 
-    const filteredDocuments = documents.filter(doc =>
-        doc.libelle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        doc.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        doc.selection_redacteur.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
-    const sortedDocuments = filteredDocuments.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-            return sortConfig.direction === 'ascending' ? -1 : 1;
+    const handleSearchFieldChange = (e) => {
+        setSearchField(e.target.value);
+    };
+
+
+    const sortedDocuments = documents
+        .sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+
+    const filteredDocuments = useMemo(() => {
+        if (!searchField) {
+            return sortedDocuments;
         }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-            return sortConfig.direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-    });
+        return sortedDocuments.filter(doc =>
+            doc[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedDocuments, searchField, searchTerm]);
+
+    const indexOfLastDocument = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstDocument = indexOfLastDocument - meetingsPerPage;
+    const currentDocuments = filteredDocuments.slice(indexOfFirstDocument, indexOfLastDocument);
+
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredDocuments.length / meetingsPerPage);
 
     const requestSort = (key) => {
         let direction = 'ascending';
@@ -244,8 +270,24 @@ const DashboardDocInt = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des documents Internes</h3>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        disabled={!searchField}
+                                    />
+                                    <select onChange={handleSearchFieldChange} value={searchField}>
+                                        <option value="">Sélectionner un champ</option>
+                                        <option value="nom">  Nom Responsable</option>
+                                        <option value="prenom">Prénom Responsable</option>
+                                        <option value="username"> Nom d'utilisateur</option>
+                                        <option value="Email">email</option>
+                                    </select>
+                                </div>
                                 {viewMode === 'list' ? (
-                                    <table className="table-header">
+                                    <><table className="table-header">
                                         <thead>
                                             <tr>
                                                 <th scope="col" onClick={() => requestSort('libelle')}>
@@ -257,8 +299,8 @@ const DashboardDocInt = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {sortedDocuments.length > 0 ? (
-                                                sortedDocuments.map(doc => (
+                                            {currentDocuments.length > 0 ? (
+                                                currentDocuments.map(doc => (
                                                     <tr key={doc.id}>
                                                         <td>{doc.libelle}</td>
                                                         <td>{doc.selection_activite}</td>
@@ -289,10 +331,30 @@ const DashboardDocInt = () => {
                                             )}
                                         </tbody>
                                     </table>
+                                        <ReactPaginate
+                                            previousLabel={'Précédent'}
+                                            nextLabel={'Suivant'}
+                                            breakLabel={'...'}
+                                            pageCount={pageCount}
+                                            marginPagesDisplayed={2}
+                                            pageRangeDisplayed={5}
+                                            onPageChange={handlePageClick}
+                                            containerClassName={'pagination'}
+                                            pageClassName={'page-item'}
+                                            pageLinkClassName={'page-link'}
+                                            previousClassName={'page-item'}
+                                            previousLinkClassName={'page-link'}
+                                            nextClassName={'page-item'}
+                                            nextLinkClassName={'page-link'}
+                                            breakClassName={'page-item'}
+                                            breakLinkClassName={'page-link'}
+                                            activeClassName={'active'}
+                                        />
+                                    </>
                                 ) : (
                                     <div className="container">
                                         <div className="row clearfix">
-                                            {documents.map(doc => (
+                                            {currentDocuments.map(doc => (
                                                 <div key={doc.id} className="col-lg-3 col-md-4 col-sm-12">
                                                     <div className="card">
                                                         <div className="file">
@@ -325,9 +387,29 @@ const DashboardDocInt = () => {
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             ))}
                                         </div>
+                                        <ReactPaginate
+                                            previousLabel={'Précédent'}
+                                            nextLabel={'Suivant'}
+                                            breakLabel={'...'}
+                                            pageCount={pageCount}
+                                            marginPagesDisplayed={2}
+                                            pageRangeDisplayed={5}
+                                            onPageChange={handlePageClick}
+                                            containerClassName={'pagination'}
+                                            pageClassName={'page-item'}
+                                            pageLinkClassName={'page-link'}
+                                            previousClassName={'page-item'}
+                                            previousLinkClassName={'page-link'}
+                                            nextClassName={'page-item'}
+                                            nextLinkClassName={'page-link'}
+                                            breakClassName={'page-item'}
+                                            breakLinkClassName={'page-link'}
+                                            activeClassName={'active'}
+                                        />
                                     </div>
                                 )}
                             </div>
