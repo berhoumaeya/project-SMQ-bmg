@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import '../RH/list.css';
 import { GrEdit } from 'react-icons/gr';
 import SubNavbarAudit from '../../components/SubNavbarAudit';
+import ReactPaginate from 'react-paginate';
 
 // Sample actions data
 const actions = [
@@ -54,13 +55,17 @@ const actions = [
 ];
 const Actions = () => {
     const [risks, setRisks] = useState([]);
-    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchField, setSearchField] = useState('');
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 5;
 
     useEffect(() => {
         setRisks(actions);
     }, []);
+
     const sortedActions = React.useMemo(() => {
         let sortableActions = [...risks];
         if (sortConfig !== null) {
@@ -78,13 +83,24 @@ const Actions = () => {
         }
         return sortableActions;
     }, [risks, sortConfig]);
-    
-    const filteredRisks = sortedActions.filter(risk =>
-        risk.nom_action.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        risk.designation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        risk.type_action.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
+
+    const filteredRisks = useMemo(() => {
+        if (!searchField) {
+            return sortedActions;
+        }
+        return sortedActions.filter(audit =>
+            audit[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedActions, searchField, searchTerm]);
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleSearchFieldChange = (e) => {
+        setSearchField(e.target.value);
+    };
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -99,6 +115,13 @@ const Actions = () => {
         }
         return '↕️';
     };
+    const indexOfLastMeeting = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstMeeting = indexOfLastMeeting - meetingsPerPage;
+    const currentMeetings = filteredRisks.slice(indexOfFirstMeeting, indexOfLastMeeting);
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredRisks.length / meetingsPerPage);
 
     const getTypeActionLabelClass = (type_action) => {
         switch (type_action.toLowerCase()) {
@@ -116,15 +139,30 @@ const Actions = () => {
     return (
         <>
             <SubNavbarAudit viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh' ,flex:' '}}>
+            <main style={{ display: 'flex', minHeight: '100vh', flex: ' ' }}>
                 <div className="container dashboard">
                     <div className="row">
                         <div>
                             <div className="table-container">
                                 <h3 className='formation-title'>Liste des Actions</h3>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        disabled={!searchField}
+                                    />
+                                    <select onChange={handleSearchFieldChange} value={searchField}>
+                                        <option value="">Sélectionner un champ</option>
+                                        <option value="nom_action">Nom Action</option>
+                                        <option value="designation">Designation</option>
+                                        <option value="type_action">Type Action</option>
+                                    </select>
+                                </div>
                                 <div>
                                     {viewMode === 'list' ? (
-                                        <table className="table-header">
+                                        <> <table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" onClick={() => requestSort('nom_action')}>
@@ -142,8 +180,8 @@ const Actions = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredRisks.length > 0 ? (
-                                                    filteredRisks.map(risk => (
+                                                {currentMeetings.length > 0 ? (
+                                                    currentMeetings.map(risk => (
                                                         <tr key={risk.id}>
                                                             <td>{risk.nom_action}</td>
                                                             <td>{risk.designation}</td>
@@ -167,10 +205,30 @@ const Actions = () => {
                                                 )}
                                             </tbody>
                                         </table>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     ) : (
                                         <div className="grid">
-                                            {filteredRisks.length > 0 ? (
-                                                filteredRisks.map(risk => (
+                                            {currentMeetings.length > 0 ? (
+                                                currentMeetings.map(risk => (
                                                     <div key={risk.id} className="responsable-item">
                                                         <div className="responsable-info">
                                                             <h5 className='responsable-title'>{risk.nom_action}</h5>
@@ -183,7 +241,7 @@ const Actions = () => {
                                                             <Link to={`/update-action/${risk.id}`} className="btn btn-outline-info btn-sm me-2">
                                                                 <GrEdit />
                                                             </Link>
-                                                        
+
                                                         </div>
                                                     </div>
                                                 ))

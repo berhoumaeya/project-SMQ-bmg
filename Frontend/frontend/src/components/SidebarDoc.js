@@ -5,13 +5,13 @@ import { FaFileAlt, FaFileSignature, FaListAlt } from 'react-icons/fa';
 import { AiOutlineFileSearch } from 'react-icons/ai';
 import { MdApproval } from 'react-icons/md';
 const sidebarItems = [
-        { title: 'Documents internes', link: '/DashboardDocInt', icon: <FaFileAlt /> },
-        { title: 'Documents externes', link: '/DashboardDocExt', icon: <FaFileSignature /> },
-        { title: 'Liste des demandes', link: '/ListeDemande', icon: <FaListAlt /> },
-        { title: 'Liste des documents à vérifier', link: '/VerifDoc', icon: <AiOutlineFileSearch /> },
-        { title: 'Liste des documents à approuver', link: '/ApprouveDoc', icon: <MdApproval /> },
-    ];
-    
+    { title: 'Documents internes', link: '/DashboardDocInt', icon: <FaFileAlt /> },
+    { title: 'Documents externes', link: '/DashboardDocExt', icon: <FaFileSignature /> },
+    { title: 'Liste des demandes', link: '/ListeDemande', icon: <FaListAlt /> },
+    { title: 'Liste des documents à vérifier', link: '/VerifDoc', icon: <AiOutlineFileSearch /> },
+    { title: 'Liste des documents à approuver', link: '/ApprouveDoc', icon: <MdApproval /> },
+];
+
 
 
 

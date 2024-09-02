@@ -1,79 +1,10 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import "../Dashboard.css"
-
-const DashboardEmploye = () => {
-    const [employes, setFormations] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchFormations = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/RH/dashboard_employe/`, {
-                    headers: {
-                        'Accept': '*//*', 
-}
-});
-setFormations(response.data);
-} catch (error) {
-console.error('Error fetching formations:', error);
-setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-}
-};
-
-fetchFormations();
-}, []);
-
-if (error) {
-return <div>Erreur : {error}</div>;
-}
-
-return (
-<div>
-<div className="employes-header">
-<h3>Liste des Employes</h3>
-</div>
-<table className="table table-bordered" id="dataTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Nom Employe</th>
-<th>Prenom Employe</th>
-<th>Nom de l'utilisateur Employe</th>
-<th>Email Employe</th>
-<th>Détails de Employe</th>
-</tr>
-</thead>
-<tbody>
-{employes.map(employe => (
-<tr key={employe.id}>
-<td>{employe.id}</td>
-<td>{employe.nom}</td>
-<td>{employe.prenom}</td>
-<td>{employe.username}</td>
-<td>{employe.email}</td>
-<Link to={`/employe/${employe.id}`}>Détails</Link>
-</tr>
-))}
-</tbody>
-</table>
-<div className="button-group">
-<Link to={`/ajouter-employe/`} className="btn btn-primary">Ajouter Employe</Link>
-<Link to={`/DashboardRH/`} className="btn btn-secondary">Retour</Link>
-</div>
-</div>
-);
-};
-
-export default DashboardEmploye;
-*/
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import '../list.css';
 import SubNavbarRH from '../../../components/SubNavbarRH';
 import SidebarRH from '../../../components/SidebarRH';
 import { GrEdit } from 'react-icons/gr';
+import ReactPaginate from 'react-paginate';
 
 const sampleEmployes = [
     {
@@ -102,24 +33,23 @@ const sampleEmployes = [
 const DashboardEmploye = () => {
     const [employes, setEmployes] = useState([]);
     const [error] = useState(null);
-    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('list');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchField, setSearchField] = useState('');
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 5;
     useEffect(() => {
         setEmployes(sampleEmployes);
     }, []);
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
-    const filteredEmployes = employes.filter(employe =>
-        employe.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        employe.prenom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        employe.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        employe.email.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const handleSearchFieldChange = (e) => {
+        setSearchField(e.target.value);
+    };
 
     const requestSort = (key) => {
         let direction = 'ascending';
@@ -135,25 +65,75 @@ const DashboardEmploye = () => {
         }
         return '↕️';
     };
+
+    const sortedEmployes = useMemo(() => {
+        return employes.sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? 1 : -1;
+            }
+            return 0;
+        });
+    }, [employes, sortConfig]);
+
+    const filteredEmployes = useMemo(() => {
+        if (!searchField) {
+            return sortedEmployes;
+        }
+        return sortedEmployes.filter(employe =>
+            employe[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedEmployes, searchField, searchTerm]);
+
+    if (error) {
+        return <div>Erreur : {error}</div>;
+    }
+    const indexOfLastMeeting = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstMeeting = indexOfLastMeeting - meetingsPerPage;
+    const currentMeetings = filteredEmployes.slice(indexOfFirstMeeting, indexOfLastMeeting);
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredEmployes.length / meetingsPerPage);
+
     return (
-        <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
+        <>
+            <SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarRH />
-                <div className=" container dashboard">
+                <div className="container dashboard">
                     <div className="row">
                         <div>
                             <div className="table-container">
                                 <h3 className='formation-title'>Liste des Employés</h3>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        disabled={!searchField}
+                                    />
+                                    <select onChange={handleSearchFieldChange} value={searchField}>
+                                        <option value="">Sélectionner un champ</option>
+                                        <option value="nom">Nom</option>
+                                        <option value="prenom">Prénom</option>
+                                        <option value="username">Nom d'utilisateur</option>
+                                        <option value="email">Email</option>
+                                    </select>
+                                </div>
                                 <div>
                                     {viewMode === 'list' ? (
-                                        <table className="table-header">
+                                        <><table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" onClick={() => requestSort('nom')}>
-                                                        Nom Employé {getSortArrow('nom')} 
+                                                        Nom Employé {getSortArrow('nom')}
                                                     </th>
                                                     <th scope="col" onClick={() => requestSort('prenom')}>
-                                                        Prénom Employé {getSortArrow('prenom')}    
+                                                        Prénom Employé {getSortArrow('prenom')}
                                                     </th>
                                                     <th scope="col" onClick={() => requestSort('username')}>
                                                         Nom d'utilisateur Employé {getSortArrow('username')}
@@ -161,14 +141,13 @@ const DashboardEmploye = () => {
                                                     <th scope="col" onClick={() => requestSort('email')}>
                                                         Email Employé {getSortArrow('email')}
                                                     </th>
-                                                    <th>
-                                                        Détails</th>
+                                                    <th>Détails</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredEmployes.length > 0 ? (
-                                                    filteredEmployes.map(employe => (
-                                                        <tr >
+                                                {currentMeetings.length > 0 ? (
+                                                    currentMeetings.map(employe => (
+                                                        <tr key={employe.id}>
                                                             <td>{employe.nom}</td>
                                                             <td>{employe.prenom}</td>
                                                             <td>{employe.username}</td>
@@ -176,7 +155,6 @@ const DashboardEmploye = () => {
                                                             <td>
                                                                 <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info ">
                                                                     <GrEdit />
-
                                                                 </Link>
                                                             </td>
                                                         </tr>
@@ -188,20 +166,38 @@ const DashboardEmploye = () => {
                                                 )}
                                             </tbody>
                                         </table>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     ) : (
-                                        <div className="grid">
-                                            {filteredEmployes.length > 0 ? (
-                                                filteredEmployes.map(employe => (
+                                        <>   <div className="grid">
+                                            {currentMeetings.length > 0 ? (
+                                                currentMeetings.map(employe => (
                                                     <div key={employe.id} className="responsable-item">
                                                         <img src="https://via.placeholder.com/100" alt={employe.nom} className="responsable-img" />
-
                                                         <div className="responsable-info">
                                                             <h5 className="responsable-title">{employe.nom} {employe.prenom}</h5>
-                                                            <p><strong >Username :</strong> {employe.username}</p>
-                                                            <p><strong >Email :</strong> {employe.email}</p>
+                                                            <p><strong>Username :</strong> {employe.username}</p>
+                                                            <p><strong>Email :</strong> {employe.email}</p>
                                                             <Link to={`/update-employe/${employe.id}`} className="btn btn-outline-info btn-sm">
                                                                 <GrEdit />
-
                                                             </Link>
                                                         </div>
                                                     </div>
@@ -210,6 +206,26 @@ const DashboardEmploye = () => {
                                                 <p className="text-center">Aucun employé disponible</p>
                                             )}
                                         </div>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     )}
                                 </div>
                             </div>

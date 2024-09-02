@@ -39,7 +39,7 @@ const Login = ({ login, isAuthenticated }) => {
                 <div className="row g-0">
                     <div className="col-lg-6 d-flex align-items-center order-2 order-lg-1 ">
                         <div className="p-3 p-lg-4">
-                            <img src="/images/account.png" alt="Sign in" style={{ width: '400px', height: '400px' }} />
+                            <img src="../images/account.png" alt="Sign in" style={{ width: '400px', height: '400px' }} />
                         </div>
                         <div className="vr opacity-1 d-none d-lg-block" />
                     </div>
@@ -78,7 +78,7 @@ const Login = ({ login, isAuthenticated }) => {
                                     />
                                 </div>
                                 <p className='link'>
-                                    Mot de passe oublié ?  <Link  className='link-page' to="/ResetPassword">Réinitialiser mot de passe</Link>
+                                    Mot de passe oublié ?  <Link className='link-page' to="/ResetPassword">Réinitialiser mot de passe</Link>
                                 </p>
                                 <div>
                                     <button type="submit" className="button-log w-100 mb-0">

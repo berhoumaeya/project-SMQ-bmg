@@ -10,6 +10,7 @@ import SidebarDoc from '../../components/SidebarDoc';
 import SubNavbarDoc from '../../components/SubNavbarDOC';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { MdPictureAsPdf } from "react-icons/md";
+import ReactPaginate from 'react-paginate';
 
 const sampleDocumentsExt = [
     {
@@ -143,41 +144,55 @@ const sampleDocumentsExt = [
         liste_informee: ['Informé 16', 'Informé 17', 'Informé 18']
     }
 ];
-
-
 const DashboardDocExt = () => {
     const [documents, setDocuments] = useState(sampleDocumentsExt);
-    const [searchQuery] = useState('');
     const [viewMode, setViewMode] = useState('grid');
     const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchField, setSearchField] = useState('');
+    const [currentPage, setCurrentPage] = useState(0);
+    const meetingsPerPage = 4;
 
     const handleDelete = (id) => {
         setDocuments(documents.filter(doc => doc.id !== id));
     };
 
-    const filteredDocuments = useMemo(() => {
-        return documents.filter(doc =>
-            doc.designation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            doc.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            doc.created_by.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-    }, [documents, searchQuery]);
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
-    const sortedDocuments = useMemo(() => {
-        const sortableDocuments = [...filteredDocuments];
-        if (sortConfig !== null) {
-            sortableDocuments.sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? -1 : 1;
-                }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === 'ascending' ? 1 : -1;
-                }
-                return 0;
-            });
+    const handleSearchFieldChange = (e) => {
+        setSearchField(e.target.value);
+    };
+
+    const sortedDocuments = documents
+        .sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+
+    const filteredDocuments = useMemo(() => {
+        if (!searchField) {
+            return sortedDocuments;
         }
-        return sortableDocuments;
-    }, [filteredDocuments, sortConfig]);
+        return sortedDocuments.filter(doc =>
+            doc[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedDocuments, searchField, searchTerm]);
+
+    const indexOfLastMeeting = (currentPage + 1) * meetingsPerPage;
+    const indexOfFirstMeeting = indexOfLastMeeting - meetingsPerPage;
+    const currentMeetings = filteredDocuments.slice(indexOfFirstMeeting, indexOfLastMeeting);
+
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+    const pageCount = Math.ceil(filteredDocuments.length / meetingsPerPage);
 
     const requestSort = (key) => {
         let direction = 'ascending';
@@ -229,8 +244,9 @@ const DashboardDocExt = () => {
     );
 
     return (
-        <> <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
-          
+        <>
+            <SubNavbarDoc viewMode={viewMode} setViewMode={setViewMode} />
+
             <main style={{ display: 'flex', minHeight: '100vh' }}>
                 <SidebarDoc />
                 <div className="container dashboard">
@@ -238,104 +254,146 @@ const DashboardDocExt = () => {
                         <div>
                             <div className="table-container">
                                 <h3 className="formation-title">Liste des documents Externes</h3>
+                                <div className="search-container">
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher..."
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        disabled={!searchField}
+                                    />
+                                    <select onChange={handleSearchFieldChange} value={searchField}>
+                                        <option value="">Sélectionner un champ</option>
+                                        <option value="designation">Désignation</option>
+                                        <option value="type">Type</option>
+                                        <option value="lieu_classement">Lieu classement</option>
+                                    </select>
+                                </div>
                                 {viewMode === 'list' ? (
-                                    <table className="table-header">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" onClick={() => requestSort('designation')}>
-                                                    Désignation {getSortArrow('designation')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('updated_by')}>
-                                                    Modifié par {getSortArrow('updated_by')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('updated_at')}>
-                                                    Modifié le {getSortArrow('updated_at')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('created_by')}>
-                                                    Créé par {getSortArrow('created_by')}
-                                                </th>
-                                                <th scope="col" onClick={() => requestSort('created_at')}>
-                                                    Créé à {getSortArrow('created_at')}
-                                                </th>
-                                                <th scope="col">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {sortedDocuments.length > 0 ? (
-                                                sortedDocuments.map(doc => (
-                                                    <tr key={doc.id}>
-                                                        <td>{doc.designation}</td>
-                                                        <td>{doc.updated_by}</td>
-                                                        <td>{doc.updated_at}</td>
-                                                        <td>{doc.created_by}</td>
-                                                        <td>{doc.created_at}</td>
-                                                        <td>
-                                                            <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
-                                                                <GrEdit />
-                                                            </Link>
-                                                            <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
-                                                                <FaTrashAlt />
-                                                            </button>
-                                                            <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
-                                                                {({ blob, url, loading, error }) => (
-                                                                    <button className="btn btn-outline-info">
-                                                                        <FontAwesomeIcon icon={faFilePdf} />
-                                                                    </button>
-                                                                )}
-                                                            </PDFDownloadLink>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            ) : (
+                                    <>
+                                        <table className="table-header">
+                                            <thead>
                                                 <tr>
-                                                    <td colSpan="6">Aucun document trouvé</td>
+                                                    <th scope="col" onClick={() => requestSort('designation')}>
+                                                        Désignation {getSortArrow('designation')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('type')}>
+                                                        Type {getSortArrow('type')}
+                                                    </th>
+                                                    <th scope="col" onClick={() => requestSort('lieu_classement')}>
+                                                        Lieu classement {getSortArrow('lieu_classement')}
+                                                    </th>
+                                                    <th scope="col">Actions</th>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <div className="container">
-                                    <div className="row clearfix">
-                                        {documents.map(doc => (
-                                            <div key={doc.id} className="col-lg-3 col-md-4 col-sm-12">
-                                                <div className="card">
-                                                    <div className="file">
-                                                        <div className="hover">
-                                                            <button type="button" className="btn btn-icon btn-danger" onClick={() => handleDelete(doc.id)}>
-                                                                <FaTrashAlt />
-                                                            </button>
-                                                        </div>
-                                                        <div className="icon">
-                                                        {doc.fichier}<MdPictureAsPdf style={{ color: '#639cd9' }} />
-
-
-                                                        </div>
-                                                        <div className="file-name">
-                                                            <p className="text-muted">{doc.designation}</p>
-                                                            <div className='card-footer'>
-                                                            <small>Type: {doc.type } <span className="date text-muted">{doc.date}</span></small>
-                                                            <small>Lieu classement : {doc.lieu_classement }</small>
-
-                                                            <div className="actions mt-2">
+                                            </thead>
+                                            <tbody>
+                                                {currentMeetings.length > 0 ? (
+                                                    currentMeetings.map(doc => (
+                                                        <tr key={doc.id}>
+                                                            <td>{doc.designation}</td>
+                                                            <td>{doc.type}</td>
+                                                            <td>{doc.lieu_classement}</td>
+                                                            <td>
                                                                 <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
                                                                     <GrEdit />
                                                                 </Link>
+                                                                <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
+                                                                    <FaTrashAlt />
+                                                                </button>
                                                                 <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
-                                                                    {({ loading }) => (
+                                                                    {({ blob, url, loading, error }) => (
                                                                         <button className="btn btn-outline-info">
                                                                             <FontAwesomeIcon icon={faFilePdf} />
                                                                         </button>
                                                                     )}
                                                                 </PDFDownloadLink>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6">Aucun document trouvé</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                        <ReactPaginate
+                                            previousLabel={'Précédent'}
+                                            nextLabel={'Suivant'}
+                                            breakLabel={'...'}
+                                            pageCount={pageCount}
+                                            marginPagesDisplayed={2}
+                                            pageRangeDisplayed={7}
+                                            onPageChange={handlePageClick}
+                                            containerClassName={'pagination'}
+                                            pageClassName={'page-item'}
+                                            pageLinkClassName={'page-link'}
+                                            previousClassName={'page-item'}
+                                            previousLinkClassName={'page-link'}
+                                            nextClassName={'page-item'}
+                                            nextLinkClassName={'page-link'}
+                                            breakClassName={'page-item'}
+                                            breakLinkClassName={'page-link'}
+                                            activeClassName={'active'}
+                                        />
+                                    </>
+                                ) : (
+                                    <div className="container">
+                                        <div className="row clearfix">
+                                            {currentMeetings.map(doc => (
+                                                <div key={doc.id} className="col-lg-3 col-md-4 col-sm-12">
+                                                    <div className="card">
+                                                        <div className="file">
+                                                            <div className="hover">
+                                                                <button type="button" className="btn btn-icon btn-outline-secondary">
+                                                                    <PDFDownloadLink document={<MyDocument data={doc} />} fileName={`document-${doc.id}.pdf`}>
+                                                                        {({ blob, url, loading, error }) => (
+                                                                            <FontAwesomeIcon icon={faFilePdf} />
+                                                                        )}
+                                                                    </PDFDownloadLink>
+                                                                </button>
                                                             </div>
+                                                            <div className="icon">
+                                                                {doc.fichier} <MdPictureAsPdf style={{ color: '#639cd9' }} />
+                                                            </div>
+                                                            <div className="file-name">
+                                                                <p className="text-muted">{doc.designation}</p>
+                                                                <div className="card-footer">
+                                                                    <small>Type: {doc.type}</small>
+                                                                    <small>Lieu classement: {doc.lieu_classement}</small>
+                                                                    <Link to={`/modifierDocExt/${doc.id}`} className="btn btn-outline-success me-2">
+                                                                        <GrEdit />
+                                                                    </Link>
+                                                                    <button onClick={() => handleDelete(doc.id)} className="btn btn-outline-danger me-2">
+                                                                        <FaTrashAlt />
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
+                                        <ReactPaginate
+                                            previousLabel={'Précédent'}
+                                            nextLabel={'Suivant'}
+                                            breakLabel={'...'}
+                                            pageCount={pageCount}
+                                            marginPagesDisplayed={2}
+                                            pageRangeDisplayed={5}
+                                            onPageChange={handlePageClick}
+                                            containerClassName={'pagination'}
+                                            pageClassName={'page-item'}
+                                            pageLinkClassName={'page-link'}
+                                            previousClassName={'page-item'}
+                                            previousLinkClassName={'page-link'}
+                                            nextClassName={'page-item'}
+                                            nextLinkClassName={'page-link'}
+                                            breakClassName={'page-item'}
+                                            breakLinkClassName={'page-link'}
+                                            activeClassName={'active'}
+                                        />
                                     </div>
-                                </div>
                                 )}
                             </div>
                         </div>

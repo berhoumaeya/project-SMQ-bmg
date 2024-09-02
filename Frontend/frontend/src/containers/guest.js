@@ -1,40 +1,23 @@
 import React from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaBook, FaGavel } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-function ModuleTile({ title, link, className }) {
+function ModuleTile({ title, link, className ,icon}) {
   return (
-    <div className={`module-card p-5 ${className}`}>
-      <h4 className="icon-wrapper" style={{ textAlign: 'center', color: '#6c476e' }}>
-        {title}
-      </h4>
-      <div className="cta">
-        <a href={link} className="cta-link hover-underline-animation" style={{ textDecoration: 'none', color: '#4d3664' }}>Accéder</a>
-        <svg
-          id="arrow-horizontal"
-          xmlns="http://www.w3.org/2000/svg"
-          width="50"
-          height="10"
-          viewBox="0 0 46 16"
-        >
-          <path
-            id="Path_10"
-            data-name="Path 10"
-            d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
-            transform="translate(30)"
-          ></path>
-        </svg>
-      </div>
+    <a href={link} className={`module-card ${className}`}>
+    <div className="icon-wrapper">
+        <div className="icon-main">{icon}</div>
     </div>
+    <h4 className="module-title">{title}</h4>
+</a>
   );
 }
-
 function DashboardGuest({ user }) {
   const gestionSections = [
     {
-      title: 'Consulter document', link: '/Documentguest', className: "bg-color-5"
+      title: 'Consulter document', link: '/Documentguest', icon: <FaBook />, className: "bg-color-5"
     },
     {
-      title: 'Accèder à une réunion ', link: '/Reunionguest', className: "bg-color-5"
+      title: 'Accèder à une réunion', link: '/Reunionguest',icon: <FaGavel /> ,className: "bg-color-5"
     },
   ];
 
@@ -48,16 +31,16 @@ function DashboardGuest({ user }) {
       <div className="dashboard-container" style={{ width: '100%', maxWidth: '1200px', padding: '20px' }}>
         <div className="container">
           {sectionGroups.map((group, index) => (
-            <div className="row mb-4" key={index}>
+            <div className="row mb-4" key={index} style={{marginLeft :'200px'}}>
               {group.map((section, idx) => (
-                <div className="col-md-6 mb-6" key={idx}>
-                  <ModuleTile title={section.title} link={section.link} className={section.className} />
+                <div className="col-md-4" key={idx} >
+                  <ModuleTile title={section.title} link={section.link} icon={section.icon} className={section.className} />
                 </div>
               ))}
             </div>
           ))}
         </div>
-        <div className="dashboard-buttons" style={{ marginTop: '200px' }}>
+        <div className="dashboard-buttons" style={{ marginTop: '150px' }}>
           <Link to={`/`} className="btn btn-secondary">
             <FaArrowLeft style={{ marginRight: '10px' }} /> Retour
           </Link>

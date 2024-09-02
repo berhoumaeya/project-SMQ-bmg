@@ -55,7 +55,7 @@ const SubNavbarDoc = ({ viewMode, setViewMode }) => {
                 {showListGridButtons && (
                     <>
                         <Link to='/Dashboard'>
-                            <button className="sub-navbar-link" style={{ marginRight: "1250px", display: 'flex' }}>
+                            <button className="sub-navbar-link">
                                 <IoIosArrowBack />
                                 <span className="tooltip">Retour</span>
                             </button>

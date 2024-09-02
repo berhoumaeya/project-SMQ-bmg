@@ -11,7 +11,7 @@ const CreateDemande = () => {
     const [attached_file, setPiecesJointes] = useState(null);
     const [document_object, setDocumentObject] = useState('');
     const [type, setType] = useState('');
-
+const  [status, setStatus] = useState('En attente');
     const navigate = useNavigate();
 
     const handleFileChange = (event) => {
@@ -23,6 +23,7 @@ const CreateDemande = () => {
         const formErrors = {};
         if (!document_object) formErrors.document_object = 'Document object est requis.';
         if (!type) formErrors.type = 'Type est requis.';
+        if (!status) formErrors.status = 'Status est requis.';
         if (!attached_file) formErrors.attached_file = 'Pièces jointes est requis.';
 
         return formErrors;
@@ -39,6 +40,7 @@ const CreateDemande = () => {
         const formData = new FormData();
         formData.append('document_object', document_object);
         formData.append('type', type);
+        formData.append('status', status);
         if (attached_file) {
             formData.append('attached_file', attached_file);
         }
@@ -56,6 +58,7 @@ const CreateDemande = () => {
                 navigate('/ListeDemande');
                 setDocumentObject('');
                 setType('');
+                setStatus('');
                 setPiecesJointes(null);
                 setErrors({});
             })
@@ -97,11 +100,26 @@ const CreateDemande = () => {
                                 {errors.type && <p className="error">{errors.type}</p>}
                             </div>
                         </div>
+                        <div className="col-md-6">
+                            <div className="form-label">
+                                <label className="form-label">Status :</label>
+                                <select className="form-control" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="En attente">En attente</option>
+                                    <option value="Validé">Validé</option>
+                                    <option value="Refusé">Refusé</option>
+                                    <option value="terminé">Terminé</option>
+                                </select>
+                                {errors.status && <p className="error">{errors.status}</p>}
+                            </div>
+                        </div> 
+                        <div className="col-md-6">
                         <div className="form-label">
                             <label className="form-label">Pièces jointes :</label>
                             <input type="file" className="form-control" onChange={handleFileChange} />
                             {errors.attached_file && <p className="error">{errors.attached_file}</p>}
                         </div>
+                    </div>
                     </form>
                 </div>
             </main>

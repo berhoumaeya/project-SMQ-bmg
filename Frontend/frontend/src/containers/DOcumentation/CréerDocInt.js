@@ -21,6 +21,7 @@ const CreateDocumentForm = () => {
     const [selection_approbateurs, setSelectionApprobateurs] = useState([]);
     const [selection_redacteurID, setSelectionRedacteur] = useState('');
     const [selection_redacteurs, setSelectionRedacteurs] = useState([]);
+    const [status , setStatus] = useState('En cours');
     const [liste_informeeID, setListeInformee] = useState([]);
     const [liste_informees, setListeInformees] = useState([]);
 
@@ -62,6 +63,7 @@ const CreateDocumentForm = () => {
         if (!selection_approbateurID) formErrors.selection_approbateur = 'Approbateur est requis.';
         if (!selection_redacteurID) formErrors.selection_redacteur = 'Rédacteur est requis.';
         if (liste_informeeID.length === 0) formErrors.liste_informee = 'Liste informée est requis.';
+        if(!status) formErrors.status = 'Statut est requis.';
         if (!fichier) formErrors.fichier = 'Pièces jointes est requis.';
 
         return formErrors;
@@ -83,6 +85,7 @@ const CreateDocumentForm = () => {
         formData.append('selection_verificateur', selection_verificateurID);
         formData.append('selection_approbateur', selection_approbateurID);
         formData.append('selection_redacteur', selection_redacteurID);
+        formData.append('status', status);
         liste_informeeID.forEach(id => formData.append('liste_informee', id));
         if (fichier) {
             formData.append('fichier', fichier);
@@ -106,6 +109,7 @@ const CreateDocumentForm = () => {
                 setSelectionRedacteur('');
                 setSelectionActivite('');
                 setSelectionSite('');
+                setStatus('');
                 toast.success('Votre document à été envoyé au superviseur pour le vérifier');
                 navigate('/VerifDoc');
             })
@@ -138,6 +142,8 @@ const CreateDocumentForm = () => {
                                     <option value="Interne">Manuel</option>
                                     <option value="Externe">Procédure</option>
                                     <option value="Externe">Politique</option>
+                                    <option value="Externe">Rapport</option>
+                                    <option value="Externe">Mémoire</option>
                                 </select>
                                 {errors.type_doc && <p className="error">{errors.type_doc}</p>}
                             </div>
@@ -159,7 +165,19 @@ const CreateDocumentForm = () => {
                                 {errors.selection_site && <p className="error">{errors.selection_site}</p>}
 
                             </div>
-
+                            
+                            <div className="form-label">
+                                <label className="form-label">Statut :</label>
+                                <select className="form-control" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                    <option value="">Sélectionner...</option>
+                                    <option value="En cours">En cours</option>
+                                    <option value="En attente">En attente</option>
+                                    <option value="Approuvé">Approuvé</option>
+                                    <option value="Vérifié">Vérifié</option>
+                                    <option value="Rejeté">Rejeté</option>
+                                </select>
+                                {errors.status && <p className="error">{errors.status}</p>}
+                            </div>
                             <div className="form-label">
                                 <label className="form-label">Activité :</label>
                                 <select className="form-control" value={selection_activite} onChange={(e) => setSelectionActivite(e.target.value)}>
