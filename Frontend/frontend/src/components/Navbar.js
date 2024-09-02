@@ -12,7 +12,7 @@ const Navbar = ({ isAuthenticated, user, logout }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg  ">
+    <nav className="navbar navbar-expand-lg ">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img src="/images/logo.png" alt="BMG Logo" height="30" className="logo" /><div className='bmg'> BMG</div>

@@ -133,8 +133,8 @@ const documentHistory = sampleDocuments.map(document => ({
     reference: document.libelle,
     created_by: document.selection_redacteur,
     created_at: document.created_at,
-    additional_field_1: 'Value 1', 
-    additional_field_2: 'Value 2'  
+    selection_verificateur: document.selection_verificateur,
+    selection_approbateur: document.selection_approbateur
 }));
 
 function VerifList() {
@@ -156,8 +156,8 @@ function VerifList() {
         document.selection_verificateur.toLowerCase().includes(searchQuery.toLowerCase()) ||
         document.selection_approbateur.toLowerCase().includes(searchQuery.toLowerCase()) ||
         document.liste_informee.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        document.statut.toLowerCase().includes(searchQuery.toLowerCase())       
-        
+        document.statut.toLowerCase().includes(searchQuery.toLowerCase())
+
     );
     const handleStatusChange = (documentId, newStatus) => {
         const updatedDocuments = documents.map(document => {
@@ -174,7 +174,7 @@ function VerifList() {
     };
     const getTypeActionLabelClass = (statut) => {
         switch (statut.trim().toLowerCase()) {
-            case 'en attente':  
+            case 'en attente':
                 return 'label label-warning';
             case 'validé':
                 return 'label label-success';
@@ -191,7 +191,7 @@ function VerifList() {
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
-        const pageCount = Math.ceil(filteredDemandes.length / meetingsPerPage);
+    const pageCount = Math.ceil(filteredDemandes.length / meetingsPerPage);
 
     return (
         <>
@@ -205,15 +205,13 @@ function VerifList() {
                                 <h3 className='formation-title'>Liste des demandes à vérifier</h3>
                                 <div>
                                     {viewMode === 'list' ? (
-                                    <>    <table className="table-header">
+                                        <>    <table className="table-header">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Libelle</th>
                                                     <th scope="col">Type de document</th>
                                                     <th scope="col">Site</th>
                                                     <th scope="col">Activité</th>
-                                                    <th scope="col">Vérificateur</th>
-                                                    <th scope="col">Approbateur</th>
                                                     <th scope="col">Liste informée</th>
                                                     <th scope="col">Statut</th>
                                                     <th scope="col">Pièce jointe</th>
@@ -228,8 +226,6 @@ function VerifList() {
                                                             <td>{document.type}</td>
                                                             <td>{document.selection_site}</td>
                                                             <td>{document.selection_activite}</td>
-                                                            <td>{document.selection_verificateur}</td>
-                                                            <td>{document.selection_approbateur}</td>
                                                             <td>{document.liste_informee}</td>
                                                             <td>
                                                                 <span className={getTypeActionLabelClass(document.statut)}>
@@ -257,26 +253,26 @@ function VerifList() {
                                                 )}
                                             </tbody>
                                         </table>
-                                         <ReactPaginate
-                                         previousLabel={'Précédent'}
-                                         nextLabel={'Suivant'}
-                                         breakLabel={'...'}
-                                         pageCount={pageCount}
-                                         marginPagesDisplayed={2}
-                                         pageRangeDisplayed={5}
-                                         onPageChange={handlePageClick}
-                                         containerClassName={'pagination'}
-                                         pageClassName={'page-item'}
-                                         pageLinkClassName={'page-link'}
-                                         previousClassName={'page-item'}
-                                         previousLinkClassName={'page-link'}
-                                         nextClassName={'page-item'}
-                                         nextLinkClassName={'page-link'}
-                                         breakClassName={'page-item'}
-                                         breakLinkClassName={'page-link'}
-                                         activeClassName={'active'}
-                                     />
-                                     </>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     ) : (
                                         <><div className="grid">
                                             {currentDocuments.length > 0 ? (
@@ -298,26 +294,26 @@ function VerifList() {
                                                 <p className="text-center">Aucun document disponible</p>
                                             )}
                                         </div>
-                                        <ReactPaginate
-                                             previousLabel={'Précédent'}
-                                             nextLabel={'Suivant'}
-                                             breakLabel={'...'}
-                                             pageCount={pageCount}
-                                             marginPagesDisplayed={2}
-                                             pageRangeDisplayed={5}
-                                             onPageChange={handlePageClick}
-                                             containerClassName={'pagination'}
-                                             pageClassName={'page-item'}
-                                             pageLinkClassName={'page-link'}
-                                             previousClassName={'page-item'}
-                                             previousLinkClassName={'page-link'}
-                                             nextClassName={'page-item'}
-                                             nextLinkClassName={'page-link'}
-                                             breakClassName={'page-item'}
-                                             breakLinkClassName={'page-link'}
-                                             activeClassName={'active'}
-                                         />
-                                         </>
+                                            <ReactPaginate
+                                                previousLabel={'Précédent'}
+                                                nextLabel={'Suivant'}
+                                                breakLabel={'...'}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={5}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={'pagination'}
+                                                pageClassName={'page-item'}
+                                                pageLinkClassName={'page-link'}
+                                                previousClassName={'page-item'}
+                                                previousLinkClassName={'page-link'}
+                                                nextClassName={'page-item'}
+                                                nextLinkClassName={'page-link'}
+                                                breakClassName={'page-item'}
+                                                breakLinkClassName={'page-link'}
+                                                activeClassName={'active'}
+                                            />
+                                        </>
                                     )}
                                 </div>
                             </div>
