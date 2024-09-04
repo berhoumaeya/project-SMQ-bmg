@@ -1,0 +1,279 @@
+[33mcommit 242a23d4eb5742687cfc60eaf80dadf164e96d77[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Sep 4 15:00:28 2024 +0100
+
+    final touch
+
+[33mcommit 6071fe7ceb9a7981b03f725fbfca03b4559c00d1[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 2f20a4c 09ae7f3
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Sep 4 14:49:12 2024 +0100
+
+    Merge branch 'ayamaj'
+
+[33mcommit 09ae7f39878277d4b99d9534cd032a17b02a5065[m[33m ([m[1;31morigin/ayamaj[m[33m, [m[1;32mayamaj[m[33m)[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Sep 4 14:48:40 2024 +0100
+
+    final touche
+
+[33mcommit 2f20a4c4ac6f38ab3857cfae90b5f471baca5996[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Sep 4 14:45:53 2024 +0100
+
+    t
+
+[33mcommit 1142d256657a514b297ab0a4dabe2616829accce[m
+Merge: d6903a8 bda91b6
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Sep 4 14:36:16 2024 +0100
+
+    final touch
+
+[33mcommit bda91b6d1479d27b3ae7eefe53e7c836751ac23f[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Sep 4 14:27:01 2024 +0100
+
+    finale
+
+[33mcommit d6903a809d4a2a6d96a224fbde4af75b25157f5a[m
+Merge: 45b5eba b8062a6
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Mon Sep 2 02:36:47 2024 +0100
+
+    Merge branch 'eya1'
+
+[33mcommit b8062a68a8f55b4f2d4a5ec2f032907993f275e6[m[33m ([m[1;31morigin/eya1[m[33m)[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Mon Sep 2 02:33:36 2024 +0100
+
+    Final touches and modification + Guest dashboard + doc guest + reuion guest
+
+[33mcommit cfdf64f28b77349e2b3f301d51fc7831aafd863c[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Mon Sep 2 00:27:30 2024 +0100
+
+    Final touches and modification
+
+[33mcommit 45b5eba6357f94a149eb7604877faa1867f439f0[m
+Merge: 2f3f45d fb3ea38
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Aug 30 08:37:57 2024 +0100
+
+    Resolved merge conflicts
+
+[33mcommit fb3ea38dc330870e89225e5084e98449858fd299[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Aug 30 00:20:39 2024 +0100
+
+    changes for design
+
+[33mcommit 07240ef6447e32b138f33d6cbfb1fe2089295c39[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Thu Aug 29 23:45:11 2024 +0100
+
+    updtes histo
+
+[33mcommit 7f86341604776008b1158a89b0f415e3a85df4e5[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Thu Aug 29 23:28:10 2024 +0100
+
+    updtes histo
+
+[33mcommit b320561404231c462682255cede4bbec15abb2fd[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Tue Aug 27 12:16:12 2024 +0100
+
+    Fix details and approuvement
+
+[33mcommit 046d6003f1413c07d007a83b1095f3b07e6e7394[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Tue Aug 27 10:31:32 2024 +0100
+
+    final fournisseurs
+
+[33mcommit 2f3f45d64725e2274347689b76c5bf63246ad5ca[m
+Merge: c89ce25 a6cc72c
+Author: Berhouma Eya <80199721+berhoumaeya@users.noreply.github.com>
+Date:   Tue Aug 27 10:20:54 2024 +0100
+
+    Merge pull request #3 from E-Tech-Agency/eya1
+    
+    Design all pages + add calander
+
+[33mcommit a6cc72cf1fa5f6a4f3ca9d64c48015cca6c41d81[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Mon Aug 26 23:22:31 2024 +0100
+
+    Design all pages + add calander
+
+[33mcommit a63a1d88750a159b37b7de3aec142af940825134[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Mon Aug 26 23:06:06 2024 +0100
+
+    Design all pages + add calander
+
+[33mcommit fbdd55c8ba4c248626a215276e2f00df26e45c93[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Aug 26 14:07:14 2024 +0100
+
+    updates
+
+[33mcommit c89ce25cfb28b3a6bfa21e156a810b080cf8c442[m
+Merge: 23161b5 3031aed
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Aug 26 13:27:34 2024 +0100
+
+    Merge branch 'ayamaj'
+
+[33mcommit 3031aeddaac3d4fe36a5f143eaf9c3aca081417a[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Aug 26 13:20:24 2024 +0100
+
+    updates
+
+[33mcommit 9ba518f6fc33e950fbbeea0a2d2ad2c9eba8bfe0[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Aug 26 11:04:28 2024 +0100
+
+    histo
+
+[33mcommit 37dd58b8a9eb50e9159e5a5936cf4eabb7b06f5e[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Aug 26 10:36:32 2024 +0100
+
+    histo
+
+[33mcommit 23161b50914abed7121a8287fae805726c278f2a[m
+Merge: 7faf66c 912cb12
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Sat Aug 24 11:34:52 2024 +0100
+
+    Merge branch 'main' of https://github.com/E-Tech-Agency/project-SMQ
+
+[33mcommit 899689786eb6b35eefdc5ce619ca8d64bd95256a[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Sat Aug 24 11:34:38 2024 +0100
+
+    historique
+
+[33mcommit d05c0321071bea722b558af570fd88b77bd71b1a[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Fri Aug 23 09:32:31 2024 +0100
+
+    partie  conformité
+
+[33mcommit 912cb12019b18e416f37c65f698e62538925848f[m[33m ([m[1;32meya1[m[33m)[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Thu Aug 22 17:15:53 2024 +0100
+
+    Design module Actions
+
+[33mcommit 99aa5865f4de74aa9524d44eeb24e2ee922b4d40[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Thu Aug 22 16:13:04 2024 +0100
+
+    produit non conforme
+
+[33mcommit e336ff862c44c6cd6908a509ae98c15613977838[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Aug 21 12:52:02 2024 +0100
+
+    partie indicateur
+
+[33mcommit fd4cb9cae32fcc62d36ae26f7b6fe2a5ca007b87[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Wed Aug 21 10:28:49 2024 +0100
+
+    partie fournisseur
+
+[33mcommit ad22cba7d3755a92315efad14b4792f9e2ad2e06[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Tue Aug 20 12:57:55 2024 +0100
+
+    partie client
+
+[33mcommit 0645f39d202d05d44f80d7616e134cd1607f33a5[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Aug 16 22:32:54 2024 +0100
+
+    Design update
+
+[33mcommit 1f73489e90dbdb1348cedb6a706ebfb5745c9940[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Aug 16 10:36:28 2024 +0100
+
+    Design pages  RH + Doc modules + adding sidebar and subnavbar
+
+[33mcommit 14a586d512d2d9bdcb3ffdc519e1d796c584625f[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Tue Aug 13 19:52:21 2024 +0100
+
+    partie reclamation et suggestion et enquete client ave partie reclamation fournisseur
+
+[33mcommit a3704f9b187da4235b8b4d16eb9119158657d055[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Mon Aug 12 23:45:42 2024 +0100
+
+    add subnavbar + sidebar + modification for RH module
+
+[33mcommit 7faf66c12a448c8e514fa1e6f463c37083c069f1[m
+Merge: 9e87121 dee158d
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Aug 12 11:37:25 2024 +0100
+
+    Merge branch 'main' of https://github.com/E-Tech-Agency/project-SMQ
+
+[33mcommit 9e871210c83f0d394a31097ba92d791fd4fce78b[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Mon Aug 12 10:46:06 2024 +0100
+
+    up dates
+
+[33mcommit dee158dfbcddd56270a81ff559b1fa3a5bd94dbe[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Sat Aug 10 13:55:24 2024 +0100
+
+    Fix design list views for RH ,Doc , Audit
+
+[33mcommit 038f76bf43672af40d357df5bfbc7a2472833e0e[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Aug 9 11:06:15 2024 +0100
+
+    update module RH + DOC
+
+[33mcommit c30803439c21492b9ba4f09ccc48e4e9d0894b42[m
+Merge: 13387dc fff04b1
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Aug 9 10:56:32 2024 +0100
+
+    test commit
+
+[33mcommit 13387dc7297ad75b2f28dbe3cb2891ad2773f0a0[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Fri Aug 9 10:45:50 2024 +0100
+
+    test commit
+
+[33mcommit 8a38d1f04b1646017705dc886ef1524cef5954ab[m
+Author: berhoumaeya <eya.berhouma@esprit.tn>
+Date:   Sun Aug 4 22:29:35 2024 +0100
+
+    update RH and Doc pages
+
+[33mcommit fff04b17f20bc9dbab916571748bd04c8cb9cb30[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Sun Jul 28 23:06:30 2024 +0100
+
+    design liste view & details fournisseurs & client
+
+[33mcommit dea116385e275e336b352e7f603d2a73132cc208[m
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Sun Jul 28 21:58:10 2024 +0100
+
+    design
+
+[33mcommit d427a4536b152102aab79da58daca2a96785f78e[m
+Merge: df40876 1d1ed8d
+Author: Majerdi Aya <majerdiaya2@gmail.com>
+Date:   Sun J
