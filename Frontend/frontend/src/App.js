@@ -73,7 +73,6 @@ import AllClients from './containers/Client/Clients';
 import Client from './containers/Client/ConsulterClient';
 import AddClient from './containers/Client/CréerClient';
 import ModifierClient from './containers/Client/modifierclient';
-import NavbarCli from './containers/Client/NavbarCli.js';
 //Réclamation Client
 import CreateReclamation from './containers/Client/CréerReclamationClient';
 import AllReclamations  from './containers/Client/AllReclamations';
@@ -150,6 +149,7 @@ import ActionDetail from './containers/actions/actionDetails';
  
 import Navbarco from './containers/conformite/Navbarco.js';
 import SubNavbarfou from './containers/Fournisseur/SubNavbarfou.js';
+import NavbarCli from './containers/Client/NavbarCli.js';
 const App = () => (
   <Provider store={store}>
     <Router>
