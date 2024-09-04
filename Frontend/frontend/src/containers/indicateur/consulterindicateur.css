@@ -1,13 +1,13 @@
 .container-indicateur {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding: 0 15px;
 }
 
 .nav-indicateur {
     display: flex;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
     background-color: #f9f9fb;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -17,7 +17,6 @@
     padding: 10px 15px;
     color: #5585b5;
     text-decoration: none;
-    cursor: pointer;
 }
 
 .nav-indicateur .nav-item.active {
@@ -30,6 +29,23 @@
     border-top: 1px solid #ddd;
 }
 
+.btn-return {
+    margin-left: auto;
+    background-color: #5585b5;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+.commentaire-card-header {
+    background-color: #f6d164;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
 .card-indicateur {
     border: none;
     border-radius: 8px;

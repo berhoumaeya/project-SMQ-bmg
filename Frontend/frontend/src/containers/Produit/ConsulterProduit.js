@@ -20,8 +20,15 @@ const ConsulterProduit = () => {
         created_by: 'User 1',
         created_at: '2024-01-01',
         updated_by: 'User 2',
-        updated_at: '2024-02-01'
-    });
+        updated_at: '2024-02-01',
+        historique: [
+            { date: '2024-01-01', action: 'Création du produit', utilisateur: 'User 1' },
+            { date: '2024-02-01', action: 'Modification du produit', utilisateur: 'User 2' },
+            
+        ]
+
+    }
+);
     const [deleteReussi, setDeleteReussi] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -63,27 +70,44 @@ const ConsulterProduit = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item active" to="#">Produit non conforme</Link>
                 </div>
-                <Link className="btn btn-return" to={`/DashboardProduit`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="btn btn-return" to={`/allProduit`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">
                 <div className="col-lg-4">
                     <div className="card-fournisseur mb-4">
-                        <div className="card-header-fournisseur">Image du produit</div>
-                        <div className="card-body-fournisseur text-center">
-                            <img className="img-fournisseur rounded-circle mb-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Produit" />
+                        <div className="card-header-fournisseur">Commentaire</div>
+                        <div className="card-body-fournisseur">
+                            <div className="mb-3">
+                                <input
+                                    className="form-control-fournisseur"
+                                    id="description"
+                                    name="description"
+                                    placeholder='ajouter un commentaire'
+                                 
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="commentaire-section">
-                        <div className="commentaire-card-header">Commentaires</div>
-                        <div className="commentaire-card-body">
-                            <textarea
-                                className="form-control-fournisseur"
-                                placeholder="Ajouter un commentaire"
-                            />
+                    <div className="card-fournisseur mb-4">
+                    <div className="commentaire-card-header">Historique</div>
+                        <div className="card-body-fournisseur">
+                            <ul className="list-group list-group-flush">
+                                {productData.historique.map((entry, index) => (
+                                    <li key={index} className="list-group-item">
+                                        <div>
+                                            <strong>{entry.action}</strong><br />
+                                            <small>{entry.date} - {entry.utilisateur}</small>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
+                   
+                   
                 </div>
+
                 <div className="col-lg-8">
                     <div className="card-fournisseur mb-4">
                         <div className="card-header-fournisseur">Détails du produit</div>

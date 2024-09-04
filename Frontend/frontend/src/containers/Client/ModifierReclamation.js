@@ -340,10 +340,7 @@ const staticReclamation = {
     gravite: 'Haute',
     responsable_traitement: 'Jean Dupont',
     decisions: 'Décision prise',
-    created_at: '2024-07-30',
-    created_by: 'Marie Curie',
-    updated_at: '2024-08-02',
-    updated_by: 'Paul Martin',
+   
     reclamation_fournisseur: true,
     plan_action: false,
     fichier_pdf: true,
@@ -357,6 +354,10 @@ const staticReclamation = {
     niveau_gravite: 'Élevé',
     pieces_jointes: true,
     personnes_a_notifier: 'Alice, Bob',
+    historique: [
+        { action: 'Création', date: '2024-07-30', utilisateur: 'Marie Curie' },
+        { action: 'Mise à jour', date: '2024-08-02', utilisateur: 'Paul Martin' }
+    ]
 };
 
 const ModifierReclamation = () => {
@@ -422,22 +423,50 @@ const ModifierReclamation = () => {
     if (modificationReussi) {
         return <Navigate to={`/AllReclamations/${reclamationId}/`} />;
     }
-
+  
     return (
         <div className="container-client px-4 mt-4">
             <nav className="nav-client">
-                <Link className="nav-item-client active ms-0" to="#">Modifier Réclamation</Link>
+                <div className="nav-items-container">
+                    <Link className="nav-item-client active ms-0" to="#">Réclamation</Link>
+                </div>
+                <Link className="btn btn-return" to={`/AllReclamations`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider-client" />
             <div className="row">
                 <div className="col-xl-4">
-                    <div className="card-client mb-4 mb-xl-0">
-                        <div className="card-header-client">Profile Picture</div>
+                    <div className="card-client mb-4">
+                        <div className="card-header-client">Commentaire</div>
                         <div className="card-body-client text-center">
-                            <img className="img-client rounded-circle mb-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile" />
+                            <div className="mb-3">
+                                <input
+                                    className="form-control-fournisseur"
+                                    id="description"
+                                    name="description"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div className="card-client mb-4">
+                        <div className="commentaire-card-header">Historique</div>
+                        <div className="card-body-fournisseur">
+                            <ul className="list-group list-group-flush">
+                                {staticReclamation.historique.map((entry, index) => (
+                                    <li key={index} className="list-group-item">
+                                        <div>
+                                            <strong>{entry.action}</strong><br />
+                                            <small>{entry.date} - {entry.utilisateur}</small>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
+    
                 <div className="col-xl-8">
                     <div className="card-client mb-4">
                         <div className="card-header-client">Modifier Réclamation</div>
@@ -456,17 +485,7 @@ const ModifierReclamation = () => {
                                         />
                                         {errors.code && <div className="invalid-feedback">{errors.code}</div>}
                                     </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label-client mb-1">Description:</label>
-                                        <input 
-                                            type="text" 
-                                            name="description" 
-                                            className={`form-control-client ${errors.description ? 'is-invalid' : ''}`}
-                                            value={description} 
-                                            onChange={(e) => setDescription(e.target.value)} 
-                                        />
-                                        {errors.description && <div className="invalid-feedback">{errors.description}</div>}
-                                    </div>
+                                  
                                 </div>
                                 <div className="row gx-3 mb-3">
                                     <div className="col-md-6">
@@ -647,17 +666,10 @@ const ModifierReclamation = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="d-flex justify-content-end">
-                                    <button type="submit" className="btn btn-primary-client me-2">
-                                        <CiSaveDown2 className="icon-client me-1" /> Sauvegarder
-                                    </button>
-                                    <Link to={`/AllReclamations/`} className="btn btn-danger-client">
-                                        <IoMdArrowRoundBack className="icon-client me-1" /> Retour
-                                    </Link>
-                                    <button className="btn-delete-fournisseur ms-2" type="button" onClick={handleDelete}>
-                                        <GrTrash /> Delete
-                                    </button>
-                                </div>
+                                <div className="text-end">
+                                <button type="submit" className="btn btn-primary"><CiSaveDown2 /> Sauvegarder</button>
+                                <button type="button" className="btn btn-danger ms-2" onClick={handleDelete}><GrTrash /> Supprimer</button>
+                            </div>
                             </form>
                         </div>
                     </div>

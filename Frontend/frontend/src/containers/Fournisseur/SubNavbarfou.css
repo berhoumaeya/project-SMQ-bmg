@@ -1,0 +1,54 @@
+
+
+.sub-navbar-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.sub-navbar-links {
+    display: flex;
+    gap: 1px;
+}
+
+.sub-navbar-link {
+    margin: 0;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #000000;
+    background-color: #e7e9ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    border: none;
+    position: relative;
+
+}
+
+.sub-navbar-link:hover {
+    background-color: #87838358;
+}
+.sub-navbar-link:hover .tooltip {
+    opacity: 1;
+}
+
+
+.tooltip {
+    position: absolute;
+    bottom: 125%; /* Position above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}

@@ -1,10 +1,10 @@
-/* Container principal */
+
 .container-fournisseur {
     margin-top: 20px;
     padding: 0 15px;
 }
 
-/* Navigation */
+
 .nav-fournisseur {
     display: flex;
     justify-content: space-between;
@@ -19,6 +19,7 @@
     padding: 10px 15px;
     color: #5585b5;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .nav-fournisseur .nav-item.active {
@@ -36,13 +37,12 @@
     cursor: pointer;
 }
 
-/* Séparateur */
 .divider {
     margin: 10px 0;
     border-top: 1px solid #ddd;
 }
 
-/* Cards */
+
 .card-fournisseur {
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -69,7 +69,7 @@
     border: 3px solid #f6d164;
 }
 
-/* Formulaire */
+
 .form-label-fournisseur {
     font-weight: bold;
     color: #5585b5;
@@ -95,7 +95,6 @@
     text-align: end;
 }
 
-/* Commentaires */
 .commentaire-section {
     border: 1px solid #ddd;
     border-radius: 8px;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import '../Client/forms.css';
 
 const CreateSuiviIndicateurForm = () => {
     const { id } = useParams();
@@ -15,8 +16,6 @@ const CreateSuiviIndicateurForm = () => {
         piece_jointe: null
     });
     const [ajoutReussi, setAjoutReussi] = useState(false);
-
-
     const [message, setMessage] = useState('');
     const [errors, setErrors] = useState({});
 
@@ -49,7 +48,7 @@ const CreateSuiviIndicateurForm = () => {
         }
 
         try {
-              axios.post(`${process.env.REACT_APP_API_URL}/indicateur/create_SuiviIndicateur/${id}/`, data, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/indicateur/create_SuiviIndicateur/${id}/`, data, {
                 headers: {
                     'Accept': '*/*',
                     'Content-Type': 'multipart/form-data',
@@ -74,48 +73,56 @@ const CreateSuiviIndicateurForm = () => {
     }
 
     return (
-        <div className="form-container">
-            <div className="form-card">
-            <h2> Suivre Indicateur</h2>
-            <form onSubmit={handleSubmit} className="form">
-                <div className="form-group">
-                    <label>Fréquence:</label>
-                    <input type="text" name="frequence" value={formData.frequence} onChange={handleChange} required />
-                    {errors.frequence && <span>{errors.frequence}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Objectif:</label>
-                    <textarea name="objectif" value={formData.objectif} onChange={handleChange} required />
-                    {errors.objectif && <span>{errors.objectif}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Limite Critique:</label>
-                    <input type="number" step="0.01" name="limite_critique" value={formData.limite_critique} onChange={handleChange} required />
-                    {errors.limite_critique && <span>{errors.limite_critique}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Résultat:</label>
-                    <input type="number" step="0.01" name="resultat" value={formData.resultat} onChange={handleChange} required />
-                    {errors.resultat && <span>{errors.resultat}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Commentaire:</label>
-                    <textarea name="commentaire" value={formData.commentaire} onChange={handleChange} required />
-                    {errors.commentaire && <span>{errors.commentaire}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Pièce Jointe:</label>
-                    <input type="file" name="piece_jointe" onChange={handleChange} />
-                    {errors.piece_jointe && <span>{errors.piece_jointe}</span>}
-                </div>
-                <div className="button-group">
-                        <button className="btn btn-primary" type="submit">suivre</button>
-                        <Link to="/indicateurs" className="btn btn-secondary">Retour au tableau de bord</Link>
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="container ajout-form">
+                <div className="contact-image">
+                    <img src="/images/add.png" alt="add_indicateur" />
+                    <div className="button-container">
+                        <Link to="/indicateurs">
+                            <button className="retour">Retour au tableau de bord</button>
+                        </Link>
+                        <button className="button-add" type="submit" form="create-suivi-form">Suivre</button>
                     </div>
-            </form>
-            {message && <p>{message}</p>}
-        </div>
-        </div>
+                </div>
+                <form id="create-suivi-form" onSubmit={handleSubmit} className="row">
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Fréquence:</label>
+                            <input type="text" className="form-control" placeholder='Fréquence*' name="frequence" value={formData.frequence} onChange={handleChange} />
+                            {errors.frequence && <p className="error-text">{errors.frequence}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Objectif:</label>
+                            <textarea className="form-control" placeholder='Objectif*' name="objectif" value={formData.objectif} onChange={handleChange} />
+                            {errors.objectif && <p className="error-text">{errors.objectif}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Limite Critique:</label>
+                            <input type="number" step="0.01" className="form-control" placeholder='Limite Critique*' name="limite_critique" value={formData.limite_critique} onChange={handleChange} />
+                            {errors.limite_critique && <p className="error-text">{errors.limite_critique}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Résultat:</label>
+                            <input type="number" step="0.01" className="form-control" placeholder='Résultat*' name="resultat" value={formData.resultat} onChange={handleChange} />
+                            {errors.resultat && <p className="error-text">{errors.resultat}</p>}
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Commentaire:</label>
+                            <textarea className="form-control" placeholder='Commentaire' name="commentaire" value={formData.commentaire} onChange={handleChange} />
+                            {errors.commentaire && <p className="error-text">{errors.commentaire}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Pièce Jointe:</label>
+                            <input type="file" className="form-control" name="piece_jointe" onChange={handleChange} />
+                            {errors.piece_jointe && <p className="error-text">{errors.piece_jointe}</p>}
+                        </div>
+                    </div>
+                </form>
+                {message && <p className="success-message">{message}</p>}
+            </div>
+        </main>
     );
 };
 

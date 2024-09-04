@@ -1,102 +1,8 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { useParams ,Link , Navigate} from 'react-router-dom';
-import '../DOcumentation/DashboardDocInt.css'
-
-
-const Indicateur = () => {
-    const { id } = useParams();
-
-    const [indicateurs, setindicateurs] = useState([]);
-    const [error, setError] = useState(null);
-    const [deleteReussi, setDeleteReussi] = useState(false);
-
-    useEffect(() => {
-        const fetchindicateurs = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/indicateur/Indicateur/${id}/`);
-                setindicateurs(response.data);
-            } catch (error) {
-                console.error('Error fetching indicateurs:', error);
-                setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-            }
-        };
-
-        fetchindicateurs();
-    }, [id]);
-
-    const handleDelete = async () => {
-        const headers = {
-            'Accept': '*//*',
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken'),
-        };
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/indicateur/delete_Indicateur/${id}/`, { headers: headers });
-            setDeleteReussi(true);
-        } catch (error) {
-            console.error('Error deleting réunion:', error);
-            setError(error.message || 'Une erreur s\'est produite lors de la suppression du réunion.');
-        }
-    };
-
-
-    if (error) {
-        return <div className="error-message">Erreur : {error}</div>;
-    }
-
-    if (deleteReussi) {
-        return  <Navigate to="/indicateurs" />
-    }
-
-    return (
-        <div className="dashboard-doc-int">
-            <div className="documents-container">
-                {indicateurs ? (
-                    <div  className="document-card">
-                        <div className="document-card-body">
-                            <p className="document-card-text"><strong>Libelle:</strong> {indicateurs.Libelle}</p>
-                            <p className="document-card-text"><strong>type indicateur:</strong> {indicateurs.type_indicateur}</p>
-                            <p className="document-card-text"><strong>processus lie:</strong> {indicateurs.processus_lie}</p>
-                            <p className="document-card-text"><strong>axe politique qualite:</strong> {indicateurs.axe_politique_qualite}</p>
-                            <p className="document-card-text"><strong>type resultat attendu:</strong> {indicateurs.type_resultat_attendu}</p>
-                            <p className="document-card-text"><strong>date debut:</strong> {indicateurs.date_debut}</p>
-                            <p className="document-card-text"><strong>periodicite indicateur:</strong> {indicateurs.periodicite_indicateur}</p>
-                            <p className="document-card-text"><strong>type_suivi:</strong> {indicateurs.type_suivi}</p>
-                            <p className="document-card-text"><strong>valeur cible:</strong> {indicateurs.valeur_cible}</p>
-                            <p className="document-card-text"><strong>limite critique:</strong> {indicateurs.limite_critique}</p>
-                            <p className="document-card-text"><strong>Pièces jointes :</strong> {indicateurs.piece_jointe ? <a href={`${process.env.REACT_APP_API_URL}/indicateur/pieces_jointes_indicateur/${id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                            <p className="document-card-text"><strong>Crée par:</strong> {indicateurs.created_by}</p>
-                            <p className="document-card-text"><strong>Crée à:</strong> {indicateurs.created_at}</p>
-                            <p className="document-card-text"><strong>Modifié à:</strong> {indicateurs.updated_at ? indicateurs.updated_at : 'pas de modification'}</p>
-                            <p className="document-card-text"><strong>Modifié par:</strong> {indicateurs.updated_by ? indicateurs.updated_by : 'pas de modification'}</p>
-
-                            <div className="document-card-buttons">
-                            <Link to={`/SuiviIndicateur/${indicateurs.id}`} className="btn btn-primary">Consulter les suivi</Link>
-                            <Link to={`/modifierIndicateur/${indicateurs.id}`} className="btn btn-primary">Modifier</Link>
-                                <button onClick={() => handleDelete(indicateurs.id)} className="btn btn-danger">Supprimer</button>
-                            </div>
-                        </div>
-                    </div>
-                ):(
-                    <p>Chargement...</p>
-                )}
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/indicateurs/`} className="btn btn-secondary">Retour</Link>
-            </div>
-        </div>
-    );
-};
-
-export default Indicateur;*/
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './consulterindicateur.css';  
 import { GrTrash } from 'react-icons/gr';
-import { IoMdArrowRoundBack} from 'react-icons/io';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import { CiSaveDown2 } from "react-icons/ci";
 
 const Indicateur = () => {
@@ -116,6 +22,11 @@ const Indicateur = () => {
         created_at: '2024-08-01',
         updated_at: null,
         updated_by: null,
+        historique: [
+            { date: '2024-07-28', action: 'Modification des détails', utilisateur: 'Admin' },
+            { date: '2024-06-15', action: 'Ajout de la pièce jointe', utilisateur: 'User2' },
+            { date: '2024-08-01', action: 'Création du fournisseur', utilisateur: 'user1' }
+        ]
     });
 
     const handleChange = (e) => {
@@ -133,11 +44,43 @@ const Indicateur = () => {
     return (
         <div className="container-indicateur px-4 mt-4">
             <nav className="nav-indicateur">
-                <Link className="nav-item active ms-0" to="#">Détails</Link>
-                <Link className="nav-item active ms-0" to="/SuiviIndicateur/:id">suivie</Link>            </nav>
+                <div className="nav-items-container">
+                    <Link className="nav-item" to="#">Détails</Link>
+                    <Link className="nav-item" to="/SuiviIndicateur/:id">Suivi</Link>
+                </div>
+                <Link className="btn btn-return" to={`/indicateurs`}><IoMdArrowRoundBack /> Retour</Link>
+            </nav>
             <hr className="divider" />
             <div className="row">
-                <div className="col-lg-12">
+                <div className="col-lg-4">
+                    <div className="card-indicateur mb-4">
+                        <div className="card-header-indicateur">Commentaire</div>
+                        <div className="mb-3">
+                            <input
+                                className="form-control-fournisseur"
+                                id="description"
+                                name="description"
+                                placeholder='Ecrire votre commentaire'
+                            />
+                        </div>
+                    </div>
+                    <div className="card-indicateur mb-4">
+                        <div className="commentaire-card-header">Historique</div>
+                        <div className="card-body-indicateur">
+                            <ul className="list-group list-group-flush">
+                                {indicateurs.historique.map((entry, index) => (
+                                    <li key={index} className="list-group-item">
+                                        <div>
+                                            <strong>{entry.action}</strong><br />
+                                            <small>{entry.date} - {entry.utilisateur}</small>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-8">
                     <div className="card-indicateur mb-4">
                         <div className="card-header-indicateur">Détails de l'Indicateur</div>
                         <div className="card-body-indicateur">
@@ -262,62 +205,23 @@ const Indicateur = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="row gx-3 mb-3">
-                                    <div className="col-md-6">
-                                        <label className="form-label-indicateur mb-1" htmlFor="inputPieceJointe">Pièces Jointes</label>
-                                        <input
-                                            className="form-control-indicateur"
-                                            id="inputPieceJointe"
-                                            name="piece_jointe"
-                                            type="text"
-                                            value={indicateurs.piece_jointe}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label-indicateur mb-1" htmlFor="inputCreatedBy">Créé Par</label>
-                                        <input
-                                            className="form-control-indicateur"
-                                            id="inputCreatedBy"
-                                            name="created_by"
-                                            type="text"
-                                            value={indicateurs.created_by}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
+                                <div className="mb-3">
+                                    <label className="form-label-indicateur mb-1" htmlFor="inputPieceJointe">Pièce Jointe</label>
+                                    
+                                    <input
+                                        type="file"
+                                        onChange={handleChange}
+                                        className="form-control-indicateur"
+                                    />
+                               
                                 </div>
-                                <div className="row gx-3 mb-3">
-                                    <div className="col-md-6">
-                                        <label className="form-label-indicateur mb-1" htmlFor="inputCreatedAt">Créé Le</label>
-                                        <input
-                                            className="form-control-indicateur"
-                                            id="inputCreatedAt"
-                                            name="created_at"
-                                            type="text"
-                                            value={indicateurs.created_at}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label className="form-label-indicateur mb-1" htmlFor="inputUpdatedBy">Mis à Jour Par</label>
-                                        <input
-                                            className="form-control-indicateur"
-                                            id="inputUpdatedBy"
-                                            name="updated_by"
-                                            type="text"
-                                            value={indicateurs.updated_by || ''}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="d-flex justify-content-end mt-4">
-                                    <button type="button" className="btn btn-secondary me-2" onClick={() => { /* logic for returning */ }}>
-                                        <IoMdArrowRoundBack /> Retour
+                               
+                                
+                                <div className="d-flex justify-content-end">
+                                    <button className="btn btn-save" type="button" onClick={handleSave}>
+                                        <CiSaveDown2 /> Enregistrer
                                     </button>
-                                    <button type="button" className="btn btn-primary me-2" onClick={handleSave}>
-                                        <CiSaveDown2 /> Sauvegarder
-                                    </button>
-                                    <button type="button" className="btn btn-danger">
+                                    <button className="btn btn-delete ms-2" type="button">
                                         <GrTrash /> Supprimer
                                     </button>
                                 </div>

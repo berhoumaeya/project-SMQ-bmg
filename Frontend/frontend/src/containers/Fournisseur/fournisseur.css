@@ -1,15 +1,6 @@
-.fournisseur-dashboard {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
 
-.fournisseur-view-toggle {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-}
+
+
 
 .fournisseur-view-btn {
     border: none;
@@ -53,17 +44,25 @@
 .fournisseur-retour {
     color: #ccc;
 }
-
-.fournisseur-search-container {
-    text-align: center;
-    margin-bottom: 20px;
+.risk-search-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;;
 }
 
-.fournisseur-search-input {
-    padding: 10px;
-    width: 90%;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+.risk-search-input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 300px;
+}
+
+.risk-filter-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
 }
 
 .fournisseur-styled-table {
@@ -81,6 +80,7 @@
     color: #ffffff;
     text-align: left;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .fournisseur-styled-table th, .fournisseur-styled-table td {

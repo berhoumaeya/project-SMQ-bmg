@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import '../RH/list.css';
+import './forms.css';
+
 const CreateReclamation = () => {
     const { id } = useParams();
 
     const [errors, setErrors] = useState({});
-
     const [reclamation_fournisseur, setReclamationFournisseur] = useState(null);
     const [plan_action, setPlanAction] = useState(null);
     const [fichier_pdf, setFichierPdf] = useState(null);
@@ -27,7 +27,7 @@ const CreateReclamation = () => {
     const [designation_produit_non_conforme, setDesignationProduitNonConforme] = useState('');
     const [description_non_conformite, setDescriptionNonConformite] = useState('');
     const [produits_non_conformes, setProduitsNonConformes] = useState('');
-    const [produits, setproduits] = useState([]);
+    const [produits, setProduits] = useState([]);
     const [type_non_conformite, setTypeNonConformite] = useState('');
     const [source_non_conformite, setSourceNonConformite] = useState('');
     const [niveau_gravite, setNiveauGravite] = useState('');
@@ -46,8 +46,8 @@ const CreateReclamation = () => {
             .then(response => setPersonnesANotifiers(response.data))
             .catch(error => console.error('Error fetching users:', error));
         
-            axios.get(`${process.env.REACT_APP_API_URL}/fournisseur/types-produits/`)
-            .then(response => setproduits(response.data))
+        axios.get(`${process.env.REACT_APP_API_URL}/fournisseur/types-produits/`)
+            .then(response => setProduits(response.data))
             .catch(error => console.error('Error fetching users:', error));
     }, [id]);
 
@@ -87,8 +87,9 @@ const CreateReclamation = () => {
         formData.append('type_non_conformite', type_non_conformite);
         formData.append('source_non_conformite', source_non_conformite);
         formData.append('niveau_gravite', niveau_gravite);
-        personnes_a_notifierID.forEach(id => { formData.append('personnes_a_notifier', id)});
-            if (pieces_jointes) {
+        personnes_a_notifierID.forEach(id => formData.append('personnes_a_notifier', id));
+        
+        if (pieces_jointes) {
             formData.append('pieces_jointes', pieces_jointes);
         }
 
@@ -100,7 +101,7 @@ const CreateReclamation = () => {
 
         axios.post(`${process.env.REACT_APP_API_URL}/CRM/create_reclamation_client/${id}/`, formData, { headers })
             .then(response => {
-                console.log('Document interne créé avec succès:', response.data);
+                console.log('Réclamation créée avec succès:', response.data);
                 setCode('');
                 setResponsableTraitement('');
                 setDecisions('');
@@ -110,8 +111,8 @@ const CreateReclamation = () => {
                 setAjoutReussi(true);
             })
             .catch(error => {
-                console.error('Error creating document:', error);
-                setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création du document.' });
+                console.error('Error creating réclamation:', error);
+                setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création de la réclamation.' });
             });
     };
 
@@ -120,161 +121,85 @@ const CreateReclamation = () => {
     }
 
     return (
-        <div className="form-container">
-            <div className="form-card">
-                <h3>Ajouter Réclamation</h3>
-                <form onSubmit={handleSubmit} className="form">
-                    <div className="form-group">
-                        <label>Code:</label>
-                        {errors.code && <p className="error-text">{errors.code}</p>}
-                        <input type="text" name="code" value={code} onChange={(e) => setCode(e.target.value)} />
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="container ajout-form">
+                <div className="contact-image">
+                    <img src="/images/add.png" alt="add_reclamation" />
+                    <div className="button-container">
+                        <Link to={`/AllReclamations`}>
+                            <button className="retour">Retour </button>
+                        </Link>
+                        <button className="button-add" type="submit" form="create-reclamation-form">Ajouter une réclamation</button>
                     </div>
-                    <div className="form-group">
-                        <label>Description:</label>
-                        {errors.description && <p className="error-text">{errors.description}</p>}
-                        <input type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                </div>
+                <form id="create-reclamation-form" onSubmit={handleSubmit} className="row">
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label>Code:</label>
+                            <input type="text" className="form-control" placeholder='Code*' value={code} onChange={(e) => setCode(e.target.value)} />
+                            {errors.code && <p className="error-text">{errors.code}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label>Date de Livraison:</label>
+                            <input type="date" className="form-control" value={date_livraison} onChange={(e) => setDateLivraison(e.target.value)} />
+                            {errors.date_livraison && <p className="error-text">{errors.date_livraison}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label>Description:</label>
+                            <textarea className="form-control" placeholder='Description*' value={description} onChange={(e) => setDescription(e.target.value)} />
+                            {errors.description && <p className="error-text">{errors.description}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label>Décisions:</label>
+                            <textarea className="form-control" placeholder='Décisions*' value={decisions} onChange={(e) => setDecisions(e.target.value)} />
+                            {errors.decisions && <p className="error-text">{errors.decisions}</p>}
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Décisions:</label>
-                        {errors.decisions && <p className="error-text">{errors.decisions}</p>}
-                        <input type="text" name="decisions" value={decisions} onChange={(e) => setDecisions(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Type Réclamation:</label>
-                        {errors.type_reclamation && <p className="error-text">{errors.type_reclamation}</p>}
-                        <select value={type_reclamation} onChange={(e) => setTypeReclamation(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Service">Service</option>
-                            <option value="Produit">Produit</option>
-                            <option value="Facturation">Facturation</option>
-                            <option value="Livraison">Livraison</option>
-                            <option value="Support">Support</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Gravité :</label>
-                        {errors.gravite && <p className="error-text">{errors.gravite}</p>}
-                        <select value={gravite} onChange={(e) => setGravite(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Faible">Faible</option>
-                            <option value="Moyenne">Moyenne</option>
-                            <option value="Grave">Grave</option>
-                            <option value="Critique">Critique</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Date de Livraison :</label>
-                        <input type="date" name="date_livraison" value={date_livraison} onChange={(e) => setDateLivraison(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Responsable traitement:</label>
-                        {errors.responsable_traitement && <p className="error-text">{errors.responsable_traitement}</p>}
-                        <select value={responsable_traitement} onChange={(e) => setResponsableTraitement(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {responsable_traitements.map(responsable_traitement => (
-                                <option key={responsable_traitement.id} value={responsable_traitement.id}>{responsable_traitement.username}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Fichier Réclamation fournisseur :</label>
-                        <input type="file" onChange={(e) => handleFileChange(e, setReclamationFournisseur)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Fichier plan action :</label>
-                        <input type="file" onChange={(e) => handleFileChange(e, setPlanAction)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Pièces jointes :</label>
-                        <input type="file" onChange={(e) => handleFileChange(e, setFichierPdf)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Déclencher plan action :</label>
-                        <input type="checkbox" name="declencher_plan_action" checked={declencher_plan_action} onChange={e => setDeclencherPlanAction(e.target.checked)} />
-                    </div>
-                    {declencher_plan_action && (
-                        <>
-                            <div className="form-group">
-                                <label>Date de Détection</label>
-                                {errors.date_detection && <p className="error-text">{errors.date_detection}</p>}
-                                <input type="date" name="date_detection" value={date_detection} onChange={(e) => setDateDetection(e.target.value)} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Désignation produit non conforme</label>
-                                {errors.designation_produit_non_conforme && <p className="error-text">{errors.designation_produit_non_conforme}</p>}
-                                <input type="text" name="designation_produit_non_conforme" value={designation_produit_non_conforme} onChange={(e) => setDesignationProduitNonConforme(e.target.value)} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Description non conformité</label>
-                                {errors.description_non_conformite && <p className="error-text">{errors.description_non_conformite}</p>}
-                                <input type="text" name="description_non_conformite" value={description_non_conformite} onChange={(e) => setDescriptionNonConformite(e.target.value)} required />
-                            </div>
-                            <div className="form-group">
-                        <label>Produit:</label>
-                        {errors.produits_non_conformes && <p className="error-text">{errors.produits_non_conformes}</p>}
-                        <select value={produits_non_conformes} onChange={(e) => setProduitsNonConformes(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            {produits.map(produits_non_conformes => (
-                                <option key={produits_non_conformes.id} value={produits_non_conformes.id}>{produits_non_conformes.nom}</option>
-                            ))}
-                        </select>
-                    </div>
-                            <div className="form-group">
-                                <label>Type Non conformité:</label>
-                                {errors.type_non_conformite && <p className="error-text">{errors.type_non_conformite}</p>}
-                                <select value={type_non_conformite} onChange={(e) => setTypeNonConformite(e.target.value)}>
-                                    <option value="">Sélectionner...</option>
-                                    <option value="Matière première défectueuse">Matière première défectueuse</option>
-                                    <option value="Erreur de production">Erreur de production</option>
-                                    <option value="Défaut d'emballage">Défaut d'emballage</option>
-                                    <option value="Problème de livraison">Problème de livraison</option>
-                                    <option value="Mauvaise manipulation">Mauvaise manipulation</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Source :</label>
-                                {errors.source_non_conformite && <p className="error-text">{errors.source_non_conformite}</p>}
-                                <select value={source_non_conformite} onChange={(e) => setSourceNonConformite(e.target.value)}>
-                                    <option value="">Sélectionner...</option>
-                                    <option value="Usine">Usine</option>
-                                    <option value="Fournisseur">Fournisseur</option>
-                                    <option value="Processus de production">Processus de production</option>
-                                    <option value="Transport">Transport</option>
-                                    <option value="Stockage">Stockage</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Niveau de Gravité :</label>
-                                {errors.niveau_gravite && <p className="error-text">{errors.niveau_gravite}</p>}
-                                <select value={niveau_gravite} onChange={(e) => setNiveauGravite(e.target.value)}>
-                                    <option value="">Sélectionner...</option>
-                                    <option value="Faible">Faible</option>
-                                    <option value="Moyenne">Moyenne</option>
-                                    <option value="Élevée">Élevée</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Personnes à notifier :</label>
-                                {errors.personnes_a_notifier && <p className="error-text">{errors.personnes_a_notifier}</p>}
-                                <select multiple value={personnes_a_notifierID} onChange={(e) => setPersonnesANotifier(Array.from(e.target.selectedOptions, option => option.value))}>
-                                    {personnes_a_notifiers.map(personnes_a_notifier => (
-                                        <option key={personnes_a_notifier.id} value={personnes_a_notifier.id}>{personnes_a_notifier.username}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Pièces jointes :</label>
-                                <input type="file" onChange={(e) => handleFileChange(e, setPiecesJointes)} />
-                            </div>
-                        </>
-                    )}
-                    <div className="button-group">
-                        <button className="btn btn-success mt-3" type="submit">Ajouter Réclamation</button>
-                        <Link to={`/AllReclamations/${id}`} className="btn btn-gray mt-3">Retour au tableau de bord</Link>
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label>Type de Réclamation:</label>
+                            <select className="form-control" value={type_reclamation} onChange={(e) => setTypeReclamation(e.target.value)}>
+                                <option value="">Sélectionner...</option>
+                                <option value="Qualité">Qualité</option>
+                                <option value="Service">Service</option>
+                                <option value="Livraison">Livraison</option>
+                            </select>
+                            {errors.type_reclamation && <p className="error-text">{errors.type_reclamation}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label>Gravité:</label>
+                            <select className="form-control" value={gravite} onChange={(e) => setGravite(e.target.value)}>
+                                <option value="">Sélectionner...</option>
+                                <option value="Mineure">Mineure</option>
+                                <option value="Majeure">Majeure</option>
+                                <option value="Critique">Critique</option>
+                            </select>
+                            {errors.gravite && <p className="error-text">{errors.gravite}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label>Responsable de Traitement:</label>
+                            <select className="form-control" value={responsable_traitement} onChange={(e) => setResponsableTraitement(e.target.value)}>
+                                <option value="">Sélectionner...</option>
+                                {responsable_traitements.map((res) => (
+                                    <option key={res.id} value={res.id}>
+                                        {res.username}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.responsable_traitement && <p className="error-text">{errors.responsable_traitement}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label>Déclencher Plan d'Action:</label>
+                            <input type="checkbox" checked={declencher_plan_action} onChange={(e) => setDeclencherPlanAction(e.target.checked)} />
+                        </div>
+                        <div className="form-label">
+                            <label>Pièces Jointes:</label>
+                            <input type="file" className="form-control" onChange={(e) => handleFileChange(e, setPiecesJointes)} />
+                        </div>
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
     );
 };
 

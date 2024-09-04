@@ -5,7 +5,6 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { CiSaveDown2 } from "react-icons/ci";
 import './consulterfou.css';
 
-// Sample data for evaluations, replace this with real API call in production
 const sampleEvaluations = [
     {
         id: 1,
@@ -66,11 +65,12 @@ const EvaluationDetails = () => {
                         <div className="card-header-fournisseur">Description</div>
                         <div className="card-body-fournisseur">
                             <div className="mb-3">
-                                <textarea
+                                <input
                                     className="form-control-fournisseur"
                                     id="description"
                                     name="description"
                                     value={evaluation.description}
+                                        placeholder="Ajouter une description "
                                     onChange={handleChange}
                                 />
                             </div>
@@ -94,7 +94,6 @@ const EvaluationDetails = () => {
                     </div>
                 </div>
 
-                {/* Détails de l'Évaluation à droite */}
                 <div className="col-lg-8">
                     <div className="card-fournisseur mb-4">
                         <div className="card-header-fournisseur">Détails de l'Évaluation</div>

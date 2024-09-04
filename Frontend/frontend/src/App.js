@@ -73,12 +73,13 @@ import AllClients from './containers/Client/Clients';
 import Client from './containers/Client/ConsulterClient';
 import AddClient from './containers/Client/CréerClient';
 import ModifierClient from './containers/Client/modifierclient';
-import ReclamationDetails from './containers/Client/ReclamationDetails';
-
+import NavbarCli from './containers/Client/NavbarCli.js';
 //Réclamation Client
 import CreateReclamation from './containers/Client/CréerReclamationClient';
 import AllReclamations  from './containers/Client/AllReclamations';
 import ModifierReclamation from './containers/Client/ModifierReclamation';
+import SidbarCli from './containers/Client/SidbarCli.js';
+
 // Enquetes
 import AllEnquetes from './containers/Client/AllEnquete';
 import AddEnquete from './containers/Client/CréerEnquete';
@@ -96,6 +97,8 @@ import AllEvaluations from './containers/Fournisseur/AllEvaluationFournisseur';
 import AllReclamation from './containers/Fournisseur/AllReclamationFournisseur';
 import AddReclamationFournisseur from './containers/Fournisseur/CréerRéclamationFournisseur';
 import ReclamationfouDetails from './containers/Fournisseur/ReclamationfouDetails'; 
+
+import SidbarFou from './containers/Fournisseur/SidbarFou';
 
 import EvaluationDetails from './containers/Fournisseur/EvaluationDetails';
 //Risques
@@ -124,6 +127,8 @@ import AddIndicateur from './containers/indicateur/AjouterIndicateur';
 import CreateSuiviIndicateurForm from './containers/indicateur/AjouterSuiviIndicateur';
 import SuiviIndicateur from './containers/indicateur/SuiviIndicateur';
 import ConsulterSuivi from './containers/indicateur/ConsulterSuivi'; 
+import SidebarInd from './containers/indicateur/SidebarInd'; 
+
 //
 import Audits from './containers/audit/audits';
 import ValidAudit from './containers/audit/valideraudit';
@@ -141,9 +146,8 @@ import ConsulterProduit from './containers/Produit/ConsulterProduit';
 import AuditDetail from './containers/audit/auditDetail';
 import AddAudit from './containers/audit/ajouteraudit';
 import Allreclamations from './containers/Client/AllReclamations';
-import ActionDetail from './containers/actions/actionDetails';
 
-
+import Navbarco from './containers/conformite/Navbarco.js';
 const App = () => (
   <Provider store={store}>
     <Router>
@@ -242,13 +246,13 @@ const App = () => (
           <Route path="/ConsulterClient/:id" element={<Client />} />
           <Route path="/CréerClient" element={<AddClient />} />
           <Route path="/modifierclient/:id" element={<ModifierClient />} />
+          <Route path="/NavbarCli/" element={<NavbarCli />} />
 
           {/* Réclamation Clients : */}
           <Route path="/CréerReclamationClient/:id" element={<CreateReclamation />} />
           <Route path="/ModifierReclamation/:reclamationId/" element={<ModifierReclamation />} />
           <Route path="/AllReclamations" element={<AllReclamations />} />
-          <Route path="/ReclamationDetails/:id" element={<ReclamationDetails />} />
-          
+          <Route path="/SidbarCli" element={<SidbarCli/>} />
 
           {/* Enquetes Clients : */}
           <Route path="/AllEnquete/" element={<AllEnquetes />} />
@@ -271,6 +275,8 @@ const App = () => (
           <Route path="/CréerRéclamationFournisseur/" element={<AddReclamationFournisseur />} />
           <Route path="/ReclamationfouDetails/:id" element={<ReclamationfouDetails/>} />
           <Route path="/EvaluationDetails/:id" element={<EvaluationDetails/>} />
+          <Route path="/SidbarFou" element={<SidbarFou/>} />
+
           {/* Risk : */}
           <Route path="/AllRisque/" element={<DashboardRisk />} />
           <Route path="/AjouterRisk/" element={<AddRisque />} />
@@ -310,6 +316,10 @@ const App = () => (
           <Route path="/ajouteraudit/" element={<AddAudit />} />
 
 
+          <Route path="/SubNavbarfou/" element={<SubNavbarfou/>} />
+         
+          <Route path="/ SidebarInd/" element={< SidebarInd/>} />
+          <Route path="/Navbarco/" element={< Navbarco/>} />
 
 
 
