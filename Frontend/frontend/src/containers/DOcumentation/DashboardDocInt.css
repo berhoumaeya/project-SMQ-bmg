@@ -62,18 +62,4 @@
 
 }
 
-/* Button styling */
-.btn-icon {
-    border: none;
-    background-color: transparent;
-    padding: 0;
-}
 
-.btn-icon .fa-trash {
-    font-size: 20px;
-    color: #dc3545;
-}
-
-.btn-icon .fa-trash:hover {
-    color: #c82333;
-}
