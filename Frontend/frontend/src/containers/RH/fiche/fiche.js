@@ -257,8 +257,8 @@ const FicheDetail = () => {
   return (
     <>
       <SubNavbarRH />
-      <main style={{ display: 'flex', minHeight: '100vh' }}>
-        <SidebarRH />
+      <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
+      <SidebarRH />
         <div className="container-xl px-4 mt-4">
           <div className="row">
             <div className="col-xl-4">

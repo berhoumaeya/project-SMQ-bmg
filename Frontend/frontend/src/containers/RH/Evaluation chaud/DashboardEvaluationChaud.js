@@ -75,8 +75,8 @@ const DashboardChaud = () => {
 
     return (
         <><SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh' }}>
-                <SidebarRH />
+            <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
+            <SidebarRH />
                 <div className="container dashboard">
                     <div className="row">
                         <div>

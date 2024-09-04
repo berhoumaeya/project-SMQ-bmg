@@ -134,7 +134,7 @@ const EmployeDetail = () => {
     return (
         <>
             <SubNavbarRH />
-            <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
                 <SidebarRH />
                 <div className="container-xl px-4 mt-4">
                     <div className="row">

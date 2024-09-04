@@ -81,7 +81,7 @@ function CompetenceForm() {
     return (
         <>
             <SubNavbarRH />
-            <main style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#eeeeee' }}>
+            <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
                 <SidebarRH />
 
                 <div class="container ajout-form">

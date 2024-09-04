@@ -101,7 +101,7 @@ const DashboardEmploye = () => {
     return (
         <>
             <SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
                 <SidebarRH />
                 <div className="container dashboard">
                     <div className="row">
