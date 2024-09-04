@@ -77,7 +77,7 @@ const Client = () => {
                 <Link className="nav-item-client" to="/AllSuggestion">Suggestion</Link>
                 <Link className="nav-item-client" to="/AllEnquete">Enquete</Link>
                 </div>
-                <Link className="btn btn-return" to={`/Clients`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/Clients`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider-client" />
             <div className="row">

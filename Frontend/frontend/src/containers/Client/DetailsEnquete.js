@@ -93,7 +93,7 @@ const DetailsEnquete = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item-client active ms-0" to="#">enquete</Link>
                 </div>
-                <Link className="btn btn-return" to={`/AllEnquete`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/AllEnquete`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider-client" />
             <div className="row">

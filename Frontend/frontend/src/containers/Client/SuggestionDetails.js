@@ -82,7 +82,7 @@ const SuggestionDetails = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item-client active ms-0" to="#">suggestion</Link>
                 </div>
-                <Link className="btn btn-return" to={`/AllSuggestion`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/AllSuggestion`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             
             <hr className="divider-client" />

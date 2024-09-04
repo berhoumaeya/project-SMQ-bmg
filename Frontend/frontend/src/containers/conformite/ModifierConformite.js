@@ -85,7 +85,7 @@ const ModifierConformite = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item active" to="#">Modifier conformité</Link>
                 </div>
-                <Link className="btn btn-return" to={`/AllConformite`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/AllConformite`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">
