@@ -1,10 +1,12 @@
 .sidebar {
-    width: 300px;
+    width: 200px;
     background-color: #fff;
     padding: 20px;
     display: flex;
     flex-direction: column;
     border-right: 1px solid #ddd;
+    
+   
 }
 
 .sidebar ul {

@@ -79,7 +79,6 @@ import AllClients from './containers/Client/Clients';
 import Client from './containers/Client/ConsulterClient';
 import AddClient from './containers/Client/CréerClient';
 import ModifierClient from './containers/Client/modifierclient';
-import ReclamationDetails from './containers/Client/ReclamationDetails';
 import NavbarCli from './containers/Client/NavbarCli.js';
 //Réclamation Client
 import CreateReclamation from './containers/Client/CréerReclamationClient';
@@ -104,6 +103,8 @@ import AllEvaluations from './containers/Fournisseur/AllEvaluationFournisseur';
 import AllReclamation from './containers/Fournisseur/AllReclamationFournisseur';
 import AddReclamationFournisseur from './containers/Fournisseur/CréerRéclamationFournisseur';
 import ReclamationfouDetails from './containers/Fournisseur/ReclamationfouDetails'; 
+
+import SidbarFou from './containers/Fournisseur/SidbarFou';
 
 import EvaluationDetails from './containers/Fournisseur/EvaluationDetails';
 //Risques
@@ -132,6 +133,8 @@ import AddIndicateur from './containers/indicateur/AjouterIndicateur';
 import CreateSuiviIndicateurForm from './containers/indicateur/AjouterSuiviIndicateur';
 import SuiviIndicateur from './containers/indicateur/SuiviIndicateur';
 import ConsulterSuivi from './containers/indicateur/ConsulterSuivi'; 
+import SidebarInd from './containers/indicateur/SidebarInd'; 
+
 //
 import Audits from './containers/audit/audits';
 import ValidAudit from './containers/audit/valideraudit';
@@ -151,7 +154,7 @@ import AddAudit from './containers/audit/ajouteraudit';
 import Allreclamations from './containers/Client/AllReclamations';
 import SubNavbarfou from './containers/Fournisseur/SubNavbarfou';
 
-
+import Navbarco from './containers/conformite/Navbarco.js';
 const App = () => (
   <Provider store={store}>
     <Router>
@@ -254,7 +257,6 @@ const App = () => (
           <Route path="/CréerReclamationClient/:id" element={<CreateReclamation />} />
           <Route path="/ModifierReclamation/:reclamationId/" element={<ModifierReclamation />} />
           <Route path="/AllReclamations" element={<AllReclamations />} />
-          <Route path="/ReclamationDetails/:id" element={<ReclamationDetails />} />
           <Route path="/SidbarCli" element={<SidbarCli/>} />
 
           {/* Enquetes Clients : */}
@@ -278,6 +280,8 @@ const App = () => (
           <Route path="/CréerRéclamationFournisseur/" element={<AddReclamationFournisseur />} />
           <Route path="/ReclamationfouDetails/:id" element={<ReclamationfouDetails/>} />
           <Route path="/EvaluationDetails/:id" element={<EvaluationDetails/>} />
+          <Route path="/SidbarFou" element={<SidbarFou/>} />
+
           {/* Risk : */}
           <Route path="/AllRisque/" element={<DashboardRisk />} />
           <Route path="/AjouterRisk/" element={<AddRisque />} />
@@ -317,8 +321,9 @@ const App = () => (
 
 
           <Route path="/SubNavbarfou/" element={<SubNavbarfou/>} />
-
-
+         
+          <Route path="/ SidebarInd/" element={< SidebarInd/>} />
+          <Route path="/Navbarco/" element={< Navbarco/>} />
 
 
 

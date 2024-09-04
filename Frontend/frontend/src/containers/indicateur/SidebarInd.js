@@ -1,45 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import './SubNavbarfou.css';
+import React from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import './SidbarInd.css';
 import { IoIosArrowBack, IoIosAddCircleOutline } from "react-icons/io";
 import { FaFile, FaList, FaTh } from 'react-icons/fa';
 
-const SubNavbarfou = ({ viewMode, setViewMode }) => {
+const SidebarInd = ({ viewMode, setViewMode }) => {
     const location = useLocation();
-    const navigate = useNavigate();
     const { id } = useParams();
-    
-    const [lastPage, setLastPage] = useState('/'); 
 
-    useEffect(() => {
-        if (location.pathname !== lastPage) {
-            setLastPage(location.pathname);
-        }
-    }, [location.pathname]);
-
-
-
-    const getFormLink = () => {
-        if (location.pathname.startsWith('/AllEvaluationFournisseur')) {
-            return '/CréerEvaluationFournisseur/:static';
-        } else if (location.pathname.startsWith('/AllReclamationFournisseur')) {
-            return '/CréerRéclamationFournisseur';
+    const getDashboardLink = () => {
+        if (location.pathname.startsWith('/ajouter-responsable') || location.pathname.startsWith('/update-responsable')) {
+            return '/Dashboard';
+        } else if (location.pathname.startsWith('/ajouter-position') || location.pathname.startsWith('/update-position')) {
+            return '/dashboardposition';
+        } else if (location.pathname.startsWith('/ajouter-participant') || location.pathname.startsWith('/update-participant')) {
+            return '/dashboardparticipant';
+        } else if (location.pathname.startsWith('/ajouter-employe') || location.pathname.startsWith('/update-employe')) {
+            return '/dashboardemploye';
+        } else if (location.pathname.startsWith('/ajouter-fiche') || location.pathname.startsWith('/update-fiche')) {
+            return '/dashboardfiche';
+        } else if (location.pathname.startsWith('/ajouter-formation') || location.pathname.startsWith('/update-formation')) {
+            return '/dashboardformation';
         } else {
-            return '/CréerFournisseur'; 
+            return null;
         }
     };
 
- 
+    const getFormLink = () => {
+        if (location.pathname.startsWith('/SuiviIndicateur/:id')) {
+            return '/AjouterSuiviIndicateur/:id/';
+      
+        } else {
+            return '/AjouterIndicateur'; 
+        }
+    };
 
     const showRetourButton = location.pathname.startsWith('/ajouter') || location.pathname.startsWith('/update');
+    const dashboardLink = getDashboardLink();
     const formLink = getFormLink();
+
+    const isDashboardEmployePage = location.pathname === '/dashboardemploye';
+    const showConsulteButton = location.pathname.startsWith('/update-employe/') && id;
 
     return (
         <div className="sub-navbar-container">
             <div className="sub-navbar-links">
-               
+              
+
+                {!showRetourButton && (
                     <>
-                        <Link to='/ConsulterFournisseur/:id'>
+                        <Link to='/Dashboard'>
                             <button className="sub-navbar-link">
                                 <IoIosArrowBack />
                                 <span className="tooltip">Retour</span>
@@ -67,10 +77,10 @@ const SubNavbarfou = ({ viewMode, setViewMode }) => {
                             <span className="tooltip">Kanban</span>
                         </button>
                     </>
-                
+                )}
             </div>
         </div>
     );
 };
 
-export default SubNavbarfou;
+export default SidebarInd;

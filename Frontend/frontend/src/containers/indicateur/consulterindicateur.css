@@ -38,6 +38,14 @@
     border: none;
     cursor: pointer;
 }
+.commentaire-card-header {
+    background-color: #f6d164;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
 .card-indicateur {
     border: none;
     border-radius: 8px;

@@ -92,6 +92,7 @@
     color: #ffffff;
     text-align: left;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .risk-styled-table th,

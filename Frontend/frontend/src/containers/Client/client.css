@@ -1,9 +1,4 @@
 
-.client-view-toggle {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-}
 
 .client-view-btn {
     border: none;
@@ -80,6 +75,7 @@
     color: #ffffff;
     text-align: left;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .client-styled-table th, .client-styled-table td {

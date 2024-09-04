@@ -20,8 +20,13 @@ const Indicateur = () => {
         piece_jointe: 'example.pdf',
         created_by: 'User1',
         created_at: '2024-08-01',
-        updated_at: '',
-        updated_by: '',
+        updated_at: '2024-07-28',
+        updated_by: 'Admin',
+        historique: [
+            { date: '2024-07-28', action: 'Modification des détails', utilisateur: 'Admin' },
+            { date: '2024-06-15', action: 'Ajout de la pièce jointe', utilisateur: 'User2' },
+            { date: '2024-08-01', action: 'Création', utilisateur: 'user1' }
+        ]
     });
 
     const handleChange = (e) => {
@@ -39,16 +44,42 @@ const Indicateur = () => {
     return (
         <div className="container-indicateur px-4 mt-4">
             <nav className="nav-indicateur">
-            <div className="nav-items-container">
-                <Link className="nav-item"to="#">Détails</Link>
-                         
-            
+                <div className="nav-items-container">
+                    <Link className="nav-item" to="#">Détails</Link>
                 </div>
                 <Link className="btn btn-return" to={`/SuiviIndicateur/:id`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">
-                <div className="col-lg-12">
+                <div className="col-lg-4">
+                    <div className="card-indicateur mb-4">
+                        <div className="card-header-indicateur">Commentaire</div>
+                        <div className="mb-3">
+                            <input
+                                className="form-control-fournisseur"
+                                id="description"
+                                name="description"
+                                placeholder='Ecrire votre commentaire'
+                            />
+                        </div>
+                    </div>
+                    <div className="card-indicateur mb-4">
+                        <div className="commentaire-card-header">Historique</div>
+                        <div className="card-body-indicateur">
+                            <ul className="list-group list-group-flush">
+                                {indicateurs.historique.map((entry, index) => (
+                                    <li key={index} className="list-group-item">
+                                        <div>
+                                            <strong>{entry.action}</strong><br />
+                                            <small>{entry.date} - {entry.utilisateur}</small>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-8">
                     <div className="card-indicateur mb-4">
                         <div className="card-header-indicateur">Détails de l'Indicateur</div>
                         <div className="card-body-indicateur">
@@ -177,13 +208,10 @@ const Indicateur = () => {
                                     <div className="col-md-6">
                                         <label className="form-label-indicateur mb-1" htmlFor="inputPieceJointe">Pièce Jointe</label>
                                         <input
-                                            className="form-control-indicateur"
-                                            id="inputPieceJointe"
-                                            name="piece_jointe"
-                                            type="text"
-                                            value={indicateurs.piece_jointe}
-                                            onChange={handleChange}
-                                        />
+                                        type="file"
+                                        onChange={handleChange}
+                                        className="form-control-indicateur"
+                                    />
                                     </div>
                                     <div className="col-md-6">
                                         <label className="form-label-indicateur mb-1" htmlFor="inputCreatedBy">Créé Par</label>
@@ -235,9 +263,7 @@ const Indicateur = () => {
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-end mt-4">
-                                    <button type="button" className="btn btn-secondary me-2" onClick={() => { /* logic for returning */ }}>
-                                        <IoMdArrowRoundBack /> Retour
-                                    </button>
+                                    
                                     <button type="button" className="btn btn-primary me-2" onClick={handleSave}>
                                         <CiSaveDown2 /> Sauvegarder
                                     </button>

@@ -70,21 +70,21 @@ const ConsulterProduit = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item active" to="#">Produit non conforme</Link>
                 </div>
-                <Link className="btn btn-return" to={`/DashboardProduit`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="btn btn-return" to={`/allProduit`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">
                 <div className="col-lg-4">
                     <div className="card-fournisseur mb-4">
-                        <div className="card-header-fournisseur">Description</div>
+                        <div className="card-header-fournisseur">Commentaire</div>
                         <div className="card-body-fournisseur">
                             <div className="mb-3">
-                                <textarea
+                                <input
                                     className="form-control-fournisseur"
                                     id="description"
                                     name="description"
-                                    value={productData.description}
-                                    onChange={handleChange}
+                                    placeholder='ajouter un commentaire'
+                                 
                                 />
                             </div>
                         </div>

@@ -1,5 +1,4 @@
 
-
 .sub-navbar-container {
     display: flex;
     justify-content: flex-end;
@@ -40,7 +39,7 @@
 
 .tooltip {
     position: absolute;
-    bottom: 125%; /* Position above the button */
+    bottom: 125%; 
     left: 50%;
     transform: translateX(-50%);
     background-color: #333;

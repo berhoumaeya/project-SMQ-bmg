@@ -1,37 +1,34 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import './forms.css';
 
 const AddEnquete = () => {
-
     const [errors, setErrors] = useState({});
-
     const [pieces_jointes, setPiecesJointes] = useState(null);
-    const [name_enquete, setname_enquete] = useState('');
-    const [date_debut, setdate_debut] = useState('');
-    const [date_fin, setdate_fin] = useState('');
-    const [type_questionnaire, settype_questionnaire] = useState('');
-    const [clientID, setclients] = useState([]);
-    const [allClients, setallClients] = useState([]);
-
+    const [name_enquete, setNameEnquete] = useState('');
+    const [date_debut, setDateDebut] = useState('');
+    const [date_fin, setDateFin] = useState('');
+    const [type_questionnaire, setTypeQuestionnaire] = useState('');
+    const [clientID, setClients] = useState([]);
+    const [allClients, setAllClients] = useState([]);
     const [ajoutReussi, setAjoutReussi] = useState(false);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/CRM/client/`)
-       .then(response => {
-           setallClients(response.data);
-       })
-       .catch(error => {
-           console.error('Error',error)
-       });
-    },[]);
+            .then(response => {
+                setAllClients(response.data);
+            })
+            .catch(error => {
+                console.error('Error', error);
+            });
+    }, []);
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         setPiecesJointes(selectedFile);
     };
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -61,72 +58,81 @@ const AddEnquete = () => {
 
         axios.post(`${process.env.REACT_APP_API_URL}/CRM/create_enquete/`, formData, { headers })
             .then(response => {
-                console.log('enquete créé avec succès:', response.data);
-                setname_enquete('');
-                settype_questionnaire('');
-                setdate_debut('');
-                setdate_fin('');
-
+                console.log('Enquête créée avec succès:', response.data);
+                setNameEnquete('');
+                setTypeQuestionnaire('');
+                setDateDebut('');
+                setDateFin('');
                 setAjoutReussi(true);
             })
             .catch(error => {
-                console.error('Error creating enquete:', error);
+                console.error('Error creating enquête:', error);
                 setErrors(error.response?.data || { message: 'Une erreur s\'est produite lors de la création du document.' });
             });
     };
 
     if (ajoutReussi) {
-        return <Navigate to="/Clients" />;
+        return <Navigate to="/AllEnquete" />;
     }
 
     return (
-        <div className="form-container">
-            <div className="form-card">
-                <h3>Ajouter Enquete</h3>
-                <form onSubmit={handleSubmit} className="form">
-                    <div className="form-group">
-                        <label>name enquete :</label>
-                        {errors.name_enquete && <p className="error-text">{errors.name_enquete}</p>}
-                        <input type="text" name="name_enquete" value={name_enquete} onChange={(e) => setname_enquete(e.target.value)} />
+        <main style={{ backgroundColor: '#eeeeee', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="container ajout-form">
+                <div className="contact-image">
+                    <img src="/images/add.png" alt="add_enquete" />
+                    <div className="button-container">
+                        <Link to="/AllEnquete">
+                            <button className="retour">Retour </button>
+                        </Link>
+                        <button className="button-add" type="submit" form="add-enquete-form">Ajouter une enquête</button>
                     </div>
-
-                    <div className="form-group">
-                        <label>Date de début :</label>
-                        <input type="date" name="date_debut" value={date_debut} onChange={(e) => setdate_debut(e.target.value)} />
+                </div>
+                <form id="add-enquete-form" onSubmit={handleSubmit} className="row">
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Nom Enquête:</label>
+                            <input type="text" className="form-control" placeholder="Nom de l'enquête*" value={name_enquete} onChange={(e) => setNameEnquete(e.target.value)} />
+                            {errors.name_enquete && <p className="error-text">{errors.name_enquete}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Date de Début:</label>
+                            <input type="date" className="form-control" value={date_debut} onChange={(e) => setDateDebut(e.target.value)} />
+                            {errors.date_debut && <p className="error-text">{errors.date_debut}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Date de Fin:</label>
+                            <input type="date" className="form-control" value={date_fin} onChange={(e) => setDateFin(e.target.value)} />
+                            {errors.date_fin && <p className="error-text">{errors.date_fin}</p>}
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Date de fin :</label>
-                        <input type="date" name="date_fin" value={date_fin}onChange={(e) => setdate_fin(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>Type Questionnaire:</label>
-                        {errors.type_questionnaire && <p className="error-text">{errors.type_questionnaire}</p>}
-                        <select value={type_questionnaire} onChange={(e) => settype_questionnaire(e.target.value)}>
-                            <option value="">Sélectionner...</option>
-                            <option value="Feedback">Feedback</option>
-                            <option value="Research">Research</option>
-                            <option value="Satisfaction">Satisfaction</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Clients <span className="required">*</span>:</label>
-                        <select multiple value={clientID} onChange={(e) => setclients(Array.from(e.target.selectedOptions, option => option.value))}>
-                            {allClients.map(clients => (
-                                <option key={clients.id} value={clients.id}>{clients.nom}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Pièces jointes :</label>
-                        <input type="file" onChange={handleFileChange} />
-                    </div>
-                    <div className="button-group">
-                        <button className="btn btn-success mt-3" type="submit">ajouter enquete</button>
-                        <Link to="/AllEnquete" className="btn btn-gray mt-3">Retour au tableau de bord</Link>
+                    <div className="col-md-6">
+                        <div className="form-label">
+                            <label className="form-label">Type de Questionnaire:</label>
+                            <select className="form-control" value={type_questionnaire} onChange={(e) => setTypeQuestionnaire(e.target.value)}>
+                                <option value="">Sélectionner...</option>
+                                <option value="Feedback">Feedback</option>
+                                <option value="Research">Research</option>
+                                <option value="Satisfaction">Satisfaction</option>
+                            </select>
+                            {errors.type_questionnaire && <p className="error-text">{errors.type_questionnaire}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Clients:</label>
+                            <select multiple className="form-control" value={clientID} onChange={(e) => setClients(Array.from(e.target.selectedOptions, option => option.value))}>
+                                {allClients.map(client => (
+                                    <option key={client.id} value={client.id}>{client.nom}</option>
+                                ))}
+                            </select>
+                            {errors.clients && <p className="error-text">{errors.clients}</p>}
+                        </div>
+                        <div className="form-label">
+                            <label className="form-label">Pièces Jointes:</label>
+                            <input type="file" className="form-control" onChange={handleFileChange} />
+                        </div>
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
     );
 };
 

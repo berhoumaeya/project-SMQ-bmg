@@ -1,71 +1,3 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import './client.css';
-
-const AllClients = () => {
-    const [clients, setclients] = useState([]);
-    const [error, setError] = useState(null);
-   
-
-    useEffect(() => {
-        const fetchclients = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/CRM/client/`, {
-                    headers: {
-                        /*'Accept': '*/
-          /*   }
-                });
-                setclients(response.data);
-            } catch (error) {
-                console.error('Error fetching clients:', error);
-                setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-            }
-        };
-
-        fetchclients();
-    }, []);
-
-    if (error) {
-        return <div className="error-message">Erreur : {error}</div>;
-    }
-
-    return (
-        <div className="dashboard-client-int">
-            <div className="header">
-                <h3>Liste des clients</h3>
-               
-            </div>
-            <div className="clients-container">
-                {clients.map(client => (
-                    <div key={client.id} className="client-card">
-                        <div className="client-card-body">
-                            <p className="client-card-text"><strong>nom client:</strong> {client.nom}</p>
-                            <p className="client-card-text"><strong>Code client:</strong> {client.code_client}</p>
-                            <div className="client-card-buttons">
-                                <Link to={`/ConsulterClient/${client.id}/`} className="btn btn-primary">Consulter</Link>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/CréerClient/`} className="btn btn-primary">Ajouter Client</Link>
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/DashboardClient/`} className="btn btn-secondary">Retour</Link>
-            </div>
-        </div>
-    );
-};
-
-export default AllClients;*/
-
-
-
-
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaList, FaTh, FaEdit } from 'react-icons/fa';
@@ -75,24 +7,50 @@ import NavbarCli from './NavbarCli';
 const AllClients = () => {
     const [view, setView] = useState('list');
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterType, setFilterType] = useState('all'); 
-    const [filterValue, setFilterValue] = useState(''); 
+    const [filterType, setFilterType] = useState('all');
+    const [filterValue, setFilterValue] = useState('');
+    const [sortConfig, setSortConfig] = useState({ key: 'nom', direction: 'ascending' }); // Initialize sortConfig
 
     const clients = [
         { firstName: 'Aya', nom: 'Majerdi', code: '01', image: "https://bootdey.com/img/Content/avatar/avatar3.png", email: 'majerdiaya@gmail.com' },
         { firstName: 'Ba', nom: 'By', code: '02', image: "https://bootdey.com/img/Content/avatar/avatar1.png", email: 'ba.by@example.com' },
     ];
 
-    const filteredClients = clients.filter(client => {
-        const matchesSearch = client.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            client.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            client.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            client.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const filteredClients = clients
+        .filter(client => {
+            const matchesSearch = client.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                client.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                client.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                client.email.toLowerCase().includes(searchTerm.toLowerCase());
 
-        const matchesFilter = filterType === 'all' || (client[filterType] && client[filterType].toLowerCase().includes(filterValue.toLowerCase()));
+            const matchesFilter = filterType === 'all' || (client[filterType] && client[filterType].toLowerCase().includes(filterValue.toLowerCase()));
 
-        return matchesSearch && matchesFilter;
-    });
+            return matchesSearch && matchesFilter;
+        })
+        .sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? 1 : -1;
+            }
+            return 0;
+        });
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
 
     return (
         <>
@@ -102,11 +60,8 @@ const AllClients = () => {
                     <div className="row">
                         <div>
                             <br />
-
                             <div className="client-table-container">
-                               
                                 <h3 className='client-formation-title'>Liste des Clients</h3>
-                                
                                 <br />
                                 <br />
                                 <div className="client-filter-container">
@@ -135,10 +90,10 @@ const AllClients = () => {
                                         <table className="client-styled-table">
                                             <thead className="client-table-header">
                                                 <tr>
-                                                    <th scope="col">Code client</th>
-                                                    <th scope="col">Nom client</th>
-                                                    <th scope="col">Prénom client</th>
-                                                    <th scope="col">Email client</th>
+                                                    <th onClick={() => requestSort('code')} scope="col">Code client {getSortArrow('code')}</th>
+                                                    <th onClick={() => requestSort('nom')} scope="col">Nom client {getSortArrow('nom')}</th>
+                                                    <th onClick={() => requestSort('firstName')} scope="col">Prénom client {getSortArrow('firstName')}</th>
+                                                    <th onClick={() => requestSort('email')} scope="col">Email client {getSortArrow('email')}</th>
                                                     <th scope="col">Détails</th>
                                                 </tr>
                                             </thead>
@@ -152,7 +107,7 @@ const AllClients = () => {
                                                             <td>{client.email}</td>
                                                             <td>
                                                                 <Link to={`/consulterclient/${client.code}`} className="client-btn">
-                                                                    <FaEdit /> 
+                                                                    <FaEdit />
                                                                 </Link>
                                                             </td>
                                                         </tr>
@@ -175,7 +130,7 @@ const AllClients = () => {
                                                             <p className="client-responsable-text">Code: {client.code}</p>
                                                             <p className="client-responsable-text">Email: {client.email}</p>
                                                             <Link to={`/consulterclient/${client.code}`} className="btn-view-details">
-                                                                <FaEdit /> 
+                                                                <FaEdit />
                                                             </Link>
                                                         </div>
                                                     </div>

@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaList, FaTh, FaEdit } from 'react-icons/fa';
 import './allProduit.css';
+import Navbarco from '../conformite/Navbarco';
 
 const DashboardProduit = () => {
     const [risks, setRisks] = useState([
         { id: 1, date_detection: '2024-01-01', designation_produit_non_conforme: 'Produit 1', reclamation_client: 'Client 1' },
-        { id: 2, date_detection: '2024-02-01', designation_produit_non_conforme: 'Produit 2', reclamation_client: 'Client 2', type_non_conformite: 'type2' },
-
+        { id: 2, date_detection: '2024-02-01', designation_produit_non_conforme: 'Produit 2', reclamation_client: 'Client 2' },
+        // Add more static data as needed
     ]);
     const [viewMode, setViewMode] = useState('list');
     const [searchTerm, setSearchTerm] = useState('');
     const [filterBy, setFilterBy] = useState('id');
+    const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -26,31 +28,42 @@ const DashboardProduit = () => {
         return value.includes(searchTerm.toLowerCase());
     });
 
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
+
+    const sortedRisks = [...filteredRisks].sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+    });
+
     return (
-        <main style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+        <>
+        <Navbarco viewMode={viewMode} setViewMode={setViewMode} />
+        <main style={{ backgroundColor: '#ffff', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
             <div className="container produit-dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <br />
                         <div className="produit-table-container">
-                            <div className="produit-view-toggle">
-                                <button className={`produit-view-btn ${viewMode === 'list' ? 'produit-active' : ''}`} onClick={() => setViewMode('list')}>
-                                    <FaList />
-                                </button>
-                                <button className={`produit-view-btn ${viewMode === 'grid' ? 'produit-active' : ''}`} onClick={() => setViewMode('grid')}>
-                                    <FaTh />
-                                </button>
-                            </div>
                             <h3 className='produit-formation-title'>Liste des Non Conformités</h3>
-                            <div className="produit-button-container">
-                                <Link to="/Dashboard/">
-                                    <button className="produit-retour">Retour</button>
-                                </Link>
-                                <Link to="/FormProduit/">
-                                    <button className="produit-button-add">Ajouter Non Conforme</button>
-                                </Link>
-                            </div>
                             <br />
                             <div className="produit-search-container">
                                 <select onChange={handleFilterChange} value={filterBy} className="produit-filter-select">
@@ -73,16 +86,28 @@ const DashboardProduit = () => {
                                     <table className="produit-styled-table">
                                         <thead className="produit-table-header">
                                             <tr>
-                                                <th scope="col">Fiche N°</th>
-                                                <th scope="col">Date de Détection</th>
-                                                <th scope="col">Désignation Produit</th>
-                                                <th scope="col">Réclamation Client</th>
-                                                <th scope="col">Détails</th>
+                                                <th onClick={() => requestSort('id')}>
+                                                    Fiche N°
+                                                    {getSortArrow('id')}
+                                                </th>
+                                                <th onClick={() => requestSort('date_detection')}>
+                                                    Date de Détection
+                                                    {getSortArrow('date_detection')}
+                                                </th>
+                                                <th onClick={() => requestSort('designation_produit_non_conforme')}>
+                                                    Désignation Produit
+                                                    {getSortArrow('designation_produit_non_conforme')}
+                                                </th>
+                                                <th onClick={() => requestSort('reclamation_client')}>
+                                                    Réclamation Client
+                                                    {getSortArrow('reclamation_client')}
+                                                </th>
+                                                <th>Détails</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {filteredRisks.length > 0 ? (
-                                                filteredRisks.map(risk => (
+                                            {sortedRisks.length > 0 ? (
+                                                sortedRisks.map(risk => (
                                                     <tr key={risk.id}>
                                                         <td>{risk.id}</td>
                                                         <td>{risk.date_detection}</td>
@@ -104,8 +129,8 @@ const DashboardProduit = () => {
                                     </table>
                                 ) : (
                                     <div className="produit-grid">
-                                        {filteredRisks.length > 0 ? (
-                                            filteredRisks.map(risk => (
+                                        {sortedRisks.length > 0 ? (
+                                            sortedRisks.map(risk => (
                                                 <div key={risk.id} className="produit-responsable-item">
                                                     <img src="https://via.placeholder.com/100" alt="Produit" className="produit-responsable-img" />
                                                     <div className="produit-responsable-info">
@@ -130,6 +155,7 @@ const DashboardProduit = () => {
                 </div>
             </div>
         </main>
+        </>
     );
 };
 

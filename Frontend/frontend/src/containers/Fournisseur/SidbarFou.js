@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserShield, FaBriefcase, FaUsers, FaUserTie, FaBook } from 'react-icons/fa';
-import './sidbarcli.css';
+import '../Client/sidbarcli.css';
 import { AiFillBulb } from "react-icons/ai";
-import { MdContentPasteSearch } from "react-icons/md";
+import { MdOutlineContentPasteSearch } from "react-icons/md";
+
 import { CiReceipt } from "react-icons/ci";
 const sidebarItems = [
-    { title: 'Réclamation', link: '/AllReclamations', icon: <CiReceipt /> },
-    { title: 'suggestion', link: '/AllSuggestion', icon: <AiFillBulb /> },    
-    { title: 'Enquete', link: '/AllEnquete', icon: <MdContentPasteSearch />},
+    { title: 'Réclamation', link: '/AllReclamationFournisseur/:id', icon: <CiReceipt /> },
+    { title: 'Evaluations', link: '/AllEvaluationFournisseur/:id', icon: <MdOutlineContentPasteSearch />
+    },    
+   
    
 ];
 

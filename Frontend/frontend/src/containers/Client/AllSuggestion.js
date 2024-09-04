@@ -1,108 +1,11 @@
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams,Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import './client.css';
-
-const AllSuggestions = () => {
-
-    const { id } = useParams();
-
-    const [reclamations, setreclamations] = useState([]);
-    const [error, setError] = useState(null);
-    const [deleteReussi, setDeleteReussi] = useState(false);
-
-
-    useEffect(() => {
-        const fetchreclamations = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/CRM/dashboard_suggestion/${id}/`, {
-                    headers: {
-                        'Accept': '*//*',
-                    }
-                });
-                setreclamations(response.data);
-            } catch (error) {
-                console.error('Error fetching enquetes:', error);
-                setError(error.message || 'Une erreur s\'est produite lors de la récupération des données.');
-            }
-        };
-
-        fetchreclamations();
-    }, [id]);
-
-    const handleDelete = async (id) => {
-        const headers = {
-            'Accept': '*//*',
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken'),
-        };
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/CRM/delete_suggestion/${id}/`, { headers: headers });
-            setDeleteReussi(true);
-        } catch (error) {
-            console.error('Error deleting enquete:', error);
-            setError(error.message || 'Une erreur s\'est produite lors de la suppression du enquete.');
-        }
-    };
-
-    if (error) {
-        return <div className="error-message">Erreur : {error}</div>;
-    }
-
-    if (deleteReussi) {
-        window.location.reload();
-    }
-
-    return (
-        <div className="dashboard-client-int">
-            <div className="header">
-                <h3>Liste des Suggestions</h3>
-            </div>
-            <div className="clients-container">
-                {reclamations.map(client => (
-                    <div key={client.id} className="client-card">
-                        <div className="client-card-body">
-                            <p className="client-card-text"><strong>Nom Suggestion:</strong> {client.name}</p>
-                            <p className="client-card-text"><strong>date:</strong> {client.date}</p>
-                            <p className="client-card-text"><strong>type_suggestion:</strong> {client.type_suggestion}</p>
-                            <p className="client-card-text"><strong>receptionnaire:</strong> {client.receptionnaire}</p>
-                            <p className="client-card-text"><strong>description:</strong> {client.description}</p>
-                            <p className="client-card-text"><strong>actions:</strong> {client.actions}</p>
-                            <p><strong>Pièces jointes :</strong> {client.pieces_jointes ? <a href={`${process.env.REACT_APP_API_URL}/CRM/pieces_jointes_suggestion_client/${client.id}/`} target="_blank" rel="noopener noreferrer">Consulter</a> : 'null'}</p>
-                            <p className="client-card-text"><strong>Crée à:</strong> {client.created_at}</p>
-                            <p className="client-card-text"><strong>Crée par:</strong> {client.created_by}</p>
-                            <p className="client-card-text"><strong>Modifié à:</strong> {client.updated_at}</p>
-                            <p className="client-card-text"><strong>Modifié par:</strong> {client.updated_by}</p>
-                            <div className="document-card-buttons">
-                                <Link to={`/modifierRéclamation/${client.id}`} className="btn btn-primary">Modifier</Link>
-                                <button onClick={() => handleDelete(client.id)} className="btn btn-danger">Supprimer</button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/CréerSuggestionClient/${id}/`} className="btn btn-primary">Ajouter Enquete</Link>
-            </div>
-            <div className="dashboard-buttons">
-                <Link to={`/ConsulterClient/${id}`} className="btn btn-secondary">Retour</Link>
-            </div>
-        </div>
-    );
-};
-
-export default AllSuggestions;*/
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './client.css';
 import NavbarCli from './NavbarCli';
-import { FaEdit, FaList, FaTh } from 'react-icons/fa';
+import SidbarCli from './SidbarCli'; 
+import { FaEdit } from 'react-icons/fa';
 
 const AllSuggestions = () => {
-    // Sample static data
     const suggestions = [
         {
             id: 1,
@@ -135,44 +38,94 @@ const AllSuggestions = () => {
     ];
 
     const [searchTerm, setSearchTerm] = useState('');
-    const [view, setView] = useState('list'); // Default view is list
+    const [view, setView] = useState('list'); 
+    const [filterType, setFilterType] = useState('all'); 
+    const [filterValue, setFilterValue] = useState(''); 
+    const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
 
-    const filteredSuggestions = suggestions.filter(suggestion =>
-        suggestion.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        suggestion.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        suggestion.type_suggestion.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredSuggestions = suggestions
+        .filter(suggestion => {
+            if (filterType === 'all') {
+                return suggestion.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    suggestion.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    suggestion.type_suggestion.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (filterType === 'code') {
+                return suggestion.id.toString().includes(filterValue);
+            }
+            if (filterType === 'nom') {
+                return suggestion.description.toLowerCase().includes(filterValue.toLowerCase());
+            }
+            if (filterType === 'firstName') {
+                return suggestion.type_suggestion.toLowerCase().includes(filterValue.toLowerCase());
+            }
+            return false;
+        })
+        .sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+                return sortConfig.direction === 'ascending' ? 1 : -1;
+            }
+            return 0;
+        });
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '🔼' : '🔽';
+        }
+        return '↕️';
+    };
 
     return (
         <>
             <NavbarCli viewMode={view} setViewMode={setView} />
             <main style={{ backgroundColor: '#ffff', minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
-            <div className="client-dashboard">
+            <SidbarCli />
+            <div className="container fournisseur-dashboard">
                 <div className="row">
                     <div>
                         <br />
                         <div className="client-table-container">
-                         
                             <h3 className='client-formation-title'>Liste des Suggestions</h3>
-                           
-                            <div className="client-search-container">
+                            <div className="client-filter-container">
+                                <select
+                                    value={filterType}
+                                    onChange={(e) => setFilterType(e.target.value)}
+                                    className="client-filter-select"
+                                >
+                                    <option value="all">Tous les filtres</option>
+                                    <option value="code">Nom Suggestion</option>
+                                    <option value="nom">Date</option>
+                                    <option value="firstName">Type Suggestion</option>
+                                </select>
                                 <input
                                     type="text"
-                                    className="client-search-input"
-                                    placeholder="Rechercher..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    placeholder="Filtrer..."
+                                    value={filterValue}
+                                    onChange={(e) => setFilterValue(e.target.value)}
+                                    className="client-filter-input"
                                 />
                             </div>
+                       
                             <br />
                             {view === 'list' ? (
                                 <table className="client-styled-table">
                                     <thead className="table-header">
                                         <tr>
-                                            <th scope="col">Nom Suggestion</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Type Suggestion</th>
-                                            <th scope="col">Réceptionnaire</th>
+                                            <th onClick={() => requestSort('name')}>Nom Suggestion {getSortArrow('name')}</th>
+                                            <th onClick={() => requestSort('date')}>Date {getSortArrow('date')}</th>
+                                            <th onClick={() => requestSort('type_suggestion')}>Type Suggestion {getSortArrow('type_suggestion')}</th>
+                                            <th onClick={() => requestSort('receptionnaire')}>Réceptionnaire {getSortArrow('receptionnaire')}</th>
                                             <th scope="col">Détails</th>
                                         </tr>
                                     </thead>
