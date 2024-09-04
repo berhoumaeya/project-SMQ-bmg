@@ -115,7 +115,6 @@ import AllReclamation from './containers/Fournisseur/AllReclamationFournisseur';
 import AddReclamationFournisseur from './containers/Fournisseur/CréerRéclamationFournisseur';
 import ReclamationfouDetails from './containers/Fournisseur/ReclamationfouDetails';
  
-import ReclamationfouDetails from './containers/Fournisseur/ReclamationfouDetails';
  
 import SidbarFou from './containers/Fournisseur/SidbarFou';
  
@@ -152,8 +151,6 @@ import SuiviIndicateur from './containers/indicateur/SuiviIndicateur';
 import ConsulterSuivi from './containers/indicateur/ConsulterSuivi';
 import SidebarInd from './containers/indicateur/SidebarInd';
  
-import ConsulterSuivi from './containers/indicateur/ConsulterSuivi';
-import SidebarInd from './containers/indicateur/SidebarInd';
  
 //
 import Audits from './containers/audit/audits';
@@ -177,12 +174,10 @@ import AddAudit from './containers/audit/ajouteraudit';
 import Allreclamations from './containers/Client/AllReclamations';
 import ActionDetail from './containers/actions/actionDetails';
  
-import ActionDetail from './containers/actions/actionDetails';
  
 import Navbarco from './containers/conformite/Navbarco.js';
 import SubNavbarfou from './containers/Fournisseur/SubNavbarfou.js';
 import NavbarCli from './containers/Client/NavbarCli.js';
-import SubNavbarfou from './containers/Fournisseur/SubNavbarfou.js';
 const App = () => (
   <Provider store={store}>
     <Router>
@@ -346,7 +341,7 @@ const App = () => (
           <Route path="/ReclamationfouDetails/:id" element={<ReclamationfouDetails/>} />
           <Route path="/EvaluationDetails/:id" element={<EvaluationDetails/>} />
           <Route path="/SidbarFou" element={<SidbarFou/>} />
- 
+          <Route path="/ReclamationfouDetails" element={<ReclamationfouDetails/>} />
  
           {/* Risk : */}
           <Route path="/AllRisque/" element={<DashboardRisk />} />
