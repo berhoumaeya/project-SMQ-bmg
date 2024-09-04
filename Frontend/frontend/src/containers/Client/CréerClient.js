@@ -57,6 +57,10 @@ const AddClient = () => {
             });
     };
 
+
+
+
+    
     if (ajoutReussi) {
         return <Navigate to="/Clients" />;
     }
