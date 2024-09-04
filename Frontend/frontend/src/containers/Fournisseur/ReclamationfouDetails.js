@@ -61,7 +61,7 @@ const ReclamationfouDetails = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item active ms-0" to="#">Reclamation</Link>
                 </div>
-                <Link className="btn btn-return" to={`/AllReclamationFournisseur/:id`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/AllReclamationFournisseur/:id`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
 
             <hr className="divider" />

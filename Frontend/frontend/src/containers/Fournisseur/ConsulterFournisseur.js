@@ -80,7 +80,7 @@ const Fournisseur = () => {
                     <Link className="nav-item" to={`/AllReclamationFournisseur/${fournisseurData.id}`}>Reclamations</Link>
                     <Link className="nav-item" to={`/AllEvaluationFournisseur/${fournisseurData.id}`}>Evaluations</Link>
                 </div>
-                <Link className="btn btn-return" to={`/fournisseurs`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/fournisseurs`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
            
             <hr className="divider" />

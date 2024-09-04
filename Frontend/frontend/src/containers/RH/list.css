@@ -2,8 +2,9 @@
     width: 100%;
     overflow: hidden;
 }
-
-.container.dashboard {
+main {
+    background-color: white;
+}.container.dashboard {
     width: 100%;
     padding: 0;
 }

@@ -480,4 +480,3 @@ const getColorForMeeting = (id) => {
 
 export default DashboardMeetings;
 
-

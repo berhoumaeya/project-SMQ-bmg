@@ -70,7 +70,7 @@ const ConsulterProduit = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item active" to="#">Produit non conforme</Link>
                 </div>
-                <Link className="btn btn-return" to={`/allProduit`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/allProduit`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">

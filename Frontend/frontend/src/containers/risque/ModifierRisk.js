@@ -69,7 +69,7 @@ const ModifierRisk = () => {
                 <div className="nav-items-container">
                     <Link className="nav-item active" to="#">Modifier risque</Link>
                 </div>
-                <Link className="btn btn-return" to={`/AllRisque`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/AllRisque`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">

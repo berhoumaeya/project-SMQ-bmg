@@ -84,7 +84,7 @@ const DashboardCompetence = () => {
     return (
         <>
             <SubNavbarRH />
-            <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
                 <SidebarRH />
                 <div className="container dashboard">
                     <h3 className='formation-title'>Liste des Évaluations de Compétence</h3>

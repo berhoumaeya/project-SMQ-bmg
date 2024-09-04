@@ -3,7 +3,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Link, Navigate } from 'react-router-dom';
 
-import './ajoutaction.css';
 import { toast } from 'react-toastify';
 import SubNavbarAudit from '../../components/SubNavbarAudit';
 

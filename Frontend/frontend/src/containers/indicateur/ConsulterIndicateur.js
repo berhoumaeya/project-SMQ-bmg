@@ -48,7 +48,7 @@ const Indicateur = () => {
                     <Link className="nav-item" to="#">Détails</Link>
                     <Link className="nav-item" to="/SuiviIndicateur/:id">Suivi</Link>
                 </div>
-                <Link className="btn btn-return" to={`/indicateurs`}><IoMdArrowRoundBack /> Retour</Link>
+                <Link className="nav-item-client" to={`/indicateurs`}><IoMdArrowRoundBack /> Retour</Link>
             </nav>
             <hr className="divider" />
             <div className="row">

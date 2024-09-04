@@ -80,7 +80,7 @@ const DashboardPost = () => {
     return (
         <>
             <SubNavbarRH viewMode={viewMode} setViewMode={setViewMode} />
-            <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
                 <SidebarRh />
                 <div className="container dashboard">
                     <div className="row">

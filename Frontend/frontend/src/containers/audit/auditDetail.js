@@ -119,7 +119,7 @@ const AuditDetail = () => {
     return (
         <>
             <SubNavbarAudit />
-            <main style={{ display: 'flex', minHeight: '100vh' }}>
+            <main style={{ display: 'flex', minHeight: '100vh' , backgroundColor :'white'}}>
                 <SidebarAudit />
                 <div className="container-xl px-4 mt-4">
                     <div className="row">
