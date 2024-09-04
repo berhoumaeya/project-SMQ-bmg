@@ -101,6 +101,8 @@ import ReclamationfouDetails from './containers/Fournisseur/ReclamationfouDetail
 import SidbarFou from './containers/Fournisseur/SidbarFou';
 
 import EvaluationDetails from './containers/Fournisseur/EvaluationDetails';
+
+import SubNavbarfou from './containers/Fournisseur/SubNavbarfou';
 //Risques
 import DashboardRisk from './containers/risque/AllRisque';
 import AddRisque from './containers/risque/AjouterRisk';
@@ -119,7 +121,7 @@ import AddReunion from './containers/reunion/AjouterReunion';
 //actions
 import CreateActionForm from './containers/actions/ajouteraction';
 import Actions from './containers/actions/Actions';
-
+import actionDetails from './containers/actions/actionDetails';
 //indicateur
 import DashboardIndicateurs from './containers/indicateur/indicateurs';
 import Indicateur from './containers/indicateur/ConsulterIndicateur';
@@ -276,6 +278,7 @@ const App = () => (
           <Route path="/ReclamationfouDetails/:id" element={<ReclamationfouDetails/>} />
           <Route path="/EvaluationDetails/:id" element={<EvaluationDetails/>} />
           <Route path="/SidbarFou" element={<SidbarFou/>} />
+
 
           {/* Risk : */}
           <Route path="/AllRisque/" element={<DashboardRisk />} />
