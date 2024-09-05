@@ -226,7 +226,7 @@ const ActionDetail = () => {
                                             </div>
                                         </div>
                                         <div className="d-flex justify-content-end mt-3">
-                                            <Link to="/actions" className="btn btn-secondary me-2">
+                                            <Link to="/Actions" className="btn btn-secondary me-2">
                                                 <IoMdArrowRoundBack /> Retour
                                             </Link>
                                             <button type="submit" className="btn btn-primary me-2">
